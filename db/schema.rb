@@ -11,12 +11,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140917205841) do
+ActiveRecord::Schema.define(version: 20140917222206) do
 
   create_table "journals", force: true do |t|
     t.text     "journal_entry"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "user_id"
   end
 
   create_table "moods", force: true do |t|
@@ -26,6 +27,7 @@ ActiveRecord::Schema.define(version: 20140917205841) do
     t.datetime "timestamp"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "user_id"
   end
 
   create_table "self_cares", force: true do |t|
@@ -35,6 +37,7 @@ ActiveRecord::Schema.define(version: 20140917205841) do
     t.boolean  "exercise"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "user_id"
   end
 
   create_table "sleeps", force: true do |t|
@@ -43,6 +46,7 @@ ActiveRecord::Schema.define(version: 20140917205841) do
     t.integer  "quality"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "user_id"
   end
 
   create_table "users", force: true do |t|
