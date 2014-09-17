@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
-  get 'users/new'
+  # Auto-created by Devise
+  # get 'users/new'
 
   devise_for :models
   # The priority is based upon order of creation: first created -> highest priority.
@@ -7,6 +8,27 @@ Rails.application.routes.draw do
 
   # You can have the root of your site routed with "root"
   root 'welcome#index'
+
+  get 'welcome/index'
+
+  resources :moods do
+  end
+
+  resources :sleeps do
+  end
+
+  resources :self_cares do
+  end
+
+  resources :journals do
+  end
+
+  resources :users do
+    resources :moods
+    resources :sleeps
+    resources :self_cares
+    resources :journals
+  end
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
