@@ -4,5 +4,8 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  has_many :moods :sleeps :self_cares :journals
+  has_many :moods
+  has_many :sleeps
+  has_many :self_cares
+  has_many :journals
 end
