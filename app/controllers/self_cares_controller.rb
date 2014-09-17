@@ -1,0 +1,2 @@
+class SelfCaresController < ApplicationController
+end
