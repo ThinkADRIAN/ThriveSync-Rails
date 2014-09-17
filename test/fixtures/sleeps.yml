@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  start_time: 2014-09-17 16:15:02
+  finish_time: 2014-09-17 16:15:02
+  quality: 1
+
+two:
+  start_time: 2014-09-17 16:15:02
+  finish_time: 2014-09-17 16:15:02
+  quality: 1
