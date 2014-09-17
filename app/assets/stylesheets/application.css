@@ -12,4 +12,9 @@
  *
  *= require_tree .
  *= require_self
+ *= require bootstrap.min
  */
+
+body { 
+    padding-top: 65px; 
+}
