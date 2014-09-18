@@ -39,5 +39,13 @@ class Ability
     can [:read, :create], Mood do |mood|
       mood.user_id != user.id
     end
+
+    can :manage, Sleep do |sleep|
+      sleep.user_id == user.id
+    end
+
+    can [:read, :create], Sleep do |sleep|
+      sleep.user_id != user.id
+    end
   end
 end

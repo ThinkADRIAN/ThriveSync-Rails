@@ -1,0 +1,32 @@
+<div>
+  <%= link_to 'Add a new Sleep Entry', new_sleep_path, class: "btn btn-primary" %>
+</div>
+
+<br>
+
+<div class="col-sm-12">
+  <% if !@sleeps.empty? %>
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h3 class="panel-title">Sleep Entries</h3>
+      </div>
+      <div class="panel-body">
+        <% @sleeps.each do |mood| %>
+          <% if sleep.user_id == current_user.id%>
+            <div class="col-md-4">
+                <h3><%= sleep.updated_at.strftime("%Y-%m-%d %H:%M:%S") %></h3>
+            </div>
+            <div class="col-md-8">
+              <%= link_to 'Show Details', sleep, class: "btn-primary btn-xs" %>
+              <%= link_to 'Edit', edit_sleep_path(sleep),  class: "btn-default btn-xs" %>
+              <%= link_to 'Remove', sleep,  class: "btn-danger btn-xs", method: :delete, data: { confirm: 'Are you sure you want to remove this item?' } %>
+            </div>
+            <div class="col-md-12">
+              <hr>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>

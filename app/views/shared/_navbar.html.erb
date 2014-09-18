@@ -15,7 +15,16 @@
             <li><a href="/">Home</a></li>
             
             <% if user_signed_in? %>
-              <li><a href="<%= moods_path %>">Moods</a></li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Trackers<b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li><a href="<%= moods_path %>">Mood</a></li>
+                  <li><a href="<%= sleeps_path %>">Sleep</a></li>
+                  <li><a href="<%= %>">Self Care</a></li>
+                  <li><a href="<%= %>">Journal</a></li>
+                </ul>
+              </li>
+              
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Account<b class="caret"></b></a>
                 <ul class="dropdown-menu">
