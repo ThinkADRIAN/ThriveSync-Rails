@@ -12,18 +12,33 @@
   <% end %>
 
   <div class="form-group">
+    <% if !@mood.mood_rating.nil? %>
+      <% selected_mood = @mood.mood_rating %>
+    <% else %>
+      <% selected_mood = 4 %>
+    <% end %>
     <%= f.label "Mood Level:" %> <br>
-    <%= f.select(:mood_rating, options_for_select([['Severely Depressed', 1], ['Moderately Depressed', 2], ['Mildly Depressed', 3], ['Baseline',4], ['Mildly Elevated',5], ['Moderately Elevated', 6], ['Severely Elevated',7]], 4)) %>
+    <%= f.select(:mood_rating, options_for_select([['Severely Depressed', 1], ['Moderately Depressed', 2], ['Mildly Depressed', 3], ['Baseline',4], ['Mildly Elevated',5], ['Moderately Elevated', 6], ['Severely Elevated',7]], selected_mood)) %>
   </div>
 
   <div class="form-group">
+    <% if !@mood.anxiety_rating.nil? %>
+      <% selected_anxiety = @mood.anxiety_rating %>
+    <% else %>
+      <% selected_anxiety = 1 %>
+    <% end %>
     <%= f.label "Anxiety Level:" %><br>
-    <%= f.select(:anxiety_rating, options_for_select([['None', 1], ['Mild', 2], ['Moderate', 3], ['Severe',4]],1)) %>
+    <%= f.select(:anxiety_rating, options_for_select([['None', 1], ['Mild', 2], ['Moderate', 3], ['Severe',4]], selected_anxiety)) %>
   </div>
 
   <div class="form-group">
+    <% if !@mood.irritability_rating.nil? %>
+      <% selected_irritability = @mood.irritability_rating %>
+    <% else %>
+      <% selected_irritability = 1 %>
+    <% end %>
     <%= f.label "Irritability Level:" %><br>
-    <%= f.select(:irritability_rating, options_for_select([['None', 1], ['Mild', 2], ['Moderate', 3], ['Severe',4]],1)) %>
+    <%= f.select(:irritability_rating, options_for_select([['None', 1], ['Mild', 2], ['Moderate', 3], ['Severe',4]], selected_irritability)) %>
   </div>
   
   <br>
