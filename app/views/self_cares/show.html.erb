@@ -1,0 +1,42 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Counseling:</strong>
+  <% if @counseling == false %>
+    <%= "No" %>
+  <% elsif @counseling == true %>
+    <%= "Yes" %>
+  <% end %>
+</p> 
+
+<p>
+  <strong>Medication:</strong>
+  <% if @medication == false %>
+    <%= "No" %>
+  <% elsif @medication == true %>
+    <%= "Yes" %>
+  <% end %>
+</p> 
+
+<p>
+  <strong>Meditation:</strong>
+  <% if @meditation == false %>
+    <%= "No" %>
+  <% elsif @meditation == true %>
+    <%= "Yes" %>
+  <% end %>
+</p> 
+
+<p>
+  <strong>Exercise:</strong>
+  <% if @exercise == false %>
+    <%= "No" %>
+  <% elsif @exercise == true %>
+    <%= "Yes" %>
+  <% end %>
+</p> 
+
+<% if can? :manage, @self_care %>
+	<%= link_to 'Edit', edit_self_care_path(@self_care) %> | 
+<% end %>
+<%= link_to 'Back', self_cares_path %>

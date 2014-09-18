@@ -1,0 +1,32 @@
+<div>
+  <%= link_to 'Add a new Self Care Entry', new_self_care_path, class: "btn btn-primary" %>
+</div>
+
+<br>
+
+<div class="col-sm-12">
+  <% if !@self_cares.empty? %>
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h3 class="panel-title">Self Cares Entries</h3>
+      </div>
+      <div class="panel-body">
+        <% @self_cares.each do |mood| %>
+          <% if self_care.user_id == current_user.id%>
+            <div class="col-md-4">
+                <h3><%= self_care.timestamp.strftime("%Y-%m-%d %H:%M:%S") %></h3>
+            </div>
+            <div class="col-md-8">
+              <%= link_to 'Show Details', self_care, class: "btn-primary btn-xs" %>
+              <%= link_to 'Edit', edit_self_care_path(self_care),  class: "btn-default btn-xs" %>
+              <%= link_to 'Remove', self_care,  class: "btn-danger btn-xs", method: :delete, data: { confirm: 'Are you sure you want to remove this item?' } %>
+            </div>
+            <div class="col-md-12">
+              <hr>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>

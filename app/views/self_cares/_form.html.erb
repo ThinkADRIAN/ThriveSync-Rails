@@ -1,0 +1,43 @@
+<%= form_for(@self_care) do |f| %>
+  <% if @self_care.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@self_care.errors.count, "error") %> prohibited this self care entry from being saved:</h2>
+
+      <ul>
+      <% @self_care.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= f.hidden_field :counseling, :value => false %>
+    <%= f.label :counseling %><br>
+    <%= f.check_box :counseling %>
+  </div>
+
+  <div class="form-group">
+    <%= f.hidden_field :medication, :value => false %>
+    <%= f.label :medication %><br>
+    <%= f.check_box :cedicationg %>
+  </div>
+
+  <div class="form-group">
+    <%= f.hidden_field :meditation, :value => false %>
+    <%= f.label :meditation %><br>
+    <%= f.check_box :counseling %>
+  </div>
+
+  <div class="form-group">
+    <%= f.hidden_field :exercise, :value => false %>
+    <%= f.label :exercise %><br>
+    <%= f.check_box :exercise %>
+  </div>
+  
+  <br>
+
+  <div class="actions">
+    <%= f.submit class: "btn btn-sm btn-default"%>
+  </div>
+<% end %>
