@@ -1,0 +1,16 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Journal Creation Date:</strong>
+    <%= @journal.created_at%>
+</p> 
+
+<p>
+  <strong>Journal Entry:</strong>
+    <%= @journal.journal_entry %>
+</p>
+
+<% if can? :manage, @journal %>
+	<%= link_to 'Edit', edit_journal_path(@journal) %> | 
+<% end %>
+<%= link_to 'Back', journals_path %>
