@@ -36,16 +36,32 @@ class Ability
       mood.user_id == user.id
     end
 
+    can [:read, :create], Mood do |mood|
+      mood.user_id != user.id
+    end
+
     can :manage, Sleep do |sleep|
       sleep.user_id == user.id
+    end
+
+    can [:read, :create], Sleep do |sleep|
+      sleep.user_id != user.id
     end
 
     can :manage, SelfCare do |self_care|
       self_care.user_id == user.id
     end
 
+    can [:read, :create], SelfCare do |self_care|
+      self_care.user_id != user.id
+    end
+
     can :manage, Journal do |journal|
       journal.user_id == user.id
+    end
+
+    can [:read, :create], Journal do |journal|
+      journal.user_id != user.id
     end
   end
 end
