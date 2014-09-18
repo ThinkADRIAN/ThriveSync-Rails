@@ -13,7 +13,7 @@ class SelfCaresController < ApplicationController
   # GET /self_cares
   # GET /self_cares.json
   def index
-    @self_cares = Self_care.where(user_id: current_user.id)
+    @self_cares = SelfCare.where(user_id: current_user.id)
 
     respond_to do |format|
       format.html
@@ -34,7 +34,7 @@ class SelfCaresController < ApplicationController
 
   # GET /self_cares/new
   def new
-    @self_care= Self_care.new
+    @self_care= SelfCare.new
   end
 
   # GET /self_cares/1/edit
@@ -44,9 +44,8 @@ class SelfCaresController < ApplicationController
   # POST /self_cares
   # POST /self_cares.json
   def create
-    @self_care = Self_care.new(self_care_params)
+    @self_care = SelfCare.new(self_care_params)
     @self_care.user_id = current_user.id
-    @self_care.update_attribute(:timestamp, DateTime.now.in_time_zone)
     
     respond_to do |format|
       if @self_care.save
@@ -91,7 +90,7 @@ class SelfCaresController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_self_care
-      @self_care = Self_care.find(params[:id])
+      @self_care = SelfCare.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

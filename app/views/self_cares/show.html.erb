@@ -2,36 +2,36 @@
 
 <p>
   <strong>Counseling:</strong>
-  <% if @counseling == false %>
+  <% if @self_care.counseling == false %>
     <%= "No" %>
-  <% elsif @counseling == true %>
+  <% elsif @self_care.counseling == true %>
     <%= "Yes" %>
   <% end %>
 </p> 
 
 <p>
   <strong>Medication:</strong>
-  <% if @medication == false %>
+  <% if @self_care.medication == false %>
     <%= "No" %>
-  <% elsif @medication == true %>
+  <% elsif @self_care.medication == true %>
     <%= "Yes" %>
   <% end %>
 </p> 
 
 <p>
   <strong>Meditation:</strong>
-  <% if @meditation == false %>
+  <% if @self_care.meditation == false %>
     <%= "No" %>
-  <% elsif @meditation == true %>
+  <% elsif @self_care.meditation == true %>
     <%= "Yes" %>
   <% end %>
 </p> 
 
 <p>
   <strong>Exercise:</strong>
-  <% if @exercise == false %>
+  <% if @self_care.exercise == false %>
     <%= "No" %>
-  <% elsif @exercise == true %>
+  <% elsif @self_care.exercise == true %>
     <%= "Yes" %>
   <% end %>
 </p> 

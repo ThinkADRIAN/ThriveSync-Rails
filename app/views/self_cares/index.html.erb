@@ -11,10 +11,10 @@
         <h3 class="panel-title">Self Cares Entries</h3>
       </div>
       <div class="panel-body">
-        <% @self_cares.each do |mood| %>
+        <% @self_cares.each do |self_care| %>
           <% if self_care.user_id == current_user.id%>
             <div class="col-md-4">
-                <h3><%= self_care.timestamp.strftime("%Y-%m-%d %H:%M:%S") %></h3>
+                <h3><%= self_care.updated_at.strftime("%Y-%m-%d %H:%M:%S") %></h3>
             </div>
             <div class="col-md-8">
               <%= link_to 'Show Details', self_care, class: "btn-primary btn-xs" %>
