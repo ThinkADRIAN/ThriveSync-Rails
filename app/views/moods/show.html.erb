@@ -2,50 +2,50 @@
 
 <p>
   <strong>Mood Level:</strong>
-  <% @mood.mood_rating %>
-  <%if @mood.mood_rating == 1 
-      puts "Severely Depressed" 
-    elsif @mood.mood_rating == 2 
-      puts "Moderately Depressed" 
-    elsif @mood.mood_rating == 3 
-      puts "Mildly Depressed" 
-    elsif @mood.mood_rating == 4 
-      puts "Baseline" 
-    elsif @mood.mood_rating == 5 
-      puts "Mildly Elevated" 
-    elsif @mood.mood_rating == 6 
-      puts "Moderately Elevated" 
-    elsif @mood.mood_rating == 7 
-      puts "Severely Elevated" 
-    end %>
+  <% if @mood.mood_rating == 1 %>
+    <%= "Severely Depressed" %>
+  <% elsif @mood.mood_rating == 2 %>
+    <%= "Moderately Depressed" %>
+  <% elsif @mood.mood_rating == 3 %>
+    <%= "Mildly Depressed" %>
+  <% elsif @mood.mood_rating == 4 %>
+    <%= "Baseline" %>
+  <% elsif @mood.mood_rating == 5 %>
+    <%= "Mildly Elevated" %> 
+  <% elsif @mood.mood_rating == 6 %>
+    <%= "Moderately Elevated" %>
+  <% elsif @mood.mood_rating == 7 %>
+    <%= "Severely Elevated" %> 
+  <% end %>
+  (<%= @mood.mood_rating %>)
 </p> 
 
 <p>
   <strong>Anxiety Level:</strong>
-  <% @mood.anxiety_rating %>
-  <%if @mood.anxiety_rating == 1 
-      puts "None" 
-    elsif @mood.anxiety_rating == 2 
-      puts "Mild" 
-    elsif @mood.anxiety_rating == 3 
-      puts "Moderate" 
-    elsif @mood.anxiety_rating == 4 
-      puts "Severe"
-    end %>
+  <% if @mood.anxiety_rating == 1 %>
+    <%= "None" %>
+  <% elsif @mood.anxiety_rating == 2 %>
+    <%= "Mild" %>
+  <% elsif @mood.anxiety_rating == 3 %>
+    <%= "Moderate" %>
+  <% elsif @mood.anxiety_rating == 4 %>
+    <%= "Severe" %>
+  <% end %>
+  (<%= @mood.anxiety_rating %>)
 </p>
 
 <p>
   <strong>Irritability Level:</strong>
-  <% @mood.irritability_rating %>
-  <%if @mood.irritability_rating == 1 
-      puts "None" 
-    elsif @mood.irritability_rating == 2 
-      puts "Mild" 
-    elsif @mood.irritability_rating == 3 
-      puts "Moderate" 
-    elsif @mood.irritability_rating == 4 
-      puts "Severe"
-    end %>
+  <% if @mood.irritability_rating == 1 %>
+    <%= "None" %>
+  <% elsif @mood.irritability_rating == 2 %>
+    <%= "Mild" %>
+  <% elsif @mood.irritability_rating == 3 %>
+    <%= "Moderate" %>
+  <% elsif @mood.irritability_rating == 4 %>
+    <%= "Severe" %>
+  <% end %>
+  (<%= @mood.irritability_rating %>)
 </p>
 
 <% if can? :manage, @mood %>
