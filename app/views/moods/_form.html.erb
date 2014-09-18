@@ -1,0 +1,34 @@
+<%= form_for(@mood) do |f| %>
+  <% if @mood.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@mood.errors.count, "error") %> prohibited this mood entry from being saved:</h2>
+
+      <ul>
+      <% @mood.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= f.label "Mood Level:" %> <br>
+    <%= select_tag(:mood_rating, options_for_select([['Severely Depressed', 1], ['Moderately Depressed', 2], ['Mildly Depressed', 3], ['Baseline',4], ['Mildly Elevated',5], ['Moderately Elevated', 6], ['Severely Elevated',7]], 4)) %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label "Anxiety Level:" %><br>
+    <%= select_tag(:anxiety_rating, options_for_select([['None', 1], ['Mild', 2], ['Moderate', 3], ['Severe',4]],1)) %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label "Irritability Level:" %><br>
+    <%= select_tag(:irritability_rating, options_for_select([['None', 1], ['Mild', 2], ['Moderate', 3], ['Severe',4]],1)) %>
+  </div>
+  
+  <br>
+
+  <div class="actions">
+    <%= f.submit class: "btn btn-sm btn-default"%>
+  </div>
+<% end %>

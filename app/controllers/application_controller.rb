@@ -10,14 +10,14 @@ class ApplicationController < ActionController::Base
 	end
 
 	before_filter :configure_devise_params, if: :devise_controller?
-  	def configure_devise_params
-    devise_parameter_sanitizer.for(:sign_up) do |u|
-      u.permit(:name, :email, :password, :password_confirmation)
-    end
-    devise_parameter_sanitizer.for(:account_update) do |u|
-      u.permit(:name, :email, :password, :password_confirmation, :current_password)
-    end
-  end
+		def configure_devise_params
+			devise_parameter_sanitizer.for(:sign_up) do |u|
+	  		u.permit(:name, :email, :password, :password_confirmation)
+			end
+			devise_parameter_sanitizer.for(:account_update) do |u|
+	  		u.permit(:name, :email, :password, :password_confirmation, :current_password)
+			end
+		end
 
   ActionController::Renderers.add :json do |json, options|
 	  unless json.kind_of?(String)
@@ -33,4 +33,8 @@ class ApplicationController < ActionController::Base
 	    json
 	  end
 	end
+
+	rescue_from CanCan::AccessDenied do |exception|
+    redirect_to root_url, :alert => exception.message
+  end
 end

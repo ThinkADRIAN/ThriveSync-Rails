@@ -1,1 +1,31 @@
-Hello World
+<div>
+  <%= link_to 'Add a new Mood Entry', new_mood_path, class: "btn btn-primary" %>
+</div>
+
+<br>
+
+<div class="col-sm-12">
+  <% if !@moods.empty? %>
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h3 class="panel-title">Mood Entries</h3>
+      </div>
+      <div class="panel-body">
+        <% @moods.each do |mood| %>
+          <% if mood.user_id == current_user.id%>
+            <div class="col-md-4">
+                <h2><%= mood.timestamp %></h2>
+            </div>
+            <div class="col-md-8">
+                <%= link_to 'Show Details', mood, class: "btn btn-xs btn-link" %>
+              - <%= link_to 'Edit', edit_mood_path(mood),  class: "btn btn-xs btn-link" %>
+              - <%= link_to 'Remove', mood,  class: "btn btn-xs btn-link", method: :delete, data: { confirm: 'Are you sure you want to remove this item?' } %>
+            </div>
+            <div class="col-md-12">
+              <hr>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>

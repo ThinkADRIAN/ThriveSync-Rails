@@ -1,0 +1,54 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Mood Level:</strong>
+  <% @mood.mood_rating %>
+  <%if @mood.mood_rating == 1 
+      puts "Severely Depressed" 
+    elsif @mood.mood_rating == 2 
+      puts "Moderately Depressed" 
+    elsif @mood.mood_rating == 3 
+      puts "Mildly Depressed" 
+    elsif @mood.mood_rating == 4 
+      puts "Baseline" 
+    elsif @mood.mood_rating == 5 
+      puts "Mildly Elevated" 
+    elsif @mood.mood_rating == 6 
+      puts "Moderately Elevated" 
+    elsif @mood.mood_rating == 7 
+      puts "Severely Elevated" 
+    end %>
+</p> 
+
+<p>
+  <strong>Anxiety Level:</strong>
+  <% @mood.anxiety_rating %>
+  <%if @mood.anxiety_rating == 1 
+      puts "None" 
+    elsif @mood.anxiety_rating == 2 
+      puts "Mild" 
+    elsif @mood.anxiety_rating == 3 
+      puts "Moderate" 
+    elsif @mood.anxiety_rating == 4 
+      puts "Severe"
+    end %>
+</p>
+
+<p>
+  <strong>Irritability Level:</strong>
+  <% @mood.irritability_rating %>
+  <%if @mood.irritability_rating == 1 
+      puts "None" 
+    elsif @mood.irritability_rating == 2 
+      puts "Mild" 
+    elsif @mood.irritability_rating == 3 
+      puts "Moderate" 
+    elsif @mood.irritability_rating == 4 
+      puts "Severe"
+    end %>
+</p>
+
+<% if can? :manage, @mood %>
+	<%= link_to 'Edit', edit_mood_path(@mood) %> | 
+<% end %>
+<%= link_to 'Back', moods_path %>
