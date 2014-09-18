@@ -47,5 +47,13 @@ class Ability
     can [:read, :create], Sleep do |sleep|
       sleep.user_id != user.id
     end
+
+    can :manage, Self_care do |self_care|
+      self_care.user_id == user.id
+    end
+
+    can [:read, :create], Self_care do |self_care|
+      self_care.user_id != user.id
+    end
   end
 end
