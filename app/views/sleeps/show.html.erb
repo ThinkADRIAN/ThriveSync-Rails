@@ -1,0 +1,30 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Sleep Start Time:</strong>
+  <%= @sleep.start_time %>
+</p> 
+
+<p>
+  <strong>Sleep Finish Time:</strong>
+  <%= @sleep.finish_time %>
+</p> 
+
+<p>
+  <strong>Sleep Quality:</strong>
+  <% if @sleep.quality == 1 %>
+    <%= "Broken" %>
+  <% elsif @sleep.quality == 2 %>
+    <%= "Light" %>
+  <% elsif @sleep.quality == 3 %>
+    <%= "Normal" %>
+  <% elsif @sleep.quality == 4 %>
+    <%= "Deep" %>
+  <% end %>
+  (<%= @sleep.quality %>)
+</p>
+
+<% if can? :manage, @sleep %>
+	<%= link_to 'Edit', edit_sleep_path(@sleep) %> | 
+<% end %>
+<%= link_to 'Back', sleeps_path %>
