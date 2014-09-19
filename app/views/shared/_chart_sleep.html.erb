@@ -1,0 +1,6 @@
+<center><h3> Sleep Stats </h3></center>
+
+<%= line_chart [
+{name: "Sleep Time", data: Sleep.group_by_day(:created_at, last: 7).average(:time)},
+{name: "Quality", data: Sleep.group_by_day(:created_at, last: 7).average(:quality)}
+]%>

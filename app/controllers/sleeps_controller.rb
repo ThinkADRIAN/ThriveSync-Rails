@@ -46,6 +46,7 @@ class SleepsController < ApplicationController
   def create
     @sleep = Sleep.new(sleep_params)
     @sleep.user_id = current_user.id
+    @sleep.time = (@sleep.finish_time.to_i - @sleep.start_time.to_i) / 3600
     
     respond_to do |format|
       if @sleep.save
@@ -61,6 +62,7 @@ class SleepsController < ApplicationController
   # PATCH/PUT /sleeps/1
   # PATCH/PUT /sleeps/1.json
   def update
+    @sleep.time = (@sleep.finish_time.to_i - @sleep.start_time.to_i) / 3600
     respond_to do |format|
       if @sleep.update(sleep_params)
         format.html { redirect_to sleeps_url, notice: 'Sleep Entry was successfully updated.' }
