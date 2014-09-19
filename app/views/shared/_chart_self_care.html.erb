@@ -5,4 +5,4 @@
 {name: "Medication", data: SelfCare.group_by_day(:created_at, last: 7).count(:medication)},
 {name: "Meditation", data: SelfCare.group_by_day(:created_at, last: 7).count(:meditation)},
 {name: "Exercise", data: SelfCare.group_by_day(:created_at, last: 7).count(:exercise)}
-]%>
+], colors: ["#2980b9", "#8e44ad", "#f39c12", "#34495e"]%>

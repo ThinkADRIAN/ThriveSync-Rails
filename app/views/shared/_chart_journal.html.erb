@@ -2,4 +2,4 @@
 
 <%= line_chart [
 {name: "Journal", data: Journal.group_by_day(:created_at, last: 7).count(:journal_entry)}
-]%>
+], colors: ["#2ecc71"]%>
