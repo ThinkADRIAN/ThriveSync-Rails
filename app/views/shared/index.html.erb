@@ -3,23 +3,26 @@
   <%= link_to 'Add a new Sleep Entry', new_sleep_path, class: "btn btn-primary" %>
   <%= link_to 'Add a new Self Care Entry', new_self_care_path, class: "btn btn-primary" %>
   <%= link_to 'Add a new Journal Entry', new_journal_path, class: "btn btn-primary" %>
+  <hr>
 </div>
 
 <br>
-<div class="col-md-6">
+<div class="col-md-12">
 	<%= render "shared/chart_mood" %>
 	<div class="btn-group btn-group-justified">
 		<%= link_to 'Add a new Mood Entry', new_mood_path, class: "btn btn-primary btn-xs btn-block" %>
 		<%= link_to 'View Mood Entries', moods_path, class: "btn btn-default btn-xs btn-block" %>
 	</div>
+	<hr>
 </div>
 
-<div class="col-md-6">
+<div class="col-md-12">
 	<%= render "shared/chart_sleep" %>
 	<div class="btn-group btn-group-justified">
 		<%= link_to 'Add a new Sleep Entry', new_sleep_path, class: "btn btn-primary btn-xs btn-block" %>
 		<%= link_to 'View Sleep Entries', sleeps_path, class: "btn btn-default btn-xs btn-block" %>
 	</div>
+	<hr>
 </div>
 
 <div class="col-md-6">
@@ -28,6 +31,7 @@
 		<%= link_to 'Add a new Self Care Entry', new_self_care_path, class: "btn btn-primary btn-xs btn-block" %>
 		<%= link_to 'View Self Care Entries', self_cares_path, class: "btn btn-default btn-xs btn-block" %>
 	</div>
+	<hr>
 </div>
 
 <div class="col-md-6">
@@ -36,4 +40,5 @@
 		<%= link_to 'Add a new Journal Entry', new_journal_path, class: "btn btn-primary btn-xs btn-block" %>
 		<%= link_to 'View Journal Entries', journals_path, class: "btn btn-default btn-xs btn-block" %>
 	</div>
+	<hr>
 </div>
