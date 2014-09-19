@@ -1,5 +1,5 @@
 <center><h3> Journal Stats </h3></center>
 
 <%= line_chart [
-{name: "Journal", data: Journal.group_by_day(:created_at, last: 7).count(:journal_entry)}
+{name: "Journal", data: @journals.group_by_day(:created_at, last: 7).count(:journal_entry)}
 ], colors: ["#2ecc71"]%>
