@@ -1,0 +1,8 @@
+<center><h3> Self Care Stats </h3></center>
+
+<%= column_chart [
+{name: "Counseling", data: SelfCare.group_by_day(:created_at, last: 7).count(:counseling)},
+{name: "Medication", data: SelfCare.group_by_day(:created_at, last: 7).count(:medication)},
+{name: "Meditation", data: SelfCare.group_by_day(:created_at, last: 7).count(:meditation)},
+{name: "Exercise", data: SelfCare.group_by_day(:created_at, last: 7).count(:exercise)}
+]%>
