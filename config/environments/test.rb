@@ -39,5 +39,5 @@ Rails.application.configure do
 
   # Mandrill Settings
   # ActionMailer Config
-  # config.action_mailer.default_url_options = { :host => 'example.com' }
+  config.action_mailer.default_url_options = { :host => 'thrivestreams.com' }
 end
