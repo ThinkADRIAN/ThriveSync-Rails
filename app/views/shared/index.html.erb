@@ -13,3 +13,5 @@
   <%= link_to 'View Self Care Entries', self_cares_path, class: "btn btn-default" %>
   <%= link_to 'View Journal Entries', journals_path, class: "btn btn-default" %>
 </div>
+
+<%= line_chart Mood.group_by_day(:created_at, last: 7).count %>
