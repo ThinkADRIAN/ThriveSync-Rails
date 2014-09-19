@@ -46,6 +46,7 @@ GEM
       thread_safe (~> 0.1)
       warden (~> 1.2.3)
     erubis (2.7.0)
+    excon (0.39.5)
     execjs (2.2.1)
     groupdate (2.3.0)
       activesupport (>= 3)
@@ -61,6 +62,9 @@ GEM
     libv8 (3.16.14.7)
     mail (2.6.1)
       mime-types (>= 1.16, < 3)
+    mandrill-api (1.0.52)
+      excon (>= 0.16.0, < 1.0)
+      json (>= 1.7.7, < 2.0)
     mime-types (2.3)
     minitest (5.4.1)
     multi_json (1.10.1)
@@ -138,6 +142,7 @@ DEPENDENCIES
   groupdate
   jbuilder (~> 2.0)
   jquery-rails
+  mandrill-api
   pg
   rails (= 4.1.6)
   rails_12factor
