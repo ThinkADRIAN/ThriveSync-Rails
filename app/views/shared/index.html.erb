@@ -7,11 +7,15 @@
 
 <br>
 
-<div>
-  <%= link_to 'View Mood Entries', moods_path, class: "btn btn-default" %>
-  <%= link_to 'View Sleep Entries', sleeps_path, class: "btn btn-default" %>
-  <%= link_to 'View Self Care Entries', self_cares_path, class: "btn btn-default" %>
-  <%= link_to 'View Journal Entries', journals_path, class: "btn btn-default" %>
-</div>
+<center><h3> Mood Stats </h3></center>
 
-<%= line_chart Mood.group_by_day(:created_at, last: 7).count %>
+<%= line_chart [
+{name: "Mood Rating", data: Mood.group_by_day(:timestamp, last: 7).average(:mood_rating)},
+{name: "Anxiety Rating", data: Mood.group_by_day(:timestamp, last: 7).average(:anxiety_rating)},
+{name: "Irritability Rating", data: Mood.group_by_day(:timestamp, last: 7).average(:irritability_rating)}
+]%>
+
+<%= link_to 'View Mood Entries', moods_path, class: "btn btn-default btn-s btn-block" %>
+<%= link_to 'View Sleep Entries', sleeps_path, class: "btn btn-default btn-s btn-block" %>
+<%= link_to 'View Self Care Entries', self_cares_path, class: "btn btn-default btn-s btn-block" %>
+<%= link_to 'View Journal Entries', journals_path, class: "btn btn-default btn-s btn-block" %>
