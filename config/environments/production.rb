@@ -75,4 +75,19 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  # Mandrill Settings
+  # config.action_mailer.default_url_options = { :host => 'thrivestreams.com' }
+  # ActionMailer Config
+  # Setup for production - deliveries, no errors raised
+  # config.action_mailer.delivery_method = :smtp
+  # config.action_mailer.perform_deliveries = true
+  # config.action_mailer.raise_delivery_errors = false
+  # config.action_mailer.default :charset => "utf-8"
+  # config.action_mailer.smtp_settings = {
+  # :address   => "smtp.mandrillapp.com",
+  # :port      => 25,
+  # :user_name => ThriveStreams,
+  # :password  => MD_Wi3XVhBNaDJfaMVEOQg
+}
 end
