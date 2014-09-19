@@ -108,13 +108,9 @@ GEM
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       sprockets (~> 2.8)
-<<<<<<< HEAD
-=======
-    sqlite3 (1.3.9)
     therubyracer (0.12.1)
       libv8 (~> 3.16.14.0)
       ref
->>>>>>> FETCH_HEAD
     thor (0.19.1)
     thread_safe (0.3.4)
     tilt (1.4.1)
@@ -142,10 +138,6 @@ DEPENDENCIES
   rails_12factor
   sass-rails (~> 4.0.3)
   sdoc (~> 0.4.0)
-<<<<<<< HEAD
-=======
-  sqlite3
   therubyracer
   turbolinks
->>>>>>> FETCH_HEAD
   uglifier (>= 1.3.0)
