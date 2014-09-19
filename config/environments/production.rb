@@ -89,5 +89,5 @@ Rails.application.configure do
   # :port      => 25,
   # :user_name => ThriveStreams,
   # :password  => MD_Wi3XVhBNaDJfaMVEOQg
-}
+  # }
 end
