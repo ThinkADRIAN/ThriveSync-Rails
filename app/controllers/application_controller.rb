@@ -4,7 +4,6 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :null_session
 
 	before_filter do
-		ensure_signup_complete, only: [:new, :create, :update, :destroy]
 	  resource = controller_name.singularize.to_sym
 	  method = "#{resource}_params"
 	  params[resource] &&= send(method) if respond_to?(method, true)
