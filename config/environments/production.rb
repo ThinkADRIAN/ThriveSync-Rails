@@ -77,7 +77,7 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   # Mandrill Settings
-  config.action_mailer.default_url_options = { :host => 'thrivestreams.com' }
+  config.action_mailer.default_url_options = { :host => 'thrivetracker.startco.de' }
   # ActionMailer Config
   # Setup for production - deliveries, no errors raised
   config.action_mailer.delivery_method = :smtp
