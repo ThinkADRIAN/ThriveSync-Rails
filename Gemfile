@@ -53,6 +53,12 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
  gem 'devise'
  gem "cancan"
 
+ gem 'omniauth'
+ gem 'omniauth-twitter'
+ gem 'omniauth-facebook'
+ gem 'omniauth-linkedin'
+ gem 'omniauth-google-oauth2' 
+
  gem "chartkick"
  gem 'groupdate'
 
