@@ -1,10 +1,6 @@
 <h2>Sign Up</h2>
 
-<%- if devise_mapping.omniauthable? %>
-  <%- resource_class.omniauth_providers.each do |provider| %>
-    <%= link_to "Connect with #{provider.to_s.titleize}", omniauth_authorize_path(resource_name, provider), class: "btn btn-primary btn-sm" %><br /><br>
-  <% end -%>
-<% end -%>
+<%= render "devise/shared/omniauth_buttons" %>
 
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
   <%= devise_error_messages! %>
