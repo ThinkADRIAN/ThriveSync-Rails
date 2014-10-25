@@ -1,7 +1,7 @@
-<% @moods = Mood.where(user_id: current_user.id) %>
-<% @sleeps = Sleep.where(user_id: current_user.id) %>
-<% @self_cares = SelfCare.where(user_id: current_user.id) %>
-<% @journals = Journal.where(user_id: current_user.id) %>
+<% @moods = Mood.where(user_id: current_rails_user.id) %>
+<% @sleeps = Sleep.where(user_id: current_rails_user.id) %>
+<% @self_cares = SelfCare.where(user_id: current_rails_user.id) %>
+<% @journals = Journal.where(user_id: current_rails_user.id) %>
 
 <div class="col-md-12">
   <%= link_to 'Add a new Mood Entry', new_mood_path, class: "btn btn-primary" %>
