@@ -1,10 +1,10 @@
 Rails.application.routes.draw do
   
   devise_for :rails_users
-  match '/users/:id/finish_signup' => 'users#finish_signup', via: [:get, :patch], :as => :finish_signup
+  match '/rails_users/:id/finish_signup' => 'railsusers#finish_signup', via: [:get, :patch], :as => :finish_signup
 
   # Auto-created by Devise
-  # get 'users/new'
+  # get 'rails_users/new'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

@@ -14,7 +14,7 @@
           <ul class="nav navbar-nav">
             <li><a href="/">Home</a></li>
             
-            <% if user_signed_in? %>
+            <% if rails_user_signed_in? %>
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Trackers<b class="caret"></b></a>
                 <ul class="dropdown-menu">
@@ -28,21 +28,21 @@
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Account<b class="caret"></b></a>
                 <ul class="dropdown-menu">
-                  <li><a href="<%= edit_user_registration_path %>">Edit Profile</a></li>
-                  <li><%= link_to "Logout", destroy_user_session_path, method: :delete %></li>
+                  <li><a href="<%= edit_rails_user_registration_path %>">Edit Profile</a></li>
+                  <li><%= link_to "Logout", destroy_rails_user_session_path, method: :delete %></li>
                 </ul>
               </li>
             <% else %>
             
-              <li><a href="<%= new_user_registration_path %>">Sign Up</a></li>
-              <li><a href="<%= new_user_session_path %>">Login</a></li>
+              <li><a href="<%= new_rails_user_registration_path %>">Sign Up</a></li>
+              <li><a href="<%= new_rails_user_session_path %>">Login</a></li>
             <% end %>
 
           </ul>
           
-          <% if user_signed_in? %>
+          <% if rails_user_signed_in? %>
             <div class="navbar-text pull-left">
-                Logged in as <strong><%= current_user.email %></strong>. 
+                Logged in as <strong><%= current_rails_user.email %></strong>. 
             </div>
           <% end %>
         </div><!--/.nav-collapse -->
