@@ -65,3 +65,5 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
  gem 'mandrill-api'
 
  gem "parse_resource", "~> 1.8.0"
+
+ gem "parse-ruby-client", :require => 'parse-ruby-client'

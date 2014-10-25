@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   
-  devise_for :rails_users
+  devise_for :rails_users, :controllers => {:registrations => "my_devise/registrations"}
   match '/rails_users/:id/finish_signup' => 'rails_users#finish_signup', via: [:get, :patch], :as => :finish_signup
 
   # Auto-created by Devise
