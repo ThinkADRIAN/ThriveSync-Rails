@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   
   devise_for :rails_users
-  match '/rails_users/:id/finish_signup' => 'railsusers#finish_signup', via: [:get, :patch], :as => :finish_signup
+  match '/rails_users/:id/finish_signup' => 'rails_users#finish_signup', via: [:get, :patch], :as => :finish_signup
 
   # Auto-created by Devise
   # get 'rails_users/new'
@@ -26,7 +26,7 @@ Rails.application.routes.draw do
   resources :journals do
   end
 
-  resources :users do
+  resources :rails_users do
     resources :moods
     resources :sleeps
     resources :self_cares
