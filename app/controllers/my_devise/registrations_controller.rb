@@ -6,8 +6,9 @@ class MyDevise::RegistrationsController < Devise::RegistrationsController
 		if resource.save
 			parse_user = Parse::User.new(
 	        {
-	          :username => @user.email,
-	          :email => @user.email
+	          :username => rails_user_params[:email],
+	          :email => rails_user_params[:email],
+	          :password => rails_user_params[:password]
 	        }
 	    )
 	    parse_user.save
@@ -27,10 +28,10 @@ class MyDevise::RegistrationsController < Devise::RegistrationsController
   end
 
 	def destroy
-		user_to_delete = @user
+		user_to_delete = current_rails_user
 		super
 		if resource.destroy
-			current_parse_user = Parse::Query.new("_User").eq("email", @user_to_delete.email).get.first
+			current_parse_user = Parse::Query.new("_User").eq("email", user_to_delete.email).get.first
       current_parse_user.parse_delete
 		end
 	end
@@ -39,6 +40,6 @@ class MyDevise::RegistrationsController < Devise::RegistrationsController
 
 	# Never trust parameters from the scary internet, only allow the white list through.
     def rails_user_params
-      params.require(:rails_user).permit(:email)
+      params.require(:rails_user).permit(:email, :password)
     end
 end
