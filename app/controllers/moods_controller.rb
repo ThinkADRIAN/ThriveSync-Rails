@@ -6,14 +6,14 @@ class MoodsController < ApplicationController
   load_and_authorize_resource
 
   before_action :set_mood, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_user!
+  before_action :authenticate_rails_user!
 
   Time.zone = 'EST'
   
   # GET /moods
   # GET /moods.json
   def index
-    @moods = Mood.where(user_id: current_user.id)
+    @moods = Mood.where(user_id: current_rails_user.id)
 
     respond_to do |format|
       format.html
@@ -45,7 +45,7 @@ class MoodsController < ApplicationController
   # POST /moods.json
   def create
     @mood = Mood.new(mood_params)
-    @mood.user_id = current_user.id
+    @mood.user_id = current_rails_user.id
     @mood.update_attribute(:timestamp, DateTime.now.in_time_zone)
     
     respond_to do |format|

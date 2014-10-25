@@ -6,14 +6,14 @@ class JournalsController < ApplicationController
   load_and_authorize_resource
 
   before_action :set_journal, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_user!
+  before_action :authenticate_rails_user!
 
   Time.zone = 'EST'
   
   # GET /journals
   # GET /journals.json
   def index
-    @journals = Journal.where(user_id: current_user.id)
+    @journals = Journal.where(user_id: current_rails_user.id)
 
     respond_to do |format|
       format.html
@@ -45,7 +45,7 @@ class JournalsController < ApplicationController
   # POST /journals.json
   def create
     @journal = Journal.new(journal_params)
-    @journal.user_id = current_user.id
+    @journal.user_id = current_rails_user.id
     
     respond_to do |format|
       if @journal.save

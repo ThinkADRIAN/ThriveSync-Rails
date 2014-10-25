@@ -14,7 +14,7 @@
       </div>
       <div class="panel-body">
         <% @moods.each do |mood| %>
-          <% if mood.user_id == current_user.id%>
+          <% if mood.user_id == current_rails_user.id%>
             <div class="col-md-4">
                 <h3><%= mood.timestamp.strftime("%Y-%m-%d %H:%M:%S") %></h3>
             </div>

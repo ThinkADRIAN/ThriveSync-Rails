@@ -19,6 +19,8 @@ class ApplicationController < ActionController::Base
 			end
 		end
 
+	alias_method :current_user, :current_rails_user # Could be :current_member or :logged_in_user
+
   ActionController::Renderers.add :json do |json, options|
 	  unless json.kind_of?(String)
 	    json = json.as_json(options) if json.respond_to?(:as_json)
@@ -44,8 +46,8 @@ class ApplicationController < ActionController::Base
 
     # Redirect to the 'finish_signup' page if the user
     # email hasn't been verified yet
-    if current_user && !current_user.email_verified?
-      redirect_to finish_signup_path(current_user)
+    if current_rails_user && !current_rails_user.email_verified?
+      redirect_to finish_signup_path(current_rails_user)
     end
   end
 end

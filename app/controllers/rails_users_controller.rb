@@ -19,7 +19,7 @@ class RailsUsersController < ApplicationController
     # authorize! :update, @user
     respond_to do |format|
       if @user.update(user_params)
-        sign_in(@user == current_user ? @user : current_user, :bypass => true)
+        sign_in(@user == current_rails_user ? @user : current_rails_user, :bypass => true)
         format.html { redirect_to @user, notice: 'Your profile was successfully updated.' }
         format.json { head :no_content }
       else
@@ -32,7 +32,7 @@ class RailsUsersController < ApplicationController
   # GET/PATCH /users/:id/finish_signup
   def finish_signup
     # authorize! :update, @user 
-    @user = User.find params[:id]
+    @user = RailsUser.find params[:id]
     if request.patch? && params[:user] && params[:user][:email]
       if @user.update(user_params)
         @user.skip_reconfirmation!

@@ -6,14 +6,14 @@ class SleepsController < ApplicationController
   load_and_authorize_resource
 
   before_action :set_sleep, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_user!
+  before_action :authenticate_rails_user!
 
   Time.zone = 'EST'
   
   # GET /sleeps
   # GET /sleeps.json
   def index
-    @sleeps = Sleep.where(user_id: current_user.id)
+    @sleeps = Sleep.where(user_id: current_rails_user.id)
 
     respond_to do |format|
       format.html
@@ -45,7 +45,7 @@ class SleepsController < ApplicationController
   # POST /sleeps.json
   def create
     @sleep = Sleep.new(sleep_params)
-    @sleep.user_id = current_user.id
+    @sleep.user_id = current_rails_user.id
     @sleep.time = (@sleep.finish_time.to_i - @sleep.start_time.to_i) / 3600
     
     respond_to do |format|

@@ -6,14 +6,14 @@ class SelfCaresController < ApplicationController
   load_and_authorize_resource
 
   before_action :set_self_care, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_user!
+  before_action :authenticate_rails_user!
 
   Time.zone = 'EST'
   
   # GET /self_cares
   # GET /self_cares.json
   def index
-    @self_cares = SelfCare.where(user_id: current_user.id)
+    @self_cares = SelfCare.where(user_id: current_rails_user.id)
 
     respond_to do |format|
       format.html
@@ -45,7 +45,7 @@ class SelfCaresController < ApplicationController
   # POST /self_cares.json
   def create
     @self_care = SelfCare.new(self_care_params)
-    @self_care.user_id = current_user.id
+    @self_care.user_id = current_rails_user.id
     
     respond_to do |format|
       if @self_care.save

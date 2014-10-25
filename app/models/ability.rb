@@ -30,7 +30,7 @@ class Ability
     # https://github.com/ryanb/cancan/wiki/Defining-Abilities
 
     # handle guest user (not logged in)
-    user ||= User.new() 
+    user ||= RailsUser.new() 
 
     can :manage, Mood do |mood|
       mood.user_id == user.id
