@@ -52,6 +52,14 @@ class SleepsController < ApplicationController
       if @sleep.save
         format.html { redirect_to sleeps_url, notice: 'Sleep Entry was successfully tracked.' }
         format.json { render :show, status: :created, location: sleeps_url }
+
+        parse_sleep = Parse::Object.new("Sleep")
+        parse_sleep["startTime"] = Parse::Date.new(@sleep.start_time)
+        parse_sleep["finishTime"] = Parse::Date.new(@sleep.finish_time)
+        parse_sleep["quality"] =  @sleep.quality
+        parse_sleep["rails_user_id"] = @sleep.user_id
+        result = parse_sleep.save
+        puts result
       else
         format.html { render :new }
         format.json { render json: @sleep.errors, status: :unprocessable_entity }
