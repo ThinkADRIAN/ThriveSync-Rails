@@ -47,6 +47,12 @@ class SleepsController < ApplicationController
     @sleep = Sleep.new(sleep_params)
     @sleep.user_id = current_rails_user.id
     @sleep.time = (@sleep.finish_time.to_i - @sleep.start_time.to_i) / 3600
+
+    #parse_user_query = Parse::Query.new("User")
+    #parse_user_query.eq("rails_user_id", @sleep.user_id)
+    #result = parse_user_query.get
+    #@sleep.parse_user_id = result["objectId"]
+    #@sleep.save
     
     respond_to do |format|
       if @sleep.save
@@ -58,8 +64,15 @@ class SleepsController < ApplicationController
         parse_sleep["finishTime"] = Parse::Date.new(@sleep.finish_time)
         parse_sleep["quality"] =  @sleep.quality
         parse_sleep["rails_user_id"] = @sleep.user_id
-        result = parse_sleep.save
-        puts result
+        parse_sleep["rails_id"] = @sleep.id
+        parse_sleep.save
+
+        #parse_user_query = Parse::Query.new("User")
+        #parse_user_query.eq("rails_user_id", @sleep.user_id)
+        #parse_user_result = parse_user_query.get
+        #puts parse_user_result
+        #@sleep.parse_user_id = parse_user_result[:objectId]
+        #@sleep.save
       else
         format.html { render :new }
         format.json { render json: @sleep.errors, status: :unprocessable_entity }
