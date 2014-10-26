@@ -110,6 +110,9 @@ class MoodsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to moods_url, notice: 'Mood Entry was successfully removed.' }
       format.json { head :no_content }
+
+      parse_mood = Parse::Query.new("Mood").eq("rails_id", @mood.id.to_s).get.first
+      parse_mood.parse_delete
     end
   end
 
