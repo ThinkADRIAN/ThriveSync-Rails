@@ -8,7 +8,8 @@ class MyDevise::RegistrationsController < Devise::RegistrationsController
 	        {
 	          :username => rails_user_params[:email],
 	          :email => rails_user_params[:email],
-	          :password => rails_user_params[:password]
+	          :password => rails_user_params[:password],
+	          :rails_user_id => current_rails_user.id.to_s
 	        }
 	    )
 	    parse_user.save
