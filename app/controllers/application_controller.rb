@@ -1,6 +1,5 @@
 class ApplicationController < ActionController::Base
   require 'parse-ruby-client'
-  require 'active_support/core_ext'
 
   Parse.init :application_id => "djCdJZ1B3POXRpg7fsdA6ozrHB9Yb6fg7koFYHTh", 
   	:master_key => "zisQic3sVkiQN8brHstux57BIEMiZtRFI1uQBb4Z", :quiet => false

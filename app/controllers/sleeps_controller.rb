@@ -62,12 +62,7 @@ class SleepsController < ApplicationController
         parse_sleep.save
 
         user = Parse::Query.new("_User").eq("rails_user_id", @sleep.user_id.to_s).get.first
-        if user != nil
-          puts "DEBUG" + user["objectId"]
-        else
-          puts "it is nil ;-("
-        end
-        
+
         @sleep.parse_user_id = user["objectId"]
         @sleep.save
 
@@ -88,6 +83,15 @@ class SleepsController < ApplicationController
       if @sleep.update(sleep_params)
         format.html { redirect_to sleeps_url, notice: 'Sleep Entry was successfully updated.' }
         format.json { render :show, status: :ok, location: sleeps_url }
+
+        parse_sleep = Parse::Query.new("Sleep").eq("rails_id", @sleep.id).get.first
+
+        parse_sleep["startTime"] = Parse::Date.new(@sleep.start_time)
+        parse_sleep["finishTime"] = Parse::Date.new(@sleep.finish_time)
+        parse_sleep["quality"] =  @sleep.quality
+        parse_sleep["rails_user_id"] = @sleep.user_id
+        parse_sleep["rails_id"] = @sleep.id
+        parse_sleep.save
 
       elsif false #This will never happen as the user cannot edit for now.
         format.html { render :edit }
