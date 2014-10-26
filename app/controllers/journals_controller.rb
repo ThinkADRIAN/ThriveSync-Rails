@@ -80,6 +80,13 @@ class JournalsController < ApplicationController
         format.html { redirect_to journals_url, notice: 'Journal Entry was successfully updated.' }
         format.json { render :show, status: :ok, location: journals_url }
 
+        parse_journal = Parse::Query.new("Journal").eq("rails_id", @journal.id.to_s).get.first
+
+        parse_journal["journalEntry"] = @journal.journal_entry
+        parse_journal["rails_user_id"] = @journal.user_id.to_s
+        parse_journal["rails_id"] = @journal.id.to_s
+        parse_journal.save
+
       elsif false #This will never happen as the user cannot edit for now.
         format.html { render :edit }
         format.json { render json: @journal.errors, status: :unprocessable_entity }
