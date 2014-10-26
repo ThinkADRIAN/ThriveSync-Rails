@@ -53,6 +53,7 @@ class MoodsController < ApplicationController
         format.html { redirect_to moods_url, notice: 'Mood Entry was successfully tracked.' }
         format.json { render :show, status: :created, location: moods_url }
 
+        # Create new Mood object then write atributes to Parse
         parse_mood = Parse::Object.new("Mood")
         parse_mood["moodRating"] = @mood.mood_rating
         parse_mood["anxietyRating"] = @mood.anxiety_rating
@@ -61,14 +62,15 @@ class MoodsController < ApplicationController
         parse_mood["rails_id"] = @mood.id.to_s
         parse_mood.save
 
+        # Retrieve User with corresponding Rails User ID
         user = Parse::Query.new("_User").eq("rails_user_id", @mood.user_id.to_s).get.first
-
+        # Set Parse User ID in Rails
         @mood.parse_user_id = user["objectId"]
         @mood.save
-
+        # Set Parse User ID for Mood Entry
         parse_mood["user_id"] = user["objectId"]
         parse_mood.save
-        
+        # Set UserData entry for Mood Entry
         user_data = Parse::Object.new("UserData")
         user_data["Mood"] = Array.new
         user_data["Mood"] << parse_mood.pointer
