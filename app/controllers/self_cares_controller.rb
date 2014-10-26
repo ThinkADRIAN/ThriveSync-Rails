@@ -110,6 +110,9 @@ class SelfCaresController < ApplicationController
     respond_to do |format|
       format.html { redirect_to self_cares_url, notice: 'Self Care Entry was successfully removed.' }
       format.json { head :no_content }
+
+      parse_self_care = Parse::Query.new("SelfCare").eq("rails_id", @self_care.id.to_s).get.first
+      parse_self_care.parse_delete
     end
   end
 
