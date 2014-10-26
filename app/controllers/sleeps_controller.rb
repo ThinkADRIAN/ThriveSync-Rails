@@ -111,6 +111,9 @@ class SleepsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to sleeps_url, notice: 'Sleep Entry was successfully removed.' }
       format.json { head :no_content }
+
+      parse_sleep = Parse::Query.new("Sleep").eq("rails_id", @sleep.id).get.first
+      parse_sleep.parse_delete
     end
   end
 
