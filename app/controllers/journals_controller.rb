@@ -105,6 +105,9 @@ class JournalsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to journals_url, notice: 'Journal Entry was successfully removed.' }
       format.json { head :no_content }
+
+      parse_journal = Parse::Query.new("Journal").eq("rails_id", @journal.id.to_s).get.first
+      parse_journal.parse_delete
     end
   end
 
