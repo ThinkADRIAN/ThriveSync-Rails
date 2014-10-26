@@ -52,6 +52,22 @@ class MoodsController < ApplicationController
       if @mood.save
         format.html { redirect_to moods_url, notice: 'Mood Entry was successfully tracked.' }
         format.json { render :show, status: :created, location: moods_url }
+
+        parse_mood = Parse::Object.new("Mood")
+        parse_mood["moodRating"] = @mood.mood_rating
+        parse_mood["anxietyRating"] = @mood.anxiety_rating
+        parse_mood["irritabilityRating"] = @mood.irritability_rating
+        parse_mood["rails_user_id"] = @mood.user_id.to_s
+        parse_mood["rails_id"] = @mood.id.to_s
+        parse_mood.save
+
+        user = Parse::Query.new("_User").eq("rails_user_id", @mood.user_id.to_s).get.first
+
+        @mood.parse_user_id = user["objectId"]
+        @mood.save
+
+        parse_mood["user_id"] = user["objectId"]
+        parse_mood.save
       else
         format.html { render :new }
         format.json { render json: @mood.errors, status: :unprocessable_entity }
