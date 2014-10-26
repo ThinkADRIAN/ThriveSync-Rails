@@ -51,6 +51,20 @@ class JournalsController < ApplicationController
       if @journal.save
         format.html { redirect_to journals_url, notice: 'Journal Entry was successfully tracked.' }
         format.json { render :show, status: :created, location: journals_url }
+
+        parse_journal = Parse::Object.new("Journal")
+        parse_journal["journalEntry"] = @journal.journal_entry
+        parse_journal["rails_user_id"] = @journal.user_id.to_s
+        parse_journal["rails_id"] = @journal.id.to_s
+        parse_journal.save
+
+        user = Parse::Query.new("_User").eq("rails_user_id", @journal.user_id.to_s).get.first
+
+        @journal.parse_user_id = user["objectId"]
+        @journal.save
+
+        parse_journal["user_id"] = user["objectId"]
+        parse_journal.save
       else
         format.html { render :new }
         format.json { render json: @journal.errors, status: :unprocessable_entity }
