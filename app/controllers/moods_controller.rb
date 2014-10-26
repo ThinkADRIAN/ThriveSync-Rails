@@ -68,6 +68,13 @@ class MoodsController < ApplicationController
 
         parse_mood["user_id"] = user["objectId"]
         parse_mood.save
+        
+        user_data = Parse::Object.new("UserData")
+        user_data["Mood"] = Array.new
+        user_data["Mood"] << parse_mood.pointer
+        user_data["UserID"] = parse_mood["user_id"]
+        user_data.save
+
       else
         format.html { render :new }
         format.json { render json: @mood.errors, status: :unprocessable_entity }
