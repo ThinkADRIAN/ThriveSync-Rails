@@ -83,6 +83,15 @@ class SelfCaresController < ApplicationController
         format.html { redirect_to self_cares_url, notice: 'Self Care Entry was successfully updated.' }
         format.json { render :show, status: :ok, location: self_cares_url }
 
+        parse_self_care = Parse::Query.new("SelfCare").eq("rails_id", @self_care.id.to_s).get.first
+
+        parse_self_care["counseling"] = @self_care.counseling
+        parse_self_care["medication"] = @self_care.medication
+        parse_self_care["meditation"] = @self_care.meditation
+        parse_self_care["exercise"] = @self_care.exercise
+        parse_self_care["rails_id"] = @self_care.id.to_s
+        parse_self_care.save
+
       elsif false #This will never happen as the user cannot edit for now.
         format.html { render :edit }
         format.json { render json: @self_care.errors, status: :unprocessable_entity }
