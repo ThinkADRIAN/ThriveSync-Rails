@@ -51,6 +51,23 @@ class SelfCaresController < ApplicationController
       if @self_care.save
         format.html { redirect_to self_cares_url, notice: 'Self Care Entry was successfully tracked.' }
         format.json { render :show, status: :created, location: self_cares_url }
+
+        parse_self_care = Parse::Object.new("SelfCare")
+        parse_self_care["counseling"] = @self_care.counseling
+        parse_self_care["medication"] = @self_care.medication
+        parse_self_care["meditation"] = @self_care.meditation
+        parse_self_care["exercise"] = @self_care.exercise
+        parse_self_care["rails_user_id"] = @self_care.user_id.to_s
+        parse_self_care["rails_id"] = @self_care.id.to_s
+        parse_self_care.save
+
+        user = Parse::Query.new("_User").eq("rails_user_id", @self_care.user_id.to_s).get.first
+
+        @self_care.parse_user_id = user["objectId"]
+        @self_care.save
+
+        parse_self_care["user_id"] = user["objectId"]
+        parse_self_care.save
       else
         format.html { render :new }
         format.json { render json: @self_care.errors, status: :unprocessable_entity }
