@@ -69,7 +69,7 @@ class SleepsController < ApplicationController
         @sleep.parse_user_id = user["objectId"]
         @sleep.save
 
-        # Set Parse User ID for Mood Entry
+        # Set Parse User ID for Sleep Entry
         parse_sleep["user_id"] = user["objectId"]
         parse_sleep.save
 
@@ -84,9 +84,6 @@ class SleepsController < ApplicationController
         user_data = user_data_query
         if user_data == nil
           user_data = Parse::Object.new("UserData")
-        end
-        if user_data["Sleep"] == nil
-          user_data["Sleep"] = Array.new
         end
         user_data["Sleep"] = parse_sleep.pointer
         user_data["UserID"] = parse_sleep["user_id"]  

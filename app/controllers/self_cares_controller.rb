@@ -69,7 +69,7 @@ class SelfCaresController < ApplicationController
         @self_care.parse_user_id = user["objectId"]
         @self_care.save
 
-        # Set Parse User ID for Mood Entry
+        # Set Parse User ID for Self Care Entry
         parse_self_care["user_id"] = user["objectId"]
         parse_self_care.save
 
@@ -84,9 +84,6 @@ class SelfCaresController < ApplicationController
         user_data = user_data_query
         if user_data == nil
           user_data = Parse::Object.new("UserData")
-        end
-        if user_data["SelfCare"] == nil
-          user_data["SelfCare"] = Array.new
         end
         user_data["SelfCare"] = parse_self_care.pointer
         user_data["UserID"] = parse_self_care["user_id"]  

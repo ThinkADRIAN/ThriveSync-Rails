@@ -52,19 +52,47 @@ class JournalsController < ApplicationController
         format.html { redirect_to journals_url, notice: 'Journal Entry was successfully tracked.' }
         format.json { render :show, status: :created, location: journals_url }
 
+        # Create new Journal object then write atributes to Parse
         parse_journal = Parse::Object.new("Journal")
         parse_journal["journalEntry"] = @journal.journal_entry
         parse_journal["rails_user_id"] = @journal.user_id.to_s
         parse_journal["rails_id"] = @journal.id.to_s
         parse_journal.save
 
+        # Retrieve User with corresponding Rails User ID
         user = Parse::Query.new("_User").eq("rails_user_id", @journal.user_id.to_s).get.first
 
+        # Set Parse User ID in Rails
         @journal.parse_user_id = user["objectId"]
         @journal.save
 
+        # Set Parse User ID for Journal Entry
         parse_journal["user_id"] = user["objectId"]
         parse_journal.save
+
+        # Set UserData entry for Journal Entry
+        user_data_query = Parse::Query.new("UserData").tap do |q|
+          q.eq("UserID", parse_journal["user_id"])
+          q.eq("createdAt".eql?(Parse::Date.new(parse_journal["createdAt"]).to_date), true )
+          # q.eq(Date.parse("createdAt").to_s, Date.parse(parse_mood["createdAt"]).to_s)
+          # q.eq(("createdAt" - Parse::Date.new(@mood.timestamp)).abs, 0)
+        end.get.first
+
+        user_data = user_data_query
+        if user_data == nil
+          user_data = Parse::Object.new("UserData")
+        end
+        user_data["Journal"] = parse_journal.pointer
+        user_data["UserID"] = parse_journal["user_id"]  
+        user_data.save
+
+        # Add UserData entry to User Entry
+        #if user["UserData"] == nil
+        #  user["UserData"] = Array.new
+        #end
+        #user["UserData"] << user_data.pointer
+        #user.save
+
       else
         format.html { render :new }
         format.json { render json: @journal.errors, status: :unprocessable_entity }
