@@ -64,18 +64,40 @@ class MoodsController < ApplicationController
 
         # Retrieve User with corresponding Rails User ID
         user = Parse::Query.new("_User").eq("rails_user_id", @mood.user_id.to_s).get.first
+        
         # Set Parse User ID in Rails
         @mood.parse_user_id = user["objectId"]
         @mood.save
+        
         # Set Parse User ID for Mood Entry
         parse_mood["user_id"] = user["objectId"]
         parse_mood.save
+        
         # Set UserData entry for Mood Entry
-        user_data = Parse::Object.new("UserData")
-        user_data["Mood"] = Array.new
+        user_data_query = Parse::Query.new("UserData").tap do |q|
+          q.eq("UserID", parse_mood["user_id"])
+          q.eq("createdAt".eql?(Parse::Date.new(parse_mood["createdAt"]).to_date), true )
+          # q.eq(Date.parse("createdAt").to_s, Date.parse(parse_mood["createdAt"]).to_s)
+          # q.eq(("createdAt" - Parse::Date.new(@mood.timestamp)).abs, 0)
+        end.get.first
+
+        user_data = user_data_query
+        if user_data == nil
+          user_data = Parse::Object.new("UserData")
+        end
+        if user_data["Mood"] == nil
+          user_data["Mood"] = Array.new
+        end
         user_data["Mood"] << parse_mood.pointer
-        user_data["UserID"] = parse_mood["user_id"]
+        user_data["UserID"] = parse_mood["user_id"]  
         user_data.save
+
+        # Add UserData entry to User Entry
+        #if user["UserData"] == nil
+        #  user["UserData"] = Array.new
+        #end
+        #user["UserData"] << user_data.pointer
+        #user.save
 
       else
         format.html { render :new }

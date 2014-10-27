@@ -53,6 +53,7 @@ class SleepsController < ApplicationController
         format.html { redirect_to sleeps_url, notice: 'Sleep Entry was successfully tracked.' }
         format.json { render :show, status: :created, location: sleeps_url }
 
+        # Create new Sleep object then write atributes to Parse
         parse_sleep = Parse::Object.new("Sleep")
         parse_sleep["startTime"] = Parse::Date.new(@sleep.start_time)
         parse_sleep["finishTime"] = Parse::Date.new(@sleep.finish_time)
@@ -61,13 +62,43 @@ class SleepsController < ApplicationController
         parse_sleep["rails_id"] = @sleep.id
         parse_sleep.save
 
+        # Retrieve User with corresponding Rails User ID
         user = Parse::Query.new("_User").eq("rails_user_id", @sleep.user_id.to_s).get.first
 
+        # Set Parse User ID in Rails
         @sleep.parse_user_id = user["objectId"]
         @sleep.save
 
+        # Set Parse User ID for Mood Entry
         parse_sleep["user_id"] = user["objectId"]
         parse_sleep.save
+
+        # Set UserData entry for Sleep Entry
+        user_data_query = Parse::Query.new("UserData").tap do |q|
+          q.eq("UserID", parse_sleep["user_id"])
+          q.eq("createdAt".eql?(Parse::Date.new(parse_sleep["createdAt"]).to_date), true )
+          # q.eq(Date.parse("createdAt").to_s, Date.parse(parse_mood["createdAt"]).to_s)
+          # q.eq(("createdAt" - Parse::Date.new(@mood.timestamp)).abs, 0)
+        end.get.first
+
+        user_data = user_data_query
+        if user_data == nil
+          user_data = Parse::Object.new("UserData")
+        end
+        if user_data["Sleep"] == nil
+          user_data["Sleep"] = Array.new
+        end
+        user_data["Sleep"] = parse_sleep.pointer
+        user_data["UserID"] = parse_sleep["user_id"]  
+        user_data.save
+
+        # Add UserData entry to User Entry
+        #if user["UserData"] == nil
+        #  user["UserData"] = Array.new
+        #end
+        #user["UserData"] << user_data.pointer
+        #user.save
+
       else
         format.html { render :new }
         format.json { render json: @sleep.errors, status: :unprocessable_entity }
