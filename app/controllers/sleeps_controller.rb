@@ -50,8 +50,6 @@ class SleepsController < ApplicationController
     
     respond_to do |format|
       if @sleep.save
-        #format.html { redirect_to sleeps_url, notice: 'Sleep Entry was successfully tracked.' }
-        #format.json { render :show, status: :created, location: sleeps_url }
 
         # Create new Sleep object then write atributes to Parse
         parse_sleep = Parse::Object.new("Sleep")

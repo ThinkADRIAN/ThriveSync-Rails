@@ -49,8 +49,6 @@ class JournalsController < ApplicationController
     
     respond_to do |format|
       if @journal.save
-        format.html { redirect_to journals_url, notice: 'Journal Entry was successfully tracked.' }
-        format.json { render :show, status: :created, location: journals_url }
 
         # Create new Journal object then write atributes to Parse
         parse_journal = Parse::Object.new("Journal")
@@ -70,28 +68,45 @@ class JournalsController < ApplicationController
         parse_journal["user_id"] = user["objectId"]
         parse_journal.save
 
-        # Set UserData entry for Journal Entry
+        # Find the beginning of the same day as Journal Entry creation date
+        # and the beginning of the next day.  This is to be used to find
+        # dates in between... Meaning on the same day
+        date_check_begin = parse_journal["createdAt"].to_date
+        date_check_end =  date_check_begin.tomorrow
+        date_check_begin = Parse::Date.new(date_check_begin)
+        date_check_end = Parse::Date.new(date_check_end)
+
+        # Set UserData entry for Sleep Entry
         user_data_query = Parse::Query.new("UserData").tap do |q|
           q.eq("UserID", parse_journal["user_id"])
-          q.eq("createdAt".eql?(Parse::Date.new(parse_journal["createdAt"]).to_date), true )
-          # q.eq(Date.parse("createdAt").to_s, Date.parse(parse_mood["createdAt"]).to_s)
-          # q.eq(("createdAt" - Parse::Date.new(@mood.timestamp)).abs, 0)
+          q.greater_than("createdAt", date_check_begin)
+          q.less_than("createdAt", date_check_end)
         end.get.first
 
         user_data = user_data_query
+
         if user_data == nil
           user_data = Parse::Object.new("UserData")
         end
-        user_data["Journal"] = parse_journal.pointer
-        user_data["UserID"] = parse_journal["user_id"]  
-        user_data.save
 
-        # Add UserData entry to User Entry
-        #if user["UserData"] == nil
-        #  user["UserData"] = Array.new
-        #end
-        #user["UserData"] << user_data.pointer
-        #user.save
+        if user_data["Journal"] == nil
+          user_data["Journal"] = parse_journal.pointer
+          user_data["UserID"] = parse_journal["user_id"]  
+          user_data.save
+
+          # Add UserData entry to User Entry
+          if user["UserData"] == nil
+            user["UserData"] = Array.new
+          end
+          user["UserData"] << user_data.pointer
+          user.save
+
+          format.html { redirect_to journals_url, notice: 'Journal was successfully tracked.' }
+          format.json { render :show, status: :created, location: sleeps_url }
+        else
+          @journal.destroy
+          format.html { redirect_to journals_url, notice: 'Journal Entry not created.  You already have one for this day.' }
+        end
 
       else
         format.html { render :new }
