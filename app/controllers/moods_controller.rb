@@ -50,8 +50,6 @@ class MoodsController < ApplicationController
     
     respond_to do |format|
       if @mood.save
-        format.html { redirect_to moods_url, notice: 'Mood Entry was successfully tracked.' }
-        format.json { render :show, status: :created, location: moods_url }
 
         # Create new Mood object then write atributes to Parse
         parse_mood = Parse::Object.new("Mood")
@@ -97,18 +95,26 @@ class MoodsController < ApplicationController
           user_data["Mood"] = Array.new
         end
 
-        user_data["Mood"] << parse_mood.pointer
-        user_data["UserID"] = parse_mood["user_id"]  
-        user_data.save
+        if user_data["Mood"].count < 3
+          user_data["Mood"] << parse_mood.pointer
+          user_data["UserID"] = parse_mood["user_id"]  
+          user_data.save
 
-        # Add UserData entry to User Entry
-        if user["UserData"] == nil
-          user["UserData"] = Array.new
+          # Add UserData entry to User Entry
+          if user["UserData"] == nil
+            user["UserData"] = Array.new
+          end
+
+          user["UserData"] << user_data.pointer
+          user.save
+
+          format.html { redirect_to moods_url, notice: 'Mood Entry was successfully tracked.' }
+          format.json { render :show, status: :created, location: moods_url }
+        else
+          @mood.destroy
+          format.html { redirect_to moods_url, notice: 'Mood Entry not created.  You already have three for this day.' }
         end
         
-        user["UserData"] << user_data.pointer
-        user.save
-
       else
         format.html { render :new }
         format.json { render json: @mood.errors, status: :unprocessable_entity }
