@@ -52,6 +52,7 @@ class SelfCaresController < ApplicationController
         format.html { redirect_to self_cares_url, notice: 'Self Care Entry was successfully tracked.' }
         format.json { render :show, status: :created, location: self_cares_url }
 
+        # Create new Self Care object then write atributes to Parse
         parse_self_care = Parse::Object.new("SelfCare")
         parse_self_care["counseling"] = @self_care.counseling
         parse_self_care["medication"] = @self_care.medication
@@ -61,13 +62,43 @@ class SelfCaresController < ApplicationController
         parse_self_care["rails_id"] = @self_care.id.to_s
         parse_self_care.save
 
+        # Retrieve User with corresponding Rails User ID
         user = Parse::Query.new("_User").eq("rails_user_id", @self_care.user_id.to_s).get.first
 
+        # Set Parse User ID in Rails
         @self_care.parse_user_id = user["objectId"]
         @self_care.save
 
+        # Set Parse User ID for Mood Entry
         parse_self_care["user_id"] = user["objectId"]
         parse_self_care.save
+
+        # Set UserData entry for Self Care Entry
+        user_data_query = Parse::Query.new("UserData").tap do |q|
+          q.eq("UserID", parse_self_care["user_id"])
+          q.eq("createdAt".eql?(Parse::Date.new(parse_self_care["createdAt"]).to_date), true )
+          # q.eq(Date.parse("createdAt").to_s, Date.parse(parse_mood["createdAt"]).to_s)
+          # q.eq(("createdAt" - Parse::Date.new(@mood.timestamp)).abs, 0)
+        end.get.first
+
+        user_data = user_data_query
+        if user_data == nil
+          user_data = Parse::Object.new("UserData")
+        end
+        if user_data["SelfCare"] == nil
+          user_data["SelfCare"] = Array.new
+        end
+        user_data["SelfCare"] = parse_self_care.pointer
+        user_data["UserID"] = parse_self_care["user_id"]  
+        user_data.save
+
+        # Add UserData entry to User Entry
+        #if user["UserData"] == nil
+        #  user["UserData"] = Array.new
+        #end
+        #user["UserData"] << user_data.pointer
+        #user.save
+
       else
         format.html { render :new }
         format.json { render json: @self_care.errors, status: :unprocessable_entity }
