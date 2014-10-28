@@ -156,11 +156,19 @@ class SleepsController < ApplicationController
   def destroy
     @sleep.destroy
     respond_to do |format|
-      format.html { redirect_to sleeps_url, notice: 'Sleep Entry was successfully removed.' }
-      format.json { head :no_content }
 
       parse_sleep = Parse::Query.new("Sleep").eq("rails_id", @sleep.id).get.first
+      user_data = user_data_query = Parse::Query.new("UserData").tap do |q|
+        q.eq("UserID", parse_sleep["user_id"])
+        q.eq("Sleep", parse_sleep.pointer)
+      end.get.first
+
+      user_data["Sleep"] = nil
+      user_data.save
       parse_sleep.parse_delete
+
+      format.html { redirect_to sleeps_url, notice: 'Sleep Entry was successfully removed.' }
+      format.json { head :no_content }
     end
   end
 
