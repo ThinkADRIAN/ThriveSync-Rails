@@ -56,8 +56,8 @@ class SleepsController < ApplicationController
         parse_sleep["startTime"] = Parse::Date.new(@sleep.start_time)
         parse_sleep["finishTime"] = Parse::Date.new(@sleep.finish_time)
         parse_sleep["quality"] =  @sleep.quality
-        parse_sleep["rails_user_id"] = @sleep.user_id
-        parse_sleep["rails_id"] = @sleep.id
+        parse_sleep["rails_user_id"] = @sleep.user_id.to_s
+        parse_sleep["rails_id"] = @sleep.id.to_s
         parse_sleep.save
 
         # Retrieve User with corresponding Rails User ID
@@ -157,7 +157,7 @@ class SleepsController < ApplicationController
     @sleep.destroy
     respond_to do |format|
 
-      parse_sleep = Parse::Query.new("Sleep").eq("rails_id", @sleep.id).get.first
+      parse_sleep = Parse::Query.new("Sleep").eq("rails_id", @sleep.id.to_s).get.first
       user_data = user_data_query = Parse::Query.new("UserData").tap do |q|
         q.eq("UserID", parse_sleep["user_id"])
         q.eq("Sleep", parse_sleep.pointer)
