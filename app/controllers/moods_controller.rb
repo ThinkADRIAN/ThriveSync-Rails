@@ -105,12 +105,15 @@ class MoodsController < ApplicationController
             user["UserData"] = Array.new
           end
 
-          user["UserData"] << user_data.pointer
-          user.save
+          if !user["UserData"].include?(user_data.pointer)
+            user["UserData"] << user_data.pointer
+            user.save
+          end
 
           format.html { redirect_to moods_url, notice: 'Mood Entry was successfully tracked.' }
           format.json { render :show, status: :created, location: moods_url }
         else
+          parse_mood.parse_delete
           @mood.destroy
           format.html { redirect_to moods_url, notice: 'Mood Entry not created.  You already have three for this day.' }
         end
