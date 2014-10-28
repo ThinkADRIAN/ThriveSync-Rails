@@ -155,11 +155,19 @@ class SelfCaresController < ApplicationController
   def destroy
     @self_care.destroy
     respond_to do |format|
+      
+      parse_self_care = Parse::Query.new("SelfCare").eq("rails_id", @self_care.id.to_s).get.first
+      user_data = user_data_query = Parse::Query.new("UserData").tap do |q|
+        q.eq("UserID", parse_self_care["user_id"])
+        q.eq("SelfCare", parse_self_care.pointer)
+      end.get.first
+
+      user_data["SelfCare"] = nil
+      user_data.save
+      parse_self_care.parse_delete
+
       format.html { redirect_to self_cares_url, notice: 'Self Care Entry was successfully removed.' }
       format.json { head :no_content }
-
-      parse_self_care = Parse::Query.new("SelfCare").eq("rails_id", @self_care.id.to_s).get.first
-      parse_self_care.parse_delete
     end
   end
 
