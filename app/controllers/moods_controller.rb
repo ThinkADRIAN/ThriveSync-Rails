@@ -158,11 +158,22 @@ class MoodsController < ApplicationController
   def destroy
     @mood.destroy
     respond_to do |format|
-      format.html { redirect_to moods_url, notice: 'Mood Entry was successfully removed.' }
-      format.json { head :no_content }
 
       parse_mood = Parse::Query.new("Mood").eq("rails_id", @mood.id.to_s).get.first
+      user_data = user_data_query = Parse::Query.new("UserData").tap do |q|
+        q.eq("UserID", parse_mood["user_id"])
+        q.value_in("Mood", [parse_mood.pointer])
+      end.get.first
+
+      user_data["Mood"].delete(parse_mood.pointer)
+      if user_data["Mood"] == []
+        user_data["Mood"] = nil
+      end
+      user_data.save
       parse_mood.parse_delete
+
+      format.html { redirect_to moods_url, notice: 'Mood Entry was successfully removed.' }
+      format.json { head :no_content }
     end
   end
 
