@@ -149,11 +149,19 @@ class JournalsController < ApplicationController
   def destroy
     @journal.destroy
     respond_to do |format|
-      format.html { redirect_to journals_url, notice: 'Journal Entry was successfully removed.' }
-      format.json { head :no_content }
 
       parse_journal = Parse::Query.new("Journal").eq("rails_id", @journal.id.to_s).get.first
+      user_data = user_data_query = Parse::Query.new("UserData").tap do |q|
+        q.eq("UserID", parse_journal["user_id"])
+        q.eq("Journal", parse_journal.pointer)
+      end.get.first
+
+      user_data["Journal"] = nil
+      user_data.save
       parse_journal.parse_delete
+
+      format.html { redirect_to journals_url, notice: 'Journal Entry was successfully removed.' }
+      format.json { head :no_content }
     end
   end
 
