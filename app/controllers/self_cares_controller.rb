@@ -101,12 +101,16 @@ class SelfCaresController < ApplicationController
           if user["UserData"] == nil
             user["UserData"] = Array.new
           end
-          user["UserData"] << user_data.pointer
-          user.save
+
+          if !user["UserData"].include?(user_data.pointer)
+            user["UserData"] << user_data.pointer
+            user.save
+          end
 
           format.html { redirect_to self_cares_url, notice: 'Self Entry was successfully tracked.' }
           format.json { render :show, status: :created, location: sleeps_url }
         else
+          parse_self_care.parse_delete
           @self_care.destroy
           format.html { redirect_to self_cares_url, notice: 'Self Care Entry not created.  You already have one for this day.' }
         end

@@ -101,12 +101,16 @@ class SleepsController < ApplicationController
           if user["UserData"] == nil
             user["UserData"] = Array.new
           end
-          user["UserData"] << user_data.pointer
-          user.save
+          
+          if !user["UserData"].include?(user_data.pointer)
+            user["UserData"] << user_data.pointer
+            user.save
+          end
 
           format.html { redirect_to sleeps_url, notice: 'Sleep Entry was successfully tracked.' }
           format.json { render :show, status: :created, location: sleeps_url }
         else
+          parse_sleep.parse_delete
           @sleep.destroy
           format.html { redirect_to sleeps_url, notice: 'Sleep Entry not created.  You already have one for this day.' }
         end
