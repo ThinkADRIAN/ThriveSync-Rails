@@ -172,6 +172,16 @@ class MoodsController < ApplicationController
       user_data.save
       parse_mood.parse_delete
 
+      if user_data["Mood"] == nil && user_data["Sleep"] == nil && user_data["SelfCare"] == nil && user_data["Journal"] == nil
+        user = Parse::Query.new("_User").eq("rails_user_id", @mood.user_id.to_s).get.first
+        user["UserData"].delete(user_data.pointer)
+        if user["UserData"] == []
+          user["UserData"] = nil
+        end
+        user_data.parse_delete
+        user.save
+      end
+
       format.html { redirect_to moods_url, notice: 'Mood Entry was successfully removed.' }
       format.json { head :no_content }
     end
