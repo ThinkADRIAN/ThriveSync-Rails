@@ -5,6 +5,11 @@ class RailsUser < ActiveRecord::Base
   has_many :self_cares
   has_many :journals
 
+  # User is free account, Client is unlocked when coupled with a Pro account,
+  # Admin will administer an organizational unit, SuperUser is for internal use
+
+  ROLES = %w[user client pro admin superuser banned]
+
   TEMP_EMAIL_PREFIX = 'change@me'
   TEMP_EMAIL_REGEX = /\Achange@me/
 
@@ -59,5 +64,19 @@ class RailsUser < ActiveRecord::Base
 
   def email_verified?
     self.email && self.email !~ TEMP_EMAIL_REGEX
+  end
+
+  def roles=(roles)
+    self.roles_mask = (roles & ROLES).map { |r| 2**ROLES.index(r) }.inject(0, :+)
+  end
+
+  def roles
+    ROLES.reject do |r|
+      ((roles_mask.to_i || 0) & 2**ROLES.index(r)).zero?
+    end
+  end
+
+  def is?(role)
+  roles.include?(role.to_s)
   end
 end

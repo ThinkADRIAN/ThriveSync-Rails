@@ -5,7 +5,6 @@ class ApplicationController < ActionController::Base
   Parse.init :application_id => "djCdJZ1B3POXRpg7fsdA6ozrHB9Yb6fg7koFYHTh", 
   	:master_key => "zisQic3sVkiQN8brHstux57BIEMiZtRFI1uQBb4Z", :quiet => false
 
-
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :null_session
@@ -22,7 +21,7 @@ class ApplicationController < ActionController::Base
 	  		u.permit(:name, :email, :password, :password_confirmation)
 			end
 			devise_parameter_sanitizer.for(:account_update) do |u|
-	  		u.permit(:name, :email, :password, :password_confirmation, :current_password)
+	  		u.permit(:name, :email, :password, :password_confirmation, :current_password, roles: [])
 			end
 		end
 

@@ -19,6 +19,17 @@
   <div class="form-group"><%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
     <%= f.password_field :current_password, autocomplete: "off" %></div>
 
+  <% if can? :assign_roles, @user %>
+
+    <div class="form-group">
+      <% for role in RailsUser::ROLES %>
+        <%= check_box_tag "rails_user[roles][#{role}]", role, @rails_user.roles.include?(role), {:name => "rails_user[roles][]"}%>
+        <%= label_tag "rails_user_roles_#{role}", role.humanize %><br />
+      <% end %>
+      <%= hidden_field_tag "rails_user[roles][]", "" %>
+    </div>
+    
+  <% end %>
   <div class="actions"><%= f.submit "Update" %></div>
 <% end %>
 

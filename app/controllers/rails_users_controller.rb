@@ -17,6 +17,7 @@ class RailsUsersController < ApplicationController
   # PATCH/PUT /users/:id.:format
   def update
     # authorize! :update, @user
+    authorize! :assign_roles, @user if params[:user][:assign_roles]
     respond_to do |format|
       if @user.update(user_params)
         sign_in(@user == current_rails_user ? @user : current_rails_user, :bypass => true)

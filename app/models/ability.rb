@@ -32,6 +32,10 @@ class Ability
     # handle guest user (not logged in)
     user ||= RailsUser.new() 
 
+    can :manage, :all if user.is? :superuser
+
+    can :assign_roles, User if user.is? :superuser
+
     can :manage, Mood do |mood|
       mood.user_id == user.id
     end
