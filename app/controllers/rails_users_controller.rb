@@ -1,6 +1,6 @@
 class RailsUsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
-
+  
   def new
   end
 
@@ -61,7 +61,7 @@ class RailsUsersController < ApplicationController
     end
 
     def user_params
-      accessible = [ :name, :email, :parse_user_id ] # extend with your own params
+      accessible = [ :first_name, :last_name, :email, :parse_user_id ] # extend with your own params
       accessible << [ :password, :password_confirmation ] unless params[:user][:password].blank?
       params.require(:user).permit(accessible)
     end
@@ -78,6 +78,8 @@ class RailsUsersController < ApplicationController
     def create_parse_user
       parse_user = Parse::User.new(
         {
+          :first_name => @rails_user.firstName,
+          :last_name => @rails_user.lastName,
           :username => @rails_user.email,
           :email => @rails_user.email
         }

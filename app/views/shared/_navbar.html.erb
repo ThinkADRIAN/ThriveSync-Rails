@@ -89,7 +89,7 @@
           
           <% if rails_user_signed_in? %>
             <div class="navbar-text pull-left">
-                Logged in as <strong><%= current_rails_user.email %></strong>. 
+                Logged in as <strong><%= current_rails_user.first_name + " " + current_rails_user.last_name %></strong>. 
             </div>
           <% end %>
         </div><!--/.nav-collapse -->
