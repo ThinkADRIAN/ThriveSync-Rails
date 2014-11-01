@@ -34,7 +34,7 @@ class Ability
 
     can :manage, :all if user.is? :superuser
 
-    can :assign_roles, User if user.is? :superuser
+    can :assign_roles, RailsUser if user.is? :superuser
 
     can :manage, Mood do |mood|
       mood.user_id == user.id

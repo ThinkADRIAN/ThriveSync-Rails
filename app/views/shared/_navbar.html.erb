@@ -14,7 +14,52 @@
           <ul class="nav navbar-nav">
             <li><a href="/">Home</a></li>
             
-            <% if rails_user_signed_in? %>
+            <% if rails_user_signed_in? && (current_rails_user.is? :superuser) %>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Super User Tools<b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li><a href="/superusers/index">Users</a></li>
+                  <li><a href="#">Professionals</a></li>
+                  <li><a href="#">Organizations</a></li>
+                </ul>
+              </li>
+            <% end %>
+
+            <% if rails_user_signed_in? && (current_rails_user.is? :admin) %>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin Tools<b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li><a href="#">Users</a></li>
+                  <li><a href="#">Professionals</a></li>
+                  <li><a href="#">Organizations</a></li>
+                </ul>
+              </li>
+            <% end %>
+
+            <% if rails_user_signed_in? && (current_rails_user.is? :pro) %>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Pro Tools<b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li><a href="#">Users</a></li>
+                  <li><a href="#">Professionals</a></li>
+                  <li><a href="#">Organizations</a></li>
+                </ul>
+              </li>
+            <% end %>
+
+            <% if rails_user_signed_in? && (current_rails_user.is? :client) %>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Client Tools<b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li><a href="<%= moods_path %>">Mood</a></li>
+                  <li><a href="<%= sleeps_path %>">Sleep</a></li>
+                  <li><a href="<%= self_cares_path %>">Self Care</a></li>
+                  <li><a href="<%= journals_path %>">Journal</a></li>
+                </ul>
+              </li>
+            <% end %>
+
+            <% if rails_user_signed_in? && (current_rails_user.is? :user) %>
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Trackers<b class="caret"></b></a>
                 <ul class="dropdown-menu">
@@ -24,7 +69,9 @@
                   <li><a href="<%= journals_path %>">Journal</a></li>
                 </ul>
               </li>
-              
+            <% end %>
+
+            <% if rails_user_signed_in?%>
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Account<b class="caret"></b></a>
                 <ul class="dropdown-menu">
