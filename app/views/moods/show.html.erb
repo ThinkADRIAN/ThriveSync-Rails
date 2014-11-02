@@ -52,8 +52,8 @@
 	<%= link_to 'Edit', edit_mood_path(@mood) %> | 
 <% end %>
 <% if can? :read, @mood %>
-  <%= link_to 'Back', rails_user_moods_path(rails_user_id: @mood.user_id) %>
+  <%= link_to 'Back', :back %>
 <% else %>
-  <%= link_to 'Back', moods_path %>
+  <%= link_to 'Back', :back %>
 <% end %>
     
