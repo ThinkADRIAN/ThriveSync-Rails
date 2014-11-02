@@ -7,17 +7,19 @@
       </div>
       <div class="panel-body">
         <% @rails_users.each do |rails_user| %>
-          <div class="col-md-4">
-              <h3><%= rails_user.first_name + " " + rails_user.last_name %></h3>
-              <p><%= rails_user.email %></p>
-          </div>
-          <div class="col-md-8">
-            <h3></h3>
-            <%= link_to 'Show Details', rails_user, class: "btn-primary btn-xs" %>
-          </div>
-          <div class="col-md-12">
-            <hr>
-          </div>
+          <% if current_rails_user.clients.include? rails_user.id %>
+            <div class="col-md-4">
+                <h3><%= rails_user.first_name + " " + rails_user.last_name %></h3>
+                <p><%= rails_user.email %></p>
+            </div>
+            <div class="col-md-8">
+              <h3></h3>
+              <%= link_to 'Show Details', rails_user, class: "btn-primary btn-xs" %>
+            </div>
+            <div class="col-md-12">
+              <hr>
+            </div>
+           <% end %> 
         <% end %>
       </div>
     </div>

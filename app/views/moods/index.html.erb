@@ -1,7 +1,9 @@
 <div>
   <% if @rails_user == nil %>
     <h1><%= current_rails_user.first_name.to_s + " " + current_rails_user.last_name.to_s %><h1>
-    <%= link_to 'Add a new Mood Entry', new_mood_path, class: "btn btn-primary" %>
+    <% if can? :manage, @mood %>    
+      <%= link_to 'Add a new Mood Entry', new_mood_path, class: "btn btn-primary" %>
+    <% end %>
   <% else %>
     <h1><%= @rails_user.first_name.to_s + " " + @rails_user.last_name.to_s %><h1>
   <% end %>

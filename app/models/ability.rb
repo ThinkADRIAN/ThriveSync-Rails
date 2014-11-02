@@ -45,7 +45,7 @@ class Ability
     end
 
     can :read, Mood do |mood|
-      user.is? :pro && (user.clients.include? mood.user_id)
+      (user.is? :pro) && (user.clients.include? mood.user_id)
     end
 
     can :manage, Sleep do |sleep|
