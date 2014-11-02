@@ -13,7 +13,12 @@ class SelfCaresController < ApplicationController
   # GET /self_cares
   # GET /self_cares.json
   def index
-    @self_cares = SelfCare.where(user_id: current_rails_user.id)
+    @rails_user = RailsUser.find_by_id(params[:rails_user_id])
+    if @rails_user == nil
+      @self_cares = SelfCare.where(user_id: current_rails_user.id)
+    elsif @rails_user != nil
+      @self_cares = SelfCare.where(user_id: @rails_user.id)
+    end
 
     respond_to do |format|
       format.html

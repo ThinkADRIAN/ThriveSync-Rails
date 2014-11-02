@@ -1,5 +1,10 @@
 <div>
-  <%= link_to 'Add a new Self Care Entry', new_self_care_path, class: "btn btn-primary" %>
+  <% if @rails_user == nil %>
+    <h1><%= current_rails_user.first_name.to_s + " " + current_rails_user.last_name.to_s %><h1>
+    <%= link_to 'Add a new Self Care Entry', new_self_care_path, class: "btn btn-primary" %>
+  <% else %>
+    <h1><%= @rails_user.first_name.to_s + " " + @rails_user.last_name.to_s %><h1>
+  <% end %>
 </div>
 
 <%= render "shared/chart_self_care" %>
@@ -14,7 +19,7 @@
       </div>
       <div class="panel-body">
         <% @self_cares.each do |self_care| %>
-          <% if self_care.user_id == current_rails_user.id%>
+          <% if self_care.user_id == current_rails_user.id || (current_rails_user.is? :superuser) %>
             <div class="col-md-4">
                 <h3><%= self_care.updated_at.strftime("%Y-%m-%d %H:%M:%S") %></h3>
             </div>
