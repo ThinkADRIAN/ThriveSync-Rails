@@ -25,7 +25,7 @@ class ApplicationController < ActionController::Base
 			end
 		end
 
-	#alias_method :current_user, :current_rails_user # Could be :current_member or :logged_in_user
+	alias_method :current_user, :current_rails_user # Could be :current_member or :logged_in_user
 
   ActionController::Renderers.add :json do |json, options|
 	  unless json.kind_of?(String)
