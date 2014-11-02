@@ -5,6 +5,8 @@ class RailsUser < ActiveRecord::Base
   has_many :self_cares
   has_many :journals
 
+  before_create :set_default_role
+
   # User is free account, Client is unlocked when coupled with a Pro account,
   # Admin will administer an organizational unit, SuperUser is for internal use
 
@@ -79,6 +81,10 @@ class RailsUser < ActiveRecord::Base
   end
 
   def is?(role)
-  roles.include?(role.to_s)
+    roles.include?(role.to_s)
+  end
+
+  def set_default_role
+    self.roles = [ "user" ]
   end
 end
