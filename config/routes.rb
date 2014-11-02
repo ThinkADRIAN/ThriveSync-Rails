@@ -16,6 +16,8 @@ Rails.application.routes.draw do
 
   get 'superusers/index'
 
+  get 'pros/index'
+
   resources :moods do
   end
 
