@@ -3,7 +3,8 @@ class MoodsController < ApplicationController
     redirect_to root_url, :alert => exception.message
   end
 
-  load_and_authorize_resource
+  #load_and_authorize_resource
+  check_authorization
 
   before_action :set_mood, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_rails_user!
@@ -13,6 +14,8 @@ class MoodsController < ApplicationController
   # GET /moods
   # GET /moods.json
   def index
+    authorize! :manage, Mood
+    authorize! :read, Mood
     @rails_user = RailsUser.find_by_id(params[:rails_user_id])
     if @rails_user == nil
       @moods = Mood.where(user_id: current_rails_user.id)
@@ -30,6 +33,8 @@ class MoodsController < ApplicationController
   # GET /moods/1
   # GET /moods/1.json
   def show
+    authorize! :manage, Mood
+    authorize! :read, Mood
     respond_to do |format|
       format.html
       format.json { render :json =>  @mood, status: 200 }
@@ -39,16 +44,19 @@ class MoodsController < ApplicationController
 
   # GET /moods/new
   def new
+    authorize! :manage, Mood
     @mood= Mood.new
   end
 
   # GET /moods/1/edit
   def edit
+    authorize! :manage, Mood
   end
 
   # POST /moods
   # POST /moods.json
   def create
+    authorize! :manage, Mood
     @mood = Mood.new(mood_params)
     @mood.user_id = current_rails_user.id
     @mood.update_attribute(:timestamp, DateTime.now.in_time_zone)
@@ -133,6 +141,7 @@ class MoodsController < ApplicationController
   # PATCH/PUT /moods/1
   # PATCH/PUT /moods/1.json
   def update
+    authorize! :manage, Mood
     respond_to do |format|
       if @mood.update(mood_params)
         format.html { redirect_to moods_url, notice: 'Mood Entry was successfully updated.' }
@@ -161,6 +170,7 @@ class MoodsController < ApplicationController
   # DELETE /moods/1
   # DELETE /moods/1.json
   def destroy
+    authorize! :manage, Mood
     @mood.destroy
     respond_to do |format|
 

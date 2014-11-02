@@ -19,14 +19,16 @@
       </div>
       <div class="panel-body">
         <% @moods.each do |mood| %>
-          <% if mood.user_id == current_rails_user.id || (current_rails_user.is? :superuser) %>
+          <% if (can? :manage, mood) || (can? :read, mood) %>
             <div class="col-md-4">
                 <h3><%= mood.timestamp.strftime("%Y-%m-%d %H:%M:%S") %></h3>
             </div>
             <div class="col-md-8">
               <%= link_to 'Show Details', mood, class: "btn-primary btn-xs" %>
-              <%= link_to 'Edit', edit_mood_path(mood),  class: "btn-default btn-xs" %>
-              <%= link_to 'Remove', mood,  class: "btn-danger btn-xs", method: :delete, data: { confirm: 'Are you sure you want to remove this item?' } %>
+              <% if can? :manage, mood %>
+                <%= link_to 'Edit', edit_mood_path(mood),  class: "btn-default btn-xs" %>
+                <%= link_to 'Remove', mood,  class: "btn-danger btn-xs", method: :delete, data: { confirm: 'Are you sure you want to remove this item?' } %>
+              <% end %>
             </div>
             <div class="col-md-12">
               <hr>
