@@ -18,7 +18,7 @@
 <div class="col-md-12">
   <%= render "shared/chart_sleep" %>
   <div class="btn-group btn-group-justified">
-    <%= link_to 'View Sleep Entries', sleeps_path, class: "btn btn-default btn-xs btn-block" %>
+    <%= link_to 'View Sleep Entries', rails_user_sleeps_path(rails_user_id: @rails_user.id), class: "btn btn-default btn-xs btn-block" %>
   </div>
   <hr>
 </div>

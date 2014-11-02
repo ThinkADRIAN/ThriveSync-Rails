@@ -13,7 +13,12 @@ class SleepsController < ApplicationController
   # GET /sleeps
   # GET /sleeps.json
   def index
-    @sleeps = Sleep.where(user_id: current_rails_user.id)
+    @rails_user = RailsUser.find_by_id(params[:rails_user_id])
+    if @rails_user == nil
+      @sleeps = Sleep.where(user_id: current_rails_user.id)
+    elsif @rails_user != nil
+      @sleeps = Sleep.where(user_id: @rails_user.id)
+    end
 
     respond_to do |format|
       format.html
