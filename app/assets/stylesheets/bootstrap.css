@@ -886,7 +886,7 @@ body {
   font-family: "Open Sans", Helvetica, Arial, sans-serif;
   font-size: 14px;
   line-height: 1.42857143;
-  color: #7f8c8d;
+  color: #232323;
   background-color: #ffffff;
 }
 input,
@@ -2620,7 +2620,7 @@ select[multiple].input-lg {
   display: block;
   margin-top: 5px;
   margin-bottom: 10px;
-  color: #c2c9c9;
+  color: #636363;
 }
 @media (min-width: 768px) {
   .form-inline .form-group {
@@ -4587,7 +4587,7 @@ a.thumbnail.active {
 }
 .thumbnail .caption {
   padding: 9px;
-  color: #7f8c8d;
+  color: #232323;
 }
 .alert {
   padding: 15px;
@@ -5465,7 +5465,7 @@ button.close {
 }
 .tooltip {
   position: absolute;
-  z-index: 1030;
+  z-index: 1070;
   display: block;
   visibility: visible;
   font-size: 12px;
@@ -5565,7 +5565,7 @@ button.close {
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 1010;
+  z-index: 1060;
   display: none;
   max-width: 276px;
   padding: 1px;
