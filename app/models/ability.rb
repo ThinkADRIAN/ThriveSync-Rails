@@ -30,14 +30,22 @@ class Ability
     # https://github.com/ryanb/cancan/wiki/Defining-Abilities
 
     # handle guest user (not logged in)
-    user ||= User.new() 
+    user ||= RailsUser.new() 
+
+    can :manage, :all if user.is? :superuser
+
+    can :assign_roles, RailsUser if user.is? :superuser
 
     can :manage, Mood do |mood|
-      mood.user_id == user.id
+      if 
+        user.is? :superuser
+      elsif 
+        mood.user_id == @rails_user_id
+      end
     end
 
-    can [:read, :create], Mood do |mood|
-      mood.user_id != user.id
+    can :read, Mood do |mood|
+      (user.is? :pro) && (user.clients.include? mood.user_id)
     end
 
     can :manage, Sleep do |sleep|

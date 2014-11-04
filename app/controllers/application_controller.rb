@@ -1,4 +1,10 @@
 class ApplicationController < ActionController::Base
+  require 'parse-ruby-client'
+  require 'Date'
+
+  Parse.init :application_id => "djCdJZ1B3POXRpg7fsdA6ozrHB9Yb6fg7koFYHTh", 
+  	:master_key => "zisQic3sVkiQN8brHstux57BIEMiZtRFI1uQBb4Z", :quiet => false
+
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :null_session
@@ -12,12 +18,14 @@ class ApplicationController < ActionController::Base
 	before_filter :configure_devise_params, if: :devise_controller?
 		def configure_devise_params
 			devise_parameter_sanitizer.for(:sign_up) do |u|
-	  		u.permit(:name, :email, :password, :password_confirmation)
+	  		u.permit(:first_name, :last_name, :email, :password, :password_confirmation)
 			end
 			devise_parameter_sanitizer.for(:account_update) do |u|
-	  		u.permit(:name, :email, :password, :password_confirmation, :current_password)
+	  		u.permit(:first_name, :last_name, :email, :password, :password_confirmation, :current_password, roles: [])
 			end
 		end
+
+	alias_method :current_user, :current_rails_user # Could be :current_member or :logged_in_user
 
   ActionController::Renderers.add :json do |json, options|
 	  unless json.kind_of?(String)
@@ -44,8 +52,8 @@ class ApplicationController < ActionController::Base
 
     # Redirect to the 'finish_signup' page if the user
     # email hasn't been verified yet
-    if current_user && !current_user.email_verified?
-      redirect_to finish_signup_path(current_user)
+    if current_rails_user && !current_rails_user.email_verified?
+      redirect_to finish_signup_path(current_rails_user)
     end
   end
 end

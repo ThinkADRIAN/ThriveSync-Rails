@@ -1,10 +1,10 @@
 Rails.application.routes.draw do
-  devise_for :users, :controllers => { omniauth_callbacks: 'omniauth_callbacks' }
-
-  match '/users/:id/finish_signup' => 'users#finish_signup', via: [:get, :patch], :as => :finish_signup
+  
+  devise_for :rails_users, :controllers => {:registrations => "my_devise/registrations"}
+  match '/rails_users/:id/finish_signup' => 'rails_users#finish_signup', via: [:get, :patch], :as => :finish_signup
 
   # Auto-created by Devise
-  # get 'users/new'
+  # get 'rails_users/new'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
@@ -13,6 +13,10 @@ Rails.application.routes.draw do
   root 'welcome#index'
 
   get 'welcome/index'
+
+  get 'superusers/index'
+
+  get 'pros/index'
 
   resources :moods do
   end
@@ -26,7 +30,7 @@ Rails.application.routes.draw do
   resources :journals do
   end
 
-  resources :users do
+  resources :rails_users do
     resources :moods
     resources :sleeps
     resources :self_cares

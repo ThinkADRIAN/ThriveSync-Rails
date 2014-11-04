@@ -1,0 +1,17 @@
+<h2>Edit Access: <%= @rails_user.first_name + " " + @rails_user.last_name %></h2>
+
+<%= form_for(@rails_user) do |f| %>
+
+  <% if can? :assign_roles, @rails_user %>
+    <div class="form-group">
+      <% for role in RailsUser::ROLES %>
+        <%= check_box_tag "rails_user[roles][#{role}]", role, @rails_user.roles.include?(role), {:name => "rails_user[roles][]"}%>
+        <%= label_tag "rails_user_roles_#{role}", role.humanize %><br />
+      <% end %>
+      <%= hidden_field_tag "rails_user[roles][]", "" %>
+    </div>    
+  <% end %>
+  <div class="actions"><%= f.submit "Update" %></div>
+<% end %>
+<br>
+<%= link_to "Back", :back %>

@@ -1,0 +1,40 @@
+<h1><%= @rails_user.first_name + " " + @rails_user.last_name %></h1>
+
+<% @moods = Mood.where(user_id: @rails_user.id) %>
+<% @sleeps = Sleep.where(user_id: @rails_user.id) %>
+<% @self_cares = SelfCare.where(user_id: @rails_user.id) %>
+<% @journals = Journal.where(user_id: @rails_user.id) %>
+
+<br>
+
+<div class="col-md-12">
+  <%= render "shared/chart_mood" %>
+  <div class="btn-group btn-group-justified">
+    <%= link_to 'View Mood Entries', rails_user_moods_path(rails_user_id: @rails_user.id), class: "btn btn-default btn-xs btn-block" %>
+  </div>
+  <hr>
+</div>
+
+<div class="col-md-12">
+  <%= render "shared/chart_sleep" %>
+  <div class="btn-group btn-group-justified">
+    <%= link_to 'View Sleep Entries', rails_user_sleeps_path(rails_user_id: @rails_user.id), class: "btn btn-default btn-xs btn-block" %>
+  </div>
+  <hr>
+</div>
+
+<div class="col-md-6">
+  <%= render "shared/chart_self_care" %>
+  <div class="btn-group btn-group-justified">
+    <%= link_to 'View Self Care Entries', rails_user_self_cares_path(rails_user_id: @rails_user.id), class: "btn btn-default btn-xs btn-block" %>
+  </div>
+  <hr>
+</div>
+
+<div class="col-md-6">
+  <%= render "shared/chart_journal" %>
+  <div class="btn-group btn-group-justified">
+    <%= link_to 'View Journal Entries', rails_user_journals_path(rails_user_id: @rails_user.id), class: "btn btn-default btn-xs btn-block" %>
+  </div>
+  <hr>
+</div>

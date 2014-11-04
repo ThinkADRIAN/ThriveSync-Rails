@@ -63,3 +63,9 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
  gem 'groupdate'
 
  gem 'mandrill-api'
+
+ gem "parse_resource", "~> 1.8.0"
+
+ gem "parse-ruby-client", :require => 'parse-ruby-client'
+
+ gem 'less-rails-bootstrap'

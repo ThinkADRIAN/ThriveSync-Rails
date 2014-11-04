@@ -51,4 +51,5 @@
 <% if can? :manage, @mood %>
 	<%= link_to 'Edit', edit_mood_path(@mood) %> | 
 <% end %>
-<%= link_to 'Back', moods_path %>
+<%= link_to 'Back', :back %>
+    
