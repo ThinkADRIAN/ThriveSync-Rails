@@ -131,7 +131,7 @@ class MoodsController < ApplicationController
             @mood.destroy
             format.html { redirect_to moods_url, notice: 'Mood Entry not created.  You already have three for this day.' }
           end
-        elsif $PARSE_ENABLED
+        elsif !$PARSE_ENABLED
           format.html { redirect_to moods_url, notice: 'Mood Entry was successfully tracked.' }
           format.json { render :show, status: :created, location: moods_url }
         end
