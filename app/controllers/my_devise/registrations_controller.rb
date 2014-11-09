@@ -3,7 +3,7 @@ class MyDevise::RegistrationsController < Devise::RegistrationsController
 		super #this call Devise::RegistrationsController#create
 		# whenever a new user is created, create a new Parse User and
 		# populate the Parse User username and email with email that was just created
-		if PARSE_ENABLED
+		if $PARSE_ENABLED
 			if resource.save
 				parse_user = Parse::User.new(
 		        {
@@ -21,7 +21,7 @@ class MyDevise::RegistrationsController < Devise::RegistrationsController
 	end
 
 	def update
-		if PARSE_ENABLED
+		if $PARSE_ENABLED
 			user_to_update = current_rails_user
 			updated_first_name = rails_user_params[:firstName]
 			updated_last_name = rails_user_params[:lastName]
@@ -41,7 +41,7 @@ class MyDevise::RegistrationsController < Devise::RegistrationsController
 	def destroy
 		user_to_delete = current_rails_user
 		super
-		if resource.destroy && PARSE_ENABLED
+		if resource.destroy && $PARSE_ENABLED
 			current_parse_user = Parse::Query.new("_User").eq("email", user_to_delete.email).get.first
       current_parse_user.parse_delete
 		end
