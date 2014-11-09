@@ -16,11 +16,13 @@ class MoodsController < ApplicationController
   def index
     authorize! :manage, Mood
     authorize! :read, Mood
-    @rails_user = RailsUser.find_by_id(params[:rails_user_id])
-    if @rails_user == nil
-      @moods = Mood.where(user_id: current_rails_user.id)
-    elsif @rails_user != nil
-      @moods = Mood.where(user_id: @rails_user.id)
+    if $PARSE_ENABLED
+      @rails_user = RailsUser.find_by_id(params[:rails_user_id])
+      if @rails_user == nil
+        @moods = Mood.where(user_id: current_rails_user.id)
+      elsif @rails_user != nil
+        @moods = Mood.where(user_id: @rails_user.id)
+      end
     end
 
     respond_to do |format|
@@ -62,7 +64,7 @@ class MoodsController < ApplicationController
     @mood.update_attribute(:timestamp, DateTime.now.in_time_zone)
     
     respond_to do |format|
-      if @mood.save
+      if @mood.save && $PARSE_ENABLED
 
         # Create new Mood object then write atributes to Parse
         parse_mood = Parse::Object.new("Mood")
@@ -147,14 +149,16 @@ class MoodsController < ApplicationController
         format.html { redirect_to moods_url, notice: 'Mood Entry was successfully updated.' }
         format.json { render :show, status: :ok, location: moods_url }
 
-        parse_mood = Parse::Query.new("Mood").eq("rails_id", @mood.id.to_s).get.first
+        if $PARSE_ENABLED
+          parse_mood = Parse::Query.new("Mood").eq("rails_id", @mood.id.to_s).get.first
 
-        parse_mood["moodRating"] = @mood.mood_rating
-        parse_mood["anxietyRating"] = @mood.anxiety_rating
-        parse_mood["irritabilityRating"] = @mood.irritability_rating
-        parse_mood["rails_user_id"] = @mood.user_id.to_s
-        parse_mood["rails_id"] = @mood.id.to_s
-        parse_mood.save
+          parse_mood["moodRating"] = @mood.mood_rating
+          parse_mood["anxietyRating"] = @mood.anxiety_rating
+          parse_mood["irritabilityRating"] = @mood.irritability_rating
+          parse_mood["rails_user_id"] = @mood.user_id.to_s
+          parse_mood["rails_id"] = @mood.id.to_s
+          parse_mood.save
+        end
 
       elsif false #This will never happen as the user cannot edit for now.
         format.html { render :edit }
@@ -174,27 +178,29 @@ class MoodsController < ApplicationController
     @mood.destroy
     respond_to do |format|
 
-      parse_mood = Parse::Query.new("Mood").eq("rails_id", @mood.id.to_s).get.first
-      user_data = user_data_query = Parse::Query.new("UserData").tap do |q|
-        q.eq("UserID", parse_mood["user_id"])
-        q.value_in("Mood", [parse_mood.pointer])
-      end.get.first
+      if $PARSE_ENABLED
+        parse_mood = Parse::Query.new("Mood").eq("rails_id", @mood.id.to_s).get.first
+        user_data = user_data_query = Parse::Query.new("UserData").tap do |q|
+          q.eq("UserID", parse_mood["user_id"])
+          q.value_in("Mood", [parse_mood.pointer])
+        end.get.first
 
-      user_data["Mood"].delete(parse_mood.pointer)
-      if user_data["Mood"] == []
-        user_data["Mood"] = nil
-      end
-      user_data.save
-      parse_mood.parse_delete
-
-      if user_data["Mood"] == nil && user_data["Sleep"] == nil && user_data["SelfCare"] == nil && user_data["Journal"] == nil
-        user = Parse::Query.new("_User").eq("rails_user_id", @mood.user_id.to_s).get.first
-        user["UserData"].delete(user_data.pointer)
-        if user["UserData"] == []
-          user["UserData"] = nil
+        user_data["Mood"].delete(parse_mood.pointer)
+        if user_data["Mood"] == []
+          user_data["Mood"] = nil
         end
-        user_data.parse_delete
-        user.save
+        user_data.save
+        parse_mood.parse_delete
+
+        if user_data["Mood"] == nil && user_data["Sleep"] == nil && user_data["SelfCare"] == nil && user_data["Journal"] == nil
+          user = Parse::Query.new("_User").eq("rails_user_id", @mood.user_id.to_s).get.first
+          user["UserData"].delete(user_data.pointer)
+          if user["UserData"] == []
+            user["UserData"] = nil
+          end
+          user_data.parse_delete
+          user.save
+        end
       end
 
       format.html { redirect_to moods_url, notice: 'Mood Entry was successfully removed.' }
