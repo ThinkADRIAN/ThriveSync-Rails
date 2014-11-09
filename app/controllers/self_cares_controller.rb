@@ -53,7 +53,7 @@ class SelfCaresController < ApplicationController
     @self_care.user_id = current_rails_user.id
     
     respond_to do |format|
-      if @self_care.save
+      if @self_care.save && $PARSE_ENABLED
 
         # Create new Self Care object then write atributes to Parse
         parse_self_care = Parse::Object.new("SelfCare")
@@ -131,7 +131,7 @@ class SelfCaresController < ApplicationController
   # PATCH/PUT /self_cares/1.json
   def update
     respond_to do |format|
-      if @self_care.update(self_care_params)
+      if @self_care.update(self_care_params) && $PARSE_ENABLED
         format.html { redirect_to self_cares_url, notice: 'Self Care Entry was successfully updated.' }
         format.json { render :show, status: :ok, location: self_cares_url }
 
@@ -161,26 +161,28 @@ class SelfCaresController < ApplicationController
     @self_care.destroy
     respond_to do |format|
       
-      parse_self_care = Parse::Query.new("SelfCare").eq("rails_id", @self_care.id.to_s).get.first
-      user_data = user_data_query = Parse::Query.new("UserData").tap do |q|
-        q.eq("UserID", parse_self_care["user_id"])
-        q.eq("SelfCare", parse_self_care.pointer)
-      end.get.first
+      if $PARSE_ENABLED
+        parse_self_care = Parse::Query.new("SelfCare").eq("rails_id", @self_care.id.to_s).get.first
+        user_data = user_data_query = Parse::Query.new("UserData").tap do |q|
+          q.eq("UserID", parse_self_care["user_id"])
+          q.eq("SelfCare", parse_self_care.pointer)
+        end.get.first
 
-      user_data["SelfCare"] = nil
-      user_data.save
-      parse_self_care.parse_delete
+        user_data["SelfCare"] = nil
+        user_data.save
+        parse_self_care.parse_delete
 
-      if user_data["Mood"] == nil && user_data["Sleep"] == nil && user_data["SelfCare"] == nil && user_data["Journal"] == nil
-        user = Parse::Query.new("_User").eq("rails_user_id", @self_care.user_id.to_s).get.first
-        user["UserData"].delete(user_data.pointer)
-        if user["UserData"] == []
-          user["UserData"] = nil
+        if user_data["Mood"] == nil && user_data["Sleep"] == nil && user_data["SelfCare"] == nil && user_data["Journal"] == nil
+          user = Parse::Query.new("_User").eq("rails_user_id", @self_care.user_id.to_s).get.first
+          user["UserData"].delete(user_data.pointer)
+          if user["UserData"] == []
+            user["UserData"] = nil
+          end
+          user_data.parse_delete
+          user.save
         end
-        user_data.parse_delete
-        user.save
       end
-
+      
       format.html { redirect_to self_cares_url, notice: 'Self Care Entry was successfully removed.' }
       format.json { head :no_content }
     end
