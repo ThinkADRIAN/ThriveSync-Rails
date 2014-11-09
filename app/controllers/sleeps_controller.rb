@@ -166,31 +166,31 @@ class SleepsController < ApplicationController
   def destroy
     @sleep.destroy
     respond_to do |format|
-    end
     
-    if $PARSE_ENABLED
-      parse_sleep = Parse::Query.new("Sleep").eq("rails_id", @sleep.id.to_s).get.first
-      user_data = user_data_query = Parse::Query.new("UserData").tap do |q|
-        q.eq("UserID", parse_sleep["user_id"])
-        q.eq("Sleep", parse_sleep.pointer)
-      end.get.first
+      if $PARSE_ENABLED
+        parse_sleep = Parse::Query.new("Sleep").eq("rails_id", @sleep.id.to_s).get.first
+        user_data = user_data_query = Parse::Query.new("UserData").tap do |q|
+          q.eq("UserID", parse_sleep["user_id"])
+          q.eq("Sleep", parse_sleep.pointer)
+        end.get.first
 
-      user_data["Sleep"] = nil
-      user_data.save
-      parse_sleep.parse_delete
+        user_data["Sleep"] = nil
+        user_data.save
+        parse_sleep.parse_delete
 
-      if user_data["Mood"] == nil && user_data["Sleep"] == nil && user_data["SelfCare"] == nil && user_data["Journal"] == nil
-        user = Parse::Query.new("_User").eq("rails_user_id", @sleep.user_id.to_s).get.first
-        user["UserData"].delete(user_data.pointer)
-        if user["UserData"] == []
-          user["UserData"] = nil
+        if user_data["Mood"] == nil && user_data["Sleep"] == nil && user_data["SelfCare"] == nil && user_data["Journal"] == nil
+          user = Parse::Query.new("_User").eq("rails_user_id", @sleep.user_id.to_s).get.first
+          user["UserData"].delete(user_data.pointer)
+          if user["UserData"] == []
+            user["UserData"] = nil
+          end
+          user_data.parse_delete
+          user.save
         end
-        user_data.parse_delete
-        user.save
       end
+      format.html { redirect_to sleeps_url, notice: 'Sleep Entry was successfully removed.' }
+      format.json { head :no_content }
     end
-    format.html { redirect_to sleeps_url, notice: 'Sleep Entry was successfully removed.' }
-    format.json { head :no_content }
   end
 
   private
