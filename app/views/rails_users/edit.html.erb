@@ -2,7 +2,7 @@
 
 <%= form_for(@rails_user) do |f| %>
 
-  <% if can? :assign_roles, @rails_user %>
+  <% if can? :assign_roles, current_rails_user %>
     <div class="form-group">
       <% for role in RailsUser::ROLES %>
         <%= check_box_tag "rails_user[roles][#{role}]", role, @rails_user.roles.include?(role), {:name => "rails_user[roles][]"}%>

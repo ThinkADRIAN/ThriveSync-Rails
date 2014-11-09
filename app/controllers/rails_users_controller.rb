@@ -17,7 +17,7 @@ class RailsUsersController < ApplicationController
   # PATCH/PUT /users/:id.:format
   def update
     # authorize! :update, @rails_user
-    authorize! :assign_roles, @rails_user if params[:user][:assign_roles]
+    authorize! :assign_roles, current_rails_user if params[:rails_user][:assign_roles]
     respond_to do |format|
       if @rails_user.update(user_params)
         sign_in(@rails_user == current_rails_user ? @rails_user : current_rails_user, :bypass => true)
@@ -34,8 +34,8 @@ class RailsUsersController < ApplicationController
   def finish_signup
     # authorize! :update, @rails_user 
     @rails_user = RailsUser.find params[:id]
-    if request.patch? && params[:user] && params[:user][:email]
-      if @rails_user.update(user_params)
+    if request.patch? && params[:rails_user] && params[:rails_user][:email]
+      if @rails_rails_user.update(user_params)
         @rails_user.skip_reconfirmation!
         sign_in(@rails_user, :bypass => true)
         redirect_to @rails_user, notice: 'Your profile was successfully updated.'
@@ -62,8 +62,8 @@ class RailsUsersController < ApplicationController
 
     def user_params
       accessible = [ :first_name, :last_name, :email, :parse_user_id ] # extend with your own params
-      accessible << [ :password, :password_confirmation ] unless params[:user][:password].blank?
-      params.require(:user).permit(accessible)
+      accessible << [ :password, :password_confirmation ] unless params[:rails_user][:password].blank?
+      params.require(:rails_user).permit(accessible)
     end
 
     def does_parse_user_exist
