@@ -121,7 +121,7 @@ class SleepsController < ApplicationController
             format.html { redirect_to sleeps_url, notice: 'Sleep Entry not created.  You already have one for this day.' }
           end
         elsif !$PARSE_ENABLED
-          format.html { redirect_to self_cares_url, notice: 'Self Entry was successfully tracked.' }
+          format.html { redirect_to sleeps_url, notice: 'Sleep Entry was successfully tracked.' }
           format.json { render :show, status: :created, location: sleeps_url }
         end
       else
