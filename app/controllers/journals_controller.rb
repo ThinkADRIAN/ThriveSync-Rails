@@ -53,7 +53,7 @@ class JournalsController < ApplicationController
     @journal.user_id = current_rails_user.id
     
     respond_to do |format|
-      if @journal.save
+      if @journal.save && $PARSE_ENABLED
 
         # Create new Journal object then write atributes to Parse
         parse_journal = Parse::Object.new("Journal")
@@ -131,12 +131,14 @@ class JournalsController < ApplicationController
         format.html { redirect_to journals_url, notice: 'Journal Entry was successfully updated.' }
         format.json { render :show, status: :ok, location: journals_url }
 
-        parse_journal = Parse::Query.new("Journal").eq("rails_id", @journal.id.to_s).get.first
+        if $PARSE_ENABLED
+          parse_journal = Parse::Query.new("Journal").eq("rails_id", @journal.id.to_s).get.first
 
-        parse_journal["journalEntry"] = @journal.journal_entry
-        parse_journal["rails_user_id"] = @journal.user_id.to_s
-        parse_journal["rails_id"] = @journal.id.to_s
-        parse_journal.save
+          parse_journal["journalEntry"] = @journal.journal_entry
+          parse_journal["rails_user_id"] = @journal.user_id.to_s
+          parse_journal["rails_id"] = @journal.id.to_s
+          parse_journal.save
+        end
 
       elsif false #This will never happen as the user cannot edit for now.
         format.html { render :edit }
@@ -154,25 +156,26 @@ class JournalsController < ApplicationController
   def destroy
     @journal.destroy
     respond_to do |format|
+      if $PARSE_ENABLED
+        parse_journal = Parse::Query.new("Journal").eq("rails_id", @journal.id.to_s).get.first
+        user_data = user_data_query = Parse::Query.new("UserData").tap do |q|
+          q.eq("UserID", parse_journal["user_id"])
+          q.eq("Journal", parse_journal.pointer)
+        end.get.first
 
-      parse_journal = Parse::Query.new("Journal").eq("rails_id", @journal.id.to_s).get.first
-      user_data = user_data_query = Parse::Query.new("UserData").tap do |q|
-        q.eq("UserID", parse_journal["user_id"])
-        q.eq("Journal", parse_journal.pointer)
-      end.get.first
+        user_data["Journal"] = nil
+        user_data.save
+        parse_journal.parse_delete
 
-      user_data["Journal"] = nil
-      user_data.save
-      parse_journal.parse_delete
-
-      if user_data["Mood"] == nil && user_data["Sleep"] == nil && user_data["SelfCare"] == nil && user_data["Journal"] == nil
-        user = Parse::Query.new("_User").eq("rails_user_id", @journal.user_id.to_s).get.first
-        user["UserData"].delete(user_data.pointer)
-        if user["UserData"] == []
-          user["UserData"] = nil
+        if user_data["Mood"] == nil && user_data["Sleep"] == nil && user_data["SelfCare"] == nil && user_data["Journal"] == nil
+          user = Parse::Query.new("_User").eq("rails_user_id", @journal.user_id.to_s).get.first
+          user["UserData"].delete(user_data.pointer)
+          if user["UserData"] == []
+            user["UserData"] = nil
+          end
+          user_data.parse_delete
+          user.save
         end
-        user_data.parse_delete
-        user.save
       end
 
       format.html { redirect_to journals_url, notice: 'Journal Entry was successfully removed.' }
