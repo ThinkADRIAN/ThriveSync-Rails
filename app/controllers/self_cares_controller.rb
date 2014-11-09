@@ -53,73 +53,77 @@ class SelfCaresController < ApplicationController
     @self_care.user_id = current_rails_user.id
     
     respond_to do |format|
-      if @self_care.save && $PARSE_ENABLED
+      if @self_care.save
+        if $PARSE_ENABLED
 
-        # Create new Self Care object then write atributes to Parse
-        parse_self_care = Parse::Object.new("SelfCare")
-        parse_self_care["counseling"] = @self_care.counseling
-        parse_self_care["medication"] = @self_care.medication
-        parse_self_care["meditation"] = @self_care.meditation
-        parse_self_care["exercise"] = @self_care.exercise
-        parse_self_care["rails_user_id"] = @self_care.user_id.to_s
-        parse_self_care["rails_id"] = @self_care.id.to_s
-        parse_self_care.save
+          # Create new Self Care object then write atributes to Parse
+          parse_self_care = Parse::Object.new("SelfCare")
+          parse_self_care["counseling"] = @self_care.counseling
+          parse_self_care["medication"] = @self_care.medication
+          parse_self_care["meditation"] = @self_care.meditation
+          parse_self_care["exercise"] = @self_care.exercise
+          parse_self_care["rails_user_id"] = @self_care.user_id.to_s
+          parse_self_care["rails_id"] = @self_care.id.to_s
+          parse_self_care.save
 
-        # Retrieve User with corresponding Rails User ID
-        user = Parse::Query.new("_User").eq("rails_user_id", @self_care.user_id.to_s).get.first
+          # Retrieve User with corresponding Rails User ID
+          user = Parse::Query.new("_User").eq("rails_user_id", @self_care.user_id.to_s).get.first
 
-        # Set Parse User ID in Rails
-        @self_care.parse_user_id = user["objectId"]
-        @self_care.save
+          # Set Parse User ID in Rails
+          @self_care.parse_user_id = user["objectId"]
+          @self_care.save
 
-        # Set Parse User ID for Self Care Entry
-        parse_self_care["user_id"] = user["objectId"]
-        parse_self_care.save
+          # Set Parse User ID for Self Care Entry
+          parse_self_care["user_id"] = user["objectId"]
+          parse_self_care.save
 
-        # Find the beginning of the same day as Self Care Entry creation date
-        # and the beginning of the next day.  This is to be used to find
-        # dates in between... Meaning on the same day
-        date_check_begin = parse_self_care["createdAt"].to_date
-        date_check_end =  date_check_begin.tomorrow
-        date_check_begin = Parse::Date.new(date_check_begin)
-        date_check_end = Parse::Date.new(date_check_end)
+          # Find the beginning of the same day as Self Care Entry creation date
+          # and the beginning of the next day.  This is to be used to find
+          # dates in between... Meaning on the same day
+          date_check_begin = parse_self_care["createdAt"].to_date
+          date_check_end =  date_check_begin.tomorrow
+          date_check_begin = Parse::Date.new(date_check_begin)
+          date_check_end = Parse::Date.new(date_check_end)
 
-        # Set UserData entry for Sleep Entry
-        user_data_query = Parse::Query.new("UserData").tap do |q|
-          q.eq("UserID", parse_self_care["user_id"])
-          q.greater_than("createdAt", date_check_begin)
-          q.less_than("createdAt", date_check_end)
-        end.get.first
+          # Set UserData entry for Sleep Entry
+          user_data_query = Parse::Query.new("UserData").tap do |q|
+            q.eq("UserID", parse_self_care["user_id"])
+            q.greater_than("createdAt", date_check_begin)
+            q.less_than("createdAt", date_check_end)
+          end.get.first
 
-        user_data = user_data_query
+          user_data = user_data_query
 
-        if user_data == nil
-          user_data = Parse::Object.new("UserData")
-        end
-
-        if user_data["SelfCare"] == nil
-          user_data["SelfCare"] = parse_self_care.pointer
-          user_data["UserID"] = parse_self_care["user_id"]  
-          user_data.save
-
-          # Add UserData entry to User Entry
-          if user["UserData"] == nil
-            user["UserData"] = Array.new
+          if user_data == nil
+            user_data = Parse::Object.new("UserData")
           end
 
-          if !user["UserData"].include?(user_data.pointer)
-            user["UserData"] << user_data.pointer
-            user.save
-          end
+          if user_data["SelfCare"] == nil
+            user_data["SelfCare"] = parse_self_care.pointer
+            user_data["UserID"] = parse_self_care["user_id"]  
+            user_data.save
 
+            # Add UserData entry to User Entry
+            if user["UserData"] == nil
+              user["UserData"] = Array.new
+            end
+
+            if !user["UserData"].include?(user_data.pointer)
+              user["UserData"] << user_data.pointer
+              user.save
+            end
+
+            format.html { redirect_to self_cares_url, notice: 'Self Entry was successfully tracked.' }
+            format.json { render :show, status: :created, location: sleeps_url }
+          else
+            parse_self_care.parse_delete
+            @self_care.destroy
+            format.html { redirect_to self_cares_url, notice: 'Self Care Entry not created.  You already have one for this day.' }
+          end
+        elsif !$PARSE_ENABLED
           format.html { redirect_to self_cares_url, notice: 'Self Entry was successfully tracked.' }
           format.json { render :show, status: :created, location: sleeps_url }
-        else
-          parse_self_care.parse_delete
-          @self_care.destroy
-          format.html { redirect_to self_cares_url, notice: 'Self Care Entry not created.  You already have one for this day.' }
         end
-
       else
         format.html { render :new }
         format.json { render json: @self_care.errors, status: :unprocessable_entity }

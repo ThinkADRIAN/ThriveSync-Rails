@@ -62,79 +62,84 @@ class MoodsController < ApplicationController
     @mood.update_attribute(:timestamp, DateTime.now.in_time_zone)
     
     respond_to do |format|
-      if @mood.save && $PARSE_ENABLED
+      if @mood.save
+        if $PARSE_ENABLED
 
-        # Create new Mood object then write atributes to Parse
-        parse_mood = Parse::Object.new("Mood")
-        parse_mood["moodRating"] = @mood.mood_rating
-        parse_mood["anxietyRating"] = @mood.anxiety_rating
-        parse_mood["irritabilityRating"] = @mood.irritability_rating
-        parse_mood["rails_user_id"] = @mood.user_id.to_s
-        parse_mood["rails_id"] = @mood.id.to_s
-        parse_mood.save
+          # Create new Mood object then write atributes to Parse
+          parse_mood = Parse::Object.new("Mood")
+          parse_mood["moodRating"] = @mood.mood_rating
+          parse_mood["anxietyRating"] = @mood.anxiety_rating
+          parse_mood["irritabilityRating"] = @mood.irritability_rating
+          parse_mood["rails_user_id"] = @mood.user_id.to_s
+          parse_mood["rails_id"] = @mood.id.to_s
+          parse_mood.save
 
-        # Retrieve User with corresponding Rails User ID
-        user = Parse::Query.new("_User").eq("rails_user_id", @mood.user_id.to_s).get.first
-        
-        # Set Parse User ID in Rails
-        @mood.parse_user_id = user["objectId"]
-        @mood.save
-        
-        # Set Parse User ID for Mood Entry
-        parse_mood["user_id"] = user["objectId"]
-        parse_mood.save
+          # Retrieve User with corresponding Rails User ID
+          user = Parse::Query.new("_User").eq("rails_user_id", @mood.user_id.to_s).get.first
+          
+          # Set Parse User ID in Rails
+          @mood.parse_user_id = user["objectId"]
+          @mood.save
+          
+          # Set Parse User ID for Mood Entry
+          parse_mood["user_id"] = user["objectId"]
+          parse_mood.save
 
-        # Find the beginning of the same day as Mood Entry creation date
-        # and the beginning of the next day.  This is to be used to find
-        # dates in between... Meaning on the same day
-        date_check_begin = parse_mood["createdAt"].to_date
-        date_check_end =  date_check_begin.tomorrow
-        date_check_begin = Parse::Date.new(date_check_begin)
-        date_check_end = Parse::Date.new(date_check_end)
+          # Find the beginning of the same day as Mood Entry creation date
+          # and the beginning of the next day.  This is to be used to find
+          # dates in between... Meaning on the same day
+          date_check_begin = parse_mood["createdAt"].to_date
+          date_check_end =  date_check_begin.tomorrow
+          date_check_begin = Parse::Date.new(date_check_begin)
+          date_check_end = Parse::Date.new(date_check_end)
 
 
-        # Set UserData entry for Mood Entry
-        user_data = user_data_query = Parse::Query.new("UserData").tap do |q|
-          q.eq("UserID", parse_mood["user_id"])
-          q.greater_than("createdAt", date_check_begin)
-          q.less_than("createdAt", date_check_end)
-        end.get.first
+          # Set UserData entry for Mood Entry
+          user_data = user_data_query = Parse::Query.new("UserData").tap do |q|
+            q.eq("UserID", parse_mood["user_id"])
+            q.greater_than("createdAt", date_check_begin)
+            q.less_than("createdAt", date_check_end)
+          end.get.first
 
-        if user_data == nil
-          user_data = Parse::Object.new("UserData")
-        end
-
-        if user_data["Mood"] == nil
-          user_data["Mood"] = Array.new
-        end
-
-        if user_data["Mood"].count < 3
-          user_data["Mood"] << parse_mood.pointer
-          user_data["UserID"] = parse_mood["user_id"]  
-          user_data.save
-
-          # Add UserData entry to User Entry
-          if user["UserData"] == nil
-            user["UserData"] = Array.new
+          if user_data == nil
+            user_data = Parse::Object.new("UserData")
           end
 
-          if !user["UserData"].include?(user_data.pointer)
-            user["UserData"] << user_data.pointer
-            user.save
+          if user_data["Mood"] == nil
+            user_data["Mood"] = Array.new
           end
 
-          format.html { redirect_to moods_url, notice: 'Mood Entry was successfully tracked.' }
-          format.json { render :show, status: :created, location: moods_url }
+          if user_data["Mood"].count < 3
+            user_data["Mood"] << parse_mood.pointer
+            user_data["UserID"] = parse_mood["user_id"]  
+            user_data.save
+
+            # Add UserData entry to User Entry
+            if user["UserData"] == nil
+              user["UserData"] = Array.new
+            end
+
+            if !user["UserData"].include?(user_data.pointer)
+              user["UserData"] << user_data.pointer
+              user.save
+            end
+          end
+          if $PARSE_ENABLED
+            format.html { redirect_to moods_url, notice: 'Mood Entry was successfully tracked.' }
+            format.json { render :show, status: :created, location: moods_url }
+          end
         else
           parse_mood.parse_delete
           @mood.destroy
           format.html { redirect_to moods_url, notice: 'Mood Entry not created.  You already have three for this day.' }
         end
-        
-      else
-        format.html { render :new }
-        format.json { render json: @mood.errors, status: :unprocessable_entity }
+      elsif !$PARSE_ENABLED
+        format.html { redirect_to moods_url, notice: 'Mood Entry was successfully tracked.' }
+        format.json { render :show, status: :created, location: moods_url }
       end
+    else
+      format.html { render :new }
+      format.json { render json: @mood.errors, status: :unprocessable_entity }
     end
   end
 
