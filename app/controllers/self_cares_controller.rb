@@ -131,18 +131,20 @@ class SelfCaresController < ApplicationController
   # PATCH/PUT /self_cares/1.json
   def update
     respond_to do |format|
-      if @self_care.update(self_care_params) && $PARSE_ENABLED
+      if @self_care.update(self_care_params)
         format.html { redirect_to self_cares_url, notice: 'Self Care Entry was successfully updated.' }
         format.json { render :show, status: :ok, location: self_cares_url }
 
-        parse_self_care = Parse::Query.new("SelfCare").eq("rails_id", @self_care.id.to_s).get.first
+        if $PARSE_ENABLED
+          parse_self_care = Parse::Query.new("SelfCare").eq("rails_id", @self_care.id.to_s).get.first
 
-        parse_self_care["counseling"] = @self_care.counseling
-        parse_self_care["medication"] = @self_care.medication
-        parse_self_care["meditation"] = @self_care.meditation
-        parse_self_care["exercise"] = @self_care.exercise
-        parse_self_care["rails_id"] = @self_care.id.to_s
-        parse_self_care.save
+          parse_self_care["counseling"] = @self_care.counseling
+          parse_self_care["medication"] = @self_care.medication
+          parse_self_care["meditation"] = @self_care.meditation
+          parse_self_care["exercise"] = @self_care.exercise
+          parse_self_care["rails_id"] = @self_care.id.to_s
+          parse_self_care.save
+        end
 
       elsif false #This will never happen as the user cannot edit for now.
         format.html { render :edit }
