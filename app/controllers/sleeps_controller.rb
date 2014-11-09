@@ -54,7 +54,7 @@ class SleepsController < ApplicationController
     @sleep.time = (@sleep.finish_time.to_i - @sleep.start_time.to_i) / 3600
     
     respond_to do |format|
-      if @sleep.save
+      if @sleep.save && $PARSE_ENABLED
 
         # Create new Sleep object then write atributes to Parse
         parse_sleep = Parse::Object.new("Sleep")
@@ -136,15 +136,16 @@ class SleepsController < ApplicationController
         format.html { redirect_to sleeps_url, notice: 'Sleep Entry was successfully updated.' }
         format.json { render :show, status: :ok, location: sleeps_url }
 
-        parse_sleep = Parse::Query.new("Sleep").eq("rails_id", @sleep.id).get.first
+        if $PARSE_ENABLED
+          parse_sleep = Parse::Query.new("Sleep").eq("rails_id", @sleep.id).get.first
 
-        parse_sleep["startTime"] = Parse::Date.new(@sleep.start_time)
-        parse_sleep["finishTime"] = Parse::Date.new(@sleep.finish_time)
-        parse_sleep["quality"] =  @sleep.quality
-        parse_sleep["rails_user_id"] = @sleep.user_id
-        parse_sleep["rails_id"] = @sleep.id
-        parse_sleep.save
-
+          parse_sleep["startTime"] = Parse::Date.new(@sleep.start_time)
+          parse_sleep["finishTime"] = Parse::Date.new(@sleep.finish_time)
+          parse_sleep["quality"] =  @sleep.quality
+          parse_sleep["rails_user_id"] = @sleep.user_id
+          parse_sleep["rails_id"] = @sleep.id
+          parse_sleep.save
+        end
       elsif false #This will never happen as the user cannot edit for now.
         format.html { render :edit }
         format.json { render json: @sleep.errors, status: :unprocessable_entity }
@@ -161,7 +162,9 @@ class SleepsController < ApplicationController
   def destroy
     @sleep.destroy
     respond_to do |format|
-
+    end
+    
+    if $PARSE_ENABLED
       parse_sleep = Parse::Query.new("Sleep").eq("rails_id", @sleep.id.to_s).get.first
       user_data = user_data_query = Parse::Query.new("UserData").tap do |q|
         q.eq("UserID", parse_sleep["user_id"])
@@ -181,7 +184,7 @@ class SleepsController < ApplicationController
         user_data.parse_delete
         user.save
       end
-
+    end
       format.html { redirect_to sleeps_url, notice: 'Sleep Entry was successfully removed.' }
       format.json { head :no_content }
     end
