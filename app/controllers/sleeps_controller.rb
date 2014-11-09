@@ -185,9 +185,8 @@ class SleepsController < ApplicationController
         user.save
       end
     end
-      format.html { redirect_to sleeps_url, notice: 'Sleep Entry was successfully removed.' }
-      format.json { head :no_content }
-    end
+    format.html { redirect_to sleeps_url, notice: 'Sleep Entry was successfully removed.' }
+    format.json { head :no_content }
   end
 
   private
@@ -201,5 +200,3 @@ class SleepsController < ApplicationController
       params.require(:sleep).permit(:start_time, :finish_time, :quality)
     end
 end
-
-
