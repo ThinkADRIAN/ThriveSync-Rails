@@ -123,23 +123,22 @@ class MoodsController < ApplicationController
               user["UserData"] << user_data.pointer
               user.save
             end
-          end
-          if $PARSE_ENABLED
+
             format.html { redirect_to moods_url, notice: 'Mood Entry was successfully tracked.' }
             format.json { render :show, status: :created, location: moods_url }
+          else
+            parse_mood.parse_delete
+            @mood.destroy
+            format.html { redirect_to moods_url, notice: 'Mood Entry not created.  You already have three for this day.' }
           end
-        else
-          parse_mood.parse_delete
-          @mood.destroy
-          format.html { redirect_to moods_url, notice: 'Mood Entry not created.  You already have three for this day.' }
+        elsif $PARSE_ENABLED
+          format.html { redirect_to moods_url, notice: 'Mood Entry was successfully tracked.' }
+          format.json { render :show, status: :created, location: moods_url }
         end
-      elsif !$PARSE_ENABLED
-        format.html { redirect_to moods_url, notice: 'Mood Entry was successfully tracked.' }
-        format.json { render :show, status: :created, location: moods_url }
+      else
+        format.html { render :new }
+        format.json { render json: @mood.errors, status: :unprocessable_entity }
       end
-    else
-      format.html { render :new }
-      format.json { render json: @mood.errors, status: :unprocessable_entity }
     end
   end
 
