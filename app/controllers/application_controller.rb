@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
 	before_filter :configure_devise_params, if: :devise_controller?
 		def configure_devise_params
 			devise_parameter_sanitizer.for(:sign_up) do |u|
-	  		u.permit(:first_name, :last_name, :email, :password, :password_confirmation)
+	  		u.permit(:first_name, :last_name, :email, :password, :password_confirmation, roles: [])
 			end
 			devise_parameter_sanitizer.for(:account_update) do |u|
 	  		u.permit(:first_name, :last_name, :email, :password, :password_confirmation, :current_password, roles: [])
