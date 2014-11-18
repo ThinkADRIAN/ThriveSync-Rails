@@ -5,6 +5,12 @@ class RailsUser < ActiveRecord::Base
   has_many :self_cares
   has_many :journals
 
+  has_many :relationships
+  has_many :relations, :through => :relationships
+  
+  has_many :inverse_relationships, :class_name => "Relationship", :foreign_key => "relation_id"
+  has_many :inverse_relations, :through => :inverse_relationships, :source => :rails_user
+
   before_create :set_default_role
 
   # User is free account, Client is unlocked when coupled with a Pro account,

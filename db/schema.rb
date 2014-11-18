@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141102145807) do
+ActiveRecord::Schema.define(version: 20141111163703) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -71,6 +71,14 @@ ActiveRecord::Schema.define(version: 20141102145807) do
   add_index "rails_users", ["confirmation_token"], name: "index_rails_users_on_confirmation_token", unique: true, using: :btree
   add_index "rails_users", ["email"], name: "index_rails_users_on_email", unique: true, using: :btree
   add_index "rails_users", ["reset_password_token"], name: "index_rails_users_on_reset_password_token", unique: true, using: :btree
+
+  create_table "relationships", force: true do |t|
+    t.integer  "rails_user_id"
+    t.integer  "relation_id"
+    t.string   "status"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "self_cares", force: true do |t|
     t.boolean  "counseling"

@@ -37,6 +37,8 @@ Rails.application.routes.draw do
     resources :journals
   end
 
+  #map.resources :relationships
+
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
