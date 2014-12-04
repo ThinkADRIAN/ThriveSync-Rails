@@ -4,6 +4,6 @@ class Relationship < ActiveRecord::Base
 
   has_many :pending_relations,
          :through => :relationships,
-         :source => :relation,
+         :source => :relation
          #:conditions => "confirmed = 0"  # assuming 0 means 'pending'
 end
