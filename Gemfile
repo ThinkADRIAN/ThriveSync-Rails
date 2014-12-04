@@ -71,4 +71,4 @@ gem 'unicorn'
  gem 'less-rails-bootstrap'
 
  gem 'pdfkit'
- gem 'wkhtmltopdf-binary'
+ gem 'wkhtmltopdf-binary', "~> 0.9.9"
