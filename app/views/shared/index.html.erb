@@ -2,6 +2,7 @@
 <% @sleeps = Sleep.where(user_id: current_rails_user.id) %>
 <% @self_cares = SelfCare.where(user_id: current_rails_user.id) %>
 <% @journals = Journal.where(user_id: current_rails_user.id) %>
+<p id="pdf_link"><%= link_to "Export to PDF", rails_user_path(@rails_user, :format => "pdf") %></p>
 
 <div class="col-md-12">
   <%= link_to 'Add a new Mood Entry', new_mood_path, class: "btn btn-primary" %>

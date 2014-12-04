@@ -1,6 +1,6 @@
 <h1><%= @rails_user.first_name + " " + @rails_user.last_name %></h1>
 <div class="btn-group btn-group">
-  <p id="pdf_link"><%= link_to "Download Invoice (PDF)", rails_user_path(@rails_user, :format => "pdf") %></p>
+  <p id="pdf_link"><%= link_to "Export to PDF", rails_user_path(@rails_user, :format => "pdf") %></p>
 </div>
 
 <% @moods = Mood.where(user_id: @rails_user.id) %>
