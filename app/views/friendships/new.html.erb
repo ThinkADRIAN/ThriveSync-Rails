@@ -1,6 +1,8 @@
 <div class="col-md-12">
-  <%= link_to 'Back to Connections', friends_path(current_rails_user), class: "btn btn-primary" %>
-  <br><br>
+  <% # link_to 'Back to Connections', friends_path(current_rails_user), class: "btn btn-primary" %>
+
+  <h2>Possible Connections</h2>
+
   <% for rails_user in @rails_users %>
     <div class="rails_user">
       <strong><%=h rails_user.first_name + " " + rails_user.last_name + " | " %></strong>
