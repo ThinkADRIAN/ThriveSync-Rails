@@ -12,7 +12,7 @@ class FriendshipsController < ApplicationController
   def create
     invitee = RailsUser.find_by_id(params[:rails_user_id])
     if current_rails_user.invite invitee
-      redirect_to new_friend_path, :notice => "Successfully invited friend!"
+      redirect_to new_friend_path, :notice => "Successfully sent connection request!"
     else
       redirect_to new_friend_path, :notice => "Sorry! You can't invite that user!"
     end
@@ -21,9 +21,9 @@ class FriendshipsController < ApplicationController
   def update
     inviter = RailsUser.find_by_id(params[:id])
     if current_rails_user.approve inviter
-      redirect_to new_friend_path, :notice => "Successfully confirmed friend!"
+      redirect_to new_friend_path, :notice => "Successfully confirmed connection!"
     else
-      redirect_to new_friend_path, :notice => "Sorry! Could not confirm friend!"
+      redirect_to new_friend_path, :notice => "Sorry! Could not confirm connection!"
     end
   end
 
@@ -38,9 +38,9 @@ class FriendshipsController < ApplicationController
   def destroy
     user = RailsUser.find_by_id(params[:id])
     if current_rails_user.remove_friendship user
-      redirect_to friends_path, :notice => "Successfully removed friend!"
+      redirect_to friends_path, :notice => "Successfully removed connection!"
     else
-      redirect_to friends_path, :notice => "Sorry, couldn't remove friend!"
+      redirect_to friends_path, :notice => "Sorry, couldn't remove connection!"
     end
   end
 end
