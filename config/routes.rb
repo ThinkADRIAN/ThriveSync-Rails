@@ -37,6 +37,11 @@ Rails.application.routes.draw do
     resources :journals
   end
 
+  resources :friends, :controller => 'friendships', :except => [:show, :edit] do
+    get "requests", :on => :collection
+    get "invites", :on => :collection
+  end
+
   #map.resources :relationships
 
   # Example of regular route:

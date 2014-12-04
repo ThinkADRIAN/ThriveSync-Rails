@@ -1,4 +1,5 @@
 class RailsUser < ActiveRecord::Base
+  include Amistad::FriendModel
 
 	has_many :moods
   has_many :sleeps
