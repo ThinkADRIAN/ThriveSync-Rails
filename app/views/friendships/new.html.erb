@@ -14,7 +14,7 @@
       elsif rails_user.invited? current_rails_user
         link_to "Confirm Connection", friend_path(rails_user), :method => "put"
       else
-        link_to "Add Connection", friends_path(:rails_user_id => rails_user), :method => "post"
+        link_to "Add Connection", connections_path(:rails_user_id => rails_user), :method => "post"
       end
       %>
     </div>

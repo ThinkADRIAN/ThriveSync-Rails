@@ -8,7 +8,7 @@
       <% for rails_user in @friends %>
         <% if current_rails_user.friend_with? rails_user %>
           <li><%=h rails_user.first_name + " " + rails_user.last_name + " | " %>
-          <%= link_to "Disconnect", friend_path(rails_user), :method => "delete" %></li>
+          <%= link_to "Disconnect", connection_path(rails_user), :method => "delete" %></li>
         <% end %>
       <% end %>
     <% end %>
