@@ -72,4 +72,3 @@ gem 'unicorn'
 
  gem 'pdfkit'
  gem 'wkhtmltopdf-binary'
- gem 'thin'
