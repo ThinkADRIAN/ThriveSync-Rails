@@ -69,3 +69,7 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
  gem "parse-ruby-client", :require => 'parse-ruby-client'
 
  gem 'less-rails-bootstrap'
+
+ gem 'pdfkit'
+ gem 'wkhtmltopdf-binary'
+ gem 'thin'
