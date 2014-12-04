@@ -1,4 +1,6 @@
 class RelationshipsController < ApplicationController
+  before_action :authenticate_rails_user!
+  
 	def create
 	  @relationship = current_user.relationships.build(:relation_id => params[:relation_id])
 	  if @relationship.save
