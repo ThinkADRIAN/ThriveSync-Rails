@@ -1,6 +1,5 @@
 class RailsUsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_rails_user!
   
   def new
   end
