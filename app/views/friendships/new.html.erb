@@ -5,18 +5,16 @@
 
   <% for rails_user in @rails_users %>
     <div class="rails_user">
-      <strong><%=h rails_user.first_name + " " + rails_user.last_name + " | " %></strong>
-      <%= 
-      if current_rails_user.friend_with? rails_user
-        "You are already connected!"
-      elsif current_rails_user.invited? rails_user
-        "Connection Pending"
-      elsif rails_user.invited? current_rails_user
-        link_to "Confirm Connection", connection_path(rails_user), :method => "put"
-      else
-        link_to "Add Connection", connections_path(:rails_user_id => rails_user), :method => "post"
-      end
-      %>
+      <% if current_rails_user.friend_with? rails_user %>
+        <% #link_to "Disconnect", connection_path(rails_user), :method => "delete" %>
+      <% elsif current_rails_user.invited? rails_user %>
+        <% #link_to "Cancel Request", connection_path(rails_user), :method => "delete" %>
+      <% elsif rails_user.invited? current_rails_user %>
+        <% #link_to "Confirm Connection", connection_path(rails_user), :method => "put" %>
+      <% else %>
+        <strong><%=h rails_user.first_name + " " + rails_user.last_name + " | " %></strong>
+        <%= link_to "Connect", connections_path(:rails_user_id => rails_user), :method => "post" %>
+      <% end %>
     </div>
   <% end %>
 </div>

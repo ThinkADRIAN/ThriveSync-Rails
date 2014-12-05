@@ -1,6 +1,23 @@
 <div class="col-md-12">
   <% #link_to 'Add a new Connection', new_friend_path, class: "btn btn-primary" %>
 
+  <h2>Pending Connections</h2>
+
+  <ul>
+    <% for rails_user in @rails_users %>
+      <div class="rails_user">
+        <% if (rails_user.invited? current_rails_user) && (!current_rails_user.friend_with? rails_user)%>
+          <li>
+            <strong><%=h rails_user.first_name + " " + rails_user.last_name + " | " %></strong>
+            <%= link_to "Accept", connection_path(rails_user), :method => "put"%>
+            <%= " - " %>
+            <%= link_to "Reject", connection_path(rails_user), :method => "delete" %>
+          </li>
+        <% end%>
+      </div>
+    <% end %>
+  </ul>
+
   <h2>Current Connections</h2>
 
   <ul>
