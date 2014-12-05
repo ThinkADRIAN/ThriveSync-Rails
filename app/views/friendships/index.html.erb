@@ -1,12 +1,13 @@
 <div class="col-md-12">
-  <% #link_to 'Add a new Connection', new_friend_path, class: "btn btn-primary" %>
-
+  <%= link_to 'Add a new Connection', new_connection_path, class: "btn btn-primary" %>
+  <hr>
+</div>
+<div class="col-md-12">
   <% if !@pending_friends.empty? %>
     <div class="panel panel-info">
       <div class="panel-heading">
         <h3 class="panel-title">Pending Connections</h3>
       </div>
-
       <div class="panel-body">
         <% for rails_user in @rails_users %>
           <% if (rails_user.invited? current_rails_user) && (!current_rails_user.friend_with? rails_user)%>
@@ -28,7 +29,7 @@
     </div>
   <% end %>
 
-  <div class="panel panel-primary">
+  <div class="panel panel-default">
     <div class="panel-heading">
       <h3 class="panel-title">Connections</h3>
     </div>
