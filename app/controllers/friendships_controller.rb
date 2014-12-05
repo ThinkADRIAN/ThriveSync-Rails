@@ -11,19 +11,31 @@ class FriendshipsController < ApplicationController
 
   def create
     invitee = RailsUser.find_by_id(params[:rails_user_id])
-    if current_rails_user.invite invitee
-      redirect_to new_friend_path, :notice => "Successfully sent connection request!"
-    else
-      redirect_to new_friend_path, :notice => "Sorry! You can't invite that user!"
-    end
+    if ((current_rails_user.is? :pro) || (invitee.is? :pro))
+	    if current_rails_user.invite invitee
+	      redirect_to new_connection_path, :notice => "Successfully sent connection request!"
+	    else
+	      redirect_to new_connection_path, :notice => "Sorry! You can't invite that user!"
+	    end
+	  else
+	  	redirect_to new_connection_path, :notice => "Sorry! You can't invite that user!"
+	  end
   end
 
   def update
     inviter = RailsUser.find_by_id(params[:id])
-    if current_rails_user.approve inviter
-      redirect_to new_friend_path, :notice => "Successfully confirmed connection!"
+    if (current_rails_user.approve inviter)
+    	
+    	# Add user to Pros client list
+    	if current_rails_user.is? :pro
+    		current_rails_user.clients.push(params[:id].to_i)
+    	elsif inviter.is? :pro
+    		inviter.clients.push(params[:id].to_i)
+    	end
+    		
+      redirect_to new_connection_path, :notice => "Successfully confirmed connection!"
     else
-      redirect_to new_friend_path, :notice => "Sorry! Could not confirm connection!"
+      redirect_to new_connection_path, :notice => "Sorry! Could not confirm connection!"
     end
   end
 
@@ -38,9 +50,9 @@ class FriendshipsController < ApplicationController
   def destroy
     user = RailsUser.find_by_id(params[:id])
     if current_rails_user.remove_friendship user
-      redirect_to friends_path, :notice => "Successfully removed connection!"
+      redirect_to connections_path, :notice => "Successfully removed connection!"
     else
-      redirect_to friends_path, :notice => "Sorry, couldn't remove connection!"
+      redirect_to connections_path, :notice => "Sorry, couldn't remove connection!"
     end
   end
 end

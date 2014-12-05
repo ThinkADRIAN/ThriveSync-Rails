@@ -12,7 +12,7 @@
       elsif current_rails_user.invited? rails_user
         "Connection Pending"
       elsif rails_user.invited? current_rails_user
-        link_to "Confirm Connection", friend_path(rails_user), :method => "put"
+        link_to "Confirm Connection", connection_path(rails_user), :method => "put"
       else
         link_to "Add Connection", connections_path(:rails_user_id => rails_user), :method => "post"
       end
