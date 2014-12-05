@@ -2,37 +2,59 @@
   <% #link_to 'Add a new Connection', new_friend_path, class: "btn btn-primary" %>
 
   <% if !@pending_friends.empty? %>
-    <h2>Pending Connections</h2>
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <h3 class="panel-title">Pending Connections</h3>
+      </div>
+
+      <div class="panel-body">
+        <% for rails_user in @rails_users %>
+          <% if (rails_user.invited? current_rails_user) && (!current_rails_user.friend_with? rails_user)%>
+            <div class="col-md-4">  
+                <h3><%= rails_user.first_name + " " + rails_user.last_name%></h3>
+                <p><%= rails_user.email %></p>
+            </div>
+            <div class="col-md-8">
+              <h3></h3>
+              <%= link_to "Accept", connection_path(rails_user), :method => "put", class: "btn-primary btn-xs" %>
+              <%= link_to "Reject", connection_path(rails_user), :method => "delete",  class: "btn-danger btn-xs" %>
+            </div>
+            <div class="col-md-12">
+              <hr>
+            </div>
+          <% end%>
+        <% end %>
+      </div>
+    </div>
   <% end %>
 
-  <ul>
-    <% for rails_user in @rails_users %>
-      <div class="rails_user">
-        <% if (rails_user.invited? current_rails_user) && (!current_rails_user.friend_with? rails_user)%>
-          <li>
-            <strong><%=h rails_user.first_name + " " + rails_user.last_name + " | " %></strong>
-            <%= link_to "Accept", connection_path(rails_user), :method => "put"%>
-            <%= " - " %>
-            <%= link_to "Reject", connection_path(rails_user), :method => "delete" %>
-          </li>
-        <% end%>
-      </div>
-    <% end %>
-  </ul>
-
-  <h2>Current Connections</h2>
-
-  <ul>
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h3 class="panel-title">Connections</h3>
+    </div>
+    <div class="panel-body">
     <% if !@confirmed_friends.empty?#if @friends != nil %>
       <% for rails_user in @friends %>
         <% if current_rails_user.friend_with? rails_user %>
-          <li><%=h rails_user.first_name + " " + rails_user.last_name + " | " %>
-          <%= link_to "Disconnect", connection_path(rails_user), :method => "delete" %></li>
+          <div class="col-md-4">
+            <h3><%= rails_user.first_name + " " + rails_user.last_name %></h3>
+            <p><%= rails_user.email %></p>
+          </div>
+          <div class="col-md-8">
+            <h3></h3>
+            <%= link_to "Disconnect", connection_path(rails_user), :method => "delete",  class: "btn-danger btn-xs" %>
+          </div>
+          <div class="col-md-12">
+            <hr>
+          </div>
         <% end %>
       <% end %>
     <% else %>
-      <li>No connections available</li>
+      <div class="col-md-4">
+        <h3>No connections available</h3>
+      </div>
+      <div class="col-md-8">
+      </div>
     <% end %>
-  </ul>
+  </div>
 </div>
-
