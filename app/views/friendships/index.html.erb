@@ -23,13 +23,15 @@
   <h2>Current Connections</h2>
 
   <ul>
-    <% if @friends != nil %>
+    <% if !@confirmed_friends.empty?#if @friends != nil %>
       <% for rails_user in @friends %>
         <% if current_rails_user.friend_with? rails_user %>
           <li><%=h rails_user.first_name + " " + rails_user.last_name + " | " %>
           <%= link_to "Disconnect", connection_path(rails_user), :method => "delete" %></li>
         <% end %>
       <% end %>
+    <% else %>
+      <li>No connections available</li>
     <% end %>
   </ul>
 </div>

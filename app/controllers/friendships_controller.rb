@@ -4,6 +4,8 @@ class FriendshipsController < ApplicationController
   def index
     @friends = current_rails_user.friends
     @pending_friends = current_rails_user.pending_invited_by
+    @unconfirmed_friends = current_rails_user.pending_invited
+    @confirmed_friends = @friends - ( @pending_friends | @unconfirmed_friends)
     @rails_users = RailsUser.where.not(id: current_rails_user.id)
   end
 
