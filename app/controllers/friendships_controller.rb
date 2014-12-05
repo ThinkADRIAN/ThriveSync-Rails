@@ -28,9 +28,11 @@ class FriendshipsController < ApplicationController
     	
     	# Add user to Pros client list
     	if current_rails_user.is? :pro
-    		current_rails_user.clients.push(params[:id].to_i)
+    		current_rails_user.clients += [inviter.id.to_i]
+    		current_rails_user.save!
     	elsif inviter.is? :pro
-    		inviter.clients.push(params[:id].to_i)
+    		inviter.clients += [current_rails_user.id.to_i]
+    		inviter.save!
     	end
     		
       redirect_to new_connection_path, :notice => "Successfully confirmed connection!"
@@ -50,6 +52,15 @@ class FriendshipsController < ApplicationController
   def destroy
     user = RailsUser.find_by_id(params[:id])
     if current_rails_user.remove_friendship user
+
+    	# Remote user to Pros client list
+    	if current_rails_user.is? :pro
+    		current_rails_user.clients -= [user.id.to_i]
+    		current_rails_user.save!
+    	elsif user.is? :pro
+    		user.clients -= [current_rails_user.id.to_i]
+    		user.save!
+    	end
       redirect_to connections_path, :notice => "Successfully removed connection!"
     else
       redirect_to connections_path, :notice => "Sorry, couldn't remove connection!"
