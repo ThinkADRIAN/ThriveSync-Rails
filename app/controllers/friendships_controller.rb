@@ -3,6 +3,7 @@ class FriendshipsController < ApplicationController
 
   def index
     @friends = current_rails_user.friends
+    @pending_friends = current_rails_user.pending_invited_by
     @rails_users = RailsUser.where.not(id: current_rails_user.id)
   end
 

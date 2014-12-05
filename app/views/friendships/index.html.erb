@@ -1,7 +1,9 @@
 <div class="col-md-12">
   <% #link_to 'Add a new Connection', new_friend_path, class: "btn btn-primary" %>
 
-  <h2>Pending Connections</h2>
+  <% if !@pending_friends.empty? %>
+    <h2>Pending Connections</h2>
+  <% end %>
 
   <ul>
     <% for rails_user in @rails_users %>
