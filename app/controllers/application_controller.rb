@@ -56,7 +56,7 @@ class ApplicationController < ActionController::Base
   protected
   def rails_user_access_granted?
   	((current_rails_user.is? :pro) && (current_rails_user.clients.include?(params[:id].to_i))) || 
-  	(current_rails_user.id == params[:id].to_i)
+  	(current_rails_user.id == params[:id].to_i) || (current_rails_user.is? :superuser)
   end
 
   def authorize
