@@ -1,0 +1,61 @@
+<div class="col-md-12">
+  <%= link_to 'Add a new Connection', new_connection_path, class: "btn btn-primary" %>
+  <hr>
+</div>
+<div class="col-md-12">
+  <% if !@pending_friends.empty? %>
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <h3 class="panel-title">Pending Connections</h3>
+      </div>
+      <div class="panel-body">
+        <% for rails_user in @rails_users %>
+          <% if (rails_user.invited? current_rails_user) && (!current_rails_user.friend_with? rails_user)%>
+            <div class="col-md-4">  
+                <h3><%= rails_user.first_name + " " + rails_user.last_name%></h3>
+                <p><%= rails_user.email %></p>
+            </div>
+            <div class="col-md-8">
+              <h3></h3>
+              <%= link_to "Accept", connection_path(rails_user), :method => "put", class: "btn-primary btn-xs" %>
+              <%= link_to "Reject", connection_path(rails_user), :method => "delete",  class: "btn-danger btn-xs" %>
+            </div>
+            <div class="col-md-12">
+              <hr>
+            </div>
+          <% end%>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">Connections</h3>
+    </div>
+    <div class="panel-body">
+    <% if !@confirmed_friends.empty?#if @friends != nil %>
+      <% for rails_user in @friends %>
+        <% if current_rails_user.friend_with? rails_user %>
+          <div class="col-md-4">
+            <h3><%= rails_user.first_name + " " + rails_user.last_name %></h3>
+            <p><%= rails_user.email %></p>
+          </div>
+          <div class="col-md-8">
+            <h3></h3>
+            <%= link_to "Disconnect", connection_path(rails_user), :method => "delete",  class: "btn-danger btn-xs" %>
+          </div>
+          <div class="col-md-12">
+            <hr>
+          </div>
+        <% end %>
+      <% end %>
+    <% else %>
+      <div class="col-md-4">
+        <h3>No connections available</h3>
+      </div>
+      <div class="col-md-8">
+      </div>
+    <% end %>
+  </div>
+</div>
