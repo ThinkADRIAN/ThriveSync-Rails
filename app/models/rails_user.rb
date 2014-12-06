@@ -94,4 +94,9 @@ class RailsUser < ActiveRecord::Base
   def set_default_role
     self.roles = [ "user" ]
   end
+
+  def authorize
+    unless current_rails_user.is? :pro
+    end
+  end
 end

@@ -51,4 +51,19 @@ class ApplicationController < ActionController::Base
       redirect_to finish_signup_path(current_rails_user)
     end
   end
+
+  helper_method :pro_access_granted?
+  protected
+  def rails_user_access_granted?
+  	((current_rails_user.is? :pro) && (current_rails_user.clients.include?(params[:id].to_i))) || 
+  	(current_rails_user.id == params[:id].to_i)
+  end
+
+  def authorize
+  	unless rails_user_access_granted?
+  		flash[:error] = "Unauthorized access"
+  		redirect_to root_url
+      false
+    end
+  end
 end
