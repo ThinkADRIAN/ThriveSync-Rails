@@ -2,7 +2,8 @@ class RailsUsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_rails_user!
 
-  before_filter :authorize, :only => [:index, :show]
+  before_filter :authorize_rails_user_index, :only => [:index, :show]
+  before_filter :authorize_rails_user_edit, :only => [:edit]
   
   def new
   end

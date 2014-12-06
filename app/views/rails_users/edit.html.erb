@@ -9,9 +9,9 @@
         <%= label_tag "rails_user_roles_#{role}", role.humanize %><br />
       <% end %>
       <%= hidden_field_tag "rails_user[roles][]", "" %>
-    </div>    
+    </div>
+    <div class="actions"><%= f.submit "Update" %></div>
   <% end %>
-  <div class="actions"><%= f.submit "Update" %></div>
 <% end %>
 <br>
 <%= link_to "Back", :back %>
