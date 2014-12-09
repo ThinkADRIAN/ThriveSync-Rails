@@ -71,3 +71,5 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
  gem 'less-rails-bootstrap'
 
  gem 'amistad'
+
+ gem 'faker'
