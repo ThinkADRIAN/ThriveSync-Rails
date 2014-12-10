@@ -1,3 +1,8 @@
+<% @self_cares_counseling = SelfCare.where(user_id: @rails_user.id, counseling: true) %>
+<% @self_cares_medication = SelfCare.where(user_id: @rails_user.id, medication: true ) %>
+<% @self_cares_meditation = SelfCare.where(user_id: @rails_user.id, meditation: true) %>
+<% @self_cares_exercise = SelfCare.where(user_id: @rails_user.id, exercise: true) %>
+
 <div>
   <% if @rails_user == nil %>
     <h1><%= current_rails_user.first_name.to_s + " " + current_rails_user.last_name.to_s %><h1>

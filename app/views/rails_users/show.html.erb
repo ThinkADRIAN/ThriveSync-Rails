@@ -2,7 +2,10 @@
 
 <% @moods = Mood.where(user_id: @rails_user.id) %>
 <% @sleeps = Sleep.where(user_id: @rails_user.id) %>
-<% @self_cares = SelfCare.where(user_id: @rails_user.id) %>
+<% @self_cares_counseling = SelfCare.where(user_id: @rails_user.id, counseling: true) %>
+<% @self_cares_medication = SelfCare.where(user_id: @rails_user.id, medication: true ) %>
+<% @self_cares_meditation = SelfCare.where(user_id: @rails_user.id, meditation: true) %>
+<% @self_cares_exercise = SelfCare.where(user_id: @rails_user.id, exercise: true) %>
 <% @journals = Journal.where(user_id: @rails_user.id) %>
 
 <br>
