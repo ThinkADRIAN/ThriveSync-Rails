@@ -85,7 +85,7 @@ namespace :db do
     end
 
     # Create test user accounts
-    100.times do |n|
+    10.times do |n|
       first_name = Faker::Name.first_name
       last_name = Faker::Name.last_name + " (User)"
       email = "test-#{n+11}@test.org"
@@ -145,6 +145,31 @@ namespace :db do
           journal.save!
         end
       end
+    end
+
+    # Create client Relationships
+    rails_users = RailsUser.all
+    inviter = []
+    invitee = []
+
+    rails_users.each do |user|
+      if user.roles.include? "pro"
+        inviter << user
+      end
+    end  
+
+    rails_users.each do |user|
+      if user.roles.include? "user"
+        invitee << user
+      end
+    end  
+
+    inviter.each do |i|
+      a = invitee.sample
+      i.invite a
+      a.approve i
+      i.clients += [a.id.to_i]
+      i.save!
     end
   end
 end

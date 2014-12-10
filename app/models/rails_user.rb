@@ -87,6 +87,10 @@ class RailsUser < ActiveRecord::Base
     end
   end
 
+  def role_symbols
+    roles.map(&:to_sym)
+  end
+
   def is?(role)
     roles.include?(role.to_s)
   end
@@ -99,4 +103,6 @@ class RailsUser < ActiveRecord::Base
     unless current_rails_user.is? :pro
     end
   end
+
+  scope :with_role, lambda { |role| {:conditions => "roles_mask & #{2**ROLES.index(role.to_s)} > 0 "} }
 end
