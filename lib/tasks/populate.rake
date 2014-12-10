@@ -49,11 +49,12 @@ namespace :db do
         mood.updated_at = d.days.ago
         mood.save!
 
-        sleep_start_time = rand(now-d.days.ago)
-        sleep_finish_time = sleep_start_time - rand(1..10).hours
+        sleep_start_time = Faker::Time.between((d).days.ago, Time.now, :morning)#rand(now-d.days.ago)
+        sleep_finish_time = sleep_start_time + rand(1..10).hours
 
-        sleep = Sleep.create!(:start_time => sleep_start_time,
-          :finish_time => sleep_finish_time,
+        sleep = Sleep.create!(:start_time => sleep_start_time.change(:sec => 0),
+          :finish_time => sleep_finish_time.change(:sec => 0),
+          :time => (sleep_finish_time.to_i - sleep_start_time.to_i) / 3600,
           :quality => rand(1..4),
           :user_id => test_user.id)
         sleep.created_at = d.days.ago
@@ -112,11 +113,12 @@ namespace :db do
         mood.updated_at = d.days.ago
         mood.save!
 
-        sleep_start_time = rand(now-d.days.ago)
-        sleep_finish_time = sleep_start_time - rand(1..10).hours
+        sleep_start_time = Faker::Time.between((d).days.ago, Time.now, :morning)#rand(now-d.days.ago)
+        sleep_finish_time = sleep_start_time + rand(1..10).hours
 
-        sleep = Sleep.create!(:start_time => sleep_start_time,
-          :finish_time => sleep_finish_time,
+        sleep = Sleep.create!(:start_time => sleep_start_time.change(:sec => 0),
+          :finish_time => sleep_finish_time.change(:sec => 0),
+          :time => (sleep_finish_time.to_i - sleep_start_time.to_i) / 3600,
           :quality => rand(1..4),
           :user_id => test_user.id)
         sleep.created_at = d.days.ago
