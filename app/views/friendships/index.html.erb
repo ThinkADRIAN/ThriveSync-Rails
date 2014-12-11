@@ -18,7 +18,7 @@
             <div class="col-md-8">
               <h3></h3>
               <%= link_to "Accept", connection_path(rails_user), :method => "put", class: "btn-primary btn-xs" %>
-              <%= link_to "Reject", connection_path(rails_user), :method => "delete",  class: "btn-danger btn-xs" %>
+              <%= link_to "Reject", connection_path(rails_user), :method => "delete", data: { confirm: "Are you sure you want to reject this connection?" }, class: "btn-danger btn-xs" %>
             </div>
             <div class="col-md-12">
               <hr>
@@ -43,7 +43,7 @@
           </div>
           <div class="col-md-8">
             <h3></h3>
-            <%= link_to "Disconnect", connection_path(rails_user), :method => "delete",  class: "btn-danger btn-xs" %>
+            <%= link_to "Disconnect", connection_path(rails_user), :method => "delete", data: { confirm: "Are you sure you want to disconnect this connection?" }, class: "btn-danger btn-xs" %>
           </div>
           <div class="col-md-12">
             <hr>
