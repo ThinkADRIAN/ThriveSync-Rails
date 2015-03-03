@@ -42,6 +42,19 @@ Rails.application.routes.draw do
     get "invites", :on => :collection
   end
 
+  devise_scope :rails_users do
+    match "/users/auth/:provider",
+      constraints: { provider: /google|facebook/ },
+      to: "users/omniauth_callbacks#passthru",
+      as: :user_omniauth_authorize,
+      via: [:get, :post]
+    match "/users/auth/:action/callback",
+      constraints: { action: /google|facebook/ },
+      to: "users/omniauth_callbacks",
+      as: :user_omniauth_callback,
+      via: [:get, :post]
+  end
+
   #map.resources :relationships
 
   # Example of regular route:
