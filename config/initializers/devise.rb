@@ -263,6 +263,4 @@ Devise.setup do |config|
   require 'omniauth-google-oauth2'
   config.omniauth :google_oauth2, "453255438964-mafo8i19bk9vattje3pqtcajclmstesg.apps.googleusercontent.com", "i9VX_CEaxWC4qnG_iqJqRlPQ", { access_type: "offline", approval_prompt: "" }
 
-  config.router_name = :my_engine
-  config.omniauth_path_prefix = "/my_engine/rails_users/auth"
 end
