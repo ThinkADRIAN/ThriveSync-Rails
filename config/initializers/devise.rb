@@ -264,7 +264,7 @@ Devise.setup do |config|
   config.omniauth :google_oauth2, "453255438964-mafo8i19bk9vattje3pqtcajclmstesg.apps.googleusercontent.com", "i9VX_CEaxWC4qnG_iqJqRlPQ", { access_type: "offline", approval_prompt: "" }
 
   Rails.application.config.after_initialize do
-    ::OmniAuth::config.path_prefix = config.omniauth_path_prefix = "#{Ares.path_prefix}/users/auth"
+    ::OmniAuth::config.path_prefix = config.omniauth_path_prefix = "#{Ares.path_prefix}/rails_users/auth"
   end
 
 end
