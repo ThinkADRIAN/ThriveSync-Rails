@@ -42,18 +42,27 @@ Rails.application.routes.draw do
     get "invites", :on => :collection
   end
 
-  devise_scope :rails_users do
-    match "/rails_users/auth/:provider",
-      constraints: { provider: /google|facebook/ },
-      to: "rails_users/omniauth_callbacks#passthru",
-      as: :user_omniauth_authorize,
-      via: [:get, :post]
-    match "/rails_users/auth/:action/callback",
-      constraints: { action: /google|facebook/ },
-      to: "rails_users/omniauth_callbacks",
-      as: :user_omniauth_callback,
-      via: [:get, :post]
-  end
+devise_for :rails_users, :class_name => 'MyEngine::User', :module => :devise, :controllers => { :omniauth_callbacks => "my_engine/omniauth_callbacks" }
+
+devise_scope :rails_user do
+  # Had to add routes for callbacks here because otherwise the routes get
+  # messed up -- prepending an extra "/my_engine" in one case.
+  providers = Regexp.union(Devise.omniauth_providers.map(&:to_s))
+
+  path_prefix = '/rails_users/auth'
+
+  match "#{path_prefix}/:provider",
+    :constraints => { :provider => providers },
+    :to => "omniauth_callbacks#passthru",
+    :as => :user_omniauth_authorize,
+    :via => [:get, :post]
+
+  match "#{path_prefix}/:action/callback",
+    :constraints => { :action => providers },
+    :to => 'omniauth_callbacks',
+    :as => :user_omniauth_callback,
+    :via => [:get, :post]
+end
 
   #map.resources :relationships
 
