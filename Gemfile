@@ -10,12 +10,12 @@ gem 'rails', '4.1.6'
 group :development, :test do
 	# Use sqlite3 as the database for Active Record
 #	gem 'sqlite3'
-  gem 'pg'
 end
 group :production do
-  gem 'pg'
   gem 'rails_12factor'
 end
+
+gem 'pg'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.3'
@@ -51,7 +51,7 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
 # gem 'debugger', group: [:development, :test]
 
  gem 'devise'
- gem "cancan"
+ gem 'cancan'
 
  gem 'omniauth'
  gem 'omniauth-twitter'
@@ -59,14 +59,14 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
  gem 'omniauth-linkedin'
  gem 'omniauth-google-oauth2' 
 
- gem "chartkick"
+ gem 'chartkick'
  gem 'groupdate'
 
  gem 'mandrill-api'
 
- gem "parse_resource", "~> 1.8.0"
+ gem "parse_resource", '~> 1.8.0'
 
- gem "parse-ruby-client", :require => 'parse-ruby-client'
+ gem 'parse-ruby-client', :require => 'parse-ruby-client'
 
  gem 'less-rails-bootstrap'
 

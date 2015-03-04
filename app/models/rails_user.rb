@@ -57,8 +57,8 @@ class RailsUser < ActiveRecord::Base
         rails_user = RailsUser.new(
           #name: auth.extra.raw_info.name,
           #username: auth.info.nickname || auth.uid,
-          first_name: auth.extra.raw_info.first_name
-          last_name: auth.extra.raw_info.last_name
+          first_name: auth.extra.raw_info.first_name,
+          last_name: auth.extra.raw_info.last_name,
           email: email ? email : "#{TEMP_EMAIL_PREFIX}-#{auth.uid}-#{auth.provider}.com",
           password: Devise.friendly_token[0,20]
         )

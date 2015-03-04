@@ -38,6 +38,7 @@ class RailsUsersController < ApplicationController
   def finish_signup
     # authorize! :update, @rails_user 
     @rails_user = RailsUser.find params[:id]
+    authorize! :assign_roles, current_rails_user if params[:rails_user][:assign_roles]
     if request.patch? && params[:rails_user] && params[:rails_user][:email]
       if @rails_rails_user.update(user_params)
         @rails_user.skip_reconfirmation!
