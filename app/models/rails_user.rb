@@ -54,7 +54,7 @@ class RailsUser < ActiveRecord::Base
 
       # Create the user if it's a new registration
       if rails_user.nil?
-        rail_user = RailsUser.new(
+        rails_user = RailsUser.new(
           #name: auth.extra.raw_info.name,
           #username: auth.info.nickname || auth.uid,
           email: email ? email : "#{TEMP_EMAIL_PREFIX}-#{auth.uid}-#{auth.provider}.com",
