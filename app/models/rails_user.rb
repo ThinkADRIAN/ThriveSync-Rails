@@ -25,7 +25,7 @@ class RailsUser < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :lockable, :timeoutable
   devise :database_authenticatable, :registerable,
-    :recoverable, :rememberable, :trackable, :validatable, :omniauthable
+    :recoverable, :rememberable, :trackable, :validatable, :omniauthable, :confirmable
 
   validates_presence_of :first_name, :last_name
 
@@ -40,7 +40,7 @@ class RailsUser < ActiveRecord::Base
     # to prevent the identity being locked with accidentally created accounts.
     # Note that this may leave zombie accounts (with no associated identity) which
     # can be cleaned up at a later date.
-    rails_user = signed_in_resource ? signed_in_resource : identity.user
+    rails_user = signed_in_resource ? signed_in_resource : identity.rails_user
 
     # Create the user if needed
     if rails_user.nil?
@@ -50,11 +50,11 @@ class RailsUser < ActiveRecord::Base
       # user to verify it on the next step via UsersController.finish_signup
       email_is_verified = auth.info.email && (auth.info.verified || auth.info.verified_email)
       email = auth.info.email # if email_is_verified
-      rails_user = User.where(:email => email).first if email
+      rails_user = RailsUser.where(:email => email).first if email
 
       # Create the user if it's a new registration
       if rails_user.nil?
-        rail_user = User.new(
+        rail_user = RailsUser.new(
           #name: auth.extra.raw_info.name,
           #username: auth.info.nickname || auth.uid,
           email: email ? email : "#{TEMP_EMAIL_PREFIX}-#{auth.uid}-#{auth.provider}.com",
