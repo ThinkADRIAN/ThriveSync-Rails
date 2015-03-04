@@ -1,8 +1,8 @@
 <center><h3> Self Care Stats </h3></center>
 
 <%= column_chart [
-{name: "Counseling", data: @self_cares.group_by_day(:created_at, last: 7).count(:counseling)},
-{name: "Medication", data: @self_cares.group_by_day(:created_at, last: 7).count(:medication)},
-{name: "Meditation", data: @self_cares.group_by_day(:created_at, last: 7).count(:meditation)},
-{name: "Exercise", data: @self_cares.group_by_day(:created_at, last: 7).count(:exercise)}
+{name: "Counseling", data: @self_cares_counseling.group_by_day(:created_at, last: 7).count(:counseling)},
+{name: "Medication", data: @self_cares_medication.group_by_day(:created_at, last: 7).count(:medication)},
+{name: "Meditation", data: @self_cares_meditation.group_by_day(:created_at, last: 7).count(:meditation)},
+{name: "Exercise", data: @self_cares_exercise.group_by_day(:created_at, last: 7).count(:exercise)}
 ], colors: ["#2980b9", "#8e44ad", "#f39c12", "#34495e"]%>
