@@ -72,8 +72,12 @@ class Ability
       self_care.user_id != user.id
     end
 
-    can :manage, Journal do |journal|
-      journal.user_id == user.id
+    can :manage, Jounral do |journal|
+      if 
+        user.is? :superuser
+      elsif 
+        journal.user_id == @rails_user_id
+      end
     end
 
     can [:read, :create], Journal do |journal|

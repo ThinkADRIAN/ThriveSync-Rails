@@ -13,6 +13,8 @@ class JournalsController < ApplicationController
   # GET /journals
   # GET /journals.json
   def index
+    authorize! :manage, Journal
+    authorize! :read, Journal
     @rails_user = RailsUser.find_by_id(params[:rails_user_id])
     if @rails_user == nil
       @journals = Journal.where(user_id: current_rails_user.id)
@@ -30,6 +32,8 @@ class JournalsController < ApplicationController
   # GET /journals/1
   # GET /journals/1.json
   def show
+    authorize! :manage, Journal
+    authorize! :read, Journal
     respond_to do |format|
       format.html
       format.json { render :json =>  @journal, status: 200 }
@@ -39,16 +43,19 @@ class JournalsController < ApplicationController
 
   # GET /journals/new
   def new
+    authorize! :manage, Journal
     @journal= Journal.new
   end
 
   # GET /journals/1/edit
   def edit
+    authorize! :manage, Journal
   end
 
   # POST /journals
   # POST /journals.json
   def create
+    authorize! :manage, Journal
     @journal = Journal.new(journal_params)
     @journal.user_id = current_rails_user.id
     
@@ -131,6 +138,7 @@ class JournalsController < ApplicationController
   # PATCH/PUT /journals/1
   # PATCH/PUT /journals/1.json
   def update
+    authorize! :manage, Journal
     respond_to do |format|
       if @journal.update(journal_params)
         format.html { redirect_to journals_url, notice: 'Journal Entry was successfully updated.' }
@@ -159,6 +167,7 @@ class JournalsController < ApplicationController
   # DELETE /journals/1
   # DELETE /journals/1.json
   def destroy
+    authorize! :manage, Journal
     @journal.destroy
     respond_to do |format|
       if $PARSE_ENABLED
