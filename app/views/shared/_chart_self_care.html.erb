@@ -1,3 +1,17 @@
+<div>
+  <% if @rails_user == nil %>
+    <% user = current_rails_user %>
+    <%= link_to 'Add a new Self Care Entry', new_self_care_path, class: "btn btn-primary" %>
+  <% else %>
+    <% user = @rails_user%>
+  <% end %>
+</div>
+
+<% @self_cares_counseling = SelfCare.where(user_id: user.id, counseling: true) %>
+<% @self_cares_medication = SelfCare.where(user_id: user.id, medication: true ) %>
+<% @self_cares_meditation = SelfCare.where(user_id: user.id, meditation: true) %>
+<% @self_cares_exercise = SelfCare.where(user_id: user.id, exercise: true) %>
+
 <center><h3> Self Care Stats </h3></center>
 
 <%= column_chart [
