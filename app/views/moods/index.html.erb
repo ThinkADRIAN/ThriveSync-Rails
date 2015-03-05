@@ -18,7 +18,8 @@
         <h3 class="panel-title">Mood Entries</h3>
       </div>
       <div class="panel-body">
-        <% @moods.each do |mood| %>
+        <% @moods = Mood.order('created_at DESC')
+          @moods.each do |mood| %>
           <% if mood.user_id == current_rails_user.id || (current_rails_user.is? :superuser) %>
             <div class="col-md-4">
                 <h3><%= mood.timestamp.strftime("%Y-%m-%d %H:%M:%S") %></h3>
