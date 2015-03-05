@@ -73,3 +73,5 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
  gem 'amistad'
 
  gem 'faker'
+
+ gem 'figaro'
