@@ -61,7 +61,11 @@ class Ability
     end
 
     can :manage, SelfCare do |self_care|
-      self_care.user_id == user.id
+      if 
+        user.is? :superuser
+      elsif 
+        self_care.user_id == @rails_user_id
+      end
     end
 
     can [:read, :create], SelfCare do |self_care|

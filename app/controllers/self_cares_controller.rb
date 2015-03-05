@@ -13,6 +13,8 @@ class SelfCaresController < ApplicationController
   # GET /self_cares
   # GET /self_cares.json
   def index
+    authorize! :manage, SelfCare
+    authorize! :read, SelfCare
     @rails_user = RailsUser.find_by_id(params[:rails_user_id])
     if @rails_user == nil
       @self_cares = SelfCare.where(user_id: current_rails_user.id)
@@ -30,6 +32,8 @@ class SelfCaresController < ApplicationController
   # GET /self_cares/1
   # GET /self_cares/1.json
   def show
+    authorize! :manage, SelfCare
+    authorize! :read, SelfCare
     respond_to do |format|
       format.html
       format.json { render :json =>  @self_care, status: 200 }
@@ -39,16 +43,19 @@ class SelfCaresController < ApplicationController
 
   # GET /self_cares/new
   def new
+    authorize! :manage, SelfCare
     @self_care= SelfCare.new
   end
 
   # GET /self_cares/1/edit
   def edit
+    authorize! :manage, SelfCare
   end
 
   # POST /self_cares
   # POST /self_cares.json
   def create
+    authorize! :manage, SelfCare
     @self_care = SelfCare.new(self_care_params)
     @self_care.user_id = current_rails_user.id
     
@@ -134,6 +141,7 @@ class SelfCaresController < ApplicationController
   # PATCH/PUT /self_cares/1
   # PATCH/PUT /self_cares/1.json
   def update
+    authorize! :manage, SelfCare
     respond_to do |format|
       if @self_care.update(self_care_params)
         format.html { redirect_to self_cares_url, notice: 'Self Care Entry was successfully updated.' }
@@ -164,6 +172,7 @@ class SelfCaresController < ApplicationController
   # DELETE /self_cares/1
   # DELETE /self_cares/1.json
   def destroy
+    authorize! :manage, SelfCare
     @self_care.destroy
     respond_to do |format|
       
