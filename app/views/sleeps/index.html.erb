@@ -18,9 +18,9 @@
         <h3 class="panel-title">Sleep Entries</h3>
       </div>
       <div class="panel-body">
-        <% @sleeps = Sleep.order('created_at DESC')
+        <% @sleeps = @sleeps.order('created_at DESC')
           @sleeps.each do |sleep| %>
-          <% if sleep.user_id == current_rails_user.id || (current_rails_user.is? :superuser) || (current_rails_user.is? :pro) && (current_rails_user.clients.include? sleep.user_id)%>
+          <% if sleep.user_id == current_rails_user.id || (current_rails_user.is? :superuser) || (current_rails_user.is? :pro) && (current_rails_user.clients.include? sleep.user_id) %>
             <div class="col-md-4">
                 <h3><%= sleep.updated_at.strftime("%Y-%m-%d %H:%M:%S") %></h3>
             </div>
