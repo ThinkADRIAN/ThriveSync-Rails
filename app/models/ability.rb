@@ -49,7 +49,11 @@ class Ability
     end
 
     can :manage, Sleep do |sleep|
-      sleep.user_id == user.id
+      if 
+        user.is? :superuser
+      elsif 
+        sleep.user_id == @rails_user_id
+      end
     end
 
     can [:read, :create], Sleep do |sleep|

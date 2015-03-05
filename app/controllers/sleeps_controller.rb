@@ -13,6 +13,8 @@ class SleepsController < ApplicationController
   # GET /sleeps
   # GET /sleeps.json
   def index
+    authorize! :manage, Sleep
+    authorize! :read, Sleep
     @rails_user = RailsUser.find_by_id(params[:rails_user_id])
     if @rails_user == nil
       @sleeps = Sleep.where(user_id: current_rails_user.id)
@@ -30,6 +32,8 @@ class SleepsController < ApplicationController
   # GET /sleeps/1
   # GET /sleeps/1.json
   def show
+    authorize! :manage, Sleep
+    authorize! :read, Sleep
     respond_to do |format|
       format.html
       format.json { render :json =>  @sleep, status: 200 }
@@ -39,16 +43,19 @@ class SleepsController < ApplicationController
 
   # GET /sleeps/new
   def new
+    authorize! :manage, Sleep
     @sleep= Sleep.new
   end
 
   # GET /sleeps/1/edit
   def edit
+    authorize! :manage, Sleep
   end
 
   # POST /sleeps
   # POST /sleeps.json
   def create
+    authorize! :manage, Sleep
     @sleep = Sleep.new(sleep_params)
     @sleep.user_id = current_rails_user.id
     @sleep.time = (@sleep.finish_time.to_i - @sleep.start_time.to_i) / 3600
@@ -134,6 +141,7 @@ class SleepsController < ApplicationController
   # PATCH/PUT /sleeps/1
   # PATCH/PUT /sleeps/1.json
   def update
+    authorize! :manage, Sleep
     @sleep.time = (@sleep.finish_time.to_i - @sleep.start_time.to_i) / 3600
     respond_to do |format|
       if @sleep.update(sleep_params)
@@ -164,6 +172,7 @@ class SleepsController < ApplicationController
   # DELETE /sleeps/1
   # DELETE /sleeps/1.json
   def destroy
+    authorize! :manage, Sleep
     @sleep.destroy
     respond_to do |format|
     
