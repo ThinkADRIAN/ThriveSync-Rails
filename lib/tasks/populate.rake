@@ -27,7 +27,7 @@ namespace :db do
       first_name = Faker::Name.first_name
       last_name = Faker::Name.last_name + " (Pro)"
       email = "test-#{n+1}@thrivetracker.co"
-      password = "Password123"
+      password = "Password1234"
       test_user = RailsUser.create!(:first_name => first_name,
         :last_name => last_name,
         :email => email,
@@ -92,7 +92,7 @@ namespace :db do
       first_name = Faker::Name.first_name
       last_name = Faker::Name.last_name + " (User)"
       email = "test-#{n+11}@thrivetracker.co"
-      password = "Password123"
+      password = "Password1234"
       test_user = RailsUser.create!(:first_name => first_name,
         :last_name => last_name,
         :email => email,
