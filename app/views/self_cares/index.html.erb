@@ -1,8 +1,3 @@
-<% @self_cares_counseling = SelfCare.where(user_id: current_rails_user.id, counseling: true) %>
-<% @self_cares_medication = SelfCare.where(user_id: current_rails_user.id, medication: true ) %>
-<% @self_cares_meditation = SelfCare.where(user_id: current_rails_user.id, meditation: true) %>
-<% @self_cares_exercise = SelfCare.where(user_id: current_rails_user.id, exercise: true) %>
-
 <div>
   <% if @rails_user == nil %>
     <h1><%= current_rails_user.first_name.to_s + " " + current_rails_user.last_name.to_s %><h1>
@@ -23,8 +18,9 @@
         <h3 class="panel-title">Self Cares Entries</h3>
       </div>
       <div class="panel-body">
-        <% @self_cares.each do |self_care| %>
-          <% if self_care.user_id == current_rails_user.id || (current_rails_user.is? :superuser) %>
+        <% @self_cares = @self_cares.order('created_at DESC')
+          @self_cares.each do |self_care| %>
+          <% if self_care.user_id == current_rails_user.id || (current_rails_user.is? :superuser) || (current_rails_user.is? :pro) && (current_rails_user.clients.include? self_care.user_id) %>
             <div class="col-md-4">
                 <h3><%= self_care.updated_at.strftime("%Y-%m-%d %H:%M:%S") %></h3>
             </div>
