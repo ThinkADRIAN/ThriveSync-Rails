@@ -72,7 +72,7 @@ class Ability
       self_care.user_id != user.id
     end
 
-    can :manage, Jounral do |journal|
+    can :manage, Journal do |journal|
       if 
         user.is? :superuser
       elsif 
