@@ -257,7 +257,11 @@ Devise.setup do |config|
   # so you need to do it manually. For the users scope, it would be:
   # config.omniauth_path_prefix = '/my_engine/users/auth'
 
-  config.omniauth :facebook, ENV['FB_ID'], ENV['FB_SECRET']
+  config.omniauth :facebook, ENV['FB_ID'], ENV['FB_SECRET'], 
+      :client_options => {
+      :site => 'https://graph.facebook.com/v2.0',
+      :authorize_url => "https://www.facebook.com/v2.0/dialog/oauth"
+      }
   #config.omniauth :twitter, "KHTNRYmtLJB2XMnXfFctXxxit", "WFAKxj34Fxi4VFiKDUlOxeOMUOVwghGMJ9fkhYTCULTCPKlx4w"
 
   require 'omniauth-google-oauth2'
