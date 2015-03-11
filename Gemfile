@@ -75,3 +75,5 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
  gem 'faker'
 
  gem 'figaro'
+
+ gem 'rest-client', '~> 1.7.3'

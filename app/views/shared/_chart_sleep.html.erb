@@ -1,6 +1,97 @@
-<center><h3> Sleep Stats </h3></center>
+<% sleep_primary_color = "#2980b9" %>
+<% sleep_background_color = "#fff" %>
+<% sleep_stroke_width = 0 %>
+<% sleep_animation_duration = 1000 %>
+<% sleep_animation_easing = 'in' %>
+<% sleep_legend_position = 'none' %>
 
-<%= line_chart [
-{name: "Sleep Time", data: @sleeps.group_by_day(:created_at, last: 7).average(:time)},
-{name: "Quality", data: @sleeps.group_by_day(:created_at, last: 7).average(:quality)}
-], colors: [ "#e67e22", "#34495e"]%>
+<div class="col-md-6">
+    <%= line_chart [
+    {name: "Sleep Time", data: @sleeps.group_by_day(:created_at, last: 7).average(:time)}
+    ], colors: [ sleep_primary_color ],
+    library: {
+        title: "Sleep Quantity",
+        titlePosition: 'out',
+        titleTextStyle: {
+            color: sleep_primary_color
+        },
+        backgroundColor: {
+            fill: sleep_background_color,
+            stroke: sleep_primary_color,
+            strokeWidth: sleep_stroke_width
+        },
+        animation: {
+            duration: sleep_animation_duration,
+            startup: true,
+            easing: sleep_animation_easing
+        },
+        hAxis: {
+            textStyle: {
+                color: sleep_primary_color
+            },
+            gridlines: {
+                color: sleep_background_color
+            }
+        },
+        legend: {
+            textStyle: {
+                color: sleep_primary_color
+            },
+            position: sleep_legend_position
+        },
+        vAxis: {
+            textStyle: {
+                color: sleep_primary_color
+            },
+            gridlines: {
+                color: sleep_background_color
+            }
+        }
+    } %>
+</div>
+
+<div class="col-md-6">
+  <%= line_chart [
+  {name: "Quality", data: @sleeps.group_by_day(:created_at, last: 7).average(:quality)}
+  ], colors: [ sleep_primary_color ],
+  library: {
+      title: "Sleep Quality",
+      titlePosition: 'out',
+      titleTextStyle: {
+              color: sleep_primary_color
+      },
+      backgroundColor: {
+          fill: sleep_background_color,
+          stroke: sleep_primary_color,
+          strokeWidth: sleep_stroke_width
+      },
+      animation: {
+          duration: sleep_animation_duration,
+          startup: true,
+          easing: sleep_animation_easing
+      },
+      hAxis: {
+          textStyle: {
+              color: sleep_primary_color
+          },
+          gridlines: {
+              color: sleep_background_color
+          }
+      },
+      legend: {
+          textStyle: {
+              color: sleep_primary_color
+          },
+          position: sleep_legend_position
+      },
+      vAxis: {
+          ticks: [{v:1, f:'Broken'}, {v:2, f:'Light'}, {v:3, f:'Norm'}, {v:4, f:'Deep'}],
+          textStyle: {
+              color: sleep_primary_color
+          },
+          gridlines: {
+              color: sleep_background_color
+          }
+      }
+  } %>
+</div>
