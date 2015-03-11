@@ -49,39 +49,39 @@ class Ability
     end
 
     can :manage, Sleep do |sleep|
-      if 
-        user.is? :superuser
-      elsif 
-        sleep.user_id == @rails_user_id
+      if
+      user.is? :superuser
+      elsif
+      sleep.user_id == @rails_user_id
       end
     end
 
-    can [:read, :create], Sleep do |sleep|
-      sleep.user_id != user.id
+    can :read, Sleep do |sleep|
+      (user.is? :pro) && (user.clients.include? sleep.user_id)
     end
 
     can :manage, SelfCare do |self_care|
-      if 
-        user.is? :superuser
-      elsif 
-        self_care.user_id == @rails_user_id
+      if
+      user.is? :superuser
+      elsif
+      self_care.user_id == @rails_user_id
       end
     end
 
-    can [:read, :create], SelfCare do |self_care|
-      self_care.user_id != user.id
+    can :read, SelfCare do |self_care|
+      (user.is? :pro) && (user.clients.include? self_care.user_id)
     end
 
     can :manage, Journal do |journal|
-      if 
-        user.is? :superuser
-      elsif 
-        journal.user_id == @rails_user_id
+      if
+      user.is? :superuser
+      elsif
+      journal.user_id == @rails_user_id
       end
     end
 
-    can [:read, :create], Journal do |journal|
-      journal.user_id != user.id
+    can :read, Journal do |journal|
+      (user.is? :pro) && (user.clients.include? journal.user_id)
     end
   end
 end

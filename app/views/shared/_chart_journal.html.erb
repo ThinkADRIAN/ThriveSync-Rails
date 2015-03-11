@@ -1,5 +1,50 @@
-<center><h3> Journal Stats </h3></center>
+<% journal_primary_color = "#f39c12" %>
+<% journal_background_color = "#fff" %>
+<% journal_stroke_width = 0 %>
+<% journal_animation_duration = 1000 %>
+<% journal_animation_easing = 'in' %>
+<% journal_legend_position = 'none' %>
 
 <%= line_chart [
 {name: "Journal", data: @journals.group_by_day(:created_at, last: 7).count(:journal_entry)}
-], colors: ["#2ecc71"]%>
+], colors: [journal_primary_color],
+library: {
+    title: "Journal",
+    titlePosition: 'out',
+    titleTextStyle: {
+        color: journal_primary_color
+    },
+    backgroundColor: {
+        fill: journal_background_color,
+        stroke: journal_primary_color,
+        strokeWidth: journal_stroke_width
+    },
+    animation: {
+        duration: 1000,
+        startup: true,
+        easing: journal_animation_easing
+    },
+    hAxis: {
+        textStyle: {
+            color: journal_primary_color
+        },
+        gridlines: {
+            color: journal_background_color
+        }
+    },
+    legend: {
+        textStyle: {
+            color: journal_background_color
+        },
+        position: journal_legend_position
+    },
+    vAxis: {
+        ticks: [{v:0, f:'No'}, {v:1, f:'Yes'}],
+        textStyle: {
+            color: journal_primary_color
+        },
+        gridlines: {
+            color: journal_background_color
+        }
+    }
+} %>

@@ -1,7 +1,13 @@
+<% self_care_primary_color = "#8e44ad" %>
+<% self_care_background_color = "#fff" %>
+<% self_care_stroke_width = 0 %>
+<% self_care_animation_duration = 1000 %>
+<% self_care_animation_easing = 'in' %>
+<% self_care_legend_position = 'none' %>
+
 <div>
   <% if @rails_user == nil %>
     <% user = current_rails_user %>
-    <%= link_to 'Add a new Self Care Entry', new_self_care_path, class: "btn btn-primary" %>
   <% else %>
     <% user = @rails_user%>
   <% end %>
@@ -12,11 +18,186 @@
 <% @self_cares_meditation = SelfCare.where(user_id: user.id, meditation: true) %>
 <% @self_cares_exercise = SelfCare.where(user_id: user.id, exercise: true) %>
 
-<center><h3> Self Care Stats </h3></center>
+<div class="col-md-6">
+  <%= column_chart [
+  {name: "Counseling", data: @self_cares_counseling.group_by_day(:created_at, last: 7, format: "%b %d, %Y").count(:counseling)}
+  ], colors: [self_care_primary_color],
+  library: {
+      title: "Counseling",
+      titlePosition: 'out',
+      titleTextStyle: {
+          color: self_care_primary_color
+      },
+      backgroundColor: {
+          fill: self_care_background_color,
+          stroke: self_care_primary_color,
+          strokeWidth: self_care_stroke_width
+      },
+      animation: {
+          duration: self_care_animation_duration,
+          startup: true,
+          easing: self_care_animation_easing
+      },
+      hAxis: {
+          textStyle: {
+              color: self_care_primary_color
+          },
+          gridlines: {
+              color: self_care_background_color
+          }
+      },
+      legend: {
+          textStyle: {
+              color: self_care_primary_color
+          },
+          position: self_care_legend_position
+      },
+      vAxis: {
+          ticks: [{v:0, f:'No'}, {v:1, f:'Yes'}],
+          textStyle: {
+              color: self_care_primary_color
+          },
+          gridlines: {
+              color: self_care_background_color
+          }
+      }
+  } %>
+</div>
 
-<%= column_chart [
-{name: "Counseling", data: @self_cares_counseling.group_by_day(:created_at, last: 7).count(:counseling)},
-{name: "Medication", data: @self_cares_medication.group_by_day(:created_at, last: 7).count(:medication)},
-{name: "Meditation", data: @self_cares_meditation.group_by_day(:created_at, last: 7).count(:meditation)},
-{name: "Exercise", data: @self_cares_exercise.group_by_day(:created_at, last: 7).count(:exercise)}
-], colors: ["#2980b9", "#8e44ad", "#f39c12", "#34495e"]%>
+<div class="col-md-6">
+  <%= column_chart [
+  {name: "Medication", data: @self_cares_medication.group_by_day(:created_at, last: 7, format: "%b %d, %Y").count(:medication)}
+  ], colors: [self_care_primary_color],
+  library: {
+      title: "Medication",
+      titlePosition: 'out',
+      titleTextStyle: {
+          color: self_care_primary_color
+      },
+      backgroundColor: {
+          fill: self_care_background_color,
+          stroke: self_care_primary_color,
+          strokeWidth: self_care_stroke_width
+      },
+      animation: {
+          duration: self_care_animation_duration,
+          startup: true,
+          easing: self_care_animation_easing
+      },
+      hAxis: {
+          textStyle: {
+              color: self_care_primary_color
+          },
+          gridlines: {
+              color: self_care_background_color
+          }
+      },
+      legend: {
+          textStyle: {
+              color: self_care_primary_color
+          },
+          position: self_care_legend_position
+      },
+      vAxis: {
+          ticks: [{v:0, f:'No'}, {v:1, f:'Yes'}],
+          textStyle: {
+              color: self_care_primary_color
+          },
+          gridlines: {
+              color: self_care_background_color
+          }
+      }
+  } %>
+</div>
+
+<div class="col-md-6">
+  <%= column_chart [
+  {name: "Meditation", data: @self_cares_meditation.group_by_day(:created_at, last: 7, format: "%b %d, %Y").count(:meditation)}
+  ], colors: [self_care_primary_color],
+  library: {
+      title: "Meditation",
+      titlePosition: 'out',
+      titleTextStyle: {
+          color: self_care_primary_color
+      },
+      backgroundColor: {
+          fill: self_care_background_color,
+          stroke: self_care_primary_color,
+          strokeWidth: self_care_stroke_width
+      },
+      animation: {
+          duration: self_care_animation_duration,
+          startup: true,
+          easing: self_care_animation_easing
+      },
+      hAxis: {
+          textStyle: {
+              color: self_care_primary_color
+          },
+          gridlines: {
+              color: self_care_background_color
+          }
+      },
+      legend: {
+          textStyle: {
+              color: self_care_primary_color
+          },
+          position: self_care_legend_position
+      },
+      vAxis: {
+          ticks: [{v:0, f:'No'}, {v:1, f:'Yes'}],
+          textStyle: {
+              color: self_care_primary_color
+          },
+          gridlines: {
+              color: self_care_background_color
+          }
+      }
+  } %>
+</div>
+
+<div class="col-md-6">
+  <%= column_chart [
+  {name: "Exercise", data: @self_cares_exercise.group_by_day(:created_at, last: 7, format: "%b %d, %Y").count(:exercise)}
+  ], colors: [self_care_primary_color],
+  library: {
+      title: "Exercise",
+      titlePosition: 'out',
+      titleTextStyle: {
+          color: self_care_primary_color
+      },
+      backgroundColor: {
+          fill: self_care_background_color,
+          stroke: self_care_primary_color,
+          strokeWidth: self_care_stroke_width
+      },
+      animation: {
+          duration: self_care_animation_duration,
+          startup: true,
+          easing: self_care_animation_easing
+      },
+      hAxis: {
+          textStyle: {
+              color: self_care_primary_color
+          },
+          gridlines: {
+              color: self_care_background_color
+          }
+      },
+      legend: {
+          textStyle: {
+              color: self_care_primary_color
+          },
+          position: self_care_legend_position
+      },
+      vAxis: {
+          ticks: [{v:0, f:'No'}, {v:1, f:'Yes'}],
+          textStyle: {
+              color: self_care_primary_color
+          },
+          gridlines: {
+              color: self_care_background_color
+          }
+      }
+  } %>
+</div>

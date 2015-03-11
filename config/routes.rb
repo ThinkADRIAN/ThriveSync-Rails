@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   
-  devise_for :rails_users, :controllers => {:registrations => 'my_devise/registrations', :omniauth_callbacks => "omniauth_callbacks"}
+  devise_for :rails_users, :controllers => {:registrations => 'my_devise/registrations', 
+    :omniauth_callbacks => "omniauth_callbacks", :sessions => 'rails_users/sessions', :passwords => 'rails_users/passwords'}
   match '/rails_users/:id/finish_signup' => 'rails_users#finish_signup', via: [:get, :patch], :as => :finish_signup
 
   # Auto-created by Devise
