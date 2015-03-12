@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   
-  devise_for :rails_users, :path => '', :path_names => {:sign_in => 'sign_in', :sign_out => 'logout'}, :controllers => {:registrations => 'my_devise/registrations',
+  devise_for :rails_users, :path => '', :path_names => {:sign_in => 'login', :sign_out => 'logout'}, :controllers => {:registrations => 'my_devise/registrations',
     :omniauth_callbacks => "omniauth_callbacks", :sessions => 'rails_users/sessions', :passwords => 'rails_users/passwords'}
   match '/rails_users/:id/finish_signup' => 'rails_users#finish_signup', via: [:get, :patch], :as => :finish_signup
 
