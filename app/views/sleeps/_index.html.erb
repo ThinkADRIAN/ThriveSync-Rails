@@ -1,0 +1,65 @@
+<div>
+  <% if @rails_user == nil %>
+    <h1><%= current_rails_user.first_name.to_s + " " + current_rails_user.last_name.to_s %><h1>
+      <%= link_to 'Add a new Sleep Entry', new_sleep_path, remote: true, class: "btn btn-primary" %>
+  <% else %>
+    <h1><%= @rails_user.first_name.to_s + " " + @rails_user.last_name.to_s %><h1>
+      <% @sleeps = Sleep.where(user_id: @rails_user.id) %>
+  <% end %>
+</div>
+
+<div>
+  <%= render "shared/chart_sleep" %>
+</div>
+
+<div class="col-sm-12">
+  <% if !@sleeps.empty? %>
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h3 class="panel-title">Sleep Entries</h3>
+      </div>
+      <div class="panel-body">
+        <% @sleeps = @sleeps.order('created_at DESC')
+          @sleeps.each do |sleep| %>
+          <% if sleep.user_id == current_rails_user.id || (current_rails_user.is? :superuser) || (current_rails_user.is? :pro) && (current_rails_user.clients.include? sleep.user_id) %>
+            <div class="col-md-4">
+                <h4><%= sleep.updated_at.strftime("%a - %b %e, %Y - %m:%M %p") %></h4>
+            </div>
+            <div class="col-md-4">
+              <p>
+                <strong>Sleep Start Time:</strong>
+                <%= sleep.start_time %>
+              </p> 
+
+              <p>
+                <strong>Sleep Finish Time:</strong>
+                <%= sleep.finish_time %>
+              </p> 
+
+              <p>
+                <strong>Sleep Quality:</strong>
+                <% if sleep.quality == 1 %>
+                  <%= "Broken" %>
+                <% elsif sleep.quality == 2 %>
+                  <%= "Light" %>
+                <% elsif sleep.quality == 3 %>
+                  <%= "Normal" %>
+                <% elsif sleep.quality == 4 %>
+                  <%= "Deep" %>
+                <% end %>
+                (<%= sleep.quality %>)
+              </p>
+            </div>
+            <div class="col-md-4">
+              <%= link_to 'Edit', edit_sleep_path(sleep), remote: true,  class: "btn-default btn-xs" %>
+              <%= link_to 'Remove', sleep_delete_path(sleep),  class: "btn-danger btn-xs", remote: true, sleep: sleep %>
+            </div>
+            <div class="col-md-12">
+              <hr>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>

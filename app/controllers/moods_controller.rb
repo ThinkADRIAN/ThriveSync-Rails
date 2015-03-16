@@ -12,6 +12,8 @@ class MoodsController < ApplicationController
     before_action :sync_backends, only: [:index, :show, :edit, :update, :destroy]
   end
 
+  respond_to :js
+
   Time.zone = 'EST'
   
   # GET /moods
@@ -29,6 +31,7 @@ class MoodsController < ApplicationController
    
     respond_to do |format|
       format.html
+      format.js
       format.json { render :json => @moods, status: 200 }
       format.xml { render :xml => @moods, status: 200 }
     end
@@ -42,6 +45,7 @@ class MoodsController < ApplicationController
     
     respond_to do |format|
       format.html
+      format.js
       format.json { render :json =>  @mood, status: 200 }
       format.xml { render :xml => @mood, status: 200 }
     end
@@ -120,19 +124,23 @@ class MoodsController < ApplicationController
             user_data["UserID"] = parse_mood["user_id"]  
             user_data.save
 
-            format.html { redirect_to moods_url, notice: 'Mood Entry was successfully tracked.' }
+            flash.now[:success] = "Mood Entry was successfully tracked."
+            format.js 
             format.json { render :show, status: :created, location: moods_url }
           else
             parse_mood.parse_delete
             @mood.destroy
-            format.html { redirect_to moods_url, notice: 'Mood Entry not created.  You already have three for this day.' }
+            flash.now[:error] = "Mood Entry not created.  You already have three for this day."
+            format.js
+            format.json { render :show, status: :created, location: moods_url }
           end
         elsif !$PARSE_ENABLED
-          format.html { redirect_to moods_url, notice: 'Mood Entry was successfully tracked.' }
+          flash.now[:success] = "Mood Entry was successfully tracked."
+          format.js 
           format.json { render :show, status: :created, location: moods_url }
         end
       else
-        format.html { render :new }
+        format.js   { render json: @mood.errors, status: :unprocessable_entity }
         format.json { render json: @mood.errors, status: :unprocessable_entity }
       end
     end
@@ -145,7 +153,8 @@ class MoodsController < ApplicationController
     
     respond_to do |format|
       if @mood.update(mood_params)
-        format.html { redirect_to moods_url, notice: 'Mood Entry was successfully updated.' }
+        flash.now[:success] = "Mood Entry was successfully updated."
+        format.js
         format.json { render :show, status: :ok, location: moods_url }
 
         if $PARSE_ENABLED
@@ -160,14 +169,20 @@ class MoodsController < ApplicationController
         end
 
       elsif false #This will never happen as the user cannot edit for now.
-        format.html { render :edit }
+        format.js
         format.json { render json: @mood.errors, status: :unprocessable_entity }
 
       else
-        format.html { redirect_to @mood, notice: 'Mood Entry was not updated... Try again???' }
+        flash.now[:error] = 'Mood Entry was not updated... Try again???'
+        format.js   { render json: @mood.errors, status: :unprocessable_entity }
         format.json { render json: @mood.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  def delete
+    authorize! :manage, Mood
+    @mood = Mood.find(params[:mood_id])
   end
 
   # DELETE /moods/1
@@ -198,7 +213,8 @@ class MoodsController < ApplicationController
 
       end
 
-      format.html { redirect_to moods_url, notice: 'Mood Entry was successfully removed.' }
+      flash.now[:success] = "Mood Entry was successfully deleted."
+      format.js 
       format.json { head :no_content }
     end
   end

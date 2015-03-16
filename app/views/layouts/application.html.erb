@@ -1,15 +1,11 @@
 <%= render "shared/header" %>
 
 	<div class="container theme-showcase">
+      
+    <%= render "shared/flash_notices", flash: flash %>
 
-      <% flash.each do |name, message| %>
-        <div class="alert alert-info">
-            <%= content_tag :div, "Status: " + message, :id => "flash_#{name}" %>
-        </div>
-      <%end%>
+    <%= yield %>
 
-      <%= yield %>
-
-    </div> <!-- /container -->
+  </div> <!-- /container -->
 
 <%= render "shared/footer" %>
