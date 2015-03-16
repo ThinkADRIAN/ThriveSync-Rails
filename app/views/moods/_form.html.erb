@@ -1,49 +1,106 @@
-<%= form_for(@mood) do |f| %>
-  <% if @mood.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@mood.errors.count, "error") %> prohibited this mood entry from being saved:</h2>
+<%= form_for @mood, remote: true do |f| %>
+  <div class="modal-body">
+    <% if @mood.errors.any? %>
+      <ul class="errors"></ul>
+      <div id="error_explanation">
+        <h2><%= pluralize(@mood.errors.count, "error") %> prohibited this mood entry from being saved:</h2>
+        <ul>
+        <% @mood.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+        </ul>
+      </div>
+    <% end %>
 
-      <ul>
-      <% @mood.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
+    <div class="form-group">
+      <% if !@mood.mood_rating.nil? %>
+        <% selected_mood = @mood.mood_rating %>
+      <% else %>
+        <% selected_mood = 4 %>
       <% end %>
-      </ul>
+
+      <script>
+        $(function() {
+          var select = $( "#mood_mood_rating" );
+          var slider = $( "<br><br><div id='slider_mood'></div>" ).insertAfter( select ).slider({
+            min: 1,
+            max: 7,
+            value: select[ 0 ].selectedIndex + 1,
+            slide: function( event, ui ) {
+              select[ 0 ].selectedIndex = ui.value - 1;
+            }
+          });
+          $( "#mood_mood_rating" ).change(function() {
+            slider.slider( "value", this.selectedIndex + 1 );
+          });
+        });
+      </script>
+
+      <%= f.label "Mood Level:" %> <br>
+      <%= f.select(:mood_rating, options_for_select([['Severely Depressed', 1], ['Moderately Depressed', 2], ['Mildly Depressed', 3], ['Baseline',4], ['Mildly Elevated',5], ['Moderately Elevated', 6], ['Severely Elevated',7]], selected_mood)) %>
     </div>
-  <% end %>
 
-  <div class="form-group">
-    <% if !@mood.mood_rating.nil? %>
-      <% selected_mood = @mood.mood_rating %>
-    <% else %>
-      <% selected_mood = 4 %>
-    <% end %>
-    <%= f.label "Mood Level:" %> <br>
-    <%= f.select(:mood_rating, options_for_select([['Severely Depressed', 1], ['Moderately Depressed', 2], ['Mildly Depressed', 3], ['Baseline',4], ['Mildly Elevated',5], ['Moderately Elevated', 6], ['Severely Elevated',7]], selected_mood)) %>
-  </div>
+    <div class="form-group">
+      <% if !@mood.anxiety_rating.nil? %>
+        <% selected_anxiety = @mood.anxiety_rating %>
+      <% else %>
+        <% selected_anxiety = 1 %>
+      <% end %>
 
-  <div class="form-group">
-    <% if !@mood.anxiety_rating.nil? %>
-      <% selected_anxiety = @mood.anxiety_rating %>
-    <% else %>
-      <% selected_anxiety = 1 %>
-    <% end %>
-    <%= f.label "Anxiety Level:" %><br>
-    <%= f.select(:anxiety_rating, options_for_select([['None', 1], ['Mild', 2], ['Moderate', 3], ['Severe',4]], selected_anxiety)) %>
-  </div>
+      <script>
+        $(function() {
+          var select = $( "#mood_anxiety_rating" );
+          var slider = $( "<br><br><div id='slider_anxiety'></div>" ).insertAfter( select ).slider({
+            min: 1,
+            max: 4,
+            value: select[ 0 ].selectedIndex + 1,
+            slide: function( event, ui ) {
+              select[ 0 ].selectedIndex = ui.value - 1;
+            }
+          });
+          $( "#mood_anxiety_rating" ).change(function() {
+            slider.slider( "value", this.selectedIndex + 1 );
+          });
+        });
+      </script>
 
-  <div class="form-group">
-    <% if !@mood.irritability_rating.nil? %>
-      <% selected_irritability = @mood.irritability_rating %>
-    <% else %>
-      <% selected_irritability = 1 %>
-    <% end %>
-    <%= f.label "Irritability Level:" %><br>
-    <%= f.select(:irritability_rating, options_for_select([['None', 1], ['Mild', 2], ['Moderate', 3], ['Severe',4]], selected_irritability)) %>
+      <%= f.label "Anxiety Level:" %><br>
+      <%= f.select(:anxiety_rating, options_for_select([['None', 1], ['Mild', 2], ['Moderate', 3], ['Severe',4]], selected_anxiety)) %>
+    </div>
+
+    <div class="form-group">
+      <% if !@mood.irritability_rating.nil? %>
+        <% selected_irritability = @mood.irritability_rating %>
+      <% else %>
+        <% selected_irritability = 1 %>
+      <% end %>
+
+      <script>
+        $(function() {
+          var select = $( "#mood_irritability_rating" );
+          var slider = $( "<br><br><div id='slider_irritability'></div>" ).insertAfter( select ).slider({
+            min: 1,
+            max: 4,
+            value: select[ 0 ].selectedIndex + 1,
+            slide: function( event, ui ) {
+              select[ 0 ].selectedIndex = ui.value - 1;
+            }
+          });
+          $( "#mood_irritability_rating" ).change(function() {
+            slider.slider( "value", this.selectedIndex + 1 );
+          });
+        });
+      </script>
+
+      <%= f.label "Irritability Level:" %><br>
+      <%= f.select(:irritability_rating, options_for_select([['None', 1], ['Mild', 2], ['Moderate', 3], ['Severe',4]], selected_irritability)) %>
+    </div>
   </div>
   
   <br>
 
-  <div class="actions">
-    <%= f.submit class: "btn btn-sm btn-default"%>
+  <div class="modal-footer">
+    <%= f.submit class: "btn btn-primary" %>
+    <%= link_to "Cancel", "#", class: "btn", data: {dismiss: "modal"} %>
   </div>
 <% end %>

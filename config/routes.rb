@@ -20,6 +20,7 @@ Rails.application.routes.draw do
   get 'pros/index'
 
   resources :moods do
+    get "delete"
   end
 
   resources :sleeps do
