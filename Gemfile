@@ -81,3 +81,7 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
  gem 'jquery-ui-rails'
 
  gem 'designmodo-startup_framework-rails'
+
+ gem 'less-rails'
+
+ gem 'twitter-bootstrap-rails'
