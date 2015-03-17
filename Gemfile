@@ -79,3 +79,5 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
  gem 'rest-client', '~> 1.7.3'
 
  gem 'jquery-ui-rails'
+
+ gem 'designmodo-startup_framework-rails'
