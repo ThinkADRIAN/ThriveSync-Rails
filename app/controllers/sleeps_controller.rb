@@ -13,6 +13,8 @@ class SleepsController < ApplicationController
     before_action :sync_backends, only: [:index, :show, :edit, :update, :destroy]
   end
 
+  respond_to :js
+
   Time.zone = 'EST'
   
   # GET /sleeps
@@ -29,6 +31,7 @@ class SleepsController < ApplicationController
 
     respond_to do |format|
       format.html
+      format.js
       format.json { render :json => @sleeps, status: 200 }
       format.xml { render :xml => @sleeps, status: 200 }
     end
@@ -42,6 +45,7 @@ class SleepsController < ApplicationController
 
     respond_to do |format|
       format.html
+      format.js
       format.json { render :json =>  @sleep, status: 200 }
       format.xml { render :xml => @sleep, status: 200 }
     end
@@ -50,7 +54,6 @@ class SleepsController < ApplicationController
   # GET /sleeps/new
   def new
     authorize! :manage, Sleep
-
     @sleep= Sleep.new
   end
 
@@ -116,24 +119,28 @@ class SleepsController < ApplicationController
             user_data["Sleep"] = Array.new
           end
 
-          if user_data["Sleep"].count < 1
+          if user_data["Sleep"] == nil
             user_data["Sleep"] = parse_sleep.pointer
             user_data["UserID"] = parse_sleep["user_id"]  
             user_data.save
 
-            format.html { redirect_to sleeps_url, notice: 'Sleep Entry was successfully tracked.' }
+            flash.now[:success] = 'Sleep Entry was successfully tracked.'
+            format.js
             format.json { render :show, status: :created, location: sleeps_url }
           else
             parse_sleep.parse_delete
             @sleep.destroy
-            format.html { redirect_to sleeps_url, notice: 'Sleep Entry not created.  You already have one for this day.' }
+            flash.now[:error] = 'Sleep Entry not created.  You already have one for this day.'
+            format.js
+            format.json { render :show, status: :created, location: sleeps_url }
           end
         elsif !$PARSE_ENABLED
-          format.html { redirect_to sleeps_url, notice: 'Sleep Entry was successfully tracked.' }
+          flash.now[:success] = 'Sleep Entry was successfully tracked.'
+          format.js 
           format.json { render :show, status: :created, location: sleeps_url }
         end
       else
-        format.html { render :new }
+        format.js { render json: @sleep.errors, status: :unprocessable_entity }
         format.json { render json: @sleep.errors, status: :unprocessable_entity }
       end
     end
@@ -149,7 +156,8 @@ class SleepsController < ApplicationController
         @sleep.time = (@sleep.finish_time.to_i - @sleep.start_time.to_i) / 3600
         @sleep.save
 
-        format.html { redirect_to sleeps_url, notice: 'Sleep Entry was successfully updated.' }
+        flash.now[:success] = 'Sleep Entry was successfully updated.'
+        format.js
         format.json { render :show, status: :ok, location: sleeps_url }
 
         if $PARSE_ENABLED
@@ -165,21 +173,26 @@ class SleepsController < ApplicationController
           parse_sleep.save
         end
       elsif false #This will never happen as the user cannot edit for now.
-        format.html { render :edit }
+        format.js
         format.json { render json: @sleep.errors, status: :unprocessable_entity }
 
       else
-        format.html { redirect_to @sleep, notice: 'Sleep Entry was not updated... Try again???' }
+        flash.now[:error] = 'Sleep Entry was not updated... Try again???'
+        format.js { render json: @sleep.errors, status: :unprocessable_entity }
         format.json { render json: @sleep.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  def delete
+    authorize! :manage, Sleep
+    @sleep = Sleep.find(params[:sleep_id])
   end
 
   # DELETE /sleeps/1
   # DELETE /sleeps/1.json
   def destroy
     authorize! :manage, Sleep
-
     @sleep.destroy
 
     respond_to do |format|
@@ -200,7 +213,8 @@ class SleepsController < ApplicationController
         end
         
       end
-      format.html { redirect_to sleeps_url, notice: 'Sleep Entry was successfully removed.' }
+      flash.now[:success] = 'Sleep Entry was successfully removed.'
+      format.js
       format.json { head :no_content }
     end
   end

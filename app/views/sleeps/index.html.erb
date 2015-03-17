@@ -1,40 +1,9 @@
-<div>
-  <% if @rails_user == nil %>
-    <h1><%= current_rails_user.first_name.to_s + " " + current_rails_user.last_name.to_s %><h1>
-      <%= link_to 'Add a new Sleep Entry', new_sleep_path, class: "btn btn-primary" %>
-  <% else %>
-    <h1><%= @rails_user.first_name.to_s + " " + @rails_user.last_name.to_s %><h1>
-  <% end %>
+<div class="sleep-index">
+  <%= render "index" %>
 </div>
 
-<%= render "shared/chart_sleep" %>
-
-<br>
-
-<div class="col-sm-12">
-  <% if !@sleeps.empty? %>
-    <div class="panel panel-primary">
-      <div class="panel-heading">
-        <h3 class="panel-title">Sleep Entries</h3>
-      </div>
-      <div class="panel-body">
-        <% @sleeps = @sleeps.order('created_at DESC')
-          @sleeps.each do |sleep| %>
-          <% if sleep.user_id == current_rails_user.id || (current_rails_user.is? :superuser) || (current_rails_user.is? :pro) && (current_rails_user.clients.include? sleep.user_id) %>
-            <div class="col-md-4">
-                <h3><%= sleep.updated_at.strftime("%Y-%m-%d %H:%M:%S") %></h3>
-            </div>
-            <div class="col-md-8">
-              <%= link_to 'Show Details', sleep, class: "btn-primary btn-xs" %>
-              <%= link_to 'Edit', edit_sleep_path(sleep),  class: "btn-default btn-xs" %>
-              <%= link_to 'Remove', sleep,  class: "btn-danger btn-xs", method: :delete, data: { confirm: 'Are you sure you want to remove this item?' } %>
-            </div>
-            <div class="col-md-12">
-              <hr>
-            </div>
-          <% end %>
-        <% end %>
-      </div>
-    </div>
-  <% end %>
+<div id="sleep-modal" class="modal fade">
+  <div class="modal-dialog">
+    <div id="inner-sleep-modal" class="modal-content"></div>
+  </div>
 </div>
