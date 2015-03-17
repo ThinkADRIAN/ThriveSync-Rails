@@ -1,39 +1,41 @@
-<%= form_for(@sleep) do |f| %>
-  <% if @sleep.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@sleep.errors.count, "error") %> prohibited this sleep entry from being saved:</h2>
-
-      <ul>
-      <% @sleep.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div class="form-group">
-    <%= f.label "Sleep Start Time:" %> <br>
-    <%= f.datetime_local_field :start_time %>
-  </div>
-
-  <div class="form-group">
-    <%= f.label "Sleep Finish Time:" %> <br>
-    <%= f.datetime_local_field :finish_time %>
-  </div>
-
-  <div class="form-group">
-    <% if !@sleep.quality.nil? %>
-      <% selected_quality = @sleep.quality %>
-    <% else %>
-      <% selected_quality = 1 %>
+<%= form_for @sleep, remote: true do |f| %>
+  <div class="modal-body">
+    <% if @sleep.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(@sleep.errors.count, "error") %> prohibited this sleep entry from being saved:</h2>
+        <ul>
+        <% @sleep.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+        </ul>
+      </div>
     <% end %>
-    <%= f.label "Sleep Quality:" %><br>
-    <%= f.select(:quality, options_for_select([['Broken', 1], ['Light', 2], ['Normal', 3], ['Deep',4]], selected_quality)) %>
+
+    <div class="form-group">
+      <%= f.label "Sleep Start Time:" %> <br>
+      <%= f.datetime_local_field :start_time %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label "Sleep Finish Time:" %> <br>
+      <%= f.datetime_local_field :finish_time %>
+    </div>
+
+    <div class="form-group">
+      <% if !@sleep.quality.nil? %>
+        <% selected_quality = @sleep.quality %>
+      <% else %>
+        <% selected_quality = 1 %>
+      <% end %>
+      <%= f.label "Sleep Quality:" %><br>
+      <%= f.select(:quality, options_for_select([['Broken', 1], ['Light', 2], ['Normal', 3], ['Deep',4]], selected_quality)) %>
+    </div>
   </div>
   
   <br>
 
-  <div class="actions">
-    <%= f.submit class: "btn btn-sm btn-default"%>
+  <div class="modal-footer">
+    <%= f.submit class: "btn btn-primary" %>
+    <%= link_to "Cancel", "#", class: "btn", data: {dismiss: "modal"} %>
   </div>
 <% end %>

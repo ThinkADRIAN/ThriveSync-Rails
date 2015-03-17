@@ -24,6 +24,7 @@ Rails.application.routes.draw do
   end
 
   resources :sleeps do
+    get "delete"
   end
 
   resources :self_cares do

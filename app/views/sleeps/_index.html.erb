@@ -2,6 +2,7 @@
   <% if @rails_user == nil %>
     <h1><%= current_rails_user.first_name.to_s + " " + current_rails_user.last_name.to_s %><h1>
       <%= link_to 'Add a new Sleep Entry', new_sleep_path, remote: true, class: "btn btn-primary" %>
+      <% @sleeps = Sleep.where(user_id: current_rails_user.id) %>
   <% else %>
     <h1><%= @rails_user.first_name.to_s + " " + @rails_user.last_name.to_s %><h1>
       <% @sleeps = Sleep.where(user_id: @rails_user.id) %>
