@@ -1,0 +1,54 @@
+// Place all the styles related to the welcome controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+@import '../startup-framework/ui-kit/ui-kit-header/less/header-2.less';
+
+@import '../startup-framework/ui-kit/ui-kit-content/less/content-11.less';
+
+@import '../startup-framework/ui-kit/ui-kit-content/less/content-10.less';
+
+@import '../startup-framework/ui-kit/ui-kit-footer/less/footer-12.less';
+
+@import '../startup-framework/ui-kit/ui-kit-footer/less/footer-2.less';
+
+.background {
+	background-image: url('/assets/iPhone_6_plus_perspective.png');
+	.opacity(100);
+}
+
+.content-11 {
+    position:relative;
+    text-align: center;
+    padding-top: 35px;
+    padding-bottom: 35px;
+    background: rgba(149, 165, 166, 1.0);
+    .font(24px, @clouds);
+    font-family: @font-family-demo;
+    font-weight: 300;
+    > .container {
+        position: relative;
+    }
+    .btn {
+        margin-left: 33px;
+        .font(14px, white);
+        font-weight: 500;
+        font-family:'Open Sans', sans-serif;
+    }
+    @media (max-width: 480px) {
+        > .container > span {
+            display: block;
+        }
+        .btn {
+            margin: 30px 0 0;
+        }
+    }
+    @media (max-width: 614px) {
+        > .container > span {
+            display: block;
+        }
+        .btn {
+            margin: 30px 0 0;
+        }
+    }
+}
