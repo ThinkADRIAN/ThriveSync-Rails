@@ -48,4 +48,6 @@ Rails.application.configure do
       :user_name => ENV['EMAIL_USERNAME'],
       :password => ENV['EMAIL_PASSWORD']
   }
+
+  config.serve_static_assets = true
 end
