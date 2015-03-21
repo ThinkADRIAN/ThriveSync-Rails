@@ -25,6 +25,8 @@
 
     <%= yield(:page_stylesheet) if content_for?(:page_stylesheet) %>
     
+    <%= render "shared/fonts" %>
+    
     <%= javascript_include_tag "//www.google.com/jsapi" %>
     <%= javascript_include_tag "//www.google.com/jsapi", "chartkick" %>
     
@@ -32,6 +34,6 @@
   </head>
   <body>
 
-    <%= render "shared/welcome/navbar" %>
+    <%= render "welcome/navbar" %>
       
       
