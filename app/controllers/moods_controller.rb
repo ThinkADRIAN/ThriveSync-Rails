@@ -12,7 +12,7 @@ class MoodsController < ApplicationController
     before_action :sync_backends, only: [:index, :show, :edit, :update, :destroy]
   end
 
-  respond_to :js
+  respond_to :html, :js, :json, :xml
 
   Time.zone = 'EST'
   
