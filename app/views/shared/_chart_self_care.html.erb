@@ -5,13 +5,12 @@
 <% self_care_animation_easing = 'in' %>
 <% self_care_legend_position = 'none' %>
 
-<div>
-  <% if @rails_user == nil %>
-    <% user = current_rails_user %>
-  <% else %>
-    <% user = @rails_user%>
-  <% end %>
-</div>
+
+<% if @rails_user == nil %>
+  <% user = current_rails_user %>
+<% else %>
+  <% user = @rails_user%>
+<% end %>
 
 <% @self_cares_counseling = SelfCare.where(user_id: user.id, counseling: true) %>
 <% @self_cares_medication = SelfCare.where(user_id: user.id, medication: true ) %>
