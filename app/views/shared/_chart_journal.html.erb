@@ -5,6 +5,14 @@
 <% journal_animation_easing = 'in' %>
 <% journal_legend_position = 'none' %>
 
+<% if @rails_user == nil %>
+  <% user = current_rails_user %>
+<% else %>
+  <% user = @rails_user%>
+<% end %>
+
+<% @journals = Journal.where(user_id: user.id) %>
+
 <%= line_chart [
 {name: "Journal", data: @journals.group_by_day(:created_at, last: 7).count(:journal_entry)}
 ], colors: [journal_primary_color],

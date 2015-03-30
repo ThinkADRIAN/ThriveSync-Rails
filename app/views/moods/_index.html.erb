@@ -2,10 +2,8 @@
   <% if @rails_user == nil %>
     <h1><%= current_rails_user.first_name.to_s + " " + current_rails_user.last_name.to_s %><h1>
       <%= link_to 'Add a new Mood Entry', new_mood_path, remote: true, class: "btn btn-primary" %>
-      <% @moods = Mood.where(user_id: current_rails_user.id) %>
   <% else %>
     <h1><%= @rails_user.first_name.to_s + " " + @rails_user.last_name.to_s %><h1>
-      <% @moods = Mood.where(user_id: @rails_user.id) %>
   <% end %>
 </div>
 
