@@ -44,7 +44,6 @@ class SleepsController < ApplicationController
     authorize! :read, Sleep
 
     respond_to do |format|
-      format.html
       format.js
       format.json { render :json =>  @sleep, status: 200 }
       format.xml { render :xml => @sleep, status: 200 }

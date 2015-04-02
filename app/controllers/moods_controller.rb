@@ -8,6 +8,7 @@ class MoodsController < ApplicationController
 
   before_action :set_mood, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_rails_user!
+  
   if $PARSE_ENABLED
     before_action :sync_backends, only: [:index, :show, :edit, :update, :destroy]
   end
@@ -44,7 +45,6 @@ class MoodsController < ApplicationController
     authorize! :read, Mood
     
     respond_to do |format|
-      format.html
       format.js
       format.json { render :json =>  @mood, status: 200 }
       format.xml { render :xml => @mood, status: 200 }
