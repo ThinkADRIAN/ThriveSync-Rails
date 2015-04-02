@@ -28,6 +28,7 @@ Rails.application.routes.draw do
   end
 
   resources :self_cares do
+    get "delete"
   end
 
   resources :journals do

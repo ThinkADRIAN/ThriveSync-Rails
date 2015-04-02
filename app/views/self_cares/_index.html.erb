@@ -1,0 +1,76 @@
+<div>
+  <% if @rails_user == nil %>
+    <h1><%= current_rails_user.first_name.to_s + " " + current_rails_user.last_name.to_s %><h1>
+    <%= link_to 'Add a new Self Care Entry', new_self_care_path, remote: true, class: "btn btn-primary" %>
+  <% else %>
+    <h1><%= @rails_user.first_name.to_s + " " + @rails_user.last_name.to_s %><h1>
+  <% end %>
+</div>
+
+<div>
+  <%= render "shared/chart_self_care" %>
+</div>
+
+<div class="col-sm-12">
+  <% if !@self_cares.empty? %>
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h3 class="panel-title">Self Cares Entries</h3>
+      </div>
+      <div class="panel-body">
+        <% @self_cares = @self_cares.order('created_at DESC')
+          @self_cares.each do |self_care| %>
+          <% if self_care.user_id == current_rails_user.id || (current_rails_user.is? :superuser) || (current_rails_user.is? :pro) && (current_rails_user.clients.include? self_care.user_id) %>
+            <div class="col-md-4">
+                <h4><%= self_care.updated_at.strftime("%a - %b %e, %Y - %m:%M %p") %></h4>
+            </div>
+            <div class="col-md-4">
+              <p>
+                <strong>Counseling:</strong>
+                <% if self_care.counseling == false %>
+                  <%= "No" %>
+                <% elsif self_care.counseling == true %>
+                  <%= "Yes" %>
+                <% end %>
+              </p> 
+
+              <p>
+                <strong>Medication:</strong>
+                <% if self_care.medication == false %>
+                  <%= "No" %>
+                <% elsif self_care.medication == true %>
+                  <%= "Yes" %>
+                <% end %>
+              </p> 
+
+              <p>
+                <strong>Meditation:</strong>
+                <% if self_care.meditation == false %>
+                  <%= "No" %>
+                <% elsif self_care.meditation == true %>
+                  <%= "Yes" %>
+                <% end %>
+              </p> 
+
+              <p>
+                <strong>Exercise:</strong>
+                <% if self_care.exercise == false %>
+                  <%= "No" %>
+                <% elsif self_care.exercise == true %>
+                  <%= "Yes" %>
+                <% end %>
+              </p> 
+            </div>
+            <div class="col-md-4">
+              <%= link_to 'Edit', edit_self_care_path(self_care), remote: true,  class: "btn-default btn-xs" %>
+              <%= link_to 'Remove', self_care_delete_path(self_care),  class: "btn-danger btn-xs", remote: true, self_care: self_care %>
+            </div>
+            <div class="col-md-12">
+              <hr>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>

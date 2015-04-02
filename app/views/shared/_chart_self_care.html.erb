@@ -12,6 +12,8 @@
   <% user = @rails_user%>
 <% end %>
 
+<% @self_cares = SelfCare.where(user_id: user.id) %>
+
 <% @self_cares_counseling = SelfCare.where(user_id: user.id, counseling: true) %>
 <% @self_cares_medication = SelfCare.where(user_id: user.id, medication: true ) %>
 <% @self_cares_meditation = SelfCare.where(user_id: user.id, meditation: true) %>

@@ -1,40 +1,10 @@
-<div>
-  <% if @rails_user == nil %>
-    <h1><%= current_rails_user.first_name.to_s + " " + current_rails_user.last_name.to_s %><h1>
-    <%= link_to 'Add a new Self Care Entry', new_self_care_path, class: "btn btn-primary" %>
-  <% else %>
-    <h1><%= @rails_user.first_name.to_s + " " + @rails_user.last_name.to_s %><h1>
-  <% end %>
+<div class="selfcare-index">
+  <%= render "index" %>
 </div>
 
-<%= render "shared/chart_self_care" %>
-
-<br>
-
-<div class="col-sm-12">
-  <% if !@self_cares.empty? %>
-    <div class="panel panel-primary">
-      <div class="panel-heading">
-        <h3 class="panel-title">Self Cares Entries</h3>
-      </div>
-      <div class="panel-body">
-        <% @self_cares = @self_cares.order('created_at DESC')
-          @self_cares.each do |self_care| %>
-          <% if self_care.user_id == current_rails_user.id || (current_rails_user.is? :superuser) || (current_rails_user.is? :pro) && (current_rails_user.clients.include? self_care.user_id) %>
-            <div class="col-md-4">
-                <h3><%= self_care.updated_at.strftime("%Y-%m-%d %H:%M:%S") %></h3>
-            </div>
-            <div class="col-md-8">
-              <%= link_to 'Show Details', self_care, class: "btn-primary btn-xs" %>
-              <%= link_to 'Edit', edit_self_care_path(self_care),  class: "btn-default btn-xs" %>
-              <%= link_to 'Remove', self_care,  class: "btn-danger btn-xs", method: :delete, data: { confirm: 'Are you sure you want to remove this item?' } %>
-            </div>
-            <div class="col-md-12">
-              <hr>
-            </div>
-          <% end %>
-        <% end %>
-      </div>
-    </div>
-  <% end %>
 </div>
+
+<div id="selfcare-modal" class="modal fade">
+  <div class="modal-dialog">
+    <div id="inner-selfcare-modal" class="modal-content"></div>
+  </div>

@@ -13,6 +13,8 @@ class SelfCaresController < ApplicationController
     before_action :sync_backends, only: [:index, :show, :edit, :update, :destroy]
   end
 
+  respond_to :html, :js, :json, :xml
+
   Time.zone = 'EST'
   
   # GET /self_cares
@@ -21,6 +23,7 @@ class SelfCaresController < ApplicationController
     authorize! :manage, SelfCare
     authorize! :read, SelfCare
     @rails_user = RailsUser.find_by_id(params[:rails_user_id])
+    
     if @rails_user == nil
       @self_cares = SelfCare.where(user_id: current_rails_user.id)
     elsif @rails_user != nil
@@ -29,6 +32,7 @@ class SelfCaresController < ApplicationController
 
     respond_to do |format|
       format.html
+      format.js
       format.json { render :json => @self_cares, status: 200 }
       format.xml { render :xml => @self_cares, status: 200 }
     end
@@ -41,7 +45,7 @@ class SelfCaresController < ApplicationController
     authorize! :read, SelfCare
     
     respond_to do |format|
-      format.html
+      format.js
       format.json { render :json =>  @self_care, status: 200 }
       format.xml { render :xml => @self_care, status: 200 }
     end
@@ -119,19 +123,23 @@ class SelfCaresController < ApplicationController
             user_data["UserID"] = parse_self_care["user_id"]  
             user_data.save
 
-            format.html { redirect_to self_cares_url, notice: 'Self Entry was successfully tracked.' }
+            flash.now[:success] = "Self Entry was successfully tracked."
+            format.js
             format.json { render :show, status: :created, location: sleeps_url }
           else
             parse_self_care.parse_delete
             @self_care.destroy
-            format.html { redirect_to self_cares_url, notice: 'Self Care Entry not created.  You already have one for this day.' }
+            flash.now[:error] = "Self Care Entry not created.  You already have one for this day."
+            format.js
+            format.json { render :show, status: :created, location: self_cares_url }
           end
         elsif !$PARSE_ENABLED
-          format.html { redirect_to self_cares_url, notice: 'Self Entry was successfully tracked.' }
-          format.json { render :show, status: :created, location: sleeps_url }
+          flash.now[:success] = "Self Entry was successfully tracked."
+          format.js
+          format.json { render :show, status: :created, location: self_cares_url }
         end
       else
-        format.html { render :new }
+        format.js   { render json: @self_care.errors, status: :unprocessable_entity }
         format.json { render json: @self_care.errors, status: :unprocessable_entity }
       end
     end
@@ -144,7 +152,8 @@ class SelfCaresController < ApplicationController
     
     respond_to do |format|
       if @self_care.update(self_care_params)
-        format.html { redirect_to self_cares_url, notice: 'Self Care Entry was successfully updated.' }
+        flash.now[:success] = "Self Care Entry was successfully updated."
+        format.js
         format.json { render :show, status: :ok, location: self_cares_url }
 
         if $PARSE_ENABLED
@@ -159,14 +168,20 @@ class SelfCaresController < ApplicationController
         end
 
       elsif false #This will never happen as the user cannot edit for now.
-        format.html { render :edit }
+        format.js
         format.json { render json: @self_care.errors, status: :unprocessable_entity }
 
       else
-        format.html { redirect_to @self_care, notice: 'Self Care Entry was not updated... Try again???' }
+        flash.now[:error] = 'Self Care Entry was not updated... Try again???'
+        format.js   { render json: @self_care.errors, status: :unprocessable_entity }
         format.json { render json: @self_care.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  def delete
+    authorize! :manage, SelfCare
+    @self_care = SelfCare.find(params[:self_care_id])
   end
 
   # DELETE /self_cares/1
@@ -193,7 +208,8 @@ class SelfCaresController < ApplicationController
         end
       end
       
-      format.html { redirect_to self_cares_url, notice: 'Self Care Entry was successfully removed.' }
+      flash.now[:success] = "Self Care Entry was successfully removed."
+      format.js 
       format.json { head :no_content }
     end
   end
