@@ -8,6 +8,6 @@ $("ul.errors").html("");
     $("ul.errors").append($("<li />").html("<%= message.html_safe %>"));
   <% end %>
 <% else %>
-  $(".selfcare-index").html("<%= escape_javascript(render 'index') %>");
-  $("#selfcare-modal").modal("hide");
+  $(".self_care-index").html("<%= escape_javascript(render 'index') %>");
+  $("#self_care-modal").modal("hide");
 <% end %>
