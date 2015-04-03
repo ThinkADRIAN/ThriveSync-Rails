@@ -8,6 +8,10 @@ $("ul.errors").html("");
     $("ul.errors").append($("<li />").html("<%= message.html_safe %>"));
   <% end %>
 <% else %>
-  $(".mood-index").html("<%= escape_javascript(render 'index') %>");
+	<% if current_page?(:controller => 'moods', :action => 'index') %>
+    $(".mood-index").html("<%= escape_javascript(render 'index') %>");
+  <% else %>
+    $(".shared-index").html("<%= escape_javascript(render 'shared/index') %>");
+  <% end %> 
   $("#mood-modal").modal("hide");
 <% end %>

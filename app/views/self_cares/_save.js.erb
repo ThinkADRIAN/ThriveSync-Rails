@@ -8,6 +8,10 @@ $("ul.errors").html("");
     $("ul.errors").append($("<li />").html("<%= message.html_safe %>"));
   <% end %>
 <% else %>
-  $(".self_care-index").html("<%= escape_javascript(render 'index') %>");
+<% if current_page?(:controller => 'self_cares', :action => 'index') %>
+    $(".self_care-index").html("<%= escape_javascript(render 'index') %>");
+  <% else %>
+    $(".shared-index").html("<%= escape_javascript(render 'shared/index') %>");
+  <% end %>
   $("#self_care-modal").modal("hide");
 <% end %>
