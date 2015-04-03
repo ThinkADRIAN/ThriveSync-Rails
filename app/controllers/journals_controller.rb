@@ -13,6 +13,8 @@ class JournalsController < ApplicationController
     before_action :sync_backends, only: [:index, :show, :edit, :update, :destroy]
   end
 
+  respond_to :html, :js, :json, :xml
+
   Time.zone = 'EST'
   
   # GET /journals
@@ -21,6 +23,7 @@ class JournalsController < ApplicationController
     authorize! :manage, Journal
     authorize! :read, Journal
     @rails_user = RailsUser.find_by_id(params[:rails_user_id])
+    
     if @rails_user == nil
       @journals = Journal.where(user_id: current_rails_user.id)
     elsif @rails_user != nil
@@ -29,6 +32,7 @@ class JournalsController < ApplicationController
 
     respond_to do |format|
       format.html
+      format.js
       format.json { render :json => @journals, status: 200 }
       format.xml { render :xml => @journals, status: 200 }
     end
@@ -41,7 +45,7 @@ class JournalsController < ApplicationController
     authorize! :read, Journal
 
     respond_to do |format|
-      format.html
+      format.js
       format.json { render :json =>  @journal, status: 200 }
       format.xml { render :xml => @journal, status: 200 }
     end
@@ -116,19 +120,23 @@ class JournalsController < ApplicationController
             user_data["UserID"] = parse_journal["user_id"]  
             user_data.save
 
-            format.html { redirect_to journals_url, notice: 'Journal was successfully tracked.' }
+            flash.now[:success] = "Journal was successfully tracked."
+            format.js 
             format.json { render :show, status: :created, location: sleeps_url }
           else
             parse_journal.parse_delete
             @journal.destroy
-            format.html { redirect_to journals_url, notice: 'Journal Entry not created.  You already have one for this day.' }
+            flash.now[:error] = "Journal Entry not created.  You already have one for this day."
+            format.js
+            format.json { render :show, status: :created, location: journals_url }
           end
         elsif !$PARSE_ENABLED 
-          format.html { redirect_to journals_url, notice: 'Journal was successfully tracked.' }
+          flash.now[:success] = "Journal was successfully tracked."
+          format.js
           format.json { render :show, status: :created, location: sleeps_url }
         end
       else
-        format.html { render :new }
+        format.js   { render json: @journal.errors, status: :unprocessable_entity }
         format.json { render json: @journal.errors, status: :unprocessable_entity }
       end
     end
@@ -141,7 +149,8 @@ class JournalsController < ApplicationController
     
     respond_to do |format|
       if @journal.update(journal_params)
-        format.html { redirect_to journals_url, notice: 'Journal Entry was successfully updated.' }
+        flash.now[:success] = "Journal Entry was successfully updated."
+        format.js
         format.json { render :show, status: :ok, location: journals_url }
 
         if $PARSE_ENABLED
@@ -154,14 +163,20 @@ class JournalsController < ApplicationController
         end
 
       elsif false #This will never happen as the user cannot edit for now.
-        format.html { render :edit }
+        format.js
         format.json { render json: @journal.errors, status: :unprocessable_entity }
 
       else
-        format.html { redirect_to @journal, notice: 'Journal Entry was not updated... Try again???' }
+        flash.now[:error] = 'Journal Entry was not updated... Try again???'
+        format.js   { render json: @mood.errors, status: :unprocessable_entity }
         format.json { render json: @journal.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  def delete
+    authorize! :manage, Journal
+    @journal = Journal.find(params[:journal_id])
   end
 
   # DELETE /journals/1
@@ -187,7 +202,8 @@ class JournalsController < ApplicationController
         end
       end
 
-      format.html { redirect_to journals_url, notice: 'Journal Entry was successfully removed.' }
+      flash.now[:success] = "Journal Entry was successfully deleted."
+      format.js 
       format.json { head :no_content }
     end
   end

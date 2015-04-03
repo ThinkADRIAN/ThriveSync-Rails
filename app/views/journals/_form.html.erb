@@ -1,24 +1,27 @@
-<%= form_for(@journal) do |f| %>
-  <% if @journal.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@journal.errors.count, "error") %> prohibited this journal entry from being saved:</h2>
+<%= form_for @journal, remote: true do |f| %>
+  <div class="modal-body">
+    <% if @journal.errors.any? %>
+      <ul class="errors"></ul>
+      <div id="error_explanation">
+        <h2><%= pluralize(@journal.errors.count, "error") %> prohibited this journal entry from being saved:</h2>
+        <ul>
+        <% @journal.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+        </ul>
+      </div>
+    <% end %>
 
-      <ul>
-      <% @journal.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
+    <div class="form-group">
+      <%= f.label "Journal Entry:" %> <br>
+      <%= f.text_area :journal_entry %>
     </div>
-  <% end %>
-
-  <div class="form-group">
-    <%= f.label "Journal Entry:" %> <br>
-    <%= f.text_area :journal_entry %>
   </div>
-  
+    
   <br>
 
-  <div class="actions">
-    <%= f.submit class: "btn btn-sm btn-default"%>
+  <div class="modal-footer">
+    <%= f.submit class: "btn btn-primary" %>
+    <%= link_to "Cancel", "#", class: "btn", data: {dismiss: "modal"} %>
   </div>
 <% end %>

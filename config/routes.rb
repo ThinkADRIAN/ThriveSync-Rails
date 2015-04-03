@@ -32,6 +32,7 @@ Rails.application.routes.draw do
   end
 
   resources :journals do
+    get "delete"
   end
 
   resources :rails_users, :path => 'thrivers' do

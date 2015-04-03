@@ -1,15 +1,15 @@
 <div>
   <% if @rails_user == nil %>
     <h1><%= current_rails_user.first_name.to_s + " " + current_rails_user.last_name.to_s %><h1>
-    <%= link_to 'Add a new Journal Entry', new_journal_path, class: "btn btn-primary" %>
+    <%= link_to 'Add a new Journal Entry', new_journal_path, remote: true, class: "btn btn-primary" %>
   <% else %>
     <h1><%= @rails_user.first_name.to_s + " " + @rails_user.last_name.to_s %><h1>
   <% end %>
 </div>
 
-<%= render "shared/chart_journal" %>
-
-<br>
+<div>
+  <%= render "shared/chart_journal" %>
+</div>
 
 <div class="col-sm-12">
   <% if !@journals.empty? %>
@@ -21,13 +21,17 @@
         <% @journals = @journals.order('created_at DESC')
           @journals.each do |journal| %>
           <% if journal.user_id == current_rails_user.id || (current_rails_user.is? :superuser) || (current_rails_user.is? :pro) && (current_rails_user.clients.include? journal.user_id) %>
-            <div class="col-md-4">
-                <h3><%= journal.created_at.strftime("%Y-%m-%d %H:%M:%S") %></h3>
-            </div>
             <div class="col-md-8">
-              <%= link_to 'Show Details', journal, class: "btn-primary btn-xs" %>
-              <%= link_to 'Edit', edit_journal_path(journal),  class: "btn-default btn-xs" %>
-              <%= link_to 'Remove', journal,  class: "btn-danger btn-xs", method: :delete, data: { confirm: 'Are you sure you want to remove this item?' } %>
+                <h4><%= journal.created_at.strftime("%a - %b %e, %Y - %m:%M %p") %></h4>
+            </div>
+            <div class="col-md-4">
+              <%= link_to 'Edit', edit_journal_path(journal), remote: true, class: "btn-default btn-xs" %>
+              <%= link_to 'Remove', journal_delete_path(journal),  class: "btn-danger btn-xs", remote: true, journal: journal %>
+            </div>
+            <div class="col-md-12">
+              <p>
+                <%= journal.journal_entry %>
+              </p>
             </div>
             <div class="col-md-12">
               <hr>
