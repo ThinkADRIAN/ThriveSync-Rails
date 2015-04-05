@@ -1,3 +1,7 @@
-$("#inner-journal-modal").html("<%= escape_javascript(render 'new') %>");
-$("#journal-modal").modal("show");
-$("#journal-modal").css("z-index", "1500");
+<% if current_page?(:controller => 'journals', :action => 'index') %>
+  $("#inner-journals-modal").html("<%= escape_javascript(render 'new') %>");  
+  $("#journal-modal").modal("show");
+  $("#journal-modal").css("z-index", "1500");
+<% else %>
+  $(".capture-window").html("<%= escape_javascript(render 'capture/new/journal', :controller => 'journals', :action => 'new', :@journal => Journal.new ) %>");
+<% end %>

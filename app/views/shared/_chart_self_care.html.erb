@@ -19,7 +19,7 @@
 <% @self_cares_meditation = SelfCare.where(user_id: user.id, meditation: true) %>
 <% @self_cares_exercise = SelfCare.where(user_id: user.id, exercise: true) %>
 
-<div class="col-md-6">
+<div class="col-md-12">
   <%= column_chart [
   {name: "Counseling", data: @self_cares_counseling.group_by_day(:created_at, last: 7, format: "%b %d, %Y").count(:counseling)}
   ], colors: [self_care_primary_color],
@@ -65,7 +65,7 @@
   } %>
 </div>
 
-<div class="col-md-6">
+<div class="col-md-12">
   <%= column_chart [
   {name: "Medication", data: @self_cares_medication.group_by_day(:created_at, last: 7, format: "%b %d, %Y").count(:medication)}
   ], colors: [self_care_primary_color],
@@ -111,7 +111,7 @@
   } %>
 </div>
 
-<div class="col-md-6">
+<div class="col-md-12">
   <%= column_chart [
   {name: "Meditation", data: @self_cares_meditation.group_by_day(:created_at, last: 7, format: "%b %d, %Y").count(:meditation)}
   ], colors: [self_care_primary_color],
@@ -157,7 +157,7 @@
   } %>
 </div>
 
-<div class="col-md-6">
+<div class="col-md-12">
   <%= column_chart [
   {name: "Exercise", data: @self_cares_exercise.group_by_day(:created_at, last: 7, format: "%b %d, %Y").count(:exercise)}
   ], colors: [self_care_primary_color],

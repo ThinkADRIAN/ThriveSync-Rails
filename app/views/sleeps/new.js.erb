@@ -1,3 +1,7 @@
-$("#inner-sleep-modal").html("<%= escape_javascript(render 'new') %>");
-$("#sleep-modal").modal("show");
-$("#sleep-modal").css("z-index", "1500");
+<% if current_page?(:controller => 'sleeps', :action => 'index') %>
+  $("#inner-sleep-modal").html("<%= escape_javascript(render 'new') %>");  
+  $("#sleep-modal").modal("show");
+  $("#sleep-modal").css("z-index", "1500");
+<% else %>
+  $(".capture-window").html("<%= escape_javascript(render 'capture/new/sleep', :controller => 'sleeps', :action => 'new', :@sleep => Sleep.new ) %>");
+<% end %>

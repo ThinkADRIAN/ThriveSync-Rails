@@ -1,3 +1,7 @@
-$("#inner-mood-modal").html("<%= escape_javascript(render 'new') %>");
-$("#mood-modal").modal("show");
-$("#mood-modal").css("z-index", "1500");
+<% if current_page?(:controller => 'moods', :action => 'index') %>
+  $("#inner-mood-modal").html("<%= escape_javascript(render 'new') %>");  
+  $("#mood-modal").modal("show");
+  $("#mood-modal").css("z-index", "1500");
+<% else %>
+  $(".capture-window").html("<%= escape_javascript(render 'capture/new/mood', :controller => 'moods', :action => 'new', :@mood => Mood.new ) %>");
+<% end %>
