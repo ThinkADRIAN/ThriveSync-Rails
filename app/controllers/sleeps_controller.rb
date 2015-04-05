@@ -218,6 +218,15 @@ class SleepsController < ApplicationController
     end
   end
 
+  def cancel
+    authorize! :manage, Sleep
+    authorize! :read, Sleep
+    
+    respond_to do |format|
+      format.js
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_sleep

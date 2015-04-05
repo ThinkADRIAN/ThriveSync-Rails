@@ -8,7 +8,7 @@ $("ul.errors").html("");
     $("ul.errors").append($("<li />").html("<%= message.html_safe %>"));
   <% end %>
 <% else %>
-	<% if current_page?(:controller => 'moods', :action => 'index') %>
+	<% if current_page?(:controller => 'moods', :action => 'edit') || current_page?(:controller => 'moods', :action => 'destroy') %>
     $(".mood-index").html("<%= escape_javascript(render 'index') %>");
     $("#mood-modal").modal("hide");
   <% else %>

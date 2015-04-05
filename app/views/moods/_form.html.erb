@@ -101,6 +101,10 @@
 
   <div class="modal-footer">
     <%= f.submit class: "btn btn-primary" %>
-    <%= link_to "Cancel", "#", class: "btn", data: {dismiss: "modal"} %>
+    <% if current_page?(:controller => 'moods', :action => 'new') %>
+      <%= link_to 'Cancel', moods_cancel_path, remote: true, class: "btn btn-default" %>
+    <% elsif current_page?(:controller => 'moods', :action => 'edit') || current_page?(:controller => 'moods', :action => 'destroy') %>
+      <%= link_to "Cancel", "#", class: "btn btn-default", data: {dismiss: "modal"} %>
+    <% end %>
   </div>
 <% end %>

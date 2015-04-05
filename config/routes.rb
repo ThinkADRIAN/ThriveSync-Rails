@@ -19,6 +19,14 @@ Rails.application.routes.draw do
 
   get 'pros/index'
 
+  match 'moods/cancel' => 'moods#cancel', :via => :get
+
+  match 'sleeps/cancel' => 'sleeps#cancel', :via => :get
+
+  match 'self_cares/cancel' => 'self_cares#cancel', :via => :get
+
+  match 'journals/cancel' => 'journals#cancel', :via => :get
+
   resources :moods do
     get "delete"
   end
