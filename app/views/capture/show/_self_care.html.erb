@@ -1,3 +1,78 @@
-<center>
-	<%= link_to 'Add Self Care', new_self_care_path, remote: true, class: "btn btn-primary btn-lg" %>
-</center>
+<% if @rails_user == nil %>
+  <% user = current_rails_user %>
+<% else %>
+  <% user = @rails_user%>
+<% end %>
+
+<% @self_cares = SelfCare.where(user_id: user.id, created_at: (DateTime.now.at_beginning_of_day.utc..Time.now.utc)) %>
+
+<% (1..8).each do %>
+  <br>
+<% end %>
+<div class="scroller">
+<% if !@self_cares.nil? %>
+  <% @self_cares.each do |self_care| %>
+    <div>
+      <p>
+        <strong>Counseling:</strong>
+        <% if self_care.counseling == false %>
+          <%= "No" %>
+        <% elsif self_care.counseling == true %>
+          <%= "Yes" %>
+        <% end %>
+      </p> 
+
+      <p>
+        <strong>Medication:</strong>
+        <% if self_care.medication == false %>
+          <%= "No" %>
+        <% elsif self_care.medication == true %>
+          <%= "Yes" %>
+        <% end %>
+      </p> 
+
+      <p>
+        <strong>Meditation:</strong>
+        <% if self_care.meditation == false %>
+          <%= "No" %>
+        <% elsif self_care.meditation == true %>
+          <%= "Yes" %>
+        <% end %>
+      </p> 
+
+      <p>
+        <strong>Exercise:</strong>
+        <% if self_care.exercise == false %>
+          <%= "No" %>
+        <% elsif self_care.exercise == true %>
+          <%= "Yes" %>
+        <% end %>
+      </p> 
+      <% (1..7).each do %>
+        <br>
+      <% end %>
+      <center><%= self_care.created_at.strftime("%I:%M %p") %></center>
+    </div>
+  <% end %>
+<% end %>
+<% if @sleeps.nil? || @sleeps.count < 1 %>
+  <div>
+    <center>
+      <% (1..8).each do %>
+        <br>
+      <% end %>
+      <%= link_to 'Add Self Care', new_self_care_path, remote: true, class: "btn btn-primary btn-lg" %><br>
+      <% (1..8).each do %>
+        <br>
+      <% end %>
+    </center>
+  </div>
+<% end %>
+</div>
+
+
+<script type="text/javascript">
+  $('.scroller').slick({
+    dots: true
+  })
+</script>
