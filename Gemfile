@@ -87,3 +87,5 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
  gem 'designmodo-startup_framework-rails'
 
  gem "font-awesome-rails"
+
+ gem "jquery-slick-rails"
