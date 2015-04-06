@@ -1,3 +1,46 @@
-<center>
-	<%= link_to 'Add Journal', new_journal_path, remote: true, class: "btn btn-primary btn-lg" %>
-</center>
+<% if @rails_user == nil %>
+  <% user = current_rails_user %>
+<% else %>
+  <% user = @rails_user%>
+<% end %>
+
+<% @journals = Journal.where(user_id: user.id, created_at: (DateTime.now.at_beginning_of_day.utc..Time.now.utc)) %>
+
+<% (1..8).each do %>
+  <br>
+<% end %>
+<div class="scroller">
+<% if !@journals.nil? %>
+  <% @journals.each do |journal| %>
+    <div>
+      <p>
+        <%= journal.journal_entry %>
+      </p>
+      <% (1..7).each do %>
+        <br>
+      <% end %>
+      <center><%= journal.created_at.strftime("%I:%M %p") %></center>
+    </div>
+  <% end %>
+<% end %>
+<% if @journals.nil? || @journals.count < 1 %>
+  <div>
+    <center>
+      <% (1..8).each do %>
+        <br>
+      <% end %>
+      <%= link_to 'Add Journal', new_journal_path, remote: true, class: "btn btn-primary btn-lg" %><br>
+      <% (1..8).each do %>
+        <br>
+      <% end %>
+    </center>
+  </div>
+<% end %>
+</div>
+
+
+<script type="text/javascript">
+  $('.scroller').slick({
+    dots: true
+  })
+</script>
