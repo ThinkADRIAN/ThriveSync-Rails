@@ -13,7 +13,7 @@
 
 <% @moods = Mood.where(user_id: user.id) %>
 
-<div class="col-md-4">
+<div class="col-md-12">
     <%= line_chart [
     {name: "Mood", data: @moods.group_by_day(:timestamp, last: 7).average(:mood_rating)}
     ], colors: [mood_primary_color],
@@ -59,7 +59,7 @@
     } %>
 </div>
 
-<div class="col-md-4">
+<div class="col-md-12">
   <%= line_chart [
   {name: "Anxiety", data: @moods.group_by_day(:timestamp, last: 7).average(:anxiety_rating)}
   ], colors: [mood_primary_color],
@@ -105,7 +105,7 @@
   } %>
 </div>
 
-<div class="col-md-4">
+<div class="col-md-12">
   <%= line_chart [
   {name: "Irritability", data: @moods.group_by_day(:timestamp, last: 7).average(:irritability_rating)}
   ], colors: [mood_primary_color],

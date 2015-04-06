@@ -8,10 +8,9 @@ $("ul.errors").html("");
     $("ul.errors").append($("<li />").html("<%= message.html_safe %>"));
   <% end %>
 <% else %>
-<% if current_page?(:controller => 'sleeps', :action => 'index') %>
-    $(".sleep-index").html("<%= escape_javascript(render 'index') %>");
-  <% else %>
-    $(".shared-index").html("<%= escape_javascript(render 'shared/index') %>");
-  <% end %>
+  $(".sleep-index").html("<%= escape_javascript(render 'index') %>");
   $("#sleep-modal").modal("hide");
+
+  $(".shared-index").html("<%= escape_javascript(render 'shared/index') %>");
+  $(".capture-window").html("<%= escape_javascript(render 'capture/show/sleep') %>");
 <% end %>

@@ -1,7 +1,7 @@
 <div>
   <% if @rails_user == nil %>
     <h1><%= current_rails_user.first_name.to_s + " " + current_rails_user.last_name.to_s %><h1>
-    <%= link_to 'Add a new Self Care Entry', new_self_care_path, remote: true, class: "btn btn-primary" %>
+    <%= link_to 'Add a new Self Care Entry', new_self_care_path(modal_enabled: 'true'), remote: true, class: "btn btn-primary" %>
   <% else %>
     <h1><%= @rails_user.first_name.to_s + " " + @rails_user.last_name.to_s %><h1>
   <% end %>
@@ -62,8 +62,8 @@
               </p> 
             </div>
             <div class="col-md-4">
-              <%= link_to 'Edit', edit_self_care_path(self_care), remote: true,  class: "btn-default btn-xs" %>
-              <%= link_to 'Remove', self_care_delete_path(self_care),  class: "btn-danger btn-xs", remote: true, self_care: self_care %>
+              <%= link_to 'Edit', edit_self_care_path(self_care, modal_enabled: 'true'), remote: true,  class: "btn-default btn-xs" %>
+              <%= link_to 'Remove', self_care_delete_path(self_care, modal_enabled: 'true'),  class: "btn-danger btn-xs", remote: true, self_care: self_care %>
             </div>
             <div class="col-md-12">
               <hr>

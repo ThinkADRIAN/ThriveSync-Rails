@@ -1,0 +1,20 @@
+<div class="col-md-12">
+  <center>
+  	<div class="dropdown">
+      <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+        <%= "Today, " + Date.today.strftime("%m/%d/%Y").to_s  %>
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+        <li role="presentation"><a role="menuitem" tabindex="-1" href="#"><%= "Today, " + Date.today.strftime("%m/%d/%Y").to_s  %></a></li>
+        <li role="presentation"><a role="menuitem" tabindex="-1" href="#"><%= "Yesterday, " + Date.yesterday.strftime("%m/%d/%Y").to_s  %></a></li>
+        <li role="presentation"><a role="menuitem" tabindex="-1" href="#"><%= (Date.today-2).strftime("%A").to_s+ ", " + (Date.today-2).strftime("%m/%d/%Y").to_s  %></a></a></li>
+        <li role="presentation"><a role="menuitem" tabindex="-1" href="#"><%= (Date.today-3).strftime("%A").to_s+ ", " + (Date.today-3).strftime("%m/%d/%Y").to_s  %></a></a></li>
+        <li role="presentation"><a role="menuitem" tabindex="-1" href="#"><%= (Date.today-4).strftime("%A").to_s+ ", " + (Date.today-4).strftime("%m/%d/%Y").to_s  %></a></a></li>
+        <li role="presentation"><a role="menuitem" tabindex="-1" href="#"><%= (Date.today-5).strftime("%A").to_s+ ", " + (Date.today-5).strftime("%m/%d/%Y").to_s  %></a></a></li>
+        <li role="presentation"><a role="menuitem" tabindex="-1" href="#"><%= (Date.today-6).strftime("%A").to_s+ ", " + (Date.today-6).strftime("%m/%d/%Y").to_s  %></a></a></li>
+      </ul>
+    </div>
+  </center>
+  <br>
+</div>

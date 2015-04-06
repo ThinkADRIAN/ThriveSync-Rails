@@ -1,3 +1,9 @@
-$("#inner-sleep-modal").html("<%= escape_javascript(render 'new') %>");
-$("#sleep-modal").modal("show");
-$("#sleep-modal").css("z-index", "1500");
+<% if params[:modal_enabled] == 'true' %>
+  $("#inner-sleep-modal").html("<%= escape_javascript(render 'new') %>");  
+  $("#sleep-modal").modal("show");
+  $("#sleep-modal").css("z-index", "1500");
+<% else %>
+  $(".capture-delorean").html("<%= escape_javascript(render 'capture/delorean_disabled') %>");
+  $(".capture-nav").html("<%= escape_javascript(render 'capture/nav/sleep_disabled') %>");
+  $(".capture-window").html("<%= escape_javascript(render 'capture/new/sleep', :controller => 'sleeps', :action => 'new', :@sleep => Sleep.new ) %>");
+<% end %>

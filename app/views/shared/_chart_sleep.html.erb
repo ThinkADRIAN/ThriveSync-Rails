@@ -13,7 +13,7 @@
 
 <% @sleeps = Sleep.where(user_id: user.id) %>
 
-<div class="col-md-6">
+<div class="col-md-12">
     <%= line_chart [
     {name: "Sleep Time", data: @sleeps.group_by_day(:created_at, last: 7).average(:time)}
     ], colors: [ sleep_primary_color ],
@@ -58,7 +58,7 @@
     } %>
 </div>
 
-<div class="col-md-6">
+<div class="col-md-12">
   <%= line_chart [
   {name: "Quality", data: @sleeps.group_by_day(:created_at, last: 7).average(:quality)}
   ], colors: [ sleep_primary_color ],

@@ -28,7 +28,7 @@ module ThriveTracker
     Parse.init :application_id => ENV['PARSE_ID'], 
         :master_key => ENV['PARSE_API_KEY'], :quiet => false
 
-    $PARSE_ENABLED = true
+    $PARSE_ENABLED = false
     $PARSE_REST_ENABED = false
   end
 end

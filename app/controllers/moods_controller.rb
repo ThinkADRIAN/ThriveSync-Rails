@@ -219,6 +219,15 @@ class MoodsController < ApplicationController
     end
   end
 
+  def cancel
+    authorize! :manage, Mood
+    authorize! :read, Mood
+    
+    respond_to do |format|
+      format.js
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_mood
