@@ -1,7 +1,7 @@
 <div>
   <% if @rails_user == nil %>
     <h1><%= current_rails_user.first_name.to_s + " " + current_rails_user.last_name.to_s %><h1>
-    <%= link_to 'Add a new Journal Entry', new_journal_path, remote: true, class: "btn btn-primary" %>
+    <%= link_to 'Add a new Journal Entry', new_journal_path(modal_enabled: 'true'), remote: true, class: "btn btn-primary" %>
   <% else %>
     <h1><%= @rails_user.first_name.to_s + " " + @rails_user.last_name.to_s %><h1>
   <% end %>
@@ -25,8 +25,8 @@
                 <h4><%= journal.created_at.strftime("%a - %b %e, %Y - %m:%M %p") %></h4>
             </div>
             <div class="col-md-4">
-              <%= link_to 'Edit', edit_journal_path(journal), remote: true, class: "btn-default btn-xs" %>
-              <%= link_to 'Remove', journal_delete_path(journal),  class: "btn-danger btn-xs", remote: true, journal: journal %>
+              <%= link_to 'Edit', edit_journal_path(journal, modal_enabled: 'true'), remote: true, class: "btn-default btn-xs" %>
+              <%= link_to 'Remove', journal_delete_path(journal, modal_enabled: 'true'),  class: "btn-danger btn-xs", remote: true, journal: journal %>
             </div>
             <div class="col-md-12">
               <p>

@@ -1,4 +1,4 @@
-<% if current_page?(:controller => 'sleeps', :action => 'index') %>
+<% if params[:modal_enabled] == 'true' %>
   $("#inner-sleep-modal").html("<%= escape_javascript(render 'new') %>");  
   $("#sleep-modal").modal("show");
   $("#sleep-modal").css("z-index", "1500");

@@ -8,11 +8,9 @@ $("ul.errors").html("");
     $("ul.errors").append($("<li />").html("<%= message.html_safe %>"));
   <% end %>
 <% else %>
-	<% if current_page?(:controller => 'journals', :action => 'index') %>
-    $(".journal-index").html("<%= escape_javascript(render 'index') %>");
-    $("#journal-modal").modal("hide");
-  <% else %>
-    $(".shared-index").html("<%= escape_javascript(render 'shared/index') %>");
-    $(".capture-window").html("<%= escape_javascript(render 'capture/show/journal') %>");
-  <% end %> 
+  $(".journal-index").html("<%= escape_javascript(render 'index') %>");
+  $("#journal-modal").modal("hide");
+
+  $(".shared-index").html("<%= escape_javascript(render 'shared/index') %>");
+  $(".capture-window").html("<%= escape_javascript(render 'capture/show/journal') %>");
 <% end %>

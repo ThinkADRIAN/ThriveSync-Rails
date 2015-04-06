@@ -1,5 +1,5 @@
-<% if current_page?(:controller => 'journals', :action => 'index') %>
-  $("#inner-journals-modal").html("<%= escape_javascript(render 'new') %>");  
+<% if params[:modal_enabled] == 'true' %>
+  $("#inner-journal-modal").html("<%= escape_javascript(render 'new') %>");  
   $("#journal-modal").modal("show");
   $("#journal-modal").css("z-index", "1500");
 <% else %>

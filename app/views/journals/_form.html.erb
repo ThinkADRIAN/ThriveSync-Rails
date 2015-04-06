@@ -22,9 +22,9 @@
 
   <div class="modal-footer">
     <%= f.submit class: "btn btn-primary" %>
-    <% if current_page?(:controller => 'journals', :action => 'new') %>
+    <% if params[:modal_enabled] != 'true' %>
       <%= link_to 'Cancel', journals_cancel_path, remote: true, class: "btn btn-default" %>
-    <% elsif current_page?(:controller => 'journals', :action => 'edit') || current_page?(:controller => 'journals', :action => 'destroy') %>
+    <% else %>
       <%= link_to "Cancel", "#", class: "btn btn-default", data: {dismiss: "modal"} %>
     <% end %>
   </div>
