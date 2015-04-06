@@ -10,19 +10,6 @@
   <br>
 <% end %>
 <div class="scroller">
-<% if @moods.nil? || @moods.count < 3 %>
-  <div>
-    <center>
-      <% (1..8).each do %>
-        <br>
-      <% end %>
-  	  <%= link_to 'Add Mood', new_mood_path, remote: true, class: "btn btn-primary btn-lg" %><br>
-      <% (1..8).each do puts @moods %>
-        <br>
-      <% end %>
-    </center>
-  </div>
-<% end %>
 <% if !@moods.nil? %>
   <% @moods.each do |mood| %>
     <div>
@@ -82,10 +69,25 @@
       <% (1..7).each do %>
         <br>
       <% end %>
+      <center><%= mood.timestamp.strftime("%I:%M %p") %></center>
     </div>
   <% end %>
 <% end %>
+<% if @moods.nil? || @moods.count < 3 %>
+  <div>
+    <center>
+      <% (1..8).each do %>
+        <br>
+      <% end %>
+      <%= link_to 'Add Mood', new_mood_path, remote: true, class: "btn btn-primary btn-lg" %><br>
+      <% (1..8).each do puts @moods %>
+        <br>
+      <% end %>
+    </center>
+  </div>
+<% end %>
 </div>
+
 
 <script type="text/javascript">
   $('.scroller').slick({
