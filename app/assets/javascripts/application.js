@@ -20,8 +20,6 @@
 //= require jquery-ui/effect
 //= require jquery-ui/slider
 //= require jquery_ujs
-//= require jquery.slick
 //= require twitter/bootstrap
 //= require flatui
 //= require startup_framework
-//= require slick
