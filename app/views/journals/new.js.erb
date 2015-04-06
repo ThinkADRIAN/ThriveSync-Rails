@@ -3,6 +3,7 @@
   $("#journal-modal").modal("show");
   $("#journal-modal").css("z-index", "1500");
 <% else %>
+  $(".capture-delorean").html("<%= escape_javascript(render 'capture/delorean_disabled') %>");
   $(".capture-nav").html("<%= escape_javascript(render 'capture/nav/journal_disabled') %>");
   $(".capture-window").html("<%= escape_javascript(render 'capture/new/journal', :controller => 'journals', :action => 'new', :@journal => Journal.new ) %>");
 <% end %>

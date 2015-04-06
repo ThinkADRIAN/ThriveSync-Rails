@@ -3,6 +3,7 @@
   $("#mood-modal").modal("show");
   $("#mood-modal").css("z-index", "1500");
 <% else %>
+  $(".capture-delorean").html("<%= escape_javascript(render 'capture/delorean_disabled') %>");
   $(".capture-nav").html("<%= escape_javascript(render 'capture/nav/mood_disabled') %>");
   $(".capture-window").html("<%= escape_javascript(render 'capture/new/mood', :controller => 'moods', :action => 'new', :@mood => Mood.new ) %>");
 <% end %>
