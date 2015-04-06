@@ -1,73 +1,91 @@
-<center>
+<% if @rails_user == nil %>
+  <% user = current_rails_user %>
+<% else %>
+  <% user = @rails_user%>
+<% end %>
 
-  <div class="scroller">
-    <div>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-  	  
-      <%= link_to 'Add Mood', new_mood_path, remote: true, class: "btn btn-primary btn-lg" %><br>
-      
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
+<% @moods = Mood.where(user_id: user.id, created_at: (DateTime.now.at_beginning_of_day.utc..Time.now.utc)) %>
 
-    </div>
-    <div>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-  	  
-      <%= link_to 'Add Mood', new_mood_path, remote: true, class: "btn btn-primary btn-lg" %><br>
-      
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-
-    </div>
-    <div>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-    	
-      <%= link_to 'Add Mood', new_mood_path, remote: true, class: "btn btn-primary btn-lg" %><br>
-      
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-    </div>
+<% (1..8).each do %>
+  <br>
+<% end %>
+<div class="scroller">
+<% if @moods.nil? || @moods.count < 3 %>
+  <div>
+    <center>
+      <% (1..8).each do %>
+        <br>
+      <% end %>
+  	  <%= link_to 'Add Mood', new_mood_path, remote: true, class: "btn btn-primary btn-lg" %><br>
+      <% (1..8).each do puts @moods %>
+        <br>
+      <% end %>
+    </center>
   </div>
-</center>
+<% end %>
+<% if !@moods.nil? %>
+  <% @moods.each do |mood| %>
+    <div>
+      <p>
+        <strong>Mood Level:</strong>
+        <br>
+        <center>
+          <% if mood.mood_rating == 1 %>
+            <%= "Severely Depressed" %>
+          <% elsif mood.mood_rating == 2 %>
+            <%= "Moderately Depressed" %>
+          <% elsif mood.mood_rating == 3 %>
+            <%= "Mildly Depressed" %>
+          <% elsif mood.mood_rating == 4 %>
+            <%= "Baseline" %>
+          <% elsif mood.mood_rating == 5 %>
+            <%= "Mildly Elevated" %> 
+          <% elsif mood.mood_rating == 6 %>
+            <%= "Moderately Elevated" %>
+          <% elsif mood.mood_rating == 7 %>
+            <%= "Severely Elevated" %> 
+          <% end %>
+        </center>
+      </p> 
+
+      <p>
+        <strong>Anxiety Level:</strong>
+        <br>
+        <center>
+          <% if mood.anxiety_rating == 1 %>
+            <%= "None" %>
+          <% elsif mood.anxiety_rating == 2 %>
+            <%= "Mild" %>
+          <% elsif mood.anxiety_rating == 3 %>
+            <%= "Moderate" %>
+          <% elsif mood.anxiety_rating == 4 %>
+            <%= "Severe" %>
+          <% end %>
+        </center>
+      </p>
+
+      <p>
+        <strong>Irritability Level:</strong>
+        <br>
+        <center>
+          <% if mood.irritability_rating == 1 %>
+            <%= "None" %>
+          <% elsif mood.irritability_rating == 2 %>
+            <%= "Mild" %>
+          <% elsif mood.irritability_rating == 3 %>
+            <%= "Moderate" %>
+          <% elsif mood.irritability_rating == 4 %>
+            <%= "Severe" %>
+          <% end %>
+        </center>
+      </p>
+      <% (1..8).each do %>
+        <br>
+      <% end %>
+    </div>
+  <% end %>
+<% end %>
+</div>
 
 <script type="text/javascript">
   $('.scroller').slick({
