@@ -3,5 +3,6 @@
   $("#self_care-modal").modal("show");
   $("#self_care-modal").css("z-index", "1500");
 <% else %>
+  $(".capture-nav").html("<%= escape_javascript(render 'capture/nav/self_care_disabled') %>");
   $(".capture-window").html("<%= escape_javascript(render 'capture/new/self_care', :controller => 'self_cares', :action => 'new', :@self_care => SelfCare.new ) %>");
 <% end %>
