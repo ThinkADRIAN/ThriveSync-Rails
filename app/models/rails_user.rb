@@ -1,6 +1,10 @@
 class RailsUser < ActiveRecord::Base
   include Amistad::FriendModel
 
+  searchable do
+    string :email
+  end
+
 	has_many :moods
   has_many :sleeps
   has_many :self_cares

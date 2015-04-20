@@ -96,11 +96,14 @@ GEM
       excon (>= 0.16.0, < 1.0)
       json (>= 1.7.7, < 2.0)
     mime-types (2.4.3)
+    mini_portile (0.6.2)
     minitest (5.5.1)
     multi_json (1.11.0)
     multi_xml (0.5.5)
     multipart-post (2.0.0)
     netrc (0.10.3)
+    nokogiri (1.6.6.2)
+      mini_portile (~> 0.6.0)
     oauth (0.4.7)
     oauth2 (1.0.0)
       faraday (>= 0.8, < 0.10)
@@ -139,6 +142,7 @@ GEM
       json
       rest-client
     pg (0.18.1)
+    pr_geohash (1.0.0)
     rack (1.5.2)
     rack-test (0.6.3)
       rack (>= 1.0)
@@ -171,6 +175,8 @@ GEM
     rest-client (1.7.3)
       mime-types (>= 1.16, < 3.0)
       netrc (~> 0.7)
+    rsolr (1.0.12)
+      builder (>= 2.1.2)
     sass (3.2.19)
     sass-rails (4.0.5)
       railties (>= 4.0.0, < 5.0)
@@ -189,6 +195,14 @@ GEM
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       sprockets (>= 2.8, < 4.0)
+    sunspot (2.2.0)
+      pr_geohash (~> 1.0)
+      rsolr (~> 1.0.7)
+    sunspot_rails (2.2.0)
+      nokogiri
+      rails (>= 3)
+      sunspot (= 2.2.0)
+    sunspot_solr (2.2.0)
     therubyracer (0.12.1)
       libv8 (~> 3.16.14.0)
       ref
@@ -244,6 +258,8 @@ DEPENDENCIES
   rest-client (~> 1.7.3)
   sass-rails (~> 4.0.3)
   sdoc (~> 0.4.0)
+  sunspot_rails
+  sunspot_solr
   therubyracer
   turbolinks
   twitter-bootstrap-rails

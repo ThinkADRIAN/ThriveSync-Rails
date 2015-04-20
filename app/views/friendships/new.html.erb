@@ -4,8 +4,13 @@
     <div class="panel-heading">
       <h3 class="panel-title">Available Connection Options</h3>
     </div>
+    <%= form_tag new_connection_path, :method => :get do %>
+      <p>
+        <%= text_field_tag :search, params[:search] %>
+        <%= submit_tag "Search", :name => nil %>
+    <% end %>
     <div class="panel-body">
-      <% for rails_user in @rails_users %>
+      <% for rails_user in @connections %>
         <% if current_rails_user.friend_with? rails_user %>
           <% #link_to "Disconnect", connection_path(rails_user), :method => "delete" %>
         <% elsif current_rails_user.invited? rails_user %>
