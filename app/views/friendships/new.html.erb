@@ -4,12 +4,13 @@
     <div class="panel-heading">
       <h3 class="panel-title">Available Connection Options</h3>
     </div>
-    <%= form_tag new_connection_path, :method => :get do %>
-      <p>
-        <%= text_field_tag :search, params[:search] %>
-        <%= submit_tag "Search", :name => nil %>
-    <% end %>
     <div class="panel-body">
+      <p>Type in the email of the individual you would like to connect to your data:</p>
+      <%= form_tag new_connection_path, :method => :get do %>
+        <p>
+          <%= text_field_tag :search, params[:search] %>
+          <%= submit_tag "Search", :name => nil %>
+      <% end %>
       <% for rails_user in @connections %>
         <% if current_rails_user.friend_with? rails_user %>
           <% #link_to "Disconnect", connection_path(rails_user), :method => "delete" %>
@@ -17,7 +18,7 @@
           <% #link_to "Cancel Request", connection_path(rails_user), :method => "delete" %>
         <% elsif rails_user.invited? current_rails_user %>
           <% #link_to "Confirm Connection", connection_path(rails_user), :method => "put" %>
-        <% else %>
+        <% elsif rails_user.is? :pro %>
           <div class="col-md-4">
             <h3><%= rails_user.first_name + " " + rails_user.last_name%></h3>
             <p><%= rails_user.email %></p>
