@@ -25,3 +25,4 @@
 //= require flatui
 //= require startup_framework
 //= require slick
+//= require capture.js
