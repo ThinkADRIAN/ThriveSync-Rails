@@ -73,9 +73,7 @@
 <% if @moods.nil? || @moods.count < 3 %>
   <div>
     <center>
-      <br><br><br><br><br><br><br><br>
       <%= link_to image_tag("plus_btn_icon.png"), new_mood_path, remote: true, class: 'plus-btn' %>
-      <br>
     </center>
   </div>
 <% end %>
