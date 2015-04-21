@@ -5,9 +5,7 @@
 <% end %>
 
 <% @moods = Mood.where(user_id: user.id, created_at: (DateTime.now.at_beginning_of_day.utc..Time.now.utc)) %>
-<% (1..8).each do %>
-  <br>
-<% end %>
+
 <div class="scroller">
 <% if !@moods.nil? %>
   <% @moods.each do |mood| %>
