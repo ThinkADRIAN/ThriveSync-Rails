@@ -1,9 +1,16 @@
 
-.capture {
+/*turning off display none so that image views */
+/*br {
+	display: none;
+}
+
+*/
+
+/*.capture {
 	background: url('/assets/icons/png/plus_btn_icon.png') no-repeat;
 	background-position: center;
 	background-size: 125px 125px;
-}
+}*/
 
 #capture-nav {
 	padding-top: 50px;
@@ -38,9 +45,3 @@
 
 }
 
-/*turning off display none so that image views */
-/*br {
-	display: none;
-}
-
-*/
