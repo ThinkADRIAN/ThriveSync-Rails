@@ -27,7 +27,7 @@
 development:
   adapter: postgresql
   encoding: unicode
-  database: thrivetracker_development
+  database: thrivesync_development
   pool: 5
   username: adrianbrucecunanan
   password:
@@ -35,7 +35,7 @@ development:
 test:
   adapter: postgresql
   encoding: unicode
-  database: thrivetracker_test
+  database: thrivesync_test
   pool: 5
   username: adrianbrucecunanan
   password:

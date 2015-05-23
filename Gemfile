@@ -10,6 +10,7 @@ gem 'rails', '4.1.6'
 group :development, :test do
 	# Use sqlite3 as the database for Active Record
 #	gem 'sqlite3'
+	gem 'sunspot_solr'
 end
 group :production do
   gem 'rails_12factor'
@@ -89,3 +90,7 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
  gem "font-awesome-rails"
 
  gem "jquery-slick-rails"
+
+ gem 'touchpunch-rails'
+ 
+ gem 'sunspot_rails'

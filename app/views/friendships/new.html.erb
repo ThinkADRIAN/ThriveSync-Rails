@@ -2,17 +2,23 @@
   <% # link_to 'Back to Connections', friends_path(current_rails_user), class: "btn btn-primary" %>
   <div class="panel panel-default">
     <div class="panel-heading">
-      <h3 class="panel-title">Available Connection Options</h3>
+      <h3 class="panel-title">Connect with a Mental Health Professional</h3>
     </div>
     <div class="panel-body">
-      <% for rails_user in @rails_users %>
+      <p>To connect to your data, search by your Mental Health Professional's email address:</p>
+      <%= form_tag new_connection_path, :method => :get do %>
+        <p>
+          <%= text_field_tag :search, params[:search] %>
+          <%= submit_tag "Search", :name => nil %>
+      <% end %>
+      <% for rails_user in @connections %>
         <% if current_rails_user.friend_with? rails_user %>
           <% #link_to "Disconnect", connection_path(rails_user), :method => "delete" %>
         <% elsif current_rails_user.invited? rails_user %>
           <% #link_to "Cancel Request", connection_path(rails_user), :method => "delete" %>
         <% elsif rails_user.invited? current_rails_user %>
           <% #link_to "Confirm Connection", connection_path(rails_user), :method => "put" %>
-        <% else %>
+        <% elsif rails_user.is? :pro %>
           <div class="col-md-4">
             <h3><%= rails_user.first_name + " " + rails_user.last_name%></h3>
             <p><%= rails_user.email %></p>
