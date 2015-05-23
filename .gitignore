@@ -21,3 +21,11 @@
 
 # Ignore Rubymine Files
 .idea/
+
+# Ignore Solr Files
+solr/data
+solr/test
+solr/development
+solr/default/data
+/log/*.log.lck
+solr/pids
