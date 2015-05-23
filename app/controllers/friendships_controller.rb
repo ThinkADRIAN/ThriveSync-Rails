@@ -11,6 +11,12 @@ class FriendshipsController < ApplicationController
 
   def new
     @rails_users = RailsUser.where.not(id: current_rails_user.id)
+
+    @search = RailsUser.search do
+      with(:email, params[:search])
+    end
+
+    @connections = @search.results
   end
 
   def create
