@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <title>ThriveTracker</title>
+    <meta content="authenticity_token" name="csrf-param" />
+<meta content="YEAMEuoSdWhxqqyyPBQe843TE+0q/4OIN3Ef4YX/mlQ=" name="csrf-token" />
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js" type="text/javascript"></script>
+    <![endif]-->
+
+    <link rel="stylesheet" href="/assets/flat-ui/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="/assets/flat-ui/css/flat-ui.css">
+    <!-- Using only with Flat-UI (free)-->
+    <link rel="stylesheet" href="/assets/common-files/css/icon-font.css">
+    <!-- end -->
+    <link rel="stylesheet" href="/assets/common-files/css/animations.css">
+
+    <link data-turbolinks-track="true" href="/assets/application-d868e106124155f037c54bd60a2939b3.css" media="all" rel="stylesheet" />
+
+    
+    
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Open+Sans">
+
+    <link rel="stylesheet" type="text/css" href="../../assets/stylesheets/bootstrap.css">
+      <link rel="stylesheet" type="text/css" href="../../assets/stylesheets/capture.css">
+
+    <script src="//www.google.com/jsapi"></script>
+    <script src="//www.google.com/jsapi"></script>
+<script src="/assets/chartkick-d1498a7e4d50420358741f556d7c0ebd.js"></script>
+    
+    <link href="/assets/favicon-83b9f886a4104b1293db284fb6e60cf9.ico" rel="shortcut icon" type="image/vnd.microsoft.icon" />
+  </head>
+  <body>
+
+        <header class="header-3">
+      <div class="container">
+        <div class="row">
+         <nav class="navbar col-sm-12" role="navigation">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle">
+            </button>
+            <a class="navbar-brand" href="/">
+              <img src="/assets/ThriveTracker-Logo-Green.png">
+            </a>
+          </div>
+          <div class="collapse navbar-collapse pull-right">
+            <ul class="nav pull-left">
+              <li><a href="/">Home</a></li>
+
+
+
+
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Trackers<b class="caret"></b></a>
+                  <ul class="dropdown-menu">
+                    <li><a href="/moods">Mood</a></li>
+                    <li><a href="/sleeps">Sleep</a></li>
+                    <li><a href="/self_cares">Self Care</a></li>
+                    <li><a href="/journals">Journal</a></li>
+                  </ul>
+                </li>
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Account<b class="caret"></b></a>
+                  <ul class="dropdown-menu">
+                    <li><a href="/connections.14">Connect</a></li>
+                    <li><a href="/edit">Edit Profile</a></li>
+                    <li><a data-method="delete" href="/logout" rel="nofollow">Logout</a></li>
+                  </ul>
+                </li>
+
+            </ul>
+    
+              <div class="navbar-text pull-left">
+                  Logged in as <strong>Salvatore Smitham (User)</strong>. 
+              </div>
+          </nav><!--/.nav-collapse -->
+        </div>
+      </div>
+    </header>
+
+
+  <div class="container">
+      
+    <div id="flash_messages">
+  <div class="alert alert-info fade in">
+    <button class="close" data-dismiss="alert">×</button>
+    Signed in successfully.
+  </div>
+</div>
+
+    <div class="shared-index">
+  <hr>
+
+<div class="col-md-4">
+  <div class="capture">
+    <div class="capture-delorean">
+  <div class="col-md-12">
+  <center>
+  	<div class="dropdown">
+      <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+        Today, 04/13/2015
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Today, 04/13/2015</a></li>
+        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Yesterday, 04/12/2015</a></li>
+        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Saturday, 04/11/2015</a></a></li>
+        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Friday, 04/10/2015</a></a></li>
+        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Thursday, 04/09/2015</a></a></li>
+        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Wednesday, 04/08/2015</a></a></li>
+        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Tuesday, 04/07/2015</a></a></li>
+      </ul>
+    </div>
+  </center>
+  <br>
+</div>
+</div>
+<div class="capture-nav">
+  <div class="col-md-12">
+  <div id="capture-nav" class="btn-group btn-group-xs btn-group-justified">
+	  <a class="btn active btn-primary" data-remote="true" href="/moods/cancel">Mood</a>
+	  <a class="btn btn-default" data-remote="true" href="/sleeps/cancel">Sleep</a>
+	  <a class="btn btn-default" data-remote="true" href="/self_cares/cancel">Self Care</a>
+	  <a class="btn btn-default" data-remote="true" href="/journals/cancel">Journal</a>
+  </div>
+  <hr>
+</div>
+</div>
+<div class="capture-window">
+  
+
+<div class="scroller">
+  <div>
+    <center>
+
+      <a class="btn btn-primary btn-lg" data-remote="true" href="/moods/new">Add Mood</a><br>
+
+    </center>
+  </div>
+</div>
+
+
+<script type="text/javascript">
+  $('.scroller').slick({
+    dots: true
+  })
+</script>
+</div>
+  </div>
+</div>
+
+<div class="col-md-8">
+  <div class="col-md-12">
+    <div class="mood-chart">
+  	  
+
+
+<div class="col-md-12">
+    <div id="chart-1" style="height: 300px; text-align: center; color: #999; line-height: 300px; font-size: 14px; font-family: 'Lucida Grande', 'Lucida Sans Unicode', Verdana, Arial, Helvetica, sans-serif;">Loading...</div><script type="text/javascript">
+  new Chartkick.LineChart("chart-1", [{"name":"Mood","data":{"2015-04-07 00:00:00 UTC":"3.0","2015-04-08 00:00:00 UTC":0,"2015-04-09 00:00:00 UTC":0,"2015-04-10 00:00:00 UTC":0,"2015-04-11 00:00:00 UTC":0,"2015-04-12 00:00:00 UTC":0,"2015-04-13 00:00:00 UTC":0}}], {"colors":["#27ae60"],"library":{"title":"Mood","titlePosition":"out","titleTextStyle":{"color":"#27ae60"},"backgroundColor":{"fill":"#fff","stroke":"#27ae60","strokeWidth":0},"animation":{"duration":1000,"startup":true,"easing":"in"},"hAxis":{"textStyle":{"color":"#27ae60"},"gridlines":{"color":"#fff"}},"legend":{"textStyle":{"color":"#fff"},"position":"none"},"vAxis":{"ticks":[{"v":1,"f":"Sev D"},{"v":2,"f":"Mod D"},{"v":3,"f":"Mild D"},{"v":4,"f":"Base"},{"v":5,"f":"Mild E"},{"v":6,"f":"Mod E"},{"v":7,"f":"Sev E"}],"textStyle":{"color":"#27ae60"},"gridlines":{"color":"#fff"}}}});
+</script>
+
+</div>
+
+<div class="col-md-12">
+  <div id="chart-2" style="height: 300px; text-align: center; color: #999; line-height: 300px; font-size: 14px; font-family: 'Lucida Grande', 'Lucida Sans Unicode', Verdana, Arial, Helvetica, sans-serif;">Loading...</div><script type="text/javascript">
+  new Chartkick.LineChart("chart-2", [{"name":"Anxiety","data":{"2015-04-07 00:00:00 UTC":"3.0","2015-04-08 00:00:00 UTC":0,"2015-04-09 00:00:00 UTC":0,"2015-04-10 00:00:00 UTC":0,"2015-04-11 00:00:00 UTC":0,"2015-04-12 00:00:00 UTC":0,"2015-04-13 00:00:00 UTC":0}}], {"colors":["#27ae60"],"library":{"title":"Anxiety","titlePosition":"out","titleTextStyle":{"color":"#27ae60"},"backgroundColor":{"fill":"#fff","stroke":"#27ae60","strokeWidth":0},"animation":{"duration":1000,"startup":true,"easing":"in"},"hAxis":{"textStyle":{"color":"#27ae60"},"gridlines":{"color":"#fff"}},"legend":{"textStyle":{"color":"#27ae60"},"position":"none"},"vAxis":{"ticks":[{"v":1,"f":"None"},{"v":2,"f":"Mild"},{"v":3,"f":"Mod"},{"v":4,"f":"Sev"}],"textStyle":{"color":"#27ae60"},"gridlines":{"color":"#fff"}}}});
+</script>
+
+</div>
+
+<div class="col-md-12">
+  <div id="chart-3" style="height: 300px; text-align: center; color: #999; line-height: 300px; font-size: 14px; font-family: 'Lucida Grande', 'Lucida Sans Unicode', Verdana, Arial, Helvetica, sans-serif;">Loading...</div><script type="text/javascript">
+  new Chartkick.LineChart("chart-3", [{"name":"Irritability","data":{"2015-04-07 00:00:00 UTC":"1.0","2015-04-08 00:00:00 UTC":0,"2015-04-09 00:00:00 UTC":0,"2015-04-10 00:00:00 UTC":0,"2015-04-11 00:00:00 UTC":0,"2015-04-12 00:00:00 UTC":0,"2015-04-13 00:00:00 UTC":0}}], {"colors":["#27ae60"],"library":{"title":"Irritability","titlePosition":"out","titleTextStyle":{"color":"#27ae60"},"backgroundColor":{"fill":"#fff","stroke":"#27ae60","strokeWidth":0},"animation":{"duration":1000,"startup":true,"easing":"in"},"hAxis":{"textStyle":{"color":"#27ae60"},"gridlines":{"color":"#fff"}},"legend":{"textStyle":{"color":"#27ae60"},"position":"none"},"vAxis":{"ticks":[{"v":1,"f":"None"},{"v":2,"f":"Mild"},{"v":3,"f":"Mod"},{"v":4,"f":"Sev"}],"textStyle":{"color":"#27ae60"},"gridlines":{"color":"#fff"}}}});
+</script>
+
+</div>
+    </div>
+  	<div class="btn-group btn-group-justified">
+  		<a class="btn btn-primary btn-xs btn-block" data-remote="true" href="/moods/new?modal_enabled=true">Add a new Mood Entry</a>
+  		<a class="btn btn-default btn-xs btn-block" href="/moods">View Mood Entries</a>
+  	</div>
+  	<hr>
+  </div>
+
+  <div class="col-md-12">
+    <div class="sleep-chart">
+  	  
+
+
+<div class="col-md-12">
+    <div id="chart-4" style="height: 300px; text-align: center; color: #999; line-height: 300px; font-size: 14px; font-family: 'Lucida Grande', 'Lucida Sans Unicode', Verdana, Arial, Helvetica, sans-serif;">Loading...</div><script type="text/javascript">
+  new Chartkick.LineChart("chart-4", [{"name":"Sleep Time","data":{"2015-04-07 00:00:00 UTC":"0.0","2015-04-08 00:00:00 UTC":0,"2015-04-09 00:00:00 UTC":0,"2015-04-10 00:00:00 UTC":0,"2015-04-11 00:00:00 UTC":0,"2015-04-12 00:00:00 UTC":0,"2015-04-13 00:00:00 UTC":0}}], {"colors":["#2980b9"],"library":{"title":"Sleep Quantity","titlePosition":"out","titleTextStyle":{"color":"#2980b9"},"backgroundColor":{"fill":"#fff","stroke":"#2980b9","strokeWidth":0},"animation":{"duration":1000,"startup":true,"easing":"in"},"hAxis":{"textStyle":{"color":"#2980b9"},"gridlines":{"color":"#fff"}},"legend":{"textStyle":{"color":"#2980b9"},"position":"none"},"vAxis":{"textStyle":{"color":"#2980b9"},"gridlines":{"color":"#fff"}}}});
+</script>
+
+</div>
+
+<div class="col-md-12">
+  <div id="chart-5" style="height: 300px; text-align: center; color: #999; line-height: 300px; font-size: 14px; font-family: 'Lucida Grande', 'Lucida Sans Unicode', Verdana, Arial, Helvetica, sans-serif;">Loading...</div><script type="text/javascript">
+  new Chartkick.LineChart("chart-5", [{"name":"Quality","data":{"2015-04-07 00:00:00 UTC":"3.0","2015-04-08 00:00:00 UTC":0,"2015-04-09 00:00:00 UTC":0,"2015-04-10 00:00:00 UTC":0,"2015-04-11 00:00:00 UTC":0,"2015-04-12 00:00:00 UTC":0,"2015-04-13 00:00:00 UTC":0}}], {"colors":["#2980b9"],"library":{"title":"Sleep Quality","titlePosition":"out","titleTextStyle":{"color":"#2980b9"},"backgroundColor":{"fill":"#fff","stroke":"#2980b9","strokeWidth":0},"animation":{"duration":1000,"startup":true,"easing":"in"},"hAxis":{"textStyle":{"color":"#2980b9"},"gridlines":{"color":"#fff"}},"legend":{"textStyle":{"color":"#2980b9"},"position":"none"},"vAxis":{"ticks":[{"v":1,"f":"Broken"},{"v":2,"f":"Light"},{"v":3,"f":"Norm"},{"v":4,"f":"Deep"}],"textStyle":{"color":"#2980b9"},"gridlines":{"color":"#fff"}}}});
+</script>
+
+</div>
+    </div>
+  	<div class="btn-group btn-group-justified">
+  		<a class="btn btn-primary btn-xs btn-block" data-remote="true" href="/sleeps/new?modal_enabled=true">Add a new Sleep Entry</a>
+  		<a class="btn btn-default btn-xs btn-block" href="/sleeps">View Sleep Entries</a>
+  	</div>
+  	<hr>
+  </div>
+
+  <div class="col-md-12">
+    <div class="self_care-chart">
+  	  
+
+
+
+
+<div class="col-md-12">
+  <div id="chart-6" style="height: 300px; text-align: center; color: #999; line-height: 300px; font-size: 14px; font-family: 'Lucida Grande', 'Lucida Sans Unicode', Verdana, Arial, Helvetica, sans-serif;">Loading...</div><script type="text/javascript">
+  new Chartkick.ColumnChart("chart-6", [{"name":"Counseling","data":{"Apr 07, 2015":0,"Apr 08, 2015":0,"Apr 09, 2015":0,"Apr 10, 2015":0,"Apr 11, 2015":0,"Apr 12, 2015":0,"Apr 13, 2015":0}}], {"colors":["#8e44ad"],"library":{"title":"Counseling","titlePosition":"out","titleTextStyle":{"color":"#8e44ad"},"backgroundColor":{"fill":"#fff","stroke":"#8e44ad","strokeWidth":0},"animation":{"duration":1000,"startup":true,"easing":"in"},"hAxis":{"textStyle":{"color":"#8e44ad"},"gridlines":{"color":"#fff"}},"legend":{"textStyle":{"color":"#8e44ad"},"position":"none"},"vAxis":{"ticks":[{"v":0,"f":"No"},{"v":1,"f":"Yes"}],"textStyle":{"color":"#8e44ad"},"gridlines":{"color":"#fff"}}}});
+</script>
+
+</div>
+
+<div class="col-md-12">
+  <div id="chart-7" style="height: 300px; text-align: center; color: #999; line-height: 300px; font-size: 14px; font-family: 'Lucida Grande', 'Lucida Sans Unicode', Verdana, Arial, Helvetica, sans-serif;">Loading...</div><script type="text/javascript">
+  new Chartkick.ColumnChart("chart-7", [{"name":"Medication","data":{"Apr 07, 2015":0,"Apr 08, 2015":0,"Apr 09, 2015":0,"Apr 10, 2015":0,"Apr 11, 2015":0,"Apr 12, 2015":0,"Apr 13, 2015":0}}], {"colors":["#8e44ad"],"library":{"title":"Medication","titlePosition":"out","titleTextStyle":{"color":"#8e44ad"},"backgroundColor":{"fill":"#fff","stroke":"#8e44ad","strokeWidth":0},"animation":{"duration":1000,"startup":true,"easing":"in"},"hAxis":{"textStyle":{"color":"#8e44ad"},"gridlines":{"color":"#fff"}},"legend":{"textStyle":{"color":"#8e44ad"},"position":"none"},"vAxis":{"ticks":[{"v":0,"f":"No"},{"v":1,"f":"Yes"}],"textStyle":{"color":"#8e44ad"},"gridlines":{"color":"#fff"}}}});
+</script>
+
+</div>
+
+<div class="col-md-12">
+  <div id="chart-8" style="height: 300px; text-align: center; color: #999; line-height: 300px; font-size: 14px; font-family: 'Lucida Grande', 'Lucida Sans Unicode', Verdana, Arial, Helvetica, sans-serif;">Loading...</div><script type="text/javascript">
+  new Chartkick.ColumnChart("chart-8", [{"name":"Meditation","data":{"Apr 07, 2015":0,"Apr 08, 2015":0,"Apr 09, 2015":0,"Apr 10, 2015":0,"Apr 11, 2015":0,"Apr 12, 2015":0,"Apr 13, 2015":0}}], {"colors":["#8e44ad"],"library":{"title":"Meditation","titlePosition":"out","titleTextStyle":{"color":"#8e44ad"},"backgroundColor":{"fill":"#fff","stroke":"#8e44ad","strokeWidth":0},"animation":{"duration":1000,"startup":true,"easing":"in"},"hAxis":{"textStyle":{"color":"#8e44ad"},"gridlines":{"color":"#fff"}},"legend":{"textStyle":{"color":"#8e44ad"},"position":"none"},"vAxis":{"ticks":[{"v":0,"f":"No"},{"v":1,"f":"Yes"}],"textStyle":{"color":"#8e44ad"},"gridlines":{"color":"#fff"}}}});
+</script>
+
+</div>
+
+<div class="col-md-12">
+  <div id="chart-9" style="height: 300px; text-align: center; color: #999; line-height: 300px; font-size: 14px; font-family: 'Lucida Grande', 'Lucida Sans Unicode', Verdana, Arial, Helvetica, sans-serif;">Loading...</div><script type="text/javascript">
+  new Chartkick.ColumnChart("chart-9", [{"name":"Exercise","data":{"Apr 07, 2015":0,"Apr 08, 2015":0,"Apr 09, 2015":0,"Apr 10, 2015":0,"Apr 11, 2015":0,"Apr 12, 2015":0,"Apr 13, 2015":0}}], {"colors":["#8e44ad"],"library":{"title":"Exercise","titlePosition":"out","titleTextStyle":{"color":"#8e44ad"},"backgroundColor":{"fill":"#fff","stroke":"#8e44ad","strokeWidth":0},"animation":{"duration":1000,"startup":true,"easing":"in"},"hAxis":{"textStyle":{"color":"#8e44ad"},"gridlines":{"color":"#fff"}},"legend":{"textStyle":{"color":"#8e44ad"},"position":"none"},"vAxis":{"ticks":[{"v":0,"f":"No"},{"v":1,"f":"Yes"}],"textStyle":{"color":"#8e44ad"},"gridlines":{"color":"#fff"}}}});
+</script>
+
+</div>
+    </div>
+  	<div class="btn-group btn-group-justified">
+  		<a class="btn btn-primary btn-xs btn-block" data-remote="true" href="/self_cares/new?modal_enabled=true">Add a new Self Care Entry</a>
+  		<a class="btn btn-default btn-xs btn-block" href="/self_cares">View Self Care Entries</a>
+  	</div>
+  	<hr>
+  </div>
+
+  <div class="col-md-12">
+    <div class="journal-chart">
+  	  
+
+
+<div id="chart-10" style="height: 300px; text-align: center; color: #999; line-height: 300px; font-size: 14px; font-family: 'Lucida Grande', 'Lucida Sans Unicode', Verdana, Arial, Helvetica, sans-serif;">Loading...</div><script type="text/javascript">
+  new Chartkick.LineChart("chart-10", [{"name":"Journal","data":{"2015-04-07 00:00:00 UTC":1,"2015-04-08 00:00:00 UTC":0,"2015-04-09 00:00:00 UTC":0,"2015-04-10 00:00:00 UTC":0,"2015-04-11 00:00:00 UTC":0,"2015-04-12 00:00:00 UTC":0,"2015-04-13 00:00:00 UTC":0}}], {"colors":["#f39c12"],"library":{"title":"Journal","titlePosition":"out","titleTextStyle":{"color":"#f39c12"},"backgroundColor":{"fill":"#fff","stroke":"#f39c12","strokeWidth":0},"animation":{"duration":1000,"startup":true,"easing":"in"},"hAxis":{"textStyle":{"color":"#f39c12"},"gridlines":{"color":"#fff"}},"legend":{"textStyle":{"color":"#fff"},"position":"none"},"vAxis":{"ticks":[{"v":0,"f":"No"},{"v":1,"f":"Yes"}],"textStyle":{"color":"#f39c12"},"gridlines":{"color":"#fff"}}}});
+</script>
+
+    </div>
+  	<div class="btn-group btn-group-justified">
+  		<a class="btn btn-primary btn-xs btn-block" data-remote="true" href="/journals/new?modal_enabled=true">Add a new Journal Entry</a>
+  		<a class="btn btn-default btn-xs btn-block" href="/journals">View Journal Entries</a>
+  	</div>
+  	<hr>
+  </div>
+</div>
+</div>
+
+</div> <!--container-->
+
+<div id="mood-modal" class="modal fade">
+  <div class="modal-dialog">
+    <div id="inner-mood-modal" class="modal-content"></div>
+  </div>
+</div>
+
+<div id="sleep-modal" class="modal fade">
+  <div class="modal-dialog">
+    <div id="inner-sleep-modal" class="modal-content"></div>
+  </div>
+</div>
+
+<div id="self_care-modal" class="modal fade">
+  <div class="modal-dialog">
+    <div id="inner-self_care-modal" class="modal-content"></div>
+  </div>
+</div>
+
+ <div id="journal-modal" class="modal fade">
+  <div class="modal-dialog">
+    <div id="inner-journal-modal" class="modal-content"></div>
+  </div>
+
+  </div>
+
+	<!-- Javascripts
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+
+    <script data-turbolinks-track="false" src="/assets/application-542f289c735be99882595acbca43ad01.js"></script>
+    
+  </body>
+</html>

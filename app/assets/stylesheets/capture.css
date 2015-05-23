@@ -1,0 +1,47 @@
+
+/*turning off display none so that image views */
+/*br {
+	display: none;
+}
+
+*/
+
+/*.capture {
+	background: url('/assets/icons/png/plus_btn_icon.png') no-repeat;
+	background-position: center;
+	background-size: 125px 125px;
+}*/
+
+#capture-nav {
+	padding-top: 50px;
+}
+
+#capture-nav a {
+	background: white;
+	color: rgb(46, 204, 113);
+	border: 1px solid rgb(46, 204, 113);
+	border-left: none;
+}
+
+#capture-nav a:first-child {
+	border-left: 1px solid rgb(46, 204, 113);
+}
+
+#capture-nav a:hover {
+	background-color: rgba(46, 204, 113, .15)
+}
+
+/* Should invert the color scheme // not working */
+/*#capture-nav a:active {
+	background-color: rgba(46, 204, 113);
+	color: white;
+} */
+
+
+.capture-window {
+	padding-top: 25px;
+	border: 1px solid black;
+	height: 500px;
+
+}
+

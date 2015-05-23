@@ -6,9 +6,6 @@
 
 <% @moods = Mood.where(user_id: user.id, created_at: (DateTime.now.at_beginning_of_day.utc..Time.now.utc)) %>
 
-<% (1..8).each do %>
-  <br>
-<% end %>
 <div class="scroller">
 <% if !@moods.nil? %>
   <% @moods.each do |mood| %>
@@ -76,13 +73,7 @@
 <% if @moods.nil? || @moods.count < 3 %>
   <div>
     <center>
-      <% (1..8).each do %>
-        <br>
-      <% end %>
-      <%= link_to 'Add Mood', new_mood_path, remote: true, class: "btn btn-primary btn-lg" %><br>
-      <% (1..8).each do puts @moods %>
-        <br>
-      <% end %>
+      <%= link_to image_tag("plus_btn_icon.png"), new_mood_path, remote: true, class: 'plus-btn' %>
     </center>
   </div>
 <% end %>
