@@ -26,20 +26,6 @@ class RailsUsers::PasswordsController < Devise::PasswordsController
 
     yield resource if block_given?
 
-    if $PARSE_ENABLED
-      user_to_update = self.resource
-      # updated_password = self.resource.password
-      current_parse_user = Parse::Query.new("_User").eq("username", user_to_update.email).get.first
-      if current_parse_user != nil
-        #current_parse_user["password"] = updated_password.to_s
-        #current_parse_user.save
-
-        resp = Parse::User.reset_password(user_to_update.email)
-        puts resp #=> {}
-
-      end
-    end
-
     if resource.errors.empty?
       resource.unlock_access! if unlockable?(resource)
       flash_message = resource.active_for_authentication? ? :updated : :updated_not_active

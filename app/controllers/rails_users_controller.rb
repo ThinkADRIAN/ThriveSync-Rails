@@ -66,46 +66,8 @@ class RailsUsersController < ApplicationController
     end
 
     def user_params
-      accessible = [ :first_name, :last_name, :email, :parse_user_id, roles: [], clients: [] ] # extend with your own params
+      accessible = [ :first_name, :last_name, :email, roles: [], clients: [] ] # extend with your own params
       accessible << [ :password, :password_confirmation ] unless params[:rails_user][:password].blank?
       params.require(:rails_user).permit(accessible)
-    end
-
-    def does_parse_user_exist
-      current_parse_user = Parse::Query.new("_User").eq("email", @rails_user.email).get.first
-      current_parse_user != nil
-    end
-
-    def get_parse_user_id
-      current_parse_user = Parse::Query.new("_User").eq("email", @rails_user.email).get.first
-    end
-
-    def create_parse_user
-      parse_user = Parse::User.new(
-        {
-          :first_name => @rails_user.firstName,
-          :last_name => @rails_user.lastName,
-          :username => @rails_user.email,
-          :email => @rails_user.email
-        }
-      )
-      parse_user.save
-    end
-
-    def set_parse_user_id
-      current_parse_user = get_parse_user_id
-      @rails_user.parse_user_id = current_parse_user["objectId"] 
-    end
-
-    def set_parse_user_attributes
-      current_parse_user = get_parse_user_id
-      current_parse_user["email"] = @rails_user.email
-      current_parse_user["username"] = @rails_user.email
-      current_parse_user.save
-    end
-
-    def delete_parse_user
-      current_parse_user = get_parse_user_id
-      current_parse_user.parse_delete
     end
 end
