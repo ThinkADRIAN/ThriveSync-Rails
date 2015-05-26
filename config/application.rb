@@ -20,15 +20,8 @@ module ThriveSync
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
 
-    require 'parse-ruby-client'
     require 'rest_client'
     #require 'Date'
     #require 'Time'
-
-    Parse.init :application_id => ENV['PARSE_ID'], 
-        :master_key => ENV['PARSE_API_KEY'], :quiet => false
-
-    $PARSE_ENABLED = false
-    $PARSE_REST_ENABED = false
   end
 end
