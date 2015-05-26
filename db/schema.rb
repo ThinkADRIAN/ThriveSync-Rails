@@ -40,7 +40,6 @@ ActiveRecord::Schema.define(version: 20141204201049) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "user_id"
-    t.string   "parse_user_id"
   end
 
   create_table "moods", force: true do |t|
@@ -51,7 +50,6 @@ ActiveRecord::Schema.define(version: 20141204201049) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "user_id"
-    t.string   "parse_user_id"
   end
 
   create_table "rails_users", force: true do |t|
@@ -70,7 +68,6 @@ ActiveRecord::Schema.define(version: 20141204201049) do
     t.string   "confirmation_token"
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
-    t.string   "parse_user_id"
     t.integer  "roles_mask"
     t.string   "first_name"
     t.string   "last_name"
@@ -97,7 +94,6 @@ ActiveRecord::Schema.define(version: 20141204201049) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "user_id"
-    t.string   "parse_user_id"
   end
 
   create_table "sleeps", force: true do |t|
@@ -108,7 +104,6 @@ ActiveRecord::Schema.define(version: 20141204201049) do
     t.datetime "updated_at"
     t.integer  "user_id"
     t.integer  "time"
-    t.string   "parse_user_id"
   end
 
 end
