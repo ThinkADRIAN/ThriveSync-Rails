@@ -1,6 +1,6 @@
 production:
   solr:
-    hostname: https://index.websolr.com
+    hostname: index.websolr.com
     port: 8983
     log_level: WARNING
     path: /solr/091c4a5f545
