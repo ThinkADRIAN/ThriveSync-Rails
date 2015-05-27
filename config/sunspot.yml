@@ -1,9 +1,9 @@
 production:
   solr:
-    # hostname: localhost
-    # port: 8983
-    # log_level: WARNING
-    # path: /solr/production
+    hostname: https://index.websolr.com
+    port: 8983
+    log_level: WARNING
+    path: /solr/091c4a5f545
     # read_timeout: 2
     # open_timeout: 0.5
 
