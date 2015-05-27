@@ -90,3 +90,5 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
  gem 'touchpunch-rails'
  
  gem 'sunspot_rails'
+
+ gem 'simple_token_authentication', '~> 1.0'
