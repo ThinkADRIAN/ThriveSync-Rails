@@ -44,9 +44,9 @@ class RailsUsers::SessionsController < Devise::SessionsController
 
   def remove_current_users_token_if_json_request
     #remove the users authentication token if user is logged in
-    if current_user and request.format.json?
-      current_user.authentication_token = nil
-      return current_user.save
+    if current_rails_user and request.format.json?
+      current_rails_user.authentication_token = nil
+      return current_rails_user.save
     else
       return false
     end
