@@ -14,7 +14,23 @@ class RailsUsers::SessionsController < Devise::SessionsController
 
   # DELETE /resource/sign_out
   def destroy
-    super
+    # super
+    token_was_removed = remove_current_users_token_if_json_request
+
+    redirect_path = after_sign_out_path_for(resource_name)
+    signed_out = (Devise.sign_out_all_scopes ? sign_out : sign_out(resource_name))
+    set_flash_message :notice, :signed_out if signed_out && is_navigational_format?
+
+    respond_with resource do |format|
+      format.html { redirect_to root_path }
+      format.json {
+        if token_was_removed
+          render :status=>200, :json=>{:message => "Logout successful." }
+        else
+          render :status=>401, :json=>{:message => "Logout failed. Invalid token or some internal server error while saving." }
+        end
+      }
+    end
   end
 
   protected
@@ -23,6 +39,16 @@ class RailsUsers::SessionsController < Devise::SessionsController
   def configure_sign_in_params
     devise_parameter_sanitizer.for(:sign_in) do |u|
       u.permit(:first_name, :last_name, :email, :password, :password_confirmation, roles: [])
+    end
+  end
+
+  def remove_current_users_token_if_json_request
+    #remove the users authentication token if user is logged in
+    if current_user and request.format.json?
+      current_user.authentication_token = nil
+      return current_user.save
+    else
+      return false
     end
   end
 end
