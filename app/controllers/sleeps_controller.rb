@@ -1,4 +1,6 @@
 class SleepsController < ApplicationController
+  acts_as_token_authentication_handler_for RailsUser
+
   rescue_from CanCan::AccessDenied do |exception|
     redirect_to root_url, :alert => exception.message
   end
@@ -69,7 +71,7 @@ class SleepsController < ApplicationController
       if @sleep.save
         flash.now[:success] = 'Sleep Entry was successfully tracked.'
         format.js 
-        format.json { render :show, status: :created, location: sleeps_url }
+        format.json { render :json => @sleep, status: :created }
       else
         format.js { render json: @sleep.errors, status: :unprocessable_entity }
         format.json { render json: @sleep.errors, status: :unprocessable_entity }
@@ -89,7 +91,7 @@ class SleepsController < ApplicationController
 
         flash.now[:success] = 'Sleep Entry was successfully updated.'
         format.js
-        format.json { render :show, status: :ok, location: sleeps_url }
+        format.json { render :json => @sleep, status: :created }
       else
         flash.now[:error] = 'Sleep Entry was not updated... Try again???'
         format.js { render json: @sleep.errors, status: :unprocessable_entity }
@@ -133,6 +135,6 @@ class SleepsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def sleep_params
-      params.require(:sleep).permit(:start_time, :finish_time, :quality)
+      params.fetch(:sleep, {}).permit(:start_time, :finish_time, :quality)
     end
 end

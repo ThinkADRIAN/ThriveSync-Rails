@@ -1,4 +1,6 @@
 class MoodsController < ApplicationController
+  acts_as_token_authentication_handler_for RailsUser
+
   rescue_from CanCan::AccessDenied do |exception|
     redirect_to root_url, :alert => exception.message
   end
@@ -70,7 +72,7 @@ class MoodsController < ApplicationController
       if @mood.save
         flash.now[:success] = "Mood Entry was successfully tracked."
         format.js 
-        format.json { render :show, status: :created, location: moods_url }
+        format.json { render :json => @mood, status: :created }
       else
         format.js   { render json: @mood.errors, status: :unprocessable_entity }
         format.json { render json: @mood.errors, status: :unprocessable_entity }
@@ -87,7 +89,7 @@ class MoodsController < ApplicationController
       if @mood.update(mood_params)
         flash.now[:success] = "Mood Entry was successfully updated."
         format.js
-        format.json { render :show, status: :ok, location: moods_url }
+        format.json { render :json => @mood, status: :created }
       else
         flash.now[:error] = 'Mood Entry was not updated... Try again???'
         format.js   { render json: @mood.errors, status: :unprocessable_entity }
@@ -131,6 +133,6 @@ class MoodsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def mood_params
-      params.require(:mood).permit(:mood_rating, :anxiety_rating, :irritability_rating)
+      params.fetch(:mood, {}).permit(:mood_rating, :anxiety_rating, :irritability_rating)
     end
 end
