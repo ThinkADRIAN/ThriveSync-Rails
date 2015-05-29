@@ -1,4 +1,6 @@
 class SelfCaresController < ApplicationController
+  acts_as_token_authentication_handler_for RailsUser
+
   rescue_from CanCan::AccessDenied do |exception|
     redirect_to root_url, :alert => exception.message
   end
@@ -69,7 +71,7 @@ class SelfCaresController < ApplicationController
       if @self_care.save
         flash.now[:success] = "Self Entry was successfully tracked."
         format.js
-        format.json { render :show, status: :created, location: self_cares_url }
+        format.json { render :json => @self_care, status: :created }
       else
         format.js   { render json: @self_care.errors, status: :unprocessable_entity }
         format.json { render json: @self_care.errors, status: :unprocessable_entity }
@@ -86,7 +88,7 @@ class SelfCaresController < ApplicationController
       if @self_care.update(self_care_params)
         flash.now[:success] = "Self Care Entry was successfully updated."
         format.js
-        format.json { render :show, status: :ok, location: self_cares_url }
+        format.json { render :json => @self_care, status: :created }
       else
         flash.now[:error] = 'Self Care Entry was not updated... Try again???'
         format.js   { render json: @self_care.errors, status: :unprocessable_entity }
@@ -126,5 +128,10 @@ class SelfCaresController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_self_care
       @self_care = SelfCare.find(params[:id])
+    end
+
+    # Never trust parameters from the scary internet, only allow the white list through.
+    def self_care_params
+      params.fetch(:self_care, {}).permit(:counseling, :medication, :meditation, :exercise)
     end
 end
