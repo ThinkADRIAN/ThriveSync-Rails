@@ -1,4 +1,6 @@
 class JournalsController < ApplicationController
+  acts_as_token_authentication_handler_for RailsUser
+
   rescue_from CanCan::AccessDenied do |exception|
     redirect_to root_url, :alert => exception.message
   end
@@ -69,7 +71,7 @@ class JournalsController < ApplicationController
       if @journal.save
         flash.now[:success] = "Journal was successfully tracked."
         format.js
-        format.json { render :show, status: :created, location: sleeps_url }
+        format.json { render :json => @journal, status: :created }
       else
         format.js   { render json: @journal.errors, status: :unprocessable_entity }
         format.json { render json: @journal.errors, status: :unprocessable_entity }
@@ -86,7 +88,7 @@ class JournalsController < ApplicationController
       if @journal.update(journal_params)
         flash.now[:success] = "Journal Entry was successfully updated."
         format.js
-        format.json { render :show, status: :ok, location: journals_url }
+        format.json { render :json => @journal, status: :created }
       else
         flash.now[:error] = 'Journal Entry was not updated... Try again???'
         format.js   { render json: @mood.errors, status: :unprocessable_entity }
@@ -130,6 +132,6 @@ class JournalsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def journal_params
-      params.require(:journal).permit(:journal_entry)
+      params.fetch(:journal, {}).permit(:journal_entry)
     end
 end
