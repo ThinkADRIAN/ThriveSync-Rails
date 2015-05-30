@@ -1,5 +1,5 @@
 <div class="col-md-12">
-  <% # link_to 'Back to Connections', friends_path(current_rails_user), class: "btn btn-primary" %>
+  <% # link_to 'Back to Connections', friends_path(current_user), class: "btn btn-primary" %>
   <div class="panel panel-default">
     <div class="panel-heading">
       <h3 class="panel-title">Connect with a Mental Health Professional</h3>
@@ -11,21 +11,21 @@
           <%= text_field_tag :search, params[:search] %>
           <%= submit_tag "Search", :name => nil %>
       <% end %>
-      <% for rails_user in @connections %>
-        <% if current_rails_user.friend_with? rails_user %>
-          <% #link_to "Disconnect", connection_path(rails_user), :method => "delete" %>
-        <% elsif current_rails_user.invited? rails_user %>
-          <% #link_to "Cancel Request", connection_path(rails_user), :method => "delete" %>
-        <% elsif rails_user.invited? current_rails_user %>
-          <% #link_to "Confirm Connection", connection_path(rails_user), :method => "put" %>
-        <% elsif rails_user.is? :pro %>
+      <% for user in @connections %>
+        <% if current_user.friend_with? user %>
+          <% #link_to "Disconnect", connection_path(user), :method => "delete" %>
+        <% elsif current_user.invited? user %>
+          <% #link_to "Cancel Request", connection_path(user), :method => "delete" %>
+        <% elsif user.invited? current_user %>
+          <% #link_to "Confirm Connection", connection_path(user), :method => "put" %>
+        <% elsif user.is? :pro %>
           <div class="col-md-4">
-            <h3><%= rails_user.first_name + " " + rails_user.last_name%></h3>
-            <p><%= rails_user.email %></p>
+            <h3><%= user.first_name + " " + user.last_name%></h3>
+            <p><%= user.email %></p>
           </div>
           <div class="col-md-8">
             <h3></h3>
-            <%= link_to "Connect", connections_path(:rails_user_id => rails_user), :method => "post", class: "btn-primary btn-xs" %>
+            <%= link_to "Connect", connections_path(:user_id => user), :method => "post", class: "btn-primary btn-xs" %>
           </div>
           <div class="col-md-12">
             <hr>

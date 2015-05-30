@@ -1,5 +1,5 @@
 class MoodsController < ApplicationController
-  acts_as_token_authentication_handler_for RailsUser
+  acts_as_token_authentication_handler_for User
 
   rescue_from CanCan::AccessDenied do |exception|
     redirect_to root_url, :alert => exception.message
@@ -9,7 +9,7 @@ class MoodsController < ApplicationController
   check_authorization
 
   before_action :set_mood, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_rails_user!
+  before_action :authenticate_user!
 
   respond_to :html, :js, :json, :xml
 
@@ -20,12 +20,12 @@ class MoodsController < ApplicationController
   def index
     authorize! :manage, Mood
     authorize! :read, Mood
-    @rails_user = RailsUser.find_by_id(params[:rails_user_id])
+    @user = User.find_by_id(params[:user_id])
     
-    if @rails_user == nil
-      @moods = Mood.where(user_id: current_rails_user.id)
-    elsif @rails_user != nil
-      @moods = Mood.where(user_id: @rails_user.id)
+    if @user == nil
+      @moods = Mood.where(user_id: current_user.id)
+    elsif @user != nil
+      @moods = Mood.where(user_id: @user.id)
     end
    
     respond_to do |format|
@@ -65,7 +65,7 @@ class MoodsController < ApplicationController
   def create
     authorize! :manage, Mood
     @mood = Mood.new(mood_params)
-    @mood.user_id = current_rails_user.id
+    @mood.user_id = current_user.id
     @mood.update_attribute(:timestamp, DateTime.now.in_time_zone)
     
     respond_to do |format|

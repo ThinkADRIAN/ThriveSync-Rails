@@ -17,25 +17,25 @@ class RelationshipsController < ApplicationController
 	  redirect_to current_user
 	end
 
-	def self.request(rails_user, relation)
+	def self.request(user, relation)
     unless user == relation or Relationship.exists?(user, relation)
       transaction do
-        create(:rails_user => rails_user, :relation => relation, :status => 'pending')
-        create(:rails_user => relation, :relation => rail_user, :status => 'requested')
+        create(:user => user, :relation => relation, :status => 'pending')
+        create(:user => relation, :relation => rail_user, :status => 'requested')
       end
     end
   end
 
-  def self.accept(rails_user, relation)
+  def self.accept(user, relation)
     transaction do
       accepted_at = Time.now
-      accept_one_side(rails_user, relation, accepted_at)
-      accept_one_side(relation, rails_user, accepted_at)
+      accept_one_side(user, relation, accepted_at)
+      accept_one_side(relation, user, accepted_at)
     end
   end
 
-  def self.accept_one_side(rails_user, relation, accepted_at)
-    request = find_by_rails_user_id_and_relation_id(rails_user, relation)
+  def self.accept_one_side(user, relation, accepted_at)
+    request = find_by_user_id_and_relation_id(user, relation)
     request.status = 'accepted'
     request.accepted_at = accepted_at
     request.save!

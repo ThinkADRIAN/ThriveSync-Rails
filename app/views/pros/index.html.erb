@@ -1,20 +1,20 @@
 <div class="col-sm-12">
-  <% @rails_users = RailsUser.where(:email == !nil).sort_by { |r| r.last_name.downcase }
-  if !@rails_users.empty? %>
+  <% @users = User.where(:email == !nil).sort_by { |r| r.last_name.downcase }
+  if !@users.empty? %>
     <div class="panel panel-primary">
       <div class="panel-heading">
         <h3 class="panel-title">Clients List</h3>
       </div>
       <div class="panel-body">
-        <% @rails_users.each do |rails_user| %>
-          <% if current_rails_user.clients.include? rails_user.id %>
+        <% @users.each do |user| %>
+          <% if current_user.clients.include? user.id %>
             <div class="col-md-4">
-                <h3><%= rails_user.first_name + " " + rails_user.last_name %></h3>
-                <p><%= rails_user.email %></p>
+                <h3><%= user.first_name + " " + user.last_name %></h3>
+                <p><%= user.email %></p>
             </div>
             <div class="col-md-8">
               <h3></h3>
-              <%= link_to 'Show Details', rails_user, class: "btn-primary btn-xs" %>
+              <%= link_to 'Show Details', user, class: "btn-primary btn-xs" %>
             </div>
             <div class="col-md-12">
               <hr>
