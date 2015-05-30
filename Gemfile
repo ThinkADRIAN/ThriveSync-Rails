@@ -92,3 +92,6 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
  gem 'sunspot_rails'
 
  gem 'simple_token_authentication', '~> 1.0'
+
+ #Api gems
+ gem 'active_model_serializers'
