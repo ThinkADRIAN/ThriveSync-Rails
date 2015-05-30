@@ -1,5 +1,5 @@
 class SleepsController < ApplicationController
-  acts_as_token_authentication_handler_for RailsUser
+  acts_as_token_authentication_handler_for User
 
   rescue_from CanCan::AccessDenied do |exception|
     redirect_to root_url, :alert => exception.message
@@ -9,7 +9,7 @@ class SleepsController < ApplicationController
   check_authorization
 
   before_action :set_sleep, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_rails_user!
+  before_action :authenticate_user!
 
   respond_to :js
 
@@ -20,11 +20,11 @@ class SleepsController < ApplicationController
   def index
     authorize! :manage, Sleep
     authorize! :read, Sleep
-    @rails_user = RailsUser.find_by_id(params[:rails_user_id])
-    if @rails_user == nil
-      @sleeps = Sleep.where(user_id: current_rails_user.id)
-    elsif @rails_user != nil
-      @sleeps = Sleep.where(user_id: @rails_user.id)
+    @user = User.find_by_id(params[:user_id])
+    if @user == nil
+      @sleeps = Sleep.where(user_id: current_user.id)
+    elsif @user != nil
+      @sleeps = Sleep.where(user_id: @user.id)
     end
 
     respond_to do |format|
@@ -64,7 +64,7 @@ class SleepsController < ApplicationController
   def create
     authorize! :manage, Sleep
     @sleep = Sleep.new(sleep_params)
-    @sleep.user_id = current_rails_user.id
+    @sleep.user_id = current_user.id
     @sleep.time = (@sleep.finish_time.to_i - @sleep.start_time.to_i) / 3600
     
     respond_to do |format|

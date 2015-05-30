@@ -5,10 +5,10 @@
 <% mood_animation_easing = 'in' %>
 <% mood_legend_position = 'none' %>
 
-<% if @rails_user == nil %>
-  <% user = current_rails_user %>
+<% if @user == nil %>
+  <% user = current_user %>
 <% else %>
-  <% user = @rails_user%>
+  <% user = @user%>
 <% end %>
 
 <% @moods = Mood.where(user_id: user.id) %>

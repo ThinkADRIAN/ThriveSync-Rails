@@ -1,3 +1,3 @@
 class Mood < ActiveRecord::Base
-	belongs_to :rails_user
+	belongs_to :user
 end

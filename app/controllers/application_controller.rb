@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   respond_to :html, :json
   
-	#acts_as_token_authentication_handler_for RailsUser, :except => [:index]
+	#acts_as_token_authentication_handler_for User, :except => [:index]
   
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
@@ -26,7 +26,7 @@ class ApplicationController < ActionController::Base
       end
 		end
 
-	alias_method :current_user, :current_rails_user # Could be :current_member or :logged_in_user
+	alias_method :current_user, :current_user # Could be :current_member or :logged_in_user
 
   ActionController::Renderers.add :json do |json, options|
 	  unless json.kind_of?(String)
@@ -53,32 +53,32 @@ class ApplicationController < ActionController::Base
 
     # Redirect to the 'finish_signup' page if the user
     # email hasn't been verified yet
-    if current_rails_user && !current_rails_user.email_verified?
-      redirect_to finish_signup_path(current_rails_user)
+    if current_user && !current_user.email_verified?
+      redirect_to finish_signup_path(current_user)
     end
   end
 
   helper_method :pro_access_granted?
   protected
-  def rails_user_access_granted_index?
-  	((current_rails_user.is? :pro) && (current_rails_user.clients.include?(params[:id].to_i))) || 
-  	(current_rails_user.id == params[:id].to_i) || (current_rails_user.is? :superuser)
+  def user_access_granted_index?
+  	((current_user.is? :pro) && (current_user.clients.include?(params[:id].to_i))) || 
+  	(current_user.id == params[:id].to_i) || (current_user.is? :superuser)
   end
 
-  def rails_user_access_granted_edit?
-  	(current_rails_user.is? :superuser)
+  def user_access_granted_edit?
+  	(current_user.is? :superuser)
   end
 
-  def authorize_rails_user_index
-  	unless rails_user_access_granted_index?
+  def authorize_user_index
+  	unless user_access_granted_index?
   		flash[:error] = "Unauthorized access"
   		redirect_to root_url
       false
     end
   end
 
-  def authorize_rails_user_edit
-  	unless rails_user_access_granted_edit?
+  def authorize_user_edit
+  	unless user_access_granted_edit?
   		flash[:error] = "Unauthorized access"
   		redirect_to root_url
       false

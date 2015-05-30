@@ -1,5 +1,5 @@
-class RailsUsers::SessionsController < Devise::SessionsController
-  acts_as_token_authentication_handler_for RailsUser
+class Api::V1::SessionsController < Devise::SessionsController
+  acts_as_token_authentication_handler_for User
 
   before_filter :configure_sign_in_params, only: [:create, :destroy]
   skip_before_filter :verify_signed_out_user
@@ -71,9 +71,9 @@ class RailsUsers::SessionsController < Devise::SessionsController
 
   def remove_current_users_token_if_json_request
     #remove the users authentication token if user is logged in
-    if current_rails_user and request.format.json?
-      current_rails_user.authentication_token = nil
-      return current_rails_user.save
+    if current_user and request.format.json?
+      current_user.authentication_token = nil
+      return current_user.save
     else
       return false
     end

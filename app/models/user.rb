@@ -1,4 +1,4 @@
-class RailsUser < ActiveRecord::Base
+class User < ActiveRecord::Base
   include Amistad::FriendModel
 
   searchable do
@@ -14,7 +14,7 @@ class RailsUser < ActiveRecord::Base
   has_many :relations, :through => :relationships
   
   has_many :inverse_relationships, :class_name => "Relationship", :foreign_key => "relation_id"
-  has_many :inverse_relations, :through => :inverse_relationships, :source => :rails_user
+  has_many :inverse_relations, :through => :inverse_relationships, :source => :user
 
   before_create :set_default_role
 
@@ -46,21 +46,21 @@ class RailsUser < ActiveRecord::Base
     # to prevent the identity being locked with accidentally created accounts.
     # Note that this may leave zombie accounts (with no associated identity) which
     # can be cleaned up at a later date.
-    rails_user = signed_in_resource ? signed_in_resource : identity.rails_user
+    user = signed_in_resource ? signed_in_resource : identity.user
 
     # Create the user if needed
-    if rails_user.nil?
+    if user.nil?
 
       # Get the existing user by email if the provider gives us a verified email.
       # If no verified email was provided we assign a temporary email and ask the
       # user to verify it on the next step via UsersController.finish_signup
       email_is_verified = auth.info.email && (auth.info.verified || auth.info.verified_email)
       email = auth.info.email # if email_is_verified
-      rails_user = RailsUser.where(:email => email).first if email
+      user = User.where(:email => email).first if email
 
       # Create the user if it's a new registration
-      if rails_user.nil?
-        rails_user = RailsUser.new(
+      if user.nil?
+        user = User.new(
           #name: auth.extra.raw_info.name,
           #username: auth.info.nickname || auth.uid,
           first_name: auth.extra.raw_info.first_name,
@@ -68,17 +68,17 @@ class RailsUser < ActiveRecord::Base
           email: email ? email : "#{TEMP_EMAIL_PREFIX}-#{auth.uid}-#{auth.provider}.com",
           password: Devise.friendly_token[0,20]
         )
-        rails_user.skip_confirmation!
-        rails_user.save!
+        user.skip_confirmation!
+        user.save!
       end
     end
 
     # Associate the identity with the user if needed
-    if identity.rails_user != rails_user
-      identity.rails_user = rails_user
+    if identity.user != user
+      identity.user = user
       identity.save!
     end
-    rails_user
+    user
   end
 
   def email_verified?
@@ -108,7 +108,7 @@ class RailsUser < ActiveRecord::Base
   end
 
   def authorize
-    unless current_rails_user.is? :pro
+    unless current_user.is? :pro
     end
   end
 

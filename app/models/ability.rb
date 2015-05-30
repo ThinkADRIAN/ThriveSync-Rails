@@ -30,17 +30,17 @@ class Ability
     # https://github.com/ryanb/cancan/wiki/Defining-Abilities
 
     # handle guest user (not logged in)
-    user ||= RailsUser.new() 
+    user ||= User.new() 
 
     can :manage, :all if user.is? :superuser
 
-    can :assign_roles, RailsUser if user.is? :superuser
+    can :assign_roles, User if user.is? :superuser
 
     can :manage, Mood do |mood|
       if 
         user.is? :superuser
       elsif 
-        mood.user_id == @rails_user_id
+        mood.user_id == @user_id
       end
     end
 
@@ -52,7 +52,7 @@ class Ability
       if
       user.is? :superuser
       elsif
-      sleep.user_id == @rails_user_id
+      sleep.user_id == @user_id
       end
     end
 
@@ -64,7 +64,7 @@ class Ability
       if
       user.is? :superuser
       elsif
-      self_care.user_id == @rails_user_id
+      self_care.user_id == @user_id
       end
     end
 
@@ -76,7 +76,7 @@ class Ability
       if
       user.is? :superuser
       elsif
-      journal.user_id == @rails_user_id
+      journal.user_id == @user_id
       end
     end
 
