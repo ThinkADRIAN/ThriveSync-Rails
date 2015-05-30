@@ -55,11 +55,16 @@ Rails.application.routes.draw do
     get "invites", :on => :collection
   end
 
+  require 'api_constraints'
+
   # Api definition
   namespace :api, defaults: { format: :json }#,
                               #constraints: { subdomain: 'api' }, path: '/'  
                               do
-    # We are going to list our resources here
+    scope module: :v1 do
+      constraints: ApiConstraints.new(version: 1, default: true) do
+      end
+    end
   end
 
   #map.resources :relationships
