@@ -60,7 +60,17 @@ Rails.application.routes.draw do
   # Api definition
   namespace :api, defaults: { format: :json } do#, constraints: { subdomain: 'api' }, path: '/'  do
     scope module: :v1, constraints: ApiConstraints.new(version: 1, default: true) do
-      resources :users, :only => [:create, :show, :update, :destroy]
+      devise_scope :user do
+        post '/registrations' => 'registrations#create'
+        put '/registrations' => 'registrations#update'
+        post '/sessions' => 'sessions#create'
+        delete '/sessions' => 'sessions#destroy'
+        post '/passwords' => 'passwords#create'
+      end
+
+      resources :sessions, :only => [:create, :destroy]
+      resources :registrations, :only => [:create, :update, :destroy]
+      resources :passwords, :only => [:create, :update]
     end
   end
 
