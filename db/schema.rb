@@ -26,14 +26,14 @@ ActiveRecord::Schema.define(version: 20150527124157) do
   add_index "friendships", ["friendable_id", "friend_id"], name: "index_friendships_on_friendable_id_and_friend_id", unique: true, using: :btree
 
   create_table "identities", force: true do |t|
-    t.integer  "rails_user_id"
+    t.integer  "user_id"
     t.string   "provider"
     t.string   "uid"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "identities", ["rails_user_id"], name: "index_identities_on_rails_user_id", using: :btree
+  add_index "identities", ["user_id"], name: "index_identities_on_user_id", using: :btree
 
   create_table "journals", force: true do |t|
     t.text     "journal_entry"
@@ -52,36 +52,8 @@ ActiveRecord::Schema.define(version: 20150527124157) do
     t.integer  "user_id"
   end
 
-  create_table "rails_users", force: true do |t|
-    t.string   "email",                  default: "", null: false
-    t.string   "encrypted_password",     default: "", null: false
-    t.string   "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,  null: false
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
-    t.inet     "current_sign_in_ip"
-    t.inet     "last_sign_in_ip"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "confirmation_token"
-    t.datetime "confirmed_at"
-    t.datetime "confirmation_sent_at"
-    t.integer  "roles_mask"
-    t.string   "first_name"
-    t.string   "last_name"
-    t.integer  "clients",                default: [],              array: true
-    t.string   "authentication_token"
-  end
-
-  add_index "rails_users", ["authentication_token"], name: "index_rails_users_on_authentication_token", using: :btree
-  add_index "rails_users", ["confirmation_token"], name: "index_rails_users_on_confirmation_token", unique: true, using: :btree
-  add_index "rails_users", ["email"], name: "index_rails_users_on_email", unique: true, using: :btree
-  add_index "rails_users", ["reset_password_token"], name: "index_rails_users_on_reset_password_token", unique: true, using: :btree
-
   create_table "relationships", force: true do |t|
-    t.integer  "rails_user_id"
+    t.integer  "user_id"
     t.integer  "relation_id"
     t.string   "status"
     t.datetime "created_at"
@@ -107,5 +79,33 @@ ActiveRecord::Schema.define(version: 20150527124157) do
     t.integer  "user_id"
     t.integer  "time"
   end
+
+  create_table "users", force: true do |t|
+    t.string   "email",                  default: "", null: false
+    t.string   "encrypted_password",     default: "", null: false
+    t.string   "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.integer  "sign_in_count",          default: 0,  null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.inet     "current_sign_in_ip"
+    t.inet     "last_sign_in_ip"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.integer  "roles_mask"
+    t.string   "first_name"
+    t.string   "last_name"
+    t.integer  "clients",                default: [],              array: true
+    t.string   "authentication_token"
+  end
+
+  add_index "users", ["authentication_token"], name: "index_users_on_authentication_token", using: :btree
+  add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
+  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
 end

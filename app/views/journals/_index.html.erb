@@ -1,9 +1,9 @@
 <div>
-  <% if @rails_user == nil %>
-    <h1><%= current_rails_user.first_name.to_s + " " + current_rails_user.last_name.to_s %><h1>
+  <% if @user == nil %>
+    <h1><%= current_user.first_name.to_s + " " + current_user.last_name.to_s %><h1>
     <%= link_to 'Add a new Journal Entry', new_journal_path(modal_enabled: 'true'), remote: true, class: "btn btn-primary" %>
   <% else %>
-    <h1><%= @rails_user.first_name.to_s + " " + @rails_user.last_name.to_s %><h1>
+    <h1><%= @user.first_name.to_s + " " + @user.last_name.to_s %><h1>
   <% end %>
 </div>
 
@@ -20,7 +20,7 @@
       <div class="panel-body">
         <% @journals = @journals.order('created_at DESC')
           @journals.each do |journal| %>
-          <% if journal.user_id == current_rails_user.id || (current_rails_user.is? :superuser) || (current_rails_user.is? :pro) && (current_rails_user.clients.include? journal.user_id) %>
+          <% if journal.user_id == current_user.id || (current_user.is? :superuser) || (current_user.is? :pro) && (current_user.clients.include? journal.user_id) %>
             <div class="col-md-8">
                 <h4><%= journal.created_at.strftime("%a - %b %e, %Y - %m:%M %p") %></h4>
             </div>

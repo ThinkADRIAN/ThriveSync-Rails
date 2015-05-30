@@ -1,6 +1,6 @@
-class DeviseCreateRailsUsers < ActiveRecord::Migration
+class DeviseCreateUsers < ActiveRecord::Migration
   def change
-    create_table(:rails_users) do |t|
+    create_table(:users) do |t|
       ## Database authenticatable
       t.string :email,              null: false, default: ""
       t.string :encrypted_password, null: false, default: ""
@@ -34,9 +34,9 @@ class DeviseCreateRailsUsers < ActiveRecord::Migration
       t.timestamps
     end
 
-    add_index :rails_users, :email,                unique: true
-    add_index :rails_users, :reset_password_token, unique: true
-    # add_index :rails_users, :confirmation_token,   unique: true
-    # add_index :rails_users, :unlock_token,         unique: true
+    add_index :users, :email,                unique: true
+    add_index :users, :reset_password_token, unique: true
+    # add_index :users, :confirmation_token,   unique: true
+    # add_index :users, :unlock_token,         unique: true
   end
 end

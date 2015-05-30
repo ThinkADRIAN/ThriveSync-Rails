@@ -14,7 +14,7 @@ namespace :db do
     Rake::Task['db:reset'].invoke
 
     # Create admin_user account
-    admin_user = RailsUser.create!(:email => "admin@thrivesync.com",
+    admin_user = User.create!(:email => "admin@thrivesync.com",
       :first_name => "ThriveSync",
       :last_name => "Administrator",
       :password => "Tiavspw!")
@@ -28,7 +28,7 @@ namespace :db do
       last_name = Faker::Name.last_name + " (Pro)"
       email = "test-#{n+1}@thrivesync.com"
       password = "Password1234"
-      test_user = RailsUser.create!(:first_name => first_name,
+      test_user = User.create!(:first_name => first_name,
         :last_name => last_name,
         :email => email,
         :password => password,
@@ -93,7 +93,7 @@ namespace :db do
       last_name = Faker::Name.last_name + " (User)"
       email = "test-#{n+11}@thrivesync.com"
       password = "Password1234"
-      test_user = RailsUser.create!(:first_name => first_name,
+      test_user = User.create!(:first_name => first_name,
         :last_name => last_name,
         :email => email,
         :password => password,
@@ -153,17 +153,17 @@ namespace :db do
     end
 
     # Create client Relationships
-    rails_users = RailsUser.all
+    users = User.all
     inviter = []
     invitee = []
 
-    rails_users.each do |user|
+    users.each do |user|
       if user.roles.include? "pro"
         inviter << user
       end
     end  
 
-    rails_users.each do |user|
+    users.each do |user|
       if user.roles.include? "user"
         invitee << user
       end

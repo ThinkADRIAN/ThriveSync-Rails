@@ -1,5 +1,5 @@
 class SelfCaresController < ApplicationController
-  acts_as_token_authentication_handler_for RailsUser
+  acts_as_token_authentication_handler_for User
 
   rescue_from CanCan::AccessDenied do |exception|
     redirect_to root_url, :alert => exception.message
@@ -9,7 +9,7 @@ class SelfCaresController < ApplicationController
   check_authorization
 
   before_action :set_self_care, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_rails_user!
+  before_action :authenticate_user!
 
   respond_to :html, :js, :json, :xml
 
@@ -20,12 +20,12 @@ class SelfCaresController < ApplicationController
   def index
     authorize! :manage, SelfCare
     authorize! :read, SelfCare
-    @rails_user = RailsUser.find_by_id(params[:rails_user_id])
+    @user = User.find_by_id(params[:user_id])
     
-    if @rails_user == nil
-      @self_cares = SelfCare.where(user_id: current_rails_user.id)
-    elsif @rails_user != nil
-      @self_cares = SelfCare.where(user_id: @rails_user.id)
+    if @user == nil
+      @self_cares = SelfCare.where(user_id: current_user.id)
+    elsif @user != nil
+      @self_cares = SelfCare.where(user_id: @user.id)
     end
 
     respond_to do |format|
@@ -65,7 +65,7 @@ class SelfCaresController < ApplicationController
   def create
     authorize! :manage, SelfCare
     @self_care = SelfCare.new(self_care_params)
-    @self_care.user_id = current_rails_user.id
+    @self_care.user_id = current_user.id
     
     respond_to do |format|
       if @self_care.save

@@ -1,3 +1,3 @@
 Amistad.configure do |config|
-  config.friend_model = 'RailsUser'
+  config.friend_model = 'User'
 end
