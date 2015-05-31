@@ -9,16 +9,16 @@
         <h3 class="panel-title">Pending Connections</h3>
       </div>
       <div class="panel-body">
-        <% for rails_user in @rails_users %>
-          <% if (rails_user.invited? current_rails_user) && (!current_rails_user.friend_with? rails_user)%>
+        <% for user in @users %>
+          <% if (user.invited? current_user) && (!current_user.friend_with? user)%>
             <div class="col-md-4">  
-                <h3><%= rails_user.first_name + " " + rails_user.last_name%></h3>
-                <p><%= rails_user.email %></p>
+                <h3><%= user.first_name + " " + user.last_name%></h3>
+                <p><%= user.email %></p>
             </div>
             <div class="col-md-8">
               <h3></h3>
-              <%= link_to "Accept", connection_path(rails_user), :method => "put", class: "btn-primary btn-xs" %>
-              <%= link_to "Reject", connection_path(rails_user), :method => "delete", data: { confirm: "Are you sure you want to reject this connection?" }, class: "btn-danger btn-xs" %>
+              <%= link_to "Accept", connection_path(user), :method => "put", class: "btn-primary btn-xs" %>
+              <%= link_to "Reject", connection_path(user), :method => "delete", data: { confirm: "Are you sure you want to reject this connection?" }, class: "btn-danger btn-xs" %>
             </div>
             <div class="col-md-12">
               <hr>
@@ -35,15 +35,15 @@
     </div>
     <div class="panel-body">
     <% if !@confirmed_friends.empty?#if @friends != nil %>
-      <% for rails_user in @friends %>
-        <% if current_rails_user.friend_with? rails_user %>
+      <% for user in @friends %>
+        <% if current_user.friend_with? user %>
           <div class="col-md-4">
-            <h3><%= rails_user.first_name + " " + rails_user.last_name %></h3>
-            <p><%= rails_user.email %></p>
+            <h3><%= user.first_name + " " + user.last_name %></h3>
+            <p><%= user.email %></p>
           </div>
           <div class="col-md-8">
             <h3></h3>
-            <%= link_to "Disconnect", connection_path(rails_user), :method => "delete", data: { confirm: "Are you sure you want to disconnect this connection?" }, class: "btn-danger btn-xs" %>
+            <%= link_to "Disconnect", connection_path(user), :method => "delete", data: { confirm: "Are you sure you want to disconnect this connection?" }, class: "btn-danger btn-xs" %>
           </div>
           <div class="col-md-12">
             <hr>

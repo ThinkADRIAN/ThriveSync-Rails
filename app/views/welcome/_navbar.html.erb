@@ -11,7 +11,7 @@
         <ul class="nav pull-right">
           <li class="active"><a href="/">Home</a></li>
           
-          <% if rails_user_signed_in? && (current_rails_user.is? :superuser) %>
+          <% if user_signed_in? && (current_user.is? :superuser) %>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">Super User Tools<b class="caret"></b></a>
               <ul class="dropdown-menu">
@@ -22,7 +22,7 @@
             </li>
           <% end %>
 
-          <% if rails_user_signed_in? && (current_rails_user.is? :admin) %>
+          <% if user_signed_in? && (current_user.is? :admin) %>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin Tools<b class="caret"></b></a>
               <ul class="dropdown-menu">
@@ -33,7 +33,7 @@
             </li>
           <% end %>
 
-          <% if rails_user_signed_in? && (current_rails_user.is? :pro) %>
+          <% if user_signed_in? && (current_user.is? :pro) %>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">Pro Tools<b class="caret"></b></a>
               <ul class="dropdown-menu">
@@ -42,7 +42,7 @@
             </li>
           <% end %>
 
-          <% if rails_user_signed_in? && (current_rails_user.is? :client) %>
+          <% if user_signed_in? && (current_user.is? :client) %>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">Client Tools<b class="caret"></b></a>
               <ul class="dropdown-menu">
@@ -54,7 +54,7 @@
             </li>
           <% end %>
 
-          <% if rails_user_signed_in? && (current_rails_user.is? :user) %>
+          <% if user_signed_in? && (current_user.is? :user) %>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">Trackers<b class="caret"></b></a>
               <ul class="dropdown-menu">
@@ -65,27 +65,27 @@
               </ul>
             </li>
           <% end %>
-          <% if rails_user_signed_in?%>
+          <% if user_signed_in?%>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">Account<b class="caret"></b></a>
               <ul class="dropdown-menu">
-                <li><a href="<%= connections_path(current_rails_user) %>">Connect</a></li>
-                <li><a href="<%= edit_rails_user_registration_path %>">Edit Profile</a></li>
-                <li><%= link_to "Logout", destroy_rails_user_session_path, method: :delete %></li>
+                <li><a href="<%= connections_path(current_user) %>">Connect</a></li>
+                <li><a href="<%= edit_user_registration_path %>">Edit Profile</a></li>
+                <li><%= link_to "Logout", destroy_user_session_path, method: :delete %></li>
               </ul>
             </li>
           <% else %>
-            <li><a href="<%= new_rails_user_registration_path %>">Sign Up</a></li>
-            <li><a href="<%= new_rails_user_session_path %>">Login</a></li>
+            <li><a href="<%= new_user_registration_path %>">Sign Up</a></li>
+            <li><a href="<%= new_user_session_path %>">Login</a></li>
           <% end %>
         </ul>
 
         <ul class="subnav">
         </ul>
         
-        <% if rails_user_signed_in? %>
+        <% if user_signed_in? %>
           <div class="navbar-text pull-left">
-              Logged in as <strong><%= current_rails_user.first_name + " " + current_rails_user.last_name %></strong>. 
+              Logged in as <strong><%= current_user.first_name + " " + current_user.last_name %></strong>. 
           </div>
         <% end %>
       </div>

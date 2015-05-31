@@ -1,11 +1,11 @@
 Rails.application.routes.draw do
   
-  devise_for :rails_users, :path => '', :path_names => {:sign_in => 'login', :sign_out => 'logout'}, :controllers => {:registrations => 'my_devise/registrations',
-    :omniauth_callbacks => "omniauth_callbacks", :sessions => 'rails_users/sessions', :passwords => 'rails_users/passwords'}
-  match '/rails_users/:id/finish_signup' => 'rails_users#finish_signup', via: [:get, :patch], :as => :finish_signup
+  devise_for :users, :path => '', :path_names => {:sign_in => 'login', :sign_out => 'logout'}, :controllers => {:registrations => 'my_devise/registrations',
+    :omniauth_callbacks => "omniauth_callbacks", :sessions => 'users/sessions', :passwords => 'users/passwords'}
+  match '/users/:id/finish_signup' => 'users#finish_signup', via: [:get, :patch], :as => :finish_signup
 
   # Auto-created by Devise
-  # get 'rails_users/new'
+  # get 'users/new'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
@@ -43,7 +43,7 @@ Rails.application.routes.draw do
     get "delete"
   end
 
-  resources :rails_users, :path => 'thrivers' do
+  resources :users, :path => 'thrivers' do
     resources :moods
     resources :sleeps
     resources :self_cares
@@ -53,6 +53,25 @@ Rails.application.routes.draw do
   resources :connections, :controller => 'friendships', :except => [:show, :edit] do
     get "requests", :on => :collection
     get "invites", :on => :collection
+  end
+
+  require 'api_constraints'
+
+  # Api definition
+  namespace :api, defaults: { format: :json } do#, constraints: { subdomain: 'api' }, path: '/'  do
+    scope module: :v1, constraints: ApiConstraints.new(version: 1, default: true) do
+      devise_scope :user do
+        post '/registrations' => 'registrations#create'
+        put '/registrations' => 'registrations#update'
+        post '/sessions' => 'sessions#create'
+        delete '/sessions' => 'sessions#destroy'
+        post '/passwords' => 'passwords#create'
+      end
+
+      resources :sessions, :only => [:create, :destroy]
+      resources :registrations, :only => [:create, :update, :destroy]
+      resources :passwords, :only => [:create, :update]
+    end
   end
 
   #map.resources :relationships

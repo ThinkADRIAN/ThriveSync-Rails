@@ -1,7 +1,7 @@
-<% if @rails_user == nil %>
-  <% user = current_rails_user %>
+<% if @user == nil %>
+  <% user = current_user %>
 <% else %>
-  <% user = @rails_user%>
+  <% user = @user%>
 <% end %>
 
 <% @journals = Journal.where(user_id: user.id, created_at: (DateTime.now.at_beginning_of_day.utc..Time.now.utc)) %>
