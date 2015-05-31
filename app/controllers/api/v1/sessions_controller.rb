@@ -1,5 +1,5 @@
 class Api::V1::SessionsController < Devise::SessionsController
-  acts_as_token_authentication_handler_for User
+  acts_as_token_authentication_handler_for User, fallback_to_devise: false
 
   before_filter :configure_sign_in_params, only: [:create, :destroy]
   skip_before_filter :verify_signed_out_user

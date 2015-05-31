@@ -1,4 +1,6 @@
 class Api::V1::PasswordsController < Devise::PasswordsController
+  acts_as_token_authentication_handler_for User, fallback_to_devise: false
+
   prepend_before_filter :require_no_authentication
   # Render the #edit only if coming from a reset password email link
   append_before_filter :assert_reset_token_passed, only: :edit
