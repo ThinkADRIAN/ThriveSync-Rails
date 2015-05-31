@@ -1,7 +1,7 @@
 class Api::V1::RegistrationsController < Devise::RegistrationsController
   prepend_before_filter :require_no_authentication, only: [ :new, :create, :edit, :update, :cancel ]
   prepend_before_filter :authenticate_scope!, only: [:destroy]
-  acts_as_token_authentication_handler_for User
+  acts_as_token_authentication_handler_for User, fallback_to_devise: false
 
   # Disable token authentication for all actions
   # See https://github.com/gonzalo-bulnes/simple_token_authentication/blob/master/lib/simple_token_authentication/acts_as_token_authentication_handler.rb#L12-L15
