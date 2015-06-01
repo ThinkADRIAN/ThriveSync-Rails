@@ -1,0 +1,49 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Checkin count:</strong>
+  <%= @scorecard.checkin_count %>
+</p>
+
+<p>
+  <strong>Perfect checkin count:</strong>
+  <%= @scorecard.perfect_checkin_count %>
+</p>
+
+<p>
+  <strong>Last checkin date:</strong>
+  <%= @scorecard.last_checkin_date %>
+</p>
+
+<p>
+  <strong>Streak count:</strong>
+  <%= @scorecard.streak_count %>
+</p>
+
+<p>
+  <strong>Streak record:</strong>
+  <%= @scorecard.streak_record %>
+</p>
+
+<p>
+  <strong>Moods score:</strong>
+  <%= @scorecard.moods_score %>
+</p>
+
+<p>
+  <strong>Sleeps score:</strong>
+  <%= @scorecard.sleeps_score %>
+</p>
+
+<p>
+  <strong>Self cares score:</strong>
+  <%= @scorecard.self_cares_score %>
+</p>
+
+<p>
+  <strong>Journals score:</strong>
+  <%= @scorecard.journals_score %>
+</p>
+
+<%= link_to 'Edit', edit_scorecard_path(@scorecard) %> |
+<%= link_to 'Back', scorecards_path %>

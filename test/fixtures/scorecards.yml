@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  checkin_count: 1
+  perfect_checkin_count: 1
+  last_checkin_date: 2015-06-01 10:58:10
+  streak_count: 1
+  streak_record: 1
+  moods_score: 1
+  sleeps_score: 1
+  self_cares_score: 1
+  journals_score: 1
+
+two:
+  checkin_count: 1
+  perfect_checkin_count: 1
+  last_checkin_date: 2015-06-01 10:58:10
+  streak_count: 1
+  streak_record: 1
+  moods_score: 1
+  sleeps_score: 1
+  self_cares_score: 1
+  journals_score: 1
