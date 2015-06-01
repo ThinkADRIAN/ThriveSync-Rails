@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150527124157) do
+ActiveRecord::Schema.define(version: 20150601170953) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -58,6 +58,23 @@ ActiveRecord::Schema.define(version: 20150527124157) do
     t.string   "status"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "scorecards", force: true do |t|
+    t.integer  "checkin_count"
+    t.integer  "perfect_checkin_count"
+    t.datetime "last_checkin_date"
+    t.integer  "streak_count"
+    t.integer  "streak_record"
+    t.integer  "moods_score"
+    t.integer  "sleeps_score"
+    t.integer  "self_cares_score"
+    t.integer  "journals_score"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "level_multiplier"
+    t.integer  "days_since_signup"
+    t.integer  "user_id"
   end
 
   create_table "self_cares", force: true do |t|
