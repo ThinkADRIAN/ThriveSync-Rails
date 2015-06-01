@@ -1,0 +1,41 @@
+<h1>Listing scorecards</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Checkin count</th>
+      <th>Perfect checkin count</th>
+      <th>Last checkin date</th>
+      <th>Streak count</th>
+      <th>Streak record</th>
+      <th>Moods score</th>
+      <th>Sleeps score</th>
+      <th>Self cares score</th>
+      <th>Journals score</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @scorecards.each do |scorecard| %>
+      <tr>
+        <td><%= scorecard.checkin_count %></td>
+        <td><%= scorecard.perfect_checkin_count %></td>
+        <td><%= scorecard.last_checkin_date %></td>
+        <td><%= scorecard.streak_count %></td>
+        <td><%= scorecard.streak_record %></td>
+        <td><%= scorecard.moods_score %></td>
+        <td><%= scorecard.sleeps_score %></td>
+        <td><%= scorecard.self_cares_score %></td>
+        <td><%= scorecard.journals_score %></td>
+        <td><%= link_to 'Show', scorecard %></td>
+        <td><%= link_to 'Edit', edit_scorecard_path(scorecard) %></td>
+        <td><%= link_to 'Destroy', scorecard, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Scorecard', new_scorecard_path %>

@@ -21,7 +21,7 @@ module ThriveSync
     # config.i18n.default_locale = :de
 
     require 'rest_client'
-    #require 'Date'
+    require 'Date'
     #require 'Time'
   end
 end
