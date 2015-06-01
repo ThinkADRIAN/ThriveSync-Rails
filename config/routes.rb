@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
   
+  resources :scorecards
+
   devise_for :users, :path => '', :path_names => {:sign_in => 'login', :sign_out => 'logout'}, :controllers => {:registrations => 'my_devise/registrations',
     :omniauth_callbacks => "omniauth_callbacks", :sessions => 'users/sessions', :passwords => 'users/passwords'}
   match '/users/:id/finish_signup' => 'users#finish_signup', via: [:get, :patch], :as => :finish_signup
