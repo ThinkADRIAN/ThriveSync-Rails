@@ -21,7 +21,7 @@ class Scorecard < ActiveRecord::Base
   end
 
   def increment_perfect_checkin_count
-    self._perfect_checkin_count += 1
+    self.perfect_checkin_count += 1
     self.save
   end
 
