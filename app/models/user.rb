@@ -10,6 +10,8 @@ class User < ActiveRecord::Base
   has_many :self_cares
   has_many :journals
 
+  has_one :scorecard, dependent: :destroy
+
   has_many :relationships
   has_many :relations, :through => :relationships
   
@@ -17,6 +19,7 @@ class User < ActiveRecord::Base
   has_many :inverse_relations, :through => :inverse_relationships, :source => :user
 
   before_create :set_default_role
+  after_create :create_score_card
 
   # User is free account, Client is unlocked when coupled with a Pro account,
   # Admin will administer an organizational unit, SuperUser is for internal use
@@ -31,7 +34,7 @@ class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :lockable, :timeoutable
   devise :database_authenticatable, :registerable,
-    :recoverable, :rememberable, :trackable, :validatable, :omniauthable, :confirmable
+    :recoverable, :rememberable, :trackable, :validatable, :omniauthable
 
   validates_presence_of :first_name, :last_name
 
@@ -113,4 +116,10 @@ class User < ActiveRecord::Base
   end
 
   scope :with_role, lambda { |role| {:conditions => "roles_mask & #{2**ROLES.index(role.to_s)} > 0 "} }
+
+  def create_score_card
+    @scorecard = Scorecard.new
+    @scorecard.user_id = self.id
+    @scorecard.save
+  end
 end

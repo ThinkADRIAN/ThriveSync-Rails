@@ -21,7 +21,7 @@
 //= require jquery-ui/slider
 //= require jquery_ujs
 //= require jquery.slick
-//= require twitter/bootstrap
+//= require bootstrap.min.js
 //= require flatui
 //= require startup_framework
 //= require slick

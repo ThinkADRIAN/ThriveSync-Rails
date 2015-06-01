@@ -1,5 +1,5 @@
 class Relationship < ActiveRecord::Base
-	belongs_to :user
+  belongs_to :user
   belongs_to :relation, :class_name => 'User'
 
   has_many :pending_relations,

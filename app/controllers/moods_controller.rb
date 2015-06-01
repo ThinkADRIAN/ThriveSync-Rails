@@ -70,6 +70,7 @@ class MoodsController < ApplicationController
     
     respond_to do |format|
       if @mood.save
+        current_user.scorecard.update_scorecard('moods')
         flash.now[:success] = "Mood Entry was successfully tracked."
         format.js 
         format.json { render :json => @mood, status: :created }

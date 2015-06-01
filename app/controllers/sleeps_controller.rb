@@ -69,6 +69,7 @@ class SleepsController < ApplicationController
     
     respond_to do |format|
       if @sleep.save
+        current_user.scorecards.update_scorecard('sleeps')
         flash.now[:success] = 'Sleep Entry was successfully tracked.'
         format.js 
         format.json { render :json => @sleep, status: :created }
