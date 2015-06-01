@@ -83,5 +83,13 @@ class Ability
     can :read, Journal do |journal|
       (user.is? :pro) && (user.clients.include? journal.user_id)
     end
+
+    can :manage, Scorecard do |scorecard|
+      if 
+        user.is? :superuser
+      elsif 
+        scorecard.user_id == @user_id
+      end
+    end
   end
 end

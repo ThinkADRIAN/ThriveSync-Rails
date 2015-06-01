@@ -51,6 +51,8 @@ namespace :db do
         mood.updated_at = d.days.ago
         mood.save!
 
+        test_user.scorecard.update_scorecard('moods')
+
         sleep_start_time = Faker::Time.between((d).days.ago, Time.now, :morning)#rand(now-d.days.ago)
         sleep_finish_time = sleep_start_time + rand(1..10).hours
 
@@ -63,6 +65,8 @@ namespace :db do
         sleep.updated_at = d.days.ago
         sleep.save!
 
+        test_user.scorecard.update_scorecard('sleeps')
+
         random_bool = [true, false].sample
 
         self_care = SelfCare.create!(:counseling => [true, false].sample,
@@ -74,6 +78,8 @@ namespace :db do
         self_care.updated_at = d.days.ago
         self_care.save!
 
+        test_user.scorecard.update_scorecard('self_cares')
+
         journal_entry = Faker::Lorem.paragraph(sentence_count = rand(1..38))
         journal_entered = [true,false].sample
 
@@ -83,6 +89,7 @@ namespace :db do
           journal.created_at = d.days.ago
           journal.updated_at = d.days.ago
           journal.save!
+          test_user.scorecard.update_scorecard('journals')
         end
       end
     end
@@ -116,6 +123,8 @@ namespace :db do
         mood.updated_at = d.days.ago
         mood.save!
 
+        test_user.scorecard.update_scorecard('moods')
+
         sleep_start_time = Faker::Time.between((d).days.ago, Time.now, :morning)#rand(now-d.days.ago)
         sleep_finish_time = sleep_start_time + rand(1..10).hours
 
@@ -128,6 +137,8 @@ namespace :db do
         sleep.updated_at = d.days.ago
         sleep.save!
 
+        test_user.scorecard.update_scorecard('sleeps')
+
         random_bool = [true, false].sample
 
         self_care = SelfCare.create!(:counseling => [true, false].sample,
@@ -139,6 +150,8 @@ namespace :db do
         self_care.updated_at = d.days.ago
         self_care.save!
 
+        test_user.scorecard.update_scorecard('self_cares')
+
         journal_entry = Faker::Lorem.paragraph(sentence_count = rand(1..38))
         journal_entered = [true,false].sample
 
@@ -148,6 +161,7 @@ namespace :db do
           journal.created_at = d.days.ago
           journal.updated_at = d.days.ago
           journal.save!
+          test_user.scorecard.update_scorecard('journals')
         end
       end
     end

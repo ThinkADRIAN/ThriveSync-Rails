@@ -45,6 +45,9 @@ Rails.application.routes.draw do
     get "delete"
   end
 
+  resources :scorecards do
+  end
+
   resources :users, :path => 'thrivers' do
     resources :moods
     resources :sleeps
