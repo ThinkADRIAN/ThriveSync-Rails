@@ -93,24 +93,23 @@ class Scorecard < ActiveRecord::Base
   def set_level_multiplier
     if self.checkin_count < 7
       self.level_multiplier = 1
-    elsif self.checkin_count >= 7
+    elsif self.checkin_count >= 7 && self.checkin_count < 14
       self.level_multiplier = 2
-    elsif self.checkin_count >= 14
+    elsif self.checkin_count >= 14 && self.checkin_count < 21
       self.level_multiplier = 4
-    elsif self.checkin_count >= 21
+    elsif self.checkin_count >= 21 && self.checkin_count < 90
       self.level_multiplier = 6
-    elsif self.checkin_count >= 90
+    elsif self.checkin_count >= 90 && self.checkin_count < 120
       self.level_multiplier = 8
     elsif self.checkin_count >= 120
       self.level_multiplier = 10
-    elsif self.checkin_count >= 365
-      self.level_multiplier = 12
+    
     end
     self.save 
   end
 
   def calculate_score
-    return (self.checkin_count + self.days_since_signup) * (self.streak_count + self.streak_record) * self.level_multiplier
+    return (((self.checkin_count + self.days_since_signup) / 2 ) + (self.streak_count + self.streak_record)) * self.level_multiplier
   end
 
   def update_score(data_type, new_score)
