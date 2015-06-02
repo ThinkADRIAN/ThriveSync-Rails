@@ -69,7 +69,7 @@ class JournalsController < ApplicationController
     
     respond_to do |format|
       if @journal.save
-        current_user.scorecards.update_scorecard('journals')
+        current_user.scorecard.update_scorecard('journals')
         flash.now[:success] = "Journal was successfully tracked."
         format.js
         format.json { render :json => @journal, status: :created }

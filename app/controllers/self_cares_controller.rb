@@ -69,7 +69,7 @@ class SelfCaresController < ApplicationController
     
     respond_to do |format|
       if @self_care.save
-        current_user.scorecards.update_scorecard('self_cares')
+        current_user.scorecard.update_scorecard('self_cares')
         flash.now[:success] = "Self Entry was successfully tracked."
         format.js
         format.json { render :json => @self_care, status: :created }
