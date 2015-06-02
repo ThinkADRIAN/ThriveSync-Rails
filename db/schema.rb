@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150602173252) do
+ActiveRecord::Schema.define(version: 20150602184511) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -76,25 +76,26 @@ ActiveRecord::Schema.define(version: 20150602173252) do
     t.integer  "days_since_signup"
     t.integer  "user_id"
     t.integer  "mood_checkin_count"
-    t.integer  "mood_last_checkin_date"
+    t.datetime "mood_last_checkin_date"
     t.integer  "mood_streak_count"
     t.integer  "mood_streak_record"
     t.integer  "mood_level_multiplier"
     t.integer  "sleep_checkin_count"
-    t.integer  "sleep_last_checkin_date"
+    t.datetime "sleep_last_checkin_date"
     t.integer  "sleep_streak_count"
     t.integer  "sleep_streak_record"
     t.integer  "sleep_level_multiplier"
     t.integer  "self_care_checkin_count"
-    t.integer  "self_care_last_checkin_date"
+    t.datetime "self_care_last_checkin_date"
     t.integer  "self_care_streak_count"
     t.integer  "self_care_streak_record"
     t.integer  "self_care_level_multiplier"
     t.integer  "journal_checkin_count"
-    t.integer  "journal_last_checkin_date"
+    t.datetime "journal_last_checkin_date"
     t.integer  "journal_streak_count"
     t.integer  "journal_streak_record"
     t.integer  "journal_level_multiplier"
+    t.integer  "total_score"
   end
 
   create_table "self_cares", force: true do |t|
