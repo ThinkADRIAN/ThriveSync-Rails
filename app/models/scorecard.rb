@@ -2,11 +2,10 @@ class Scorecard < ActiveRecord::Base
 =begin
   Open Issues:
     - These attributes are not working:
-      "checkin_count": 0,
-      "perfect_checkin_count": 0,
-      "last_checkin_date": null,
+      "checkin_count": 0
       "streak_count": 0,
       "streak_record": 0,
+      "level_multiplier: 1"
     - Streak Count and Streak Record not working for data types
 =end
 
@@ -121,6 +120,7 @@ class Scorecard < ActiveRecord::Base
     elsif data_type == 'journals'
       self.update_attribute(:journal_last_checkin_date, checkin_date)
     end
+    self.update_attribute(:last_checkin_date, checkin_date)
     self.save
   end
 
