@@ -66,6 +66,7 @@ class JournalsController < ApplicationController
     authorize! :manage, Journal
     @journal = Journal.new(journal_params)
     @journal.user_id = current_user.id
+    @journal.update_attribute(:timestamp, DateTime.now.in_time_zone)
     
     respond_to do |format|
       if @journal.save
