@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150604205136) do
+ActiveRecord::Schema.define(version: 20150604205539) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -66,6 +66,15 @@ ActiveRecord::Schema.define(version: 20150604205136) do
     t.string   "message"
     t.string   "day_mask"
     t.datetime "alert_time"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "rewards", force: true do |t|
+    t.integer  "user_id"
+    t.boolean  "completed_first_entry"
+    t.boolean  "completed_first_streak"
+    t.boolean  "rewards_enabled"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
