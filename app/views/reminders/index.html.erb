@@ -1,0 +1,31 @@
+<h1>Listing reminders</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>User</th>
+      <th>Message</th>
+      <th>Day mask</th>
+      <th>Alert time</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @reminders.each do |reminder| %>
+      <tr>
+        <td><%= reminder.user_id %></td>
+        <td><%= reminder.message %></td>
+        <td><%= reminder.day_mask %></td>
+        <td><%= reminder.alert_time %></td>
+        <td><%= link_to 'Show', reminder %></td>
+        <td><%= link_to 'Edit', edit_reminder_path(reminder) %></td>
+        <td><%= link_to 'Destroy', reminder, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Reminder', new_reminder_path %>
