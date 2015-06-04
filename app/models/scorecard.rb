@@ -170,19 +170,19 @@ class Scorecard < ActiveRecord::Base
   end
 
   def update_streak_record(data_type)
-    if data_type == 'moods' && self.mood_last_checkin_date.to_date != DateTime.now.to_date
+    if data_type == 'moods' && (self.mood_last_checkin_date != nil) && self.mood_last_checkin_date.to_date != DateTime.now.to_date
       if self.mood_streak_record <= self.mood_streak_count
         self.mood_streak_record += 1
       end
-    elsif data_type == 'sleeps' && self.sleep_last_checkin_date.to_date != DateTime.now.to_date
+    elsif data_type == 'sleeps' && (self.sleep_last_checkin_date != nil) && self.sleep_last_checkin_date.to_date != DateTime.now.to_date
       if self.sleep_streak_record <= self.sleep_streak_count
         self.sleep_streak_record += 1
       end
-    elsif data_type == 'self_cares' && self.self_care_last_checkin_date.to_date != DateTime.now.to_date
+    elsif data_type == 'self_cares' && (self.self_care_last_checkin_date != nil) && self.self_care_last_checkin_date.to_date != DateTime.now.to_date
       if self.self_care_streak_record <= self.self_care_streak_count
         self.self_care_streak_record += 1
       end
-    elsif data_type == 'journals' && self.journal_last_checkin_date.to_date != DateTime.now.to_date
+    elsif data_type == 'journals' && (self.journal_last_checkin_date != nil) && self.journal_last_checkin_date.to_date != DateTime.now.to_date
       if self.journal_streak_record <= self.journal_streak_count
         self.journal_streak_record += 1
       end
