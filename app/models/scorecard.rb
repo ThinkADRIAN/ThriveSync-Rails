@@ -255,19 +255,19 @@ class Scorecard < ActiveRecord::Base
     days_since_signup = self.days_since_signup
 
     if data_type == 'moods'
-      self.moods_score = (((self.mood_checkin_count + days_since_signup) / 2 ) + (self.mood_streak_count + self.mood_streak_record)) * self.mood_level_multiplier
+      self.moods_score = (((self.mood_checkin_count + days_since_signup)) + (self.mood_streak_count + self.mood_streak_record)) * self.mood_level_multiplier
       self.save
       self.moods_score
     elsif data_type == 'sleeps'
-      self.sleeps_score = (((self.sleep_checkin_count + days_since_signup) / 2 ) + (self.sleep_streak_count + self.sleep_streak_record)) * self.sleep_level_multiplier
+      self.sleeps_score = (((self.sleep_checkin_count + days_since_signup)) + (self.sleep_streak_count + self.sleep_streak_record)) * self.sleep_level_multiplier
       self.save
       self.sleeps_score
     elsif data_type == 'self_cares'
-      self.self_cares_score = (((self.self_care_checkin_count + days_since_signup) / 2 ) + (self.self_care_streak_count + self.self_care_streak_record)) * self.self_care_level_multiplier
+      self.self_cares_score = (((self.self_care_checkin_count + days_since_signup)) + (self.self_care_streak_count + self.self_care_streak_record)) * self.self_care_level_multiplier
       self.save
       self.self_cares_score
     elsif data_type == 'journals'
-      self.journals_score = (((self.journal_checkin_count + days_since_signup) / 2 ) + (self.journal_streak_count + self.journal_streak_record)) * self.journal_level_multiplier
+      self.journals_score = (((self.journal_checkin_count + days_since_signup)) + (self.journal_streak_count + self.journal_streak_record)) * self.journal_level_multiplier
       self.save
       self.journals_score
     end
