@@ -2,10 +2,8 @@ class Scorecard < ActiveRecord::Base
 =begin
   Open Issues:
     - These attributes are not working:
-      "checkin_count": 0
       "streak_count": 0,
-      "streak_record": 0,
-      "level_multiplier: 1"
+      "streak_record": 0
     - Streak Count and Streak Record not working for data types
 =end
 
@@ -194,6 +192,7 @@ class Scorecard < ActiveRecord::Base
     elsif data_type_checkin_count >= 120
       self.increment_level_multiplier(data_type, 10)
     end
+    self.level_multiplier = ((self.mood_level_multiplier + self.sleep_level_multiplier + self.self_care_level_multiplier + self.journal_level_multiplier) / 4.to_f ).ceil
     self.save 
   end
 
