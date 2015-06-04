@@ -79,6 +79,10 @@ class Scorecard < ActiveRecord::Base
     self.save
   end
 
+  def set_last_perfect_checkin_date(checkin_date)
+    self.update_attribute(:last_perfect_checkin_date, checkin_date)
+  end
+
   def perfect_checkin_today?
     todays_date = DateTime.now.to_date
 
@@ -308,6 +312,7 @@ class Scorecard < ActiveRecord::Base
 
     if perfect_checkin_today?
       self.increment_perfect_checkin_count
+      self.set_last_perfect_checkin_date(DateTime.now)
     end
 
     self.calculate_days_since_signup
