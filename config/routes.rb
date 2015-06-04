@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
   
+  resources :rewards
+
   resources :reminders
 
   resources :scorecards
