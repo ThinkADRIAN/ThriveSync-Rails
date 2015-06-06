@@ -19,7 +19,7 @@
       <% (1..7).each do %>
         <br>
       <% end %>
-      <center><%= journal.created_at.strftime("%I:%M %p") %></center>
+      <center><%= journal.timestamp.strftime("%I:%M %p") %></center>
     </div>
   <% end %>
 <% end %>
