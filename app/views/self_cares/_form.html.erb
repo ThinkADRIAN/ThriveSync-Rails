@@ -35,6 +35,13 @@
       <%= f.label :exercise %><br>
       <%= f.check_box :exercise %>
     </div>
+
+    <% if !current_page?(action: 'new')%>
+      <div class="form-group">
+        <%= f.label "Timestamp:" %> <br>
+        <%= f.datetime_local_field :timestamp %>
+      </div>
+    <% end %>
   </div>
     
   <br>
