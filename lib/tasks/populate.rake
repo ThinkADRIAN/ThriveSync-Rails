@@ -74,6 +74,7 @@ namespace :db do
           :meditation => [true,false].sample,
           :exercise => [true,false].sample,
           :user_id => test_user.id)
+        self_care.timestamp = d.days.ago
         self_care.created_at = d.days.ago
         self_care.updated_at = d.days.ago
         self_care.save!
@@ -147,6 +148,7 @@ namespace :db do
           :meditation => [true,false].sample,
           :exercise => [true,false].sample,
           :user_id => test_user.id)
+        self_care.timestamp = d.days.ago
         self_care.created_at = d.days.ago
         self_care.updated_at = d.days.ago
         self_care.save!
