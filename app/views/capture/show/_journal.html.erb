@@ -23,7 +23,7 @@
     </div>
   <% end %>
 <% end %>
-<% if @journals.nil? || @journals.count < 1 %>
+<% if @journals.nil? || @journals.count < MAX_JOURNAL_ENTRIES %>
   <div>
     <center>
       <% (1..8).each do %>
