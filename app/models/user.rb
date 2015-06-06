@@ -126,7 +126,7 @@ class User < ActiveRecord::Base
   end
 
   def create_reward
-    @reward = Scorecard.new
+    @reward = Reward.new
     @reward.user_id = self.id
     @reward.save
   end
