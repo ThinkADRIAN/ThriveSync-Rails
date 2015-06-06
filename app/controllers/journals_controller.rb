@@ -13,7 +13,7 @@ class JournalsController < ApplicationController
 
   respond_to :html, :js, :json, :xml
 
-  Time.zone = 'EST'
+  Time.zone = 'Eastern Time (US & Canada)'
   
   # GET /journals
   # GET /journals.json
@@ -134,6 +134,6 @@ class JournalsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def journal_params
-      params.fetch(:journal, {}).permit(:journal_entry)
+      params.fetch(:journal, {}).permit(:journal_entry, :timestamp)
     end
 end

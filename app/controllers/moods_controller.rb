@@ -13,7 +13,7 @@ class MoodsController < ApplicationController
 
   respond_to :html, :js, :json, :xml
 
-  Time.zone = 'EST'
+  Time.zone = 'Eastern Time (US & Canada)'
   
   # GET /moods
   # GET /moods.json

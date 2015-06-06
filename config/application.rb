@@ -23,5 +23,6 @@ module ThriveSync
     #require 'rest_client'
     #require 'Date'
     #require 'Time'
+    config.time_zone = 'Eastern Time (US & Canada)'
   end
 end
