@@ -86,6 +86,7 @@ namespace :db do
         if journal_entered
           journal = Journal.create!(:journal_entry => journal_entry,
             :user_id => test_user.id)
+          journal.timestamp = d.days.ago
           journal.created_at = d.days.ago
           journal.updated_at = d.days.ago
           journal.save!
@@ -158,6 +159,7 @@ namespace :db do
         if journal_entered
           journal = Journal.create!(:journal_entry => journal_entry,
             :user_id => test_user.id)
+          journal.timestamp = d.days.ago
           journal.created_at = d.days.ago
           journal.updated_at = d.days.ago
           journal.save!
