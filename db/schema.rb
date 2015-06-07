@@ -72,9 +72,9 @@ ActiveRecord::Schema.define(version: 20150604212204) do
 
   create_table "rewards", force: true do |t|
     t.integer  "user_id"
-    t.boolean  "completed_first_entry"
-    t.boolean  "completed_first_streak"
-    t.boolean  "rewards_enabled"
+    t.boolean  "completed_first_entry",  default: false
+    t.boolean  "completed_first_streak", default: false
+    t.boolean  "rewards_enabled",        default: true
     t.datetime "created_at"
     t.datetime "updated_at"
   end

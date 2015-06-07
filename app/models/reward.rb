@@ -1,14 +1,6 @@
 class Reward < ActiveRecord::Base
 	belongs_to :user
 
-  after_initialize :init
-
-  def init
-    self.completed_first_entry ||= false
-    self.completed_first_streak ||= false
-    self.rewards_enabled ||= true
-  end
-
   def mark_first_entry_completed
     self.completed_first_entry = true
     self.save
