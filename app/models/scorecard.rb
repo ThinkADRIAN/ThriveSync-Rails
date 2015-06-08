@@ -146,6 +146,16 @@ class Scorecard < ActiveRecord::Base
     self.save
   end
 
+  def update_main_streak_count
+    streak_counts = []
+    streak_counts.push(self.mood_streak_count)
+    streak_counts.push(self.sleep_streak_count)
+    streak_counts.push(self.self_care_streak_count)
+    streak_counts.push(self.journal_streak_count)
+    self.streak_count = streak_counts.max
+    self.save
+  end
+
   def reset_streak_count(data_type)
     if data_type == 'moods'
       self.mood_streak_count = 0
@@ -169,14 +179,24 @@ class Scorecard < ActiveRecord::Base
         self.sleep_streak_record += 1
       end
     elsif data_type == 'self_cares' && self.self_care_last_checkin_date.to_date != DateTime.now.to_date
-      if self.self_care_streak_record <= self.celf_care_streak_count
-        self.celf_care_streak_record += 1
+      if self.self_care_streak_record <= self.self_care_streak_count
+        self.self_care_streak_record += 1
       end
     elsif data_type == 'journals' && self.journal_last_checkin_date.to_date != DateTime.now.to_date
       if self.journal_streak_record <= self.journal_streak_count
         self.journal_streak_record += 1
       end
     end
+    self.save
+  end
+
+  def update_main_streak_record
+    streak_records = []
+    streak_records.push(self.mood_streak_record)
+    streak_records.push(self.sleep_streak_record)
+    streak_records.push(self.self_care_streak_record)
+    streak_records.push(self.journal_streak_record)
+    self.streak_record = streak_records.max
     self.save
   end
 
@@ -280,7 +300,9 @@ class Scorecard < ActiveRecord::Base
       self.reset_streak_count(data_type)
     end
 
+    self.update_main_streak_count
     self.update_streak_record(data_type)
+    self.update_main_streak_record
 
     self.set_last_checkin_date(data_type, DateTime.now)
 
