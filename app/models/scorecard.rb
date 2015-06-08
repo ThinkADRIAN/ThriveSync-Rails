@@ -56,13 +56,21 @@ class Scorecard < ActiveRecord::Base
 
   def checkin_yesterday?(data_type)
     if data_type == 'moods'
-      self.mood_last_checkin_date == DateTime.yesterday
+      if self.mood_last_checkin_date != nil
+        self.mood_last_checkin_date.to_date == DateTime.yesterday
+      end
     elsif data_type == 'sleeps'
-      self.sleep_last_checkin_date == DateTime.yesterday
+      if self.sleep_last_checkin_date != nil
+        self.sleep_last_checkin_date.to_date == DateTime.yesterday
+      end
     elsif data_type == 'self_cares'
-      self.self_care_last_checkin_date == DateTime.yesterday
+      if self.self_care_last_checkin_date != nil
+        self.self_care_last_checkin_date.to_date == DateTime.yesterday
+      end
     elsif data_type == 'journals'
-      self.journal_last_checkin_date == DateTime.yesterday
+      if self.journal_last_checkin_date != nil
+        self.journal_last_checkin_date.to_date == DateTime.yesterday
+      end
     end
   end
 
@@ -132,6 +140,9 @@ class Scorecard < ActiveRecord::Base
     elsif data_type == 'journals'
       self.journal_streak_count += 1
     end
+    if self.last_checkin_date.to_date != DateTime.now.to_date
+      self.last_checkin_date += 1
+    end
     self.save
   end
 
@@ -150,19 +161,19 @@ class Scorecard < ActiveRecord::Base
 
   def update_streak_record(data_type)
     if data_type == 'moods' && self.mood_last_checkin_date.to_date != DateTime.now.to_date
-      if self.mood_streak_record >= self.mood_streak_count
+      if self.mood_streak_record <= self.mood_streak_count
         self.mood_streak_record += 1
       end
     elsif data_type == 'sleeps' && self.sleep_last_checkin_date.to_date != DateTime.now.to_date
-      if self.sleep_streak_record >= self.sleep_streak_count
+      if self.sleep_streak_record <= self.sleep_streak_count
         self.sleep_streak_record += 1
       end
     elsif data_type == 'self_cares' && self.self_care_last_checkin_date.to_date != DateTime.now.to_date
-      if self.self_care_streak_record >= self.celf_care_streak_count
+      if self.self_care_streak_record <= self.celf_care_streak_count
         self.celf_care_streak_record += 1
       end
     elsif data_type == 'journals' && self.journal_last_checkin_date.to_date != DateTime.now.to_date
-      if self.journal_streak_record >= self.journal_streak_count
+      if self.journal_streak_record <= self.journal_streak_count
         self.journal_streak_record += 1
       end
     end
@@ -263,12 +274,6 @@ class Scorecard < ActiveRecord::Base
   def update_scorecard(data_type)
     self.increment_checkin_count(data_type)
 
-    self.set_last_checkin_date(data_type, DateTime.now)
-
-    if perfect_checkin_today?
-      self.increment_perfect_checkin_count
-    end
-
     if self.checkin_yesterday?(data_type)
       self.increment_streak_count(data_type)
     else
@@ -276,6 +281,13 @@ class Scorecard < ActiveRecord::Base
     end
 
     self.update_streak_record(data_type)
+
+    self.set_last_checkin_date(data_type, DateTime.now)
+
+    if perfect_checkin_today?
+      self.increment_perfect_checkin_count
+    end
+
     self.calculate_days_since_signup
     self.set_level_multiplier(data_type)
     self.refresh_scorecard(data_type)
