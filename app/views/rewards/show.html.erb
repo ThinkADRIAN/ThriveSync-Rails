@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>User:</strong>
+  <%= @reward.user_id %>
+</p>
+
+<p>
+  <strong>Completed first entry:</strong>
+  <%= @reward.completed_first_entry %>
+</p>
+
+<p>
+  <strong>Completed first streak:</strong>
+  <%= @reward.completed_first_streak %>
+</p>
+
+<p>
+  <strong>Rewards enabled:</strong>
+  <%= @reward.rewards_enabled %>
+</p>
+
+<%= link_to 'Edit', edit_reward_path(@reward) %> |
+<%= link_to 'Back', rewards_path %>

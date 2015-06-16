@@ -19,11 +19,11 @@
       <% (1..7).each do %>
         <br>
       <% end %>
-      <center><%= journal.created_at.strftime("%I:%M %p") %></center>
+      <center><%= journal.timestamp.strftime("%I:%M %p") %></center>
     </div>
   <% end %>
 <% end %>
-<% if @journals.nil? || @journals.count < 1 %>
+<% if @journals.nil? || @journals.count < MAX_JOURNAL_ENTRIES %>
   <div>
     <center>
       <% (1..8).each do %>

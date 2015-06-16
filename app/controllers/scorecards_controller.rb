@@ -24,7 +24,7 @@ class ScorecardsController < ApplicationController
     elsif @user != nil
       @scorecard = Scorecard.where(user_id: @user.id)
     end
-   
+
     respond_to do |format|
       format.html
       format.json { render :json => @scorecard, status: 200 }

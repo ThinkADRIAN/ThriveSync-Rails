@@ -73,7 +73,7 @@
     </div>
   <% end %>
 <% end %>
-<% if @moods.nil? || @moods.count < 3 %>
+<% if @moods.nil? || @moods.count < MAX_MOOD_ENTRIES %>
   <div>
     <center>
       <% (1..8).each do %>

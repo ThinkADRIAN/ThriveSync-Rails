@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150601170953) do
+ActiveRecord::Schema.define(version: 20150604212204) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,6 +40,7 @@ ActiveRecord::Schema.define(version: 20150601170953) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "user_id"
+    t.datetime "timestamp"
   end
 
   create_table "moods", force: true do |t|
@@ -60,6 +61,24 @@ ActiveRecord::Schema.define(version: 20150601170953) do
     t.datetime "updated_at"
   end
 
+  create_table "reminders", force: true do |t|
+    t.integer  "user_id"
+    t.string   "message"
+    t.string   "day_mask"
+    t.datetime "alert_time"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "rewards", force: true do |t|
+    t.integer  "user_id"
+    t.boolean  "completed_first_entry",  default: false
+    t.boolean  "completed_first_streak", default: false
+    t.boolean  "rewards_enabled",        default: true
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "scorecards", force: true do |t|
     t.integer  "checkin_count"
     t.integer  "perfect_checkin_count"
@@ -75,6 +94,28 @@ ActiveRecord::Schema.define(version: 20150601170953) do
     t.integer  "level_multiplier"
     t.integer  "days_since_signup"
     t.integer  "user_id"
+    t.integer  "mood_checkin_count"
+    t.datetime "mood_last_checkin_date"
+    t.integer  "mood_streak_count"
+    t.integer  "mood_streak_record"
+    t.integer  "mood_level_multiplier"
+    t.integer  "sleep_checkin_count"
+    t.datetime "sleep_last_checkin_date"
+    t.integer  "sleep_streak_count"
+    t.integer  "sleep_streak_record"
+    t.integer  "sleep_level_multiplier"
+    t.integer  "self_care_checkin_count"
+    t.datetime "self_care_last_checkin_date"
+    t.integer  "self_care_streak_count"
+    t.integer  "self_care_streak_record"
+    t.integer  "self_care_level_multiplier"
+    t.integer  "journal_checkin_count"
+    t.datetime "journal_last_checkin_date"
+    t.integer  "journal_streak_count"
+    t.integer  "journal_streak_record"
+    t.integer  "journal_level_multiplier"
+    t.integer  "total_score"
+    t.datetime "last_perfect_checkin_date"
   end
 
   create_table "self_cares", force: true do |t|
@@ -85,6 +126,7 @@ ActiveRecord::Schema.define(version: 20150601170953) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "user_id"
+    t.datetime "timestamp"
   end
 
   create_table "sleeps", force: true do |t|

@@ -18,11 +18,11 @@
         <h3 class="panel-title">Mood Entries</h3>
       </div>
       <div class="panel-body">
-        <% @moods = @moods.order('created_at DESC')
+        <% @moods = @moods.order('timestamp DESC')
           @moods.each do |mood| %>
           <% if mood.user_id == current_user.id || (current_user.is? :superuser) || (current_user.is? :pro) && (current_user.clients.include? mood.user_id)  %>
             <div class="col-md-4">
-                <h4><%= mood.timestamp.strftime("%a - %b %e, %Y - %m:%M %p") %></h4>
+                <h4><%= I18n.l mood.timestamp, format: :long %></h4>
             </div>
             <div class="col-md-4">
                 <p>

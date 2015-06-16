@@ -11,6 +11,7 @@ class User < ActiveRecord::Base
   has_many :journals
 
   has_one :scorecard, dependent: :destroy
+  has_one :reward, dependent: :destroy
 
   has_many :relationships
   has_many :relations, :through => :relationships
@@ -19,7 +20,8 @@ class User < ActiveRecord::Base
   has_many :inverse_relations, :through => :inverse_relationships, :source => :user
 
   before_create :set_default_role
-  after_create :create_score_card
+  after_create :create_scorecard
+  after_create :create_reward
 
   # User is free account, Client is unlocked when coupled with a Pro account,
   # Admin will administer an organizational unit, SuperUser is for internal use
@@ -39,6 +41,8 @@ class User < ActiveRecord::Base
   validates_presence_of :first_name, :last_name
 
   validates_format_of :email, :without => TEMP_EMAIL_REGEX, on: :update
+
+  accepts_nested_attributes_for :reward
 
   def self.find_for_oauth(auth, signed_in_resource = nil)
 
@@ -117,9 +121,15 @@ class User < ActiveRecord::Base
 
   scope :with_role, lambda { |role| {:conditions => "roles_mask & #{2**ROLES.index(role.to_s)} > 0 "} }
 
-  def create_score_card
+  def create_scorecard
     @scorecard = Scorecard.new
     @scorecard.user_id = self.id
     @scorecard.save
+  end
+
+  def create_reward
+    @reward = Reward.new
+    @reward.user_id = self.id
+    @reward.save
   end
 end

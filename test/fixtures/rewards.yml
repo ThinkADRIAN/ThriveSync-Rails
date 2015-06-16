@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user_id: 1
+  completed_first_entry: false
+  completed_first_streak: false
+  rewards_enabled: false
+
+two:
+  user_id: 1
+  completed_first_entry: false
+  completed_first_streak: false
+  rewards_enabled: false

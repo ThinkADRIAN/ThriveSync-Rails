@@ -13,7 +13,7 @@ class JournalsController < ApplicationController
 
   respond_to :html, :js, :json, :xml
 
-  Time.zone = 'EST'
+  Time.zone = 'Eastern Time (US & Canada)'
   
   # GET /journals
   # GET /journals.json
@@ -66,10 +66,11 @@ class JournalsController < ApplicationController
     authorize! :manage, Journal
     @journal = Journal.new(journal_params)
     @journal.user_id = current_user.id
+    @journal.update_attribute(:timestamp, DateTime.now.in_time_zone)
     
     respond_to do |format|
       if @journal.save
-        current_user.scorecards.update_scorecard('journals')
+        current_user.scorecard.update_scorecard('journals')
         flash.now[:success] = "Journal was successfully tracked."
         format.js
         format.json { render :json => @journal, status: :created }
@@ -133,6 +134,6 @@ class JournalsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def journal_params
-      params.fetch(:journal, {}).permit(:journal_entry)
+      params.fetch(:journal, {}).permit(:journal_entry, :timestamp)
     end
 end

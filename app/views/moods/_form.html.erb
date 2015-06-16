@@ -96,6 +96,13 @@
       <%= f.select(:irritability_rating, options_for_select([['None', 1], ['Mild', 2], ['Moderate', 3], ['Severe',4]], selected_irritability)) %>
     </div>
   </div>
+
+  <% if !current_page?(action: 'new')%>
+    <div class="form-group">
+      <%= f.label "Timestamp:" %> <br>
+      <%= f.datetime_local_field :timestamp %>
+    </div>
+  <% end %>
   
   <br>
 

@@ -91,5 +91,13 @@ class Ability
         scorecard.user_id == @user_id
       end
     end
+
+    can :manage, Reward do |reward|
+      if 
+        user.is? :superuser
+      elsif 
+        reward.user_id == @user_id
+      end
+    end
   end
 end
