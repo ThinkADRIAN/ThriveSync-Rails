@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   
   resources :rewards
 
-  resources :reminders
+  resources :reminders, except: [:show, :new, :destroy]
 
   resources :scorecards
 
