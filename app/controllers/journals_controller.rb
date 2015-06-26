@@ -5,7 +5,8 @@ class JournalsController < ApplicationController
     redirect_to root_url, :alert => exception.message
   end
 
-  load_and_authorize_resource
+  load_and_authorize_resource :user
+  load_and_authorize_resource :journal, through: :user, shallow: true
   #check_authorization
 
   before_action :set_journal, only: [:show, :edit, :update, :destroy]
