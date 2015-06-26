@@ -10,6 +10,8 @@ class User < ActiveRecord::Base
   has_many :self_cares
   has_many :journals
 
+  has_many :reminders
+
   has_one :scorecard, dependent: :destroy
   has_one :reward, dependent: :destroy
 
@@ -22,6 +24,7 @@ class User < ActiveRecord::Base
   before_create :set_default_role
   after_create :create_scorecard
   after_create :create_reward
+  after_create :create_reminders
 
   # User is free account, Client is unlocked when coupled with a Pro account,
   # Admin will administer an organizational unit, SuperUser is for internal use
@@ -131,5 +134,48 @@ class User < ActiveRecord::Base
     @reward = Reward.new
     @reward.user_id = self.id
     @reward.save
+  end
+
+  def create_reminders
+    @reminder = Reminder.new
+    @reminder.user_id = self.id
+    @reminder.message = "Good Morning.  How did you sleep last night?"
+    @reminder.sunday_enabled = false
+    @reminder.monday_enabled = true
+    @reminder.tuesday_enabled = true
+    @reminder.wednesday_enabled = true
+    @reminder.thursday_enabled = true
+    @reminder.friday_enabled = true
+    @reminder.saturday_enabled = false
+    @reminder.alert_time = "8:00:00"
+    @reminder.save
+
+    @reminder = Reminder.new
+    @reminder.user_id = self.id
+    @reminder.message = "Good Afternoon.  How is your day going?"
+    @reminder.sunday_enabled = true
+    @reminder.monday_enabled = false
+    @reminder.tuesday_enabled = false
+    @reminder.wednesday_enabled = false
+    @reminder.thursday_enabled = false
+    @reminder.friday_enabled = false
+    @reminder.saturday_enabled = true
+    @reminder.alert_time = "12:00:00"
+    @reminder.save
+
+
+    @reminder = Reminder.new
+    @reminder.user_id = self.id
+    @reminder.message = "Good Evening? How was your mood today?"
+    @reminder.sunday_enabled = true
+    @reminder.monday_enabled = true
+    @reminder.tuesday_enabled = true
+    @reminder.wednesday_enabled = true
+    @reminder.thursday_enabled = true
+    @reminder.friday_enabled = true
+    @reminder.saturday_enabled = true
+    @reminder.alert_time = "18:00:00"
+    @reminder.save
+
   end
 end

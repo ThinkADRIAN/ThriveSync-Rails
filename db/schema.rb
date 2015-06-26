@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150604212204) do
+ActiveRecord::Schema.define(version: 20150626183343) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -64,10 +64,16 @@ ActiveRecord::Schema.define(version: 20150604212204) do
   create_table "reminders", force: true do |t|
     t.integer  "user_id"
     t.string   "message"
-    t.string   "day_mask"
-    t.datetime "alert_time"
+    t.time     "alert_time"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "sunday_enabled"
+    t.boolean  "monday_enabled"
+    t.boolean  "tuesday_enabled"
+    t.boolean  "wednesday_enabled"
+    t.boolean  "thursday_enabled"
+    t.boolean  "friday_enabled"
+    t.boolean  "saturday_enabled"
   end
 
   create_table "rewards", force: true do |t|
