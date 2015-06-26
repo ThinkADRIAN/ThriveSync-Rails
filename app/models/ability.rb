@@ -32,16 +32,8 @@ class Ability
     # handle guest user (not logged in)
     user ||= User.new() 
 
-    can :manage, :all if user.is? :superuser
-
-    can :assign_roles, User if user.is? :superuser
-
     can :manage, Mood do |mood|
-      if 
-        user.is? :superuser
-      elsif 
-        mood.user_id == @user_id
-      end
+      mood.user_id == @user_id
     end
 
     can :read, Mood do |mood|
@@ -49,11 +41,7 @@ class Ability
     end
 
     can :manage, Sleep do |sleep|
-      if
-      user.is? :superuser
-      elsif
       sleep.user_id == @user_id
-      end
     end
 
     can :read, Sleep do |sleep|
@@ -61,11 +49,7 @@ class Ability
     end
 
     can :manage, SelfCare do |self_care|
-      if
-      user.is? :superuser
-      elsif
       self_care.user_id == @user_id
-      end
     end
 
     can :read, SelfCare do |self_care|
@@ -73,11 +57,7 @@ class Ability
     end
 
     can :manage, Journal do |journal|
-      if
-      user.is? :superuser
-      elsif
-      journal.user_id == @user_id
-      end
+      journal.user_id == user.id
     end
 
     can :read, Journal do |journal|
@@ -85,19 +65,16 @@ class Ability
     end
 
     can :manage, Scorecard do |scorecard|
-      if 
-        user.is? :superuser
-      elsif 
-        scorecard.user_id == @user_id
-      end
+      scorecard.user_id == @user_id
     end
 
     can :manage, Reward do |reward|
-      if 
-        user.is? :superuser
-      elsif 
-        reward.user_id == @user_id
-      end
+      reward.user_id == @user_id
+    end
+
+    if user.is? :superuser
+      can :manage, :all
+      can :assign_roles, User
     end
   end
 end
