@@ -1,20 +1,49 @@
 class RemindersController < ApplicationController
-  before_action :set_reminder, only: [:show, :edit, :update, :destroy]
+  acts_as_token_authentication_handler_for User
 
-  respond_to :html
+  rescue_from CanCan::AccessDenied do |exception|
+    redirect_to root_url, :alert => exception.message
+  end
+
+  load_and_authorize_resource :user
+  load_and_authorize_resource :reminder, through: :user, shallow: true
+  #check_authorization
+
+  before_action :set_reminder, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!
+
+  respond_to :html, :js, :json, :xml
+
+  Time.zone = 'Eastern Time (US & Canada)'
 
   def index
-    @reminders = Reminder.all
-    respond_with(@reminders)
+    @user = User.find_by_id(params[:user_id])
+
+    if @user == nil
+      @reminders = Reminder.where(user_id: current_user.id)
+    elsif @user != nil
+      @reminders = Reminder.where(user_id: @user.id)
+    end
+
+    respond_to do |format|
+      format.html
+      format.js
+      format.json { render :json => @reminders, status: 200 }
+      format.xml { render :xml => @reminders, status: 200 }
+    end
   end
 
   def show
-    respond_with(@reminder)
+    respond_to do |format|
+      format.html
+      format.js
+      format.json { render :json =>  @reminder, status: 200 }
+      format.xml { render :xml => @reminder, status: 200 }
+    end
   end
 
   def new
     @reminder = Reminder.new
-    respond_with(@reminder)
   end
 
   def edit
@@ -42,6 +71,6 @@ class RemindersController < ApplicationController
     end
 
     def reminder_params
-      params.require(:reminder).permit(:user_id, :message, :day_mask, :alert_time)
+      params.require(:reminder).permit(:user_id, :message, :sunday_enabled, :monday_enabled, :tuesday_enabled, :wednesday_enabled, :thursday_enabled, :friday_enabled, :saturday_enabled, :alert_time)
     end
 end

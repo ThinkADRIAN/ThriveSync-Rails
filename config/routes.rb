@@ -57,6 +57,7 @@ Rails.application.routes.draw do
     resources :sleeps
     resources :self_cares
     resources :journals
+    resources :reminders
   end
 
   resources :connections, :controller => 'friendships', :except => [:show, :edit] do
