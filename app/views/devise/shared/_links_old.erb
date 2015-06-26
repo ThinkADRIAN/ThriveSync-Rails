@@ -1,5 +1,8 @@
 <br>
 
+<%= link_to "Connect with Facebook", omniauth_authorize_path(resource_name, :facebook) %><br />
+<%= link_to "Connect with Google", omniauth_authorize_path(resource_name, :google_oauth2) %><br />
+
 <%- if controller_name != 'sessions' %>
   <%= link_to "Log in", new_session_path(resource_name) %><br />
 <% end -%>
