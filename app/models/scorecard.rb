@@ -120,6 +120,10 @@ class Scorecard < ActiveRecord::Base
       last_journals_date == todays_date )
   end
 
+  def first_perfect_checkin_for_day?
+    DateTime.now.to_date != self.last_perfect_checkin_date.to_date
+  end
+
   def set_last_checkin_date(data_type, checkin_date)
     if data_type == 'moods'
       self.update_attribute(:mood_last_checkin_date, checkin_date)
@@ -317,8 +321,10 @@ class Scorecard < ActiveRecord::Base
     self.set_last_checkin_date(data_type, DateTime.now)
 
     if perfect_checkin_today?
-      self.increment_perfect_checkin_count
-      self.set_last_perfect_checkin_date(DateTime.now)
+      if first_perfect_checkin_for_day?
+        self.increment_perfect_checkin_count
+        self.set_last_perfect_checkin_date(DateTime.now)
+      end
       if !reward_data.is_first_streak_completed?
         reward_data.mark_first_streak_completed
       end
