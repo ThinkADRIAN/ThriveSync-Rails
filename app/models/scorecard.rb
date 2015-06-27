@@ -300,12 +300,6 @@ class Scorecard < ActiveRecord::Base
   end
 
   def update_scorecard(data_type)
-    reward_data = Reward.where(user_id: self.user_id).first
-
-    if !reward_data.is_first_entry_completed?
-      reward_data.mark_first_entry_completed
-    end
-
     self.increment_checkin_count(data_type)
 
     if self.checkin_yesterday?(data_type)
@@ -324,9 +318,6 @@ class Scorecard < ActiveRecord::Base
       if first_perfect_checkin_for_day?
         self.increment_perfect_checkin_count
         self.set_last_perfect_checkin_date(DateTime.now)
-      end
-      if !reward_data.is_first_streak_completed?
-        reward_data.mark_first_streak_completed
       end
     end
 
