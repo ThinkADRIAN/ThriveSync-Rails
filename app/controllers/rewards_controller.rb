@@ -71,6 +71,6 @@ class RewardsController < ApplicationController
     end
 
     def reward_params
-      params.fetch(:reward, {}).permit(:user_id, :completed_first_entry, :completed_first_streak, :rewards_enabled)
+      params.fetch(:reward, {}).permit(:user_id, :rewards_enabled)
     end
 end
