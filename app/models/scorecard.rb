@@ -121,7 +121,11 @@ class Scorecard < ActiveRecord::Base
   end
 
   def first_perfect_checkin_for_day?
-    DateTime.now.to_date != self.last_perfect_checkin_date.to_date
+    if self.last_perfect_checkin_date == nil
+      return false
+    else
+      DateTime.now.to_date != self.last_perfect_checkin_date.to_date
+    end
   end
 
   def set_last_checkin_date(data_type, checkin_date)
