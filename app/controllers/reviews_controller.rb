@@ -72,6 +72,6 @@ class ReviewsController < ApplicationController
     end
 
     def review_params
-      params.fetch(:review, {}).permit(:last_login_date, :review_counter, :review_last_date, :review_trigger_date)
+      params.fetch(:review, {}).permit(:review_counter, :review_last_date, :review_trigger_date)
     end
 end
