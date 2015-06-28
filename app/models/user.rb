@@ -14,6 +14,7 @@ class User < ActiveRecord::Base
 
   has_one :scorecard, dependent: :destroy
   has_one :reward, dependent: :destroy
+  has_one :review, dependent: :destroy
 
   has_many :relationships
   has_many :relations, :through => :relationships
