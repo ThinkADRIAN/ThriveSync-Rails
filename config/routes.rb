@@ -1,11 +1,15 @@
 Rails.application.routes.draw do
   
+  resources :reviews
+
   resources :rewards
 
   resources :reminders, except: [:show, :new, :destroy]
 
-  resources :scorecards
+  resources :scorecards, except: [:show, :new, :destroy]
 
+  resources :reviews
+  
   devise_for :users, :path => '', :path_names => {:sign_in => 'login', :sign_out => 'logout'}, :controllers => {:registrations => 'my_devise/registrations',
     :omniauth_callbacks => "omniauth_callbacks", :sessions => 'users/sessions', :passwords => 'users/passwords'}
   match '/users/:id/finish_signup' => 'users#finish_signup', via: [:get, :patch], :as => :finish_signup
@@ -47,9 +51,6 @@ Rails.application.routes.draw do
 
   resources :journals do
     get "delete"
-  end
-
-  resources :scorecards do
   end
 
   resources :users, :path => 'thrivers' do
