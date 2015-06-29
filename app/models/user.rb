@@ -26,6 +26,7 @@ class User < ActiveRecord::Base
   after_create :create_scorecard
   after_create :create_reward
   after_create :create_reminders
+  after_create :create_review
 
   # User is free account, Client is unlocked when coupled with a Pro account,
   # Admin will administer an organizational unit, SuperUser is for internal use
@@ -177,6 +178,11 @@ class User < ActiveRecord::Base
     @reminder.saturday_enabled = true
     @reminder.alert_time = "18:00:00"
     @reminder.save
+  end
 
+  def create_review
+    @reward = Reward.new
+    @reward.user_id = self.id
+    @reward.save
   end
 end
