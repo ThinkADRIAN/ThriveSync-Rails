@@ -37,7 +37,7 @@ class MyDevise::RegistrationsController < Devise::RegistrationsController
   # You can put the params you want to permit in the empty array.
   def configure_account_update_params
     devise_parameter_sanitizer.for(:account_update) do |u|
-  		u.permit(:first_name, :last_name, :email, :password, :password_confirmation, :current_password, roles: [], :reward_attributes => [:id, :rewards_enabled])
+  		u.permit(:first_name, :last_name, :email, :timezone, :password, :password_confirmation, :current_password, roles: [], :reward_attributes => [:id, :rewards_enabled])
 		end
   end
 

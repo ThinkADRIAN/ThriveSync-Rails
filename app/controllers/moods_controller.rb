@@ -12,8 +12,6 @@ class MoodsController < ApplicationController
   before_action :authenticate_user!
 
   respond_to :html, :js, :json, :xml
-
-  Time.zone = 'Eastern Time (US & Canada)'
   
   # GET /moods
   # GET /moods.json

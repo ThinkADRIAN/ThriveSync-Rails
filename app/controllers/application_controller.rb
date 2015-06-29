@@ -5,6 +5,8 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :null_session
 
+  before_filter :set_timezone
+
 	before_filter do
 	  resource = controller_name.singularize.to_sym
 	  method = "#{resource}_params"
@@ -93,5 +95,10 @@ class ApplicationController < ActionController::Base
     if current_user
       current_user.touch :last_active_at
     end
+  end
+
+  def set_timezone
+    tz = current_user ? current_user.timezone : nil
+    Time.zone = tz || ActiveSupport::TimeZone["Eastern Time (US & Canada)"]
   end
 end
