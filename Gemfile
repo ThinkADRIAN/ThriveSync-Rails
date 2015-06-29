@@ -12,7 +12,7 @@ group :development, :test do
 #	gem 'sqlite3'
 	gem 'sunspot_solr'
 end
-group :production do
+group :production, :staging do
   gem 'rails_12factor'
 end
 
