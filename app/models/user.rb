@@ -181,8 +181,8 @@ class User < ActiveRecord::Base
   end
 
   def create_review
-    @reward = Reward.new
-    @reward.user_id = self.id
-    @reward.save
+    @review = Review.new
+    @review.user_id = self.id
+    @review.save
   end
 end
