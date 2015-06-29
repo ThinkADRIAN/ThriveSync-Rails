@@ -12,8 +12,6 @@ class SleepsController < ApplicationController
   before_action :authenticate_user!
 
   respond_to :js
-
-  Time.zone = 'EST'
   
   # GET /sleeps
   # GET /sleeps.json

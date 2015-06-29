@@ -12,8 +12,6 @@ class SelfCaresController < ApplicationController
   before_action :authenticate_user!
 
   respond_to :html, :js, :json, :xml
-
-  Time.zone = 'EST'
   
   # GET /self_cares
   # GET /self_cares.json

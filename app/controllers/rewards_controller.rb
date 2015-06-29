@@ -13,8 +13,6 @@ class RewardsController < ApplicationController
 
   respond_to :html, :js, :json, :xml
 
-  Time.zone = 'EST'
-
   def index
     authorize! :manage, Reward
     @user = User.find_by_id(params[:user_id])

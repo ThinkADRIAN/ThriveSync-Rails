@@ -14,8 +14,6 @@ class RemindersController < ApplicationController
 
   respond_to :html, :js, :json, :xml
 
-  Time.zone = 'Eastern Time (US & Canada)'
-
   def index
     @user = User.find_by_id(params[:user_id])
 
