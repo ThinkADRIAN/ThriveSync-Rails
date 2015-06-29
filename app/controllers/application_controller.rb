@@ -5,8 +5,6 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :null_session
 
-  before_filter :set_last_seen_at, if: proc { user_signed_in? }
-
 	before_filter do
 	  resource = controller_name.singularize.to_sym
 	  method = "#{resource}_params"
@@ -25,6 +23,8 @@ class ApplicationController < ActionController::Base
         u.permit(:email, :password)
       end
 		end
+
+  before_filter :record_user_activity
 
 	alias_method :current_user, :current_user # Could be :current_member or :logged_in_user
 
@@ -59,7 +59,9 @@ class ApplicationController < ActionController::Base
   end
 
   helper_method :pro_access_granted?
+
   protected
+  
   def user_access_granted_index?
   	((current_user.is? :pro) && (current_user.clients.include?(params[:id].to_i))) || 
   	(current_user.id == params[:id].to_i) || (current_user.is? :superuser)
@@ -84,8 +86,12 @@ class ApplicationController < ActionController::Base
       false
     end
   end
+  
+  private
 
-  def set_last_seen_at
-    current_user.update_attribute(:last_seen_at, Time.now)
+  def record_user_activity
+    if current_user
+      current_user.touch :last_active_at
+    end
   end
 end
