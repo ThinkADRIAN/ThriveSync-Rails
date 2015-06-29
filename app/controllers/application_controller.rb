@@ -5,6 +5,8 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :null_session
 
+  before_filter :set_last_seen_at, if: proc { user_signed_in? }
+
 	before_filter do
 	  resource = controller_name.singularize.to_sym
 	  method = "#{resource}_params"
@@ -81,5 +83,9 @@ class ApplicationController < ActionController::Base
   		redirect_to root_url
       false
     end
+  end
+
+  def set_last_seen_at
+    current_user.update_attribute(:last_seen_at, Time.now)
   end
 end
