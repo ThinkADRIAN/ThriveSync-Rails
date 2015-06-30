@@ -49,7 +49,6 @@ class Ability
     can :manage, Sleep, :user => { id: user.id }
     can :manage, SelfCare, :user => { id: user.id }
     can :manage, Journal, :user => { id: user.id }
-    can :manage, Journal, :user => { id: user.id }
     can :manage, Reminder, :user => { id: user.id }
 
     if user.is? :pro
@@ -65,7 +64,11 @@ class Ability
         user.clients.include? self_care.user_id
       end
 
-      can :read, Journal if user.clients.include? :user_id
+      can :read, Journal do |journal|
+        user.clients.include? journal.user_id
+      end
+
+      # can :read, Journal if user.clients.include? :user_id
     end
 
     if user.is? :superuser
