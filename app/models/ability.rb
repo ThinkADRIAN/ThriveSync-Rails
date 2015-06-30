@@ -30,58 +30,50 @@ class Ability
     # https://github.com/ryanb/cancan/wiki/Defining-Abilities
 
     # handle guest user (not logged in)
-    user ||= User.new() 
+    user ||= User.new()
 
-    can :manage, :all if user.is? :superuser
+    can :manage, Scorecard do |scorecard|
+      scorecard.user_id == @user_id
+    end
 
-    can :assign_roles, User if user.is? :superuser
+    can :manage, Reward do |reward|
+      reward.user_id == @user_id
+    end
 
-    can :manage, Mood do |mood|
-      if 
-        user.is? :superuser
-      elsif 
-        mood.user_id == @user_id
+    can :manage, Review do |review|
+      review.user_id == @user_id
+    end
+
+    can :manage, User, id: user.id
+    can :manage, Mood, :user => { id: user.id }
+    can :manage, Sleep, :user => { id: user.id }
+    can :manage, SelfCare, :user => { id: user.id }
+    can :manage, Journal, :user => { id: user.id }
+    can :manage, Reminder, :user => { id: user.id }
+
+    if user.is? :pro
+      can :read, Mood do |mood|
+        user.clients.include? mood.user_id
       end
-    end
 
-    can :read, Mood do |mood|
-      (user.is? :pro) && (user.clients.include? mood.user_id)
-    end
-
-    can :manage, Sleep do |sleep|
-      if
-      user.is? :superuser
-      elsif
-      sleep.user_id == @user_id
+      can :read, Sleep do |sleep|
+        user.clients.include? sleep.user_id
       end
-    end
 
-    can :read, Sleep do |sleep|
-      (user.is? :pro) && (user.clients.include? sleep.user_id)
-    end
-
-    can :manage, SelfCare do |self_care|
-      if
-      user.is? :superuser
-      elsif
-      self_care.user_id == @user_id
+      can :read, SelfCare do |self_care|
+        user.clients.include? self_care.user_id
       end
-    end
 
-    can :read, SelfCare do |self_care|
-      (user.is? :pro) && (user.clients.include? self_care.user_id)
-    end
-
-    can :manage, Journal do |journal|
-      if
-      user.is? :superuser
-      elsif
-      journal.user_id == @user_id
+      can :read, Journal do |journal|
+        user.clients.include? journal.user_id
       end
+
+      # can :read, Journal if user.clients.include? :user_id
     end
 
-    can :read, Journal do |journal|
-      (user.is? :pro) && (user.clients.include? journal.user_id)
+    if user.is? :superuser
+      can :manage, :all
+      can :assign_roles, User
     end
   end
 end

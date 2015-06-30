@@ -12,8 +12,6 @@ class MoodsController < ApplicationController
   before_action :authenticate_user!
 
   respond_to :html, :js, :json, :xml
-
-  Time.zone = 'EST'
   
   # GET /moods
   # GET /moods.json
@@ -134,6 +132,6 @@ class MoodsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def mood_params
-      params.fetch(:mood, {}).permit(:mood_rating, :anxiety_rating, :irritability_rating)
+      params.fetch(:mood, {}).permit(:mood_rating, :anxiety_rating, :irritability_rating, :timestamp)
     end
 end

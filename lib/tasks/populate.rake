@@ -19,7 +19,7 @@ namespace :db do
       :last_name => "Administrator",
       :password => "Tiavspw!")
     admin_user.roles = ["superuser"]
-    #admin_user.skip_confirmation!
+    admin_user.skip_confirmation!
     admin_user.save!
 
     # Create test user pro accounts
@@ -34,7 +34,7 @@ namespace :db do
         :password => password,
         :password_confirmation => password)
       test_user.roles = ["pro"]
-      #test_user.skip_confirmation!
+      test_user.skip_confirmation!
       test_user.save!
 
       # Create moods for test user
@@ -51,6 +51,8 @@ namespace :db do
         mood.updated_at = d.days.ago
         mood.save!
 
+        test_user.scorecard.update_scorecard('moods')
+
         sleep_start_time = Faker::Time.between((d).days.ago, Time.now, :morning)#rand(now-d.days.ago)
         sleep_finish_time = sleep_start_time + rand(1..10).hours
 
@@ -63,6 +65,8 @@ namespace :db do
         sleep.updated_at = d.days.ago
         sleep.save!
 
+        test_user.scorecard.update_scorecard('sleeps')
+
         random_bool = [true, false].sample
 
         self_care = SelfCare.create!(:counseling => [true, false].sample,
@@ -70,9 +74,12 @@ namespace :db do
           :meditation => [true,false].sample,
           :exercise => [true,false].sample,
           :user_id => test_user.id)
+        self_care.timestamp = d.days.ago
         self_care.created_at = d.days.ago
         self_care.updated_at = d.days.ago
         self_care.save!
+
+        test_user.scorecard.update_scorecard('self_cares')
 
         journal_entry = Faker::Lorem.paragraph(sentence_count = rand(1..38))
         journal_entered = [true,false].sample
@@ -80,9 +87,11 @@ namespace :db do
         if journal_entered
           journal = Journal.create!(:journal_entry => journal_entry,
             :user_id => test_user.id)
+          journal.timestamp = d.days.ago
           journal.created_at = d.days.ago
           journal.updated_at = d.days.ago
           journal.save!
+          test_user.scorecard.update_scorecard('journals')
         end
       end
     end
@@ -99,7 +108,7 @@ namespace :db do
         :password => password,
         :password_confirmation => password)
       test_user.roles = ["user"]
-      #test_user.skip_confirmation!
+      test_user.skip_confirmation!
       test_user.save!
 
       # Create moods for test user
@@ -116,6 +125,8 @@ namespace :db do
         mood.updated_at = d.days.ago
         mood.save!
 
+        test_user.scorecard.update_scorecard('moods')
+
         sleep_start_time = Faker::Time.between((d).days.ago, Time.now, :morning)#rand(now-d.days.ago)
         sleep_finish_time = sleep_start_time + rand(1..10).hours
 
@@ -128,6 +139,8 @@ namespace :db do
         sleep.updated_at = d.days.ago
         sleep.save!
 
+        test_user.scorecard.update_scorecard('sleeps')
+
         random_bool = [true, false].sample
 
         self_care = SelfCare.create!(:counseling => [true, false].sample,
@@ -135,9 +148,12 @@ namespace :db do
           :meditation => [true,false].sample,
           :exercise => [true,false].sample,
           :user_id => test_user.id)
+        self_care.timestamp = d.days.ago
         self_care.created_at = d.days.ago
         self_care.updated_at = d.days.ago
         self_care.save!
+
+        test_user.scorecard.update_scorecard('self_cares')
 
         journal_entry = Faker::Lorem.paragraph(sentence_count = rand(1..38))
         journal_entered = [true,false].sample
@@ -145,9 +161,11 @@ namespace :db do
         if journal_entered
           journal = Journal.create!(:journal_entry => journal_entry,
             :user_id => test_user.id)
+          journal.timestamp = d.days.ago
           journal.created_at = d.days.ago
           journal.updated_at = d.days.ago
           journal.save!
+          test_user.scorecard.update_scorecard('journals')
         end
       end
     end

@@ -71,7 +71,8 @@
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown">Account<b class="caret"></b></a>
                   <ul class="dropdown-menu">
                     <li><a href="<%= connections_path(current_user) %>">Connect</a></li>
-                    <li><a href="<%= edit_user_registration_path %>">Edit Profile</a></li>
+                    <li><a href="<%= edit_user_registration_path %>">Profile</a></li>
+                    <li><a href="<%= reminders_path %>">Reminders</a></li>
                     <li><%= link_to "Logout", destroy_user_session_path, method: :delete %></li>
                   </ul>
                 </li>

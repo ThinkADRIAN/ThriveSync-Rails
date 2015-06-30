@@ -10,7 +10,11 @@ class User < ActiveRecord::Base
   has_many :self_cares
   has_many :journals
 
+  has_many :reminders
+
   has_one :scorecard, dependent: :destroy
+  has_one :reward, dependent: :destroy
+  has_one :review, dependent: :destroy
 
   has_many :relationships
   has_many :relations, :through => :relationships
@@ -19,7 +23,10 @@ class User < ActiveRecord::Base
   has_many :inverse_relations, :through => :inverse_relationships, :source => :user
 
   before_create :set_default_role
-  after_create :create_score_card
+  after_create :create_scorecard
+  after_create :create_reward
+  after_create :create_reminders
+  after_create :create_review
 
   # User is free account, Client is unlocked when coupled with a Pro account,
   # Admin will administer an organizational unit, SuperUser is for internal use
@@ -34,11 +41,13 @@ class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :lockable, :timeoutable
   devise :database_authenticatable, :registerable,
-    :recoverable, :rememberable, :trackable, :validatable, :omniauthable
+    :recoverable, :rememberable, :trackable, :validatable, :omniauthable, :confirmable 
 
   validates_presence_of :first_name, :last_name
 
   validates_format_of :email, :without => TEMP_EMAIL_REGEX, on: :update
+
+  accepts_nested_attributes_for :reward
 
   def self.find_for_oauth(auth, signed_in_resource = nil)
 
@@ -117,9 +126,63 @@ class User < ActiveRecord::Base
 
   scope :with_role, lambda { |role| {:conditions => "roles_mask & #{2**ROLES.index(role.to_s)} > 0 "} }
 
-  def create_score_card
+  def create_scorecard
     @scorecard = Scorecard.new
     @scorecard.user_id = self.id
     @scorecard.save
+  end
+
+  def create_reward
+    @reward = Reward.new
+    @reward.user_id = self.id
+    @reward.save
+  end
+
+  def create_reminders
+    @reminder = Reminder.new
+    @reminder.user_id = self.id
+    @reminder.message = "Good Morning.  How did you sleep last night?"
+    @reminder.sunday_enabled = false
+    @reminder.monday_enabled = true
+    @reminder.tuesday_enabled = true
+    @reminder.wednesday_enabled = true
+    @reminder.thursday_enabled = true
+    @reminder.friday_enabled = true
+    @reminder.saturday_enabled = false
+    @reminder.alert_time = "8:00:00"
+    @reminder.save
+
+    @reminder = Reminder.new
+    @reminder.user_id = self.id
+    @reminder.message = "Good Afternoon.  How is your day going?"
+    @reminder.sunday_enabled = true
+    @reminder.monday_enabled = false
+    @reminder.tuesday_enabled = false
+    @reminder.wednesday_enabled = false
+    @reminder.thursday_enabled = false
+    @reminder.friday_enabled = false
+    @reminder.saturday_enabled = true
+    @reminder.alert_time = "12:00:00"
+    @reminder.save
+
+
+    @reminder = Reminder.new
+    @reminder.user_id = self.id
+    @reminder.message = "Good Evening? How was your mood today?"
+    @reminder.sunday_enabled = true
+    @reminder.monday_enabled = true
+    @reminder.tuesday_enabled = true
+    @reminder.wednesday_enabled = true
+    @reminder.thursday_enabled = true
+    @reminder.friday_enabled = true
+    @reminder.saturday_enabled = true
+    @reminder.alert_time = "18:00:00"
+    @reminder.save
+  end
+
+  def create_review
+    @review = Review.new
+    @review.user_id = self.id
+    @review.save
   end
 end

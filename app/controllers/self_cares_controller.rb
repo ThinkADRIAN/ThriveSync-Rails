@@ -12,8 +12,6 @@ class SelfCaresController < ApplicationController
   before_action :authenticate_user!
 
   respond_to :html, :js, :json, :xml
-
-  Time.zone = 'EST'
   
   # GET /self_cares
   # GET /self_cares.json
@@ -66,10 +64,11 @@ class SelfCaresController < ApplicationController
     authorize! :manage, SelfCare
     @self_care = SelfCare.new(self_care_params)
     @self_care.user_id = current_user.id
+    @self_care.update_attribute(:timestamp, DateTime.now.in_time_zone)
     
     respond_to do |format|
       if @self_care.save
-        current_user.scorecards.update_scorecard('self_cares')
+        current_user.scorecard.update_scorecard('self_cares')
         flash.now[:success] = "Self Entry was successfully tracked."
         format.js
         format.json { render :json => @self_care, status: :created }
@@ -133,6 +132,6 @@ class SelfCaresController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def self_care_params
-      params.fetch(:self_care, {}).permit(:counseling, :medication, :meditation, :exercise)
+      params.fetch(:self_care, {}).permit(:counseling, :medication, :meditation, :exercise, :timestamp)
     end
 end

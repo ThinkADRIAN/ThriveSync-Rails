@@ -5,6 +5,8 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :null_session
 
+  before_filter :set_timezone
+
 	before_filter do
 	  resource = controller_name.singularize.to_sym
 	  method = "#{resource}_params"
@@ -17,12 +19,14 @@ class ApplicationController < ActionController::Base
 	  		u.permit(:first_name, :last_name, :email, :password, :password_confirmation, roles: [])
 			end
 			devise_parameter_sanitizer.for(:account_update) do |u|
-	  		u.permit(:first_name, :last_name, :email, :password, :password_confirmation, :current_password, roles: [])
+	  		u.permit(:first_name, :last_name, :email, :password, :password_confirmation, :current_password, roles: [], :reward_attributes => [:id, :rewards_enabled])
       end
       devise_parameter_sanitizer.for(:password_update) do |u|
         u.permit(:email, :password)
       end
 		end
+
+  before_filter :record_user_activity
 
 	alias_method :current_user, :current_user # Could be :current_member or :logged_in_user
 
@@ -57,7 +61,9 @@ class ApplicationController < ActionController::Base
   end
 
   helper_method :pro_access_granted?
+
   protected
+  
   def user_access_granted_index?
   	((current_user.is? :pro) && (current_user.clients.include?(params[:id].to_i))) || 
   	(current_user.id == params[:id].to_i) || (current_user.is? :superuser)
@@ -81,5 +87,18 @@ class ApplicationController < ActionController::Base
   		redirect_to root_url
       false
     end
+  end
+  
+  private
+
+  def record_user_activity
+    if current_user
+      current_user.touch :last_active_at
+    end
+  end
+
+  def set_timezone
+    tz = current_user ? current_user.timezone : nil
+    Time.zone = tz || ActiveSupport::TimeZone["Eastern Time (US & Canada)"]
   end
 end

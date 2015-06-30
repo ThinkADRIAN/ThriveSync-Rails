@@ -12,8 +12,6 @@ class SleepsController < ApplicationController
   before_action :authenticate_user!
 
   respond_to :js
-
-  Time.zone = 'EST'
   
   # GET /sleeps
   # GET /sleeps.json
@@ -69,7 +67,7 @@ class SleepsController < ApplicationController
     
     respond_to do |format|
       if @sleep.save
-        current_user.scorecards.update_scorecard('sleeps')
+        current_user.scorecard.update_scorecard('sleeps')
         flash.now[:success] = 'Sleep Entry was successfully tracked.'
         format.js 
         format.json { render :json => @sleep, status: :created }

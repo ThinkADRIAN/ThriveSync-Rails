@@ -51,7 +51,7 @@
       <% (1..7).each do %>
         <br>
       <% end %>
-      <center><%= self_care.created_at.strftime("%I:%M %p") %></center>
+      <center><%= self_care.timestamp.strftime("%I:%M %p") %></center>
     </div>
   <% end %>
 <% end %>

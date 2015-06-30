@@ -12,7 +12,7 @@ group :development, :test do
 #	gem 'sqlite3'
 	gem 'sunspot_solr'
 end
-group :production do
+group :production, :staging do
   gem 'rails_12factor'
 end
 
@@ -52,7 +52,7 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
 # gem 'debugger', group: [:development, :test]
 
  gem 'devise'
- gem 'cancan'
+ gem 'cancancan', '~> 1.10'
 
  gem 'omniauth'
  gem 'omniauth-twitter'
@@ -73,13 +73,9 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
 
  gem 'figaro'
 
- gem 'rest-client', '~> 1.7.3'
-
  gem 'jquery-ui-rails'
 
  gem 'less-rails'
-
- # gem 'twitter-bootstrap-rails'
 
  gem 'designmodo-startup_framework-rails'
 

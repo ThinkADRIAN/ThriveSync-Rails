@@ -1,0 +1,36 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>User:</strong>
+  <%= @reminder.user_id %>
+</p>
+
+<p>
+  <strong>Message:</strong>
+  <%= @reminder.message %>
+</p>
+
+<p>
+  <strong>Sunday:</strong>
+  <%= @reminder.sunday_enabled %>
+  <strong>Monday:</strong>
+  <%= @reminder.monday_enabled %>
+  <strong>Tuesday:</strong>
+  <%= @reminder.tuesday_enabled %>
+  <strong>Wednesday:</strong>
+  <%= @reminder.wednesday_enabled %>
+  <strong>Thursday:</strong>
+  <%= @reminder.thursday_enabled %>
+  <strong>Friday:</strong>
+  <%= @reminder.friday_enabled %>
+  <strong>Saturday:</strong>
+  <%= @reminder.saturday_enabled %>
+</p>
+
+<p>
+  <strong>Alert time:</strong>
+  <%= @reminder.alert_time %>
+</p>
+
+<%= link_to 'Edit', edit_reminder_path(@reminder) %> |
+<%= link_to 'Back', reminders_path %>

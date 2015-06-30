@@ -1,0 +1,4 @@
+en:
+  time:
+    formats:
+      myformat: '%a - %b %e, %Y - %m:%M %p'
