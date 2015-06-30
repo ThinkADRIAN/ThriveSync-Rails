@@ -19,6 +19,7 @@ class Scorecard < ActiveRecord::Base
     self.sleeps_score ||= 0
     self.self_cares_score ||= 0
     self.journals_score ||= 0
+    self.total_score ||= 0
     self.streak_record ||= 0
     self.level_multiplier ||= 1
     self.days_since_signup ||= 0
