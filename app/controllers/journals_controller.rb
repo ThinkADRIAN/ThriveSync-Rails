@@ -5,9 +5,9 @@ class JournalsController < ApplicationController
     redirect_to root_url, :alert => exception.message
   end
 
-  load_and_authorize_resource :user
-  load_and_authorize_resource :journal, through: :user, shallow: true
-  #check_authorization
+  #load_and_authorize_resource :user
+  #load_and_authorize_resource :journal, through: :user, shallow: true
+  check_authorization
 
   before_action :set_journal, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!
@@ -17,6 +17,9 @@ class JournalsController < ApplicationController
   # GET /journals
   # GET /journals.json
   def index
+    authorize! :manage, Journal
+    authorize! :read, Journal
+
     @user = User.find_by_id(params[:user_id])
 
     if @user == nil
@@ -36,6 +39,9 @@ class JournalsController < ApplicationController
   # GET /journals/1
   # GET /journals/1.json
   def show
+    authorize! :manage, Journal
+    authorize! :read, Journal
+
     respond_to do |format|
       format.js
       format.json { render :json =>  @journal, status: 200 }
@@ -45,6 +51,8 @@ class JournalsController < ApplicationController
 
   # GET /journals/new
   def new
+    authorize! :manage, Journal
+
     @journal= Journal.new
   end
 
@@ -55,6 +63,8 @@ class JournalsController < ApplicationController
   # POST /journals
   # POST /journals.json
   def create
+    authorize! :manage, Journal
+
     @journal = Journal.new(journal_params)
     @journal.user_id = current_user.id
     @journal.update_attribute(:timestamp, DateTime.now.in_time_zone)
@@ -75,6 +85,8 @@ class JournalsController < ApplicationController
   # PATCH/PUT /journals/1
   # PATCH/PUT /journals/1.json
   def update
+    authorize! :manage, Journal
+
     respond_to do |format|
       if @journal.update(journal_params)
         flash.now[:success] = "Journal Entry was successfully updated."
@@ -82,19 +94,23 @@ class JournalsController < ApplicationController
         format.json { render :json => @journal, status: :created }
       else
         flash.now[:error] = 'Journal Entry was not updated... Try again???'
-        format.js   { render json: @mood.errors, status: :unprocessable_entity }
+        format.js   { render json: @journal.errors, status: :unprocessable_entity }
         format.json { render json: @journal.errors, status: :unprocessable_entity }
       end
     end
   end
 
   def delete
+    authorize! :manage, Journal
+
     @journal = Journal.find(params[:journal_id])
   end
 
   # DELETE /journals/1
   # DELETE /journals/1.json
   def destroy
+    authorize! :manage, Journal
+
     @journal.destroy
     
     respond_to do |format|
@@ -105,6 +121,9 @@ class JournalsController < ApplicationController
   end
 
   def cancel
+    authorize! :manage, Journal
+    authorize! :read, Journal
+
     respond_to do |format|
       format.js
     end
