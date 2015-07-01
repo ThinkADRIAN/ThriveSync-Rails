@@ -8,7 +8,7 @@
 
 <div class="col-md-12">
     <%= line_chart [
-    {name: "Sleep Time", data: @sleeps.group_by_day(:created_at, last: 7).average(:time)}
+    {name: "Sleep Time", data: @sleeps.group_by_day(:created_at, last: @sleep_lookback_period).average(:time)}
     ], colors: [ SLEEP_PRIMARY_COLOR ],
     library: {
         title: "Sleep Quantity",
@@ -53,7 +53,7 @@
 
 <div class="col-md-12">
   <%= line_chart [
-  {name: "Quality", data: @sleeps.group_by_day(:created_at, last: 7).average(:quality)}
+  {name: "Quality", data: @sleeps.group_by_day(:created_at, last: @sleep_lookback_period).average(:quality)}
   ], colors: [ SLEEP_PRIMARY_COLOR ],
   library: {
       title: "Sleep Quality",

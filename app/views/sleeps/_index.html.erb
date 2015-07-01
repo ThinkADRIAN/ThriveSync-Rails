@@ -5,6 +5,17 @@
   <% else %>
     <h1><%= @user.first_name.to_s + " " + @user.last_name.to_s %><h1>
   <% end %>
+
+  <div class="btn-group">
+    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Change View Period <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu">
+      <li><%= link_to 'Last 7 Days ', sleeps_path(sleep_lookback_period: 7) %></li>
+      <li><%= link_to 'Last 30 Days', sleeps_path(sleep_lookback_period: 30) %></li>
+      <li><%= link_to 'Last 90 Days', sleeps_path(sleep_lookback_period: 90)%></li>
+    </ul>
+  </div>
 </div>
 
 <div>
