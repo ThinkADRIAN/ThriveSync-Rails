@@ -9,6 +9,7 @@ class MoodsController < ApplicationController
   check_authorization
 
   before_action :set_mood, only: [:show, :edit, :update, :destroy]
+  before_action :set_lookback_period, only: [:index]
   before_action :authenticate_user!
 
   respond_to :html, :js, :json, :xml
@@ -130,8 +131,12 @@ class MoodsController < ApplicationController
       @mood = Mood.find(params[:id])
     end
 
+    def set_lookback_period
+      @mood_lookback_period = params[:mood_lookback_period]
+    end
+
     # Never trust parameters from the scary internet, only allow the white list through.
     def mood_params
-      params.fetch(:mood, {}).permit(:mood_rating, :anxiety_rating, :irritability_rating, :timestamp)
+      params.fetch(:mood, {}).permit(:mood_rating, :anxiety_rating, :irritability_rating, :timestamp, :mood_lookback_period)
     end
 end

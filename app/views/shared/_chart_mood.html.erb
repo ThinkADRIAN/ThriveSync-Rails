@@ -8,7 +8,7 @@
 
 <div class="col-md-12">
     <%= line_chart [
-    {name: "Mood", data: @moods.group_by_day(:timestamp, last: 7).average(:mood_rating)}
+    {name: "Mood", data: @moods.group_by_day(:timestamp, last: @mood_lookback_period).average(:mood_rating)}
     ], colors: [MOOD_PRIMARY_COLOR],
     library: {
         title: "Mood",
@@ -54,7 +54,7 @@
 
 <div class="col-md-12">
   <%= line_chart [
-  {name: "Anxiety", data: @moods.group_by_day(:timestamp, last: 7).average(:anxiety_rating)}
+  {name: "Anxiety", data: @moods.group_by_day(:timestamp, last: @mood_lookback_period).average(:anxiety_rating)}
   ], colors: [MOOD_PRIMARY_COLOR],
   library: {
       title: "Anxiety",
@@ -100,7 +100,7 @@
 
 <div class="col-md-12">
   <%= line_chart [
-  {name: "Irritability", data: @moods.group_by_day(:timestamp, last: 7).average(:irritability_rating)}
+  {name: "Irritability", data: @moods.group_by_day(:timestamp, last: @mood_lookback_period).average(:irritability_rating)}
   ], colors: [MOOD_PRIMARY_COLOR],
   library: {
       title: "Irritability",
