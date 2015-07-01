@@ -1,10 +1,3 @@
-<% journal_primary_color = "#f39c12" %>
-<% journal_background_color = "#fff" %>
-<% journal_stroke_width = 0 %>
-<% journal_animation_duration = 1000 %>
-<% journal_animation_easing = 'in' %>
-<% journal_legend_position = 'none' %>
-
 <% if @user == nil %>
   <% user = current_user %>
 <% else %>
@@ -14,45 +7,46 @@
 <% @journals = Journal.where(user_id: user.id) %>
 
 <%= line_chart [
-{name: "Journal", data: @journals.group_by_day(:created_at, last: 7).count(:journal_entry)}
-], colors: [journal_primary_color],
-library: {
-    title: "Journal",
-    titlePosition: 'out',
-    titleTextStyle: {
-        color: journal_primary_color
-    },
-    backgroundColor: {
-        fill: journal_background_color,
-        stroke: journal_primary_color,
-        strokeWidth: journal_stroke_width
-    },
-    animation: {
+  {name: "Journal", data: @journals.group_by_day(:created_at, last: 7).count(:journal_entry)}
+  ], colors: [JOURNAL_PRIMARY_COLOR],
+  library: {
+      title: "Journal",
+      titlePosition: 'out',
+      titleTextStyle: {
+        color: JOURNAL_PRIMARY_COLOR
+      },
+      backgroundColor: {
+        fill: JOURNAL_BACKGROUND_COLOR,
+        stroke: JOURNAL_PRIMARY_COLOR,
+        strokeWidth: JOURNAL_STROKE_WIDTH
+      },
+      animation: {
         duration: 1000,
         startup: true,
-        easing: journal_animation_easing
-    },
-    hAxis: {
+        easing: JOURNAL_ANIMATION_EASING
+      },
+      hAxis: {
         textStyle: {
-            color: journal_primary_color
+          color: JOURNAL_PRIMARY_COLOR
         },
         gridlines: {
-            color: journal_background_color
+          color: JOURNAL_BACKGROUND_COLOR
         }
-    },
-    legend: {
+      },
+      legend: {
         textStyle: {
-            color: journal_background_color
+          color: JOURNAL_BACKGROUND_COLOR
         },
-        position: journal_legend_position
-    },
-    vAxis: {
+        position: JOURNAL_LEGEND_POSITION
+      },
+      vAxis: {
         ticks: [{v:0, f:'No'}, {v:1, f:'Yes'}],
         textStyle: {
-            color: journal_primary_color
+          color: JOURNAL_PRIMARY_COLOR
         },
         gridlines: {
-            color: journal_background_color
+          color: JOURNAL_BACKGROUND_COLOR
         }
-    }
-} %>
+      }
+  }
+%>
