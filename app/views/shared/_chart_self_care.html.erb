@@ -13,7 +13,7 @@
 
 <div class="col-md-12">
   <%= column_chart [
-  {name: "Counseling", data: @self_cares_counseling.group_by_day(:created_at, last: 7, format: "%b %d, %Y").count(:counseling)}
+  {name: "Counseling", data: @self_cares_counseling.group_by_day(:created_at, last: @self_care_lookback_period, format: "%b %d, %Y").count(:counseling)}
   ], colors: [SELF_CARE_PRIMARY_COLOR],
   library: {
       title: "Counseling",
@@ -59,7 +59,7 @@
 
 <div class="col-md-12">
   <%= column_chart [
-  {name: "Medication", data: @self_cares_medication.group_by_day(:created_at, last: 7, format: "%b %d, %Y").count(:medication)}
+  {name: "Medication", data: @self_cares_medication.group_by_day(:created_at, last: @self_care_lookback_period, format: "%b %d, %Y").count(:medication)}
   ], colors: [SELF_CARE_PRIMARY_COLOR],
   library: {
       title: "Medication",
@@ -105,7 +105,7 @@
 
 <div class="col-md-12">
   <%= column_chart [
-  {name: "Meditation", data: @self_cares_meditation.group_by_day(:created_at, last: 7, format: "%b %d, %Y").count(:meditation)}
+  {name: "Meditation", data: @self_cares_meditation.group_by_day(:created_at, last: @self_care_lookback_period, format: "%b %d, %Y").count(:meditation)}
   ], colors: [SELF_CARE_PRIMARY_COLOR],
   library: {
       title: "Meditation",
@@ -151,7 +151,7 @@
 
 <div class="col-md-12">
   <%= column_chart [
-  {name: "Exercise", data: @self_cares_exercise.group_by_day(:created_at, last: 7, format: "%b %d, %Y").count(:exercise)}
+  {name: "Exercise", data: @self_cares_exercise.group_by_day(:created_at, last: @self_care_lookback_period, format: "%b %d, %Y").count(:exercise)}
   ], colors: [SELF_CARE_PRIMARY_COLOR],
   library: {
       title: "Exercise",
