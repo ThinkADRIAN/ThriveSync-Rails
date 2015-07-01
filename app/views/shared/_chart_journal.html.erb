@@ -7,7 +7,7 @@
 <% @journals = Journal.where(user_id: user.id) %>
 
 <%= line_chart [
-  {name: "Journal", data: @journals.group_by_day(:created_at, last: 7).count(:journal_entry)}
+  {name: "Journal", data: @journals.group_by_day(:created_at, last: @journal_lookback_period).count(:journal_entry)}
   ], colors: [JOURNAL_PRIMARY_COLOR],
   library: {
       title: "Journal",

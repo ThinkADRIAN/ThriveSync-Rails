@@ -10,6 +10,7 @@ class JournalsController < ApplicationController
   check_authorization
 
   before_action :set_journal, only: [:show, :edit, :update, :destroy]
+  before_action :set_lookback_period, only: [:index]
   before_action :authenticate_user!
 
   respond_to :html, :js, :json, :xml
@@ -135,8 +136,12 @@ class JournalsController < ApplicationController
       @journal = Journal.find(params[:id])
     end
 
+    def set_lookback_period
+      @journal_lookback_period = params[:journal_lookback_period]
+    end
+
     # Never trust parameters from the scary internet, only allow the white list through.
     def journal_params
-      params.fetch(:journal, {}).permit(:journal_entry, :timestamp)
+      params.fetch(:journal, {}).permit(:journal_entry, :timestamp, :journal_lookback_period)
     end
 end
