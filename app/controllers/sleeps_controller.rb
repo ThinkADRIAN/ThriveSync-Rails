@@ -134,7 +134,11 @@ class SleepsController < ApplicationController
     end
 
     def set_lookback_period
-      @sleep_lookback_period = params[:sleep_lookback_period]
+      if(params.has_key?(:sleep_lookback_period))
+        @sleep_lookback_period = params[:sleep_lookback_period]
+      else
+        @sleep_lookback_period = DEFAULT_LOOKBACK_PERIOD
+      end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

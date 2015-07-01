@@ -132,7 +132,11 @@ class SelfCaresController < ApplicationController
     end
 
     def set_lookback_period
-      @self_care_lookback_period = params[:self_care_lookback_period]
+      if(params.has_key?(:self_care_lookback_period))
+        @self_care_lookback_period = params[:self_care_lookback_period]
+      else
+        @self_care_lookback_period = DEFAULT_LOOKBACK_PERIOD
+      end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

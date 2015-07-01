@@ -137,7 +137,11 @@ class JournalsController < ApplicationController
     end
 
     def set_lookback_period
-      @journal_lookback_period = params[:journal_lookback_period]
+      if(params.has_key?(:journal_lookback_period))
+        @journal_lookback_period = params[:journal_lookback_period]
+      else
+        @journal_lookback_period = DEFAULT_LOOKBACK_PERIOD
+      end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
