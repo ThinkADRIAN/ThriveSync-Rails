@@ -38,7 +38,7 @@ namespace :db do
       test_user.save!
 
       # Create moods for test user
-      28.times do |d|
+      100.times do |d|
 
         now = Time.now
 
@@ -112,7 +112,7 @@ namespace :db do
       test_user.save!
 
       # Create moods for test user
-      28.times do |d|
+      100.times do |d|
 
         now = Time.now
 
