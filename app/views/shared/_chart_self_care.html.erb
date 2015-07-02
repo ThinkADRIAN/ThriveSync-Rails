@@ -11,9 +11,47 @@
 <% @self_cares_meditation = SelfCare.where(user_id: user.id, meditation: true) %>
 <% @self_cares_exercise = SelfCare.where(user_id: user.id, exercise: true) %>
 
+<% 
+if @self_care_lookback_period == 'week' 
+  counseling_chart_data = @self_cares.group_by_day(:timestamp, range: Date.today.at_beginning_of_week..Date.today.at_end_of_week, format: "%b %d, %Y").count(:counseling)
+  medication_chart_data = @self_cares.group_by_day(:timestamp, range: Date.today.at_beginning_of_week..Date.today.at_end_of_week, format: "%b %d, %Y").count(:medication)
+  meditation_chart_data = @self_cares.group_by_day(:timestamp, range: Date.today.at_beginning_of_week..Date.today.at_end_of_week, format: "%b %d, %Y").count(:meditation)
+  exercise_chart_data = @self_cares.group_by_day(:timestamp, range: Date.today.at_beginning_of_week..Date.today.at_end_of_week, format: "%b %d, %Y").count(:exercise)
+  y_axis_ticks = [{v:0, f:'No'}, {v:1, f:'Yes'}]
+elsif @self_care_lookback_period == 'last_week'
+  counseling_chart_data = @self_cares.group_by_day(:timestamp, range: Date.today.last_week.at_beginning_of_week..Date.today.last_week.at_end_of_week, format: "%b %d, %Y").count(:counseling)
+  medication_chart_data = @self_cares.group_by_day(:timestamp, range: Date.today.last_week.at_beginning_of_week..Date.today.last_week.at_end_of_week, format: "%b %d, %Y").count(:medication)
+  meditation_chart_data = @self_cares.group_by_day(:timestamp, range: Date.today.last_week.at_beginning_of_week..Date.today.last_week.at_end_of_week, format: "%b %d, %Y").count(:meditation)
+  exercise_chart_data = @self_cares.group_by_day(:timestamp, range: Date.today.last_week.at_beginning_of_week..Date.today.last_week.at_end_of_week, format: "%b %d, %Y").count(:exercise)
+  y_axis_ticks = [{v:0, f:'No'}, {v:1, f:'Yes'}]
+elsif @self_care_lookback_period == 'month'
+  counseling_chart_data = @self_cares.group_by_day(:timestamp, range: Date.today.at_beginning_of_month..Date.today.at_end_of_month, format: "%b %d, %Y").count(:counseling)
+  medication_chart_data = @self_cares.group_by_day(:timestamp, range: Date.today.at_beginning_of_month..Date.today.at_end_of_month, format: "%b %d, %Y").count(:medication)
+  meditation_chart_data = @self_cares.group_by_day(:timestamp, range: Date.today.at_beginning_of_month..Date.today.at_end_of_month, format: "%b %d, %Y").count(:meditation)
+  exercise_chart_data = @self_cares.group_by_day(:timestamp, range: Date.today.at_beginning_of_month..Date.today.at_end_of_month, format: "%b %d, %Y").count(:exercise)
+  y_axis_ticks = [{v:0, f:'No'}, {v:1, f:'Yes'}]
+elsif @self_care_lookback_period == 'last_month'
+  counseling_chart_data = @self_cares.group_by_day(:timestamp, range: Date.today.last_month.at_beginning_of_month..Date.today.last_month.at_end_of_month, format: "%b %d, %Y").count(:counseling)
+  medication_chart_data = @self_cares.group_by_day(:timestamp, range: Date.today.last_month.at_beginning_of_month..Date.today.last_month.at_end_of_month, format: "%b %d, %Y").count(:medication)
+  meditation_chart_data = @self_cares.group_by_day(:timestamp, range: Date.today.last_month.at_beginning_of_month..Date.today.last_month.at_end_of_month, format: "%b %d, %Y").count(:meditation)
+  exercise_chart_data = @self_cares.group_by_day(:timestamp, range: Date.today.last_month.at_beginning_of_month..Date.today.last_month.at_end_of_month, format: "%b %d, %Y").count(:exercise)
+  y_axis_ticks = [{v:0, f:'No'}, {v:1, f:'Yes'}]
+elsif @self_care_lookback_period == 'year'
+  counseling_chart_data = @self_cares.group_by_month(:timestamp, range: Date.today.at_beginning_of_year..Date.today.at_end_of_year, format: "%b %Y").count(:counseling)
+  medication_chart_data = @self_cares.group_by_month(:timestamp, range: Date.today.at_beginning_of_year..Date.today.at_end_of_year, format: "%b %Y").count(:medication)
+  meditation_chart_data = @self_cares.group_by_month(:timestamp, range: Date.today.at_beginning_of_year..Date.today.at_end_of_year, format: "%b %Y").count(:meditation)
+  exercise_chart_data = @self_cares.group_by_month(:timestamp, range: Date.today.at_beginning_of_year..Date.today.at_end_of_year, format: "%b %Y").count(:exercise)
+elsif @self_care_lookback_period == 'last_year'
+  counseling_chart_data = @self_cares.group_by_month(:timestamp, range: Date.today.last_year.at_beginning_of_year..Date.today.last_year.at_end_of_year, format: "%b %Y").count(:counseling)
+  medication_chart_data = @self_cares.group_by_month(:timestamp, range: Date.today.last_year.at_beginning_of_year..Date.today.last_year.at_end_of_year, format: "%b %Y").count(:medication)
+  meditation_chart_data = @self_cares.group_by_month(:timestamp, range: Date.today.last_year.at_beginning_of_year..Date.today.last_year.at_end_of_year, format: "%b %Y").count(:meditation)
+  exercise_chart_data = @self_cares.group_by_month(:timestamp, range: Date.today.last_year.at_beginning_of_year..Date.today.last_year.at_end_of_year, format: "%b %Y").count(:exercise)
+end
+%>
+
 <div class="col-md-12">
   <%= column_chart [
-  {name: "Counseling", data: @self_cares_counseling.group_by_day(:created_at, last: @self_care_lookback_period, format: "%b %d, %Y").count(:counseling)}
+  {name: "Counseling", data: counseling_chart_data}
   ], colors: [SELF_CARE_PRIMARY_COLOR],
   library: {
       title: "Counseling",
@@ -46,7 +84,7 @@
           position: SELF_CARE_LEGEND_POSITION
       },
       vAxis: {
-          ticks: [{v:0, f:'No'}, {v:1, f:'Yes'}],
+          ticks: y_axis_ticks,
           textStyle: {
               color: SELF_CARE_PRIMARY_COLOR
           },
@@ -59,7 +97,7 @@
 
 <div class="col-md-12">
   <%= column_chart [
-  {name: "Medication", data: @self_cares_medication.group_by_day(:created_at, last: @self_care_lookback_period, format: "%b %d, %Y").count(:medication)}
+  {name: "Medication", data: medication_chart_data}
   ], colors: [SELF_CARE_PRIMARY_COLOR],
   library: {
       title: "Medication",
@@ -92,7 +130,7 @@
           position: SELF_CARE_LEGEND_POSITION
       },
       vAxis: {
-          ticks: [{v:0, f:'No'}, {v:1, f:'Yes'}],
+          ticks: y_axis_ticks,
           textStyle: {
               color: SELF_CARE_PRIMARY_COLOR
           },
@@ -105,7 +143,7 @@
 
 <div class="col-md-12">
   <%= column_chart [
-  {name: "Meditation", data: @self_cares_meditation.group_by_day(:created_at, last: @self_care_lookback_period, format: "%b %d, %Y").count(:meditation)}
+  {name: "Meditation", data: meditation_chart_data}
   ], colors: [SELF_CARE_PRIMARY_COLOR],
   library: {
       title: "Meditation",
@@ -138,7 +176,7 @@
           position: SELF_CARE_LEGEND_POSITION
       },
       vAxis: {
-          ticks: [{v:0, f:'No'}, {v:1, f:'Yes'}],
+          ticks: y_axis_ticks,
           textStyle: {
               color: SELF_CARE_PRIMARY_COLOR
           },
@@ -151,7 +189,7 @@
 
 <div class="col-md-12">
   <%= column_chart [
-  {name: "Exercise", data: @self_cares_exercise.group_by_day(:created_at, last: @self_care_lookback_period, format: "%b %d, %Y").count(:exercise)}
+  {name: "Exercise", data: exercise_chart_data}
   ], colors: [SELF_CARE_PRIMARY_COLOR],
   library: {
       title: "Exercise",
@@ -184,7 +222,7 @@
           position: SELF_CARE_LEGEND_POSITION
       },
       vAxis: {
-          ticks: [{v:0, f:'No'}, {v:1, f:'Yes'}],
+          ticks: y_axis_ticks,
           textStyle: {
               color: SELF_CARE_PRIMARY_COLOR
           },
