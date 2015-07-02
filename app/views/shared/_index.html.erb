@@ -30,18 +30,10 @@
 %>
 
 <div class="col-md-8">
-  <div class="btn-group">
-      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Change View Period <span class="caret"></span>
-      </button>
-      <ul class="dropdown-menu">
-        <li><%= link_to 'Last Year', root_path(lookback_period: 'last_year')%></li>
-        <li><%= link_to 'Last Month', root_path(lookback_period: 'last_month') %></li>
-        <li><%= link_to 'Last Week', root_path(lookback_period: 'last_week') %></li>
-        <li><%= link_to 'This Week', root_path(lookback_period: 'week') %></li>
-        <li><%= link_to 'This Month', root_path(lookback_period: 'month') %></li>
-        <li><%= link_to 'This Year', root_path(lookback_period: 'year')%></li>
-      </ul>
+  <div class="col-md-12">
+    <center>
+    <%= render "shared/review_delorean" %>
+    </center>
     </div>
   </div>
 </div>
