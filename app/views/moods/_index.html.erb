@@ -11,9 +11,12 @@
       Change View Period <span class="caret"></span>
     </button>
     <ul class="dropdown-menu">
-      <li><%= link_to 'Last 7 Days ', moods_path(mood_lookback_period: 7) %></li>
-      <li><%= link_to 'Last 30 Days', moods_path(mood_lookback_period: 30) %></li>
-      <li><%= link_to 'Last 90 Days', moods_path(mood_lookback_period: 90)%></li>
+      <li><%= link_to 'Last Year', moods_path(mood_lookback_period: 'last_year')%></li>
+      <li><%= link_to 'Last Month', moods_path(mood_lookback_period: 'last_month') %></li>
+      <li><%= link_to 'Last Week', moods_path(mood_lookback_period: 'last_week') %></li>
+      <li><%= link_to 'This Week', moods_path(mood_lookback_period: 'week') %></li>
+      <li><%= link_to 'This Month', moods_path(mood_lookback_period: 'month') %></li>
+      <li><%= link_to 'This Year', moods_path(mood_lookback_period: 'year')%></li>
     </ul>
   </div>
 </div>

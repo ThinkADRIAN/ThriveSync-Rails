@@ -6,9 +6,37 @@
 
 <% @moods = Mood.where(user_id: user.id) %>
 
+<% 
+if @mood_lookback_period == 'week' 
+  mood_chart_data = @moods.group_by_day(:timestamp, range: Date.today.at_beginning_of_week..Date.today.at_end_of_week).average(:mood_rating)
+  anxiety_chart_data = @moods.group_by_day(:timestamp, range: Date.today.at_beginning_of_week..Date.today.at_end_of_week).average(:anxiety_rating)
+  irritability_chart_data = @moods.group_by_day(:timestamp, range: Date.today.at_beginning_of_week..Date.today.at_end_of_week).average(:irritability_rating)
+elsif @mood_lookback_period == 'last_week'
+  mood_chart_data = @moods.group_by_day(:timestamp, range: Date.today.last_week.at_beginning_of_week..Date.today.last_week.at_end_of_week).average(:mood_rating)
+  anxiety_chart_data = @moods.group_by_day(:timestamp, range: Date.today.last_week.at_beginning_of_week..Date.today.last_week.at_end_of_week).average(:anxiety_rating)
+  irritability_chart_data = @moods.group_by_day(:timestamp, range: Date.today.last_week.at_beginning_of_week..Date.today.last_week.at_end_of_week).average(:irritability_rating)
+elsif @mood_lookback_period == 'month'
+  mood_chart_data = @moods.group_by_day(:timestamp, range: Date.today.at_beginning_of_month..Date.today.at_end_of_month).average(:mood_rating)
+  anxiety_chart_data = @moods.group_by_day(:timestamp, range: Date.today.at_beginning_of_month..Date.today.at_end_of_month).average(:anxiety_rating)
+  irritability_chart_data = @moods.group_by_day(:timestamp, range: Date.today.at_beginning_of_month..Date.today.at_end_of_month).average(:irritability_rating)
+elsif @mood_lookback_period == 'last_month'
+  mood_chart_data = @moods.group_by_day(:timestamp, range: Date.today.last_month.at_beginning_of_month..Date.today.last_month.at_end_of_month).average(:mood_rating)
+  anxiety_chart_data = @moods.group_by_day(:timestamp, range: Date.today.last_month.at_beginning_of_month..Date.today.last_month.at_end_of_month).average(:anxiety_rating)
+  irritability_chart_data = @moods.group_by_day(:timestamp, range: Date.today.last_month.at_beginning_of_month..Date.today.last_month.at_end_of_month).average(:irritability_rating)
+elsif @mood_lookback_period == 'year'
+  mood_chart_data = @moods.group_by_week(:timestamp, range: Date.today.at_beginning_of_year..Date.today.at_end_of_year).average(:mood_rating)
+  anxiety_chart_data = @moods.group_by_week(:timestamp, range: Date.today.at_beginning_of_year..Date.today.at_end_of_year).average(:anxiety_rating)
+  irritability_chart_data = @moods.group_by_week(:timestamp, range: Date.today.at_beginning_of_year..Date.today.at_end_of_year).average(:irritability_rating)
+elsif @mood_lookback_period == 'last_year'
+  mood_chart_data = @moods.group_by_week(:timestamp, range: Date.today.last_year.at_beginning_of_year..Date.today.last_year.at_end_of_year).average(:mood_rating)
+  anxiety_chart_data = @moods.group_by_week(:timestamp, range: Date.today.last_year.at_beginning_of_year..Date.today.last_year.at_end_of_year).average(:anxiety_rating)
+  irritability_chart_data = @moods.group_by_week(:timestamp, range: Date.today.last_year.at_beginning_of_year..Date.today.last_year.at_end_of_year).average(:irritability_rating)
+end
+%>
+
 <div class="col-md-12">
     <%= line_chart [
-    {name: "Mood", data: @moods.group_by_day(:timestamp, last: @mood_lookback_period).average(:mood_rating)}
+    {name: "Mood", data: mood_chart_data }
     ], colors: [MOOD_PRIMARY_COLOR],
     library: {
         title: "Mood",
@@ -54,7 +82,7 @@
 
 <div class="col-md-12">
   <%= line_chart [
-  {name: "Anxiety", data: @moods.group_by_day(:timestamp, last: @mood_lookback_period).average(:anxiety_rating)}
+  {name: "Anxiety", data: anxiety_chart_data}
   ], colors: [MOOD_PRIMARY_COLOR],
   library: {
       title: "Anxiety",
@@ -100,7 +128,7 @@
 
 <div class="col-md-12">
   <%= line_chart [
-  {name: "Irritability", data: @moods.group_by_day(:timestamp, last: @mood_lookback_period).average(:irritability_rating)}
+  {name: "Irritability", data: irritability_chart_data}
   ], colors: [MOOD_PRIMARY_COLOR],
   library: {
       title: "Irritability",
