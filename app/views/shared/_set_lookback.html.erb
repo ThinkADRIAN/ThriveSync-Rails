@@ -1,0 +1,22 @@
+<%
+  if(params.has_key?(:lookback_period))
+    @mood_lookback_period = params[:lookback_period]
+  else
+    @mood_lookback_period = DEFAULT_LOOKBACK_PERIOD
+  end
+  if(params.has_key?(:lookback_period))
+    @sleep_lookback_period = params[:lookback_period]
+  else
+    @sleep_lookback_period = DEFAULT_LOOKBACK_PERIOD
+  end
+  if(params.has_key?(:lookback_period))
+    @self_care_lookback_period = params[:lookback_period]
+  else
+    @self_care_lookback_period = DEFAULT_LOOKBACK_PERIOD
+  end 
+  if(params.has_key?(:lookback_period))
+    @journal_lookback_period = params[:lookback_period]
+  else
+    @journal_lookback_period = DEFAULT_LOOKBACK_PERIOD
+  end
+%>
