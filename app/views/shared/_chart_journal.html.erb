@@ -6,9 +6,23 @@
 
 <% @journals = Journal.where(user_id: user.id) %>
 
-<% if @journal_lookback_period == 'week' %>
+<% 
+if @journal_lookback_period == 'week' 
+  journal_chart_data = @journals.group_by_day(:timestamp, range: Date.today.at_beginning_of_week..Date.today.at_end_of_week).count(:journal_entry)
+elsif @journal_lookback_period == 'last_week'
+  journal_chart_data = @journals.group_by_day(:timestamp, range: Date.today.last_week.at_beginning_of_week..Date.today.last_week.at_end_of_week).count(:journal_entry)
+elsif @journal_lookback_period == 'month'
+  journal_chart_data = @journals.group_by_day(:timestamp, range: Date.today.at_beginning_of_month..Date.today.at_end_of_month).count(:journal_entry)
+elsif @journal_lookback_period == 'last_month'
+  journal_chart_data = @journals.group_by_day(:timestamp, range: Date.today.last_month.at_beginning_of_month..Date.today.last_month.at_end_of_month).count(:journal_entry)
+elsif @journal_lookback_period == 'year'
+  journal_chart_data = @journals.group_by_week(:timestamp, range: Date.today.at_beginning_of_year..Date.today.at_end_of_year).count(:journal_entry)
+elsif @journal_lookback_period == 'last_year'
+  journal_chart_data = @journals.group_by_week(:timestamp, range: Date.today.last_year.at_beginning_of_year..Date.today.last_year.at_end_of_year).count(:journal_entry)
+end
+%>
 <%= line_chart [
-  {name: "Journal", data: @journals.group_by_day(:created_at, range: Date.today.at_beginning_of_week..Date.today.at_end_of_week).count(:journal_entry)} 
+  {name: "Journal", data: journal_chart_data} 
     ], colors: [JOURNAL_PRIMARY_COLOR],
   library: {
       title: "Journal",
@@ -51,229 +65,3 @@
       }
   }
 %>
-<% elsif @journal_lookback_period == 'last_week' %>
-<%= line_chart [
-  {name: "Journal", data: @journals.group_by_day(:created_at, range: Date.today.last_week.at_beginning_of_week..Date.today.last_week.at_end_of_week).count(:journal_entry)} 
-    ], colors: [JOURNAL_PRIMARY_COLOR],
-  library: {
-      title: "Journal",
-      titlePosition: 'out',
-      titleTextStyle: {
-        color: JOURNAL_PRIMARY_COLOR
-      },
-      backgroundColor: {
-        fill: JOURNAL_BACKGROUND_COLOR,
-        stroke: JOURNAL_PRIMARY_COLOR,
-        strokeWidth: JOURNAL_STROKE_WIDTH
-      },
-      animation: {
-        duration: 1000,
-        startup: true,
-        easing: JOURNAL_ANIMATION_EASING
-      },
-      hAxis: {
-        textStyle: {
-          color: JOURNAL_PRIMARY_COLOR
-        },
-        gridlines: {
-          color: JOURNAL_BACKGROUND_COLOR
-        }
-      },
-      legend: {
-        textStyle: {
-          color: JOURNAL_BACKGROUND_COLOR
-        },
-        position: JOURNAL_LEGEND_POSITION
-      },
-      vAxis: {
-        ticks: [{v:0, f:'No'}, {v:1, f:'Yes'}],
-        textStyle: {
-          color: JOURNAL_PRIMARY_COLOR
-        },
-        gridlines: {
-          color: JOURNAL_BACKGROUND_COLOR
-        }
-      }
-  }
-%>
-<% elsif @journal_lookback_period == 'month' %>
-<%= line_chart [
-  {name: "Journal", data: @journals.group_by_day(:created_at, range: Date.today.at_beginning_of_month..Date.today.at_end_of_month).count(:journal_entry)}  
-    ], colors: [JOURNAL_PRIMARY_COLOR],
-  library: {
-      title: "Journal",
-      titlePosition: 'out',
-      titleTextStyle: {
-        color: JOURNAL_PRIMARY_COLOR
-      },
-      backgroundColor: {
-        fill: JOURNAL_BACKGROUND_COLOR,
-        stroke: JOURNAL_PRIMARY_COLOR,
-        strokeWidth: JOURNAL_STROKE_WIDTH
-      },
-      animation: {
-        duration: 1000,
-        startup: true,
-        easing: JOURNAL_ANIMATION_EASING
-      },
-      hAxis: {
-        textStyle: {
-          color: JOURNAL_PRIMARY_COLOR
-        },
-        gridlines: {
-          color: JOURNAL_BACKGROUND_COLOR
-        }
-      },
-      legend: {
-        textStyle: {
-          color: JOURNAL_BACKGROUND_COLOR
-        },
-        position: JOURNAL_LEGEND_POSITION
-      },
-      vAxis: {
-        ticks: [{v:0, f:'No'}, {v:1, f:'Yes'}],
-        textStyle: {
-          color: JOURNAL_PRIMARY_COLOR
-        },
-        gridlines: {
-          color: JOURNAL_BACKGROUND_COLOR
-        }
-      }
-  }
-%>
-<% elsif @journal_lookback_period == 'last_month' %>
-<%= line_chart [
-  {name: "Journal", data: @journals.group_by_day(:created_at, range: Date.today.last_month.at_beginning_of_month..Date.today.last_month.at_end_of_month).count(:journal_entry)}  
-    ], colors: [JOURNAL_PRIMARY_COLOR],
-  library: {
-      title: "Journal",
-      titlePosition: 'out',
-      titleTextStyle: {
-        color: JOURNAL_PRIMARY_COLOR
-      },
-      backgroundColor: {
-        fill: JOURNAL_BACKGROUND_COLOR,
-        stroke: JOURNAL_PRIMARY_COLOR,
-        strokeWidth: JOURNAL_STROKE_WIDTH
-      },
-      animation: {
-        duration: 1000,
-        startup: true,
-        easing: JOURNAL_ANIMATION_EASING
-      },
-      hAxis: {
-        textStyle: {
-          color: JOURNAL_PRIMARY_COLOR
-        },
-        gridlines: {
-          color: JOURNAL_BACKGROUND_COLOR
-        }
-      },
-      legend: {
-        textStyle: {
-          color: JOURNAL_BACKGROUND_COLOR
-        },
-        position: JOURNAL_LEGEND_POSITION
-      },
-      vAxis: {
-        ticks: [{v:0, f:'No'}, {v:1, f:'Yes'}],
-        textStyle: {
-          color: JOURNAL_PRIMARY_COLOR
-        },
-        gridlines: {
-          color: JOURNAL_BACKGROUND_COLOR
-        }
-      }
-  }
-%>
-<% elsif @journal_lookback_period == 'last_year' %>
-<%= line_chart [
-  {name: "Journal", data: @journals.group_by_month(:created_at, range: Date.today.last_year.at_beginning_of_year..Date.today.last_year.at_end_of_year).count(:journal_entry)} 
-    ], colors: [JOURNAL_PRIMARY_COLOR],
-  library: {
-      title: "Journal",
-      titlePosition: 'out',
-      titleTextStyle: {
-        color: JOURNAL_PRIMARY_COLOR
-      },
-      backgroundColor: {
-        fill: JOURNAL_BACKGROUND_COLOR,
-        stroke: JOURNAL_PRIMARY_COLOR,
-        strokeWidth: JOURNAL_STROKE_WIDTH
-      },
-      animation: {
-        duration: 1000,
-        startup: true,
-        easing: JOURNAL_ANIMATION_EASING
-      },
-      hAxis: {
-        textStyle: {
-          color: JOURNAL_PRIMARY_COLOR
-        },
-        gridlines: {
-          color: JOURNAL_BACKGROUND_COLOR
-        }
-      },
-      legend: {
-        textStyle: {
-          color: JOURNAL_BACKGROUND_COLOR
-        },
-        position: JOURNAL_LEGEND_POSITION
-      },
-      vAxis: {
-        ticks: [{v:0, f:'No'}, {v:1, f:'Yes'}],
-        textStyle: {
-          color: JOURNAL_PRIMARY_COLOR
-        },
-        gridlines: {
-          color: JOURNAL_BACKGROUND_COLOR
-        }
-      }
-  }
-%>
-<% elsif @journal_lookback_period == 'year' %>
-<%= line_chart [
-  {name: "Journal", data: @journals.group_by_month(:created_at, range: Date.today.at_beginning_of_year..Date.today.at_end_of_year).count(:journal_entry)} 
-    ], colors: [JOURNAL_PRIMARY_COLOR],
-  library: {
-      title: "Journal",
-      titlePosition: 'out',
-      titleTextStyle: {
-        color: JOURNAL_PRIMARY_COLOR
-      },
-      backgroundColor: {
-        fill: JOURNAL_BACKGROUND_COLOR,
-        stroke: JOURNAL_PRIMARY_COLOR,
-        strokeWidth: JOURNAL_STROKE_WIDTH
-      },
-      animation: {
-        duration: 1000,
-        startup: true,
-        easing: JOURNAL_ANIMATION_EASING
-      },
-      hAxis: {
-        textStyle: {
-          color: JOURNAL_PRIMARY_COLOR
-        },
-        gridlines: {
-          color: JOURNAL_BACKGROUND_COLOR
-        }
-      },
-      legend: {
-        textStyle: {
-          color: JOURNAL_BACKGROUND_COLOR
-        },
-        position: JOURNAL_LEGEND_POSITION
-      },
-      vAxis: {
-        ticks: [{v:0, f:'No'}, {v:1, f:'Yes'}],
-        textStyle: {
-          color: JOURNAL_PRIMARY_COLOR
-        },
-        gridlines: {
-          color: JOURNAL_BACKGROUND_COLOR
-        }
-      }
-  }
-%>
-<% end %>
