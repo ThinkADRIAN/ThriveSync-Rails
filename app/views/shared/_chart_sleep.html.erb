@@ -6,9 +6,35 @@
 
 <% @sleeps = Sleep.where(user_id: user.id) %>
 
+<% 
+if @sleep_lookback_period == 'week' 
+  sleep_time_chart_data = @sleeps.group_by_day(:created_at, range: Date.today.at_beginning_of_week..Date.today.at_end_of_week, format: "%b %d, %Y").average(:time)
+  sleep_quality_chart_data = @sleeps.group_by_day(:created_at, range: Date.today.at_beginning_of_week..Date.today.at_end_of_week, format: "%b %d, %Y").average(:quality)
+  y_axis_ticks = [{v:0, f:'No'}, {v:1, f:'Yes'}]
+elsif @sleep_lookback_period == 'last_week'
+  sleep_time_chart_data = @sleeps.group_by_day(:created_at, range: Date.today.last_week.at_beginning_of_week..Date.today.last_week.at_end_of_week, format: "%b %d, %Y").average(:time)
+  sleep_quality_chart_data = @sleeps.group_by_day(:created_at, range: Date.today.last_week.at_beginning_of_week..Date.today.last_week.at_end_of_week, format: "%b %d, %Y").average(:quality)
+  y_axis_ticks = [{v:0, f:'No'}, {v:1, f:'Yes'}]
+elsif @sleep_lookback_period == 'month'
+  sleep_time_chart_data = @sleeps.group_by_day(:created_at, range: Date.today.at_beginning_of_month..Date.today.at_end_of_month, format: "%b %d, %Y").average(:time)
+  sleep_quality_chart_data = @sleeps.group_by_day(:created_at, range: Date.today.at_beginning_of_month..Date.today.at_end_of_month, format: "%b %d, %Y").average(:quality)
+  y_axis_ticks = [{v:0, f:'No'}, {v:1, f:'Yes'}]
+elsif @sleep_lookback_period == 'last_month'
+  sleep_time_chart_data = @sleeps.group_by_day(:created_at, range: Date.today.last_month.at_beginning_of_month..Date.today.last_month.at_end_of_month, format: "%b %d, %Y").average(:time)
+  sleep_quality_chart_data = @sleeps.group_by_day(:created_at, range: Date.today.last_month.at_beginning_of_month..Date.today.last_month.at_end_of_month, format: "%b %d, %Y").average(:quality)
+  y_axis_ticks = [{v:0, f:'No'}, {v:1, f:'Yes'}]
+elsif @sleep_lookback_period == 'year'
+  sleep_time_chart_data = @sleeps.group_by_month(:created_at, range: Date.today.at_beginning_of_year..Date.today.at_end_of_year, format: "%b %Y").average(:time)
+  sleep_quality_chart_data = @sleeps.group_by_month(:created_at, range: Date.today.at_beginning_of_year..Date.today.at_end_of_year, format: "%b %Y").average(:quality)
+elsif @sleep_lookback_period == 'last_year'
+  sleep_time_chart_data = @sleeps.group_by_month(:created_at, range: Date.today.last_year.at_beginning_of_year..Date.today.last_year.at_end_of_year, format: "%b %Y").average(:time)
+  sleep_quality_chart_data = @sleeps.group_by_month(:created_at, range: Date.today.last_year.at_beginning_of_year..Date.today.last_year.at_end_of_year, format: "%b %Y").average(:quality)
+end
+%>
+
 <div class="col-md-12">
     <%= line_chart [
-    {name: "Sleep Time", data: @sleeps.group_by_day(:created_at, last: @sleep_lookback_period).average(:time)}
+    {name: "Sleep Time", data: sleep_time_chart_data}
     ], colors: [ SLEEP_PRIMARY_COLOR ],
     library: {
         title: "Sleep Quantity",
@@ -53,7 +79,7 @@
 
 <div class="col-md-12">
   <%= line_chart [
-  {name: "Quality", data: @sleeps.group_by_day(:created_at, last: @sleep_lookback_period).average(:quality)}
+  {name: "Quality", data: sleep_quality_chart_data}
   ], colors: [ SLEEP_PRIMARY_COLOR ],
   library: {
       title: "Sleep Quality",
