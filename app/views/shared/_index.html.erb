@@ -6,6 +6,46 @@
   </div>
 </div>
 
+<%
+  if(params.has_key?(:lookback_period))
+    @mood_lookback_period = params[:lookback_period]
+  else
+    @mood_lookback_period = DEFAULT_LOOKBACK_PERIOD
+  end
+  if(params.has_key?(:lookback_period))
+    @sleep_lookback_period = params[:lookback_period]
+  else
+    @sleep_lookback_period = DEFAULT_LOOKBACK_PERIOD
+  end
+  if(params.has_key?(:lookback_period))
+    @self_care_lookback_period = params[:lookback_period]
+  else
+    @self_care_lookback_period = DEFAULT_LOOKBACK_PERIOD
+  end 
+  if(params.has_key?(:lookback_period))
+    @journal_lookback_period = params[:lookback_period]
+  else
+    @journal_lookback_period = DEFAULT_LOOKBACK_PERIOD
+  end
+%>
+
+<div class="col-md-8">
+  <div class="btn-group">
+      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Change View Period <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu">
+        <li><%= link_to 'Last Year', root_path(lookback_period: 'last_year')%></li>
+        <li><%= link_to 'Last Month', root_path(lookback_period: 'last_month') %></li>
+        <li><%= link_to 'Last Week', root_path(lookback_period: 'last_week') %></li>
+        <li><%= link_to 'This Week', root_path(lookback_period: 'week') %></li>
+        <li><%= link_to 'This Month', root_path(lookback_period: 'month') %></li>
+        <li><%= link_to 'This Year', root_path(lookback_period: 'year')%></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
 <div class="col-md-8">
   <div class="col-md-12">
     <div class="mood-chart">
@@ -13,7 +53,7 @@
     </div>
   	<div class="btn-group btn-group-justified">
   		<%= link_to 'Add a new Mood Entry', new_mood_path(modal_enabled: 'true'), remote: true, class: "btn btn-primary btn-xs btn-block" %>
-  		<%= link_to 'View Mood Entries', moods_path, class: "btn btn-default btn-xs btn-block" %>
+  		<%= link_to 'View Mood Entries', moods_path(mood_lookback_period: @mood_lookback_period), class: "btn btn-default btn-xs btn-block" %>
   	</div>
   	<hr>
   </div>
@@ -24,7 +64,7 @@
     </div>
   	<div class="btn-group btn-group-justified">
   		<%= link_to 'Add a new Sleep Entry', new_sleep_path(modal_enabled: 'true'), remote: true, class: "btn btn-primary btn-xs btn-block" %>
-  		<%= link_to 'View Sleep Entries', sleeps_path, class: "btn btn-default btn-xs btn-block" %>
+  		<%= link_to 'View Sleep Entries', sleeps_path(sleep_lookback_period: @sleep_lookback_period), class: "btn btn-default btn-xs btn-block" %>
   	</div>
   	<hr>
   </div>
@@ -35,7 +75,7 @@
     </div>
   	<div class="btn-group btn-group-justified">
   		<%= link_to 'Add a new Self Care Entry', new_self_care_path(modal_enabled: 'true'), remote: true, class: "btn btn-primary btn-xs btn-block" %>
-  		<%= link_to 'View Self Care Entries', self_cares_path, class: "btn btn-default btn-xs btn-block" %>
+  		<%= link_to 'View Self Care Entries', self_cares_path(self_care_lookback_period: @self_care_lookback_period), class: "btn btn-default btn-xs btn-block" %>
   	</div>
   	<hr>
   </div>
@@ -46,7 +86,7 @@
     </div>
   	<div class="btn-group btn-group-justified">
   		<%= link_to 'Add a new Journal Entry', new_journal_path(modal_enabled: 'true'), remote: true, class: "btn btn-primary btn-xs btn-block" %>
-  		<%= link_to 'View Journal Entries', journals_path, class: "btn btn-default btn-xs btn-block" %>
+  		<%= link_to 'View Journal Entries', journals_path(journal_lookback_period: @journal_lookback_period), class: "btn btn-default btn-xs btn-block" %>
   	</div>
   	<hr>
   </div>
