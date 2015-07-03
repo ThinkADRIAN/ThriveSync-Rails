@@ -12,10 +12,18 @@
 
 <br>
 
-<div class="col-md-12">
-  <div class="col-md-12">
-      <%= render "shared/review_delorean" %>
-  </div>
+<div class="btn-group">
+  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Change View Period <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu">
+    <li><%= link_to 'Last Year', user_path(lookback_period: 'last_year')%></li>
+    <li><%= link_to 'Last Month', user_path(lookback_period: 'last_month') %></li>
+    <li><%= link_to 'Last Week', user_path(lookback_period: 'last_week') %></li>
+    <li><%= link_to 'This Week', user_path(lookback_period: 'week') %></li>
+    <li><%= link_to 'This Month', user_path(lookback_period: 'month') %></li>
+    <li><%= link_to 'This Year', user_path(lookback_period: 'year')%></li>
+  </ul>
 </div>
 
 <div class="col-md-12">
