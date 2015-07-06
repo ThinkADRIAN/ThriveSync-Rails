@@ -59,6 +59,7 @@ class JournalsController < ApplicationController
 
   # GET /journals/1/edit
   def edit
+    authorize! :manage, Journal
   end
 
   # POST /journals
