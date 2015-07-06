@@ -16,11 +16,47 @@ class Api::V1::RegistrationsController < Devise::RegistrationsController
   before_filter :configure_account_update_params, only: [:update]
 
 	def create
-    super
+    build_resource(sign_up_params)
+
+    resource.save
+
+    yield resource if block_given?
+    if resource.persisted?
+      if resource.active_for_authentication?
+        set_flash_message :notice, :signed_up if is_flashing_format?
+        sign_up(resource_name, resource)
+        respond_with resource, location: after_sign_up_path_for(resource)
+      else
+        set_flash_message :notice, :"signed_up_but_#{resource.inactive_message}" if is_flashing_format?
+        expire_data_after_sign_in!
+        respond_with resource, location: after_inactive_sign_up_path_for(resource)
+      end
+    else
+      clean_up_passwords resource
+      set_minimum_password_length
+      respond_with resource
+    end
 	end
 
 	def update
-		super
+		self.resource = resource_class.to_adapter.get!(send(:"current_#{resource_name}").to_key)
+    prev_unconfirmed_email = resource.unconfirmed_email if resource.respond_to?(:unconfirmed_email)
+
+    resource_updated = update_resource(resource, account_update_params)
+
+    yield resource if block_given?
+    if resource_updated
+      if is_flashing_format?
+        flash_key = update_needs_confirmation?(resource, prev_unconfirmed_email) ?
+          :update_needs_confirmation : :updated
+        set_flash_message :notice, flash_key
+      end
+      sign_in resource_name, resource, bypass: true
+      respond_with resource, location: after_update_path_for(resource)
+    else
+      clean_up_passwords resource
+      respond_with resource
+    end
   end
 
 	def destroy
@@ -52,11 +88,53 @@ class Api::V1::RegistrationsController < Devise::RegistrationsController
 
   # The path used after sign up.
   def after_sign_up_path_for(resource)
+    self.identify_user_for_analytics
+    self.track_user_sign_up
     super(resource)
   end
 
   # The path used after sign up for inactive accounts.
   def after_inactive_sign_up_path_for(resource)
     super(resource)
+  end
+
+  # The path used after update.
+  def after_update_path_for(resource)
+    self.identify_user_for_analytics
+    self.track_user_update
+    signed_in_root_path(resource)
+  end
+
+  def identify_user_for_analytics
+    # Identify User for Segment.io Analytics
+    Analytics.identify(
+      user_id: resource.id,
+      traits: {
+        first_name: resource.first_name,
+        last_name: resource.last_name,
+        email: resource.email,
+        created_at: resource.created_at
+      }
+    )
+  end
+
+  def track_user_sign_up
+    # Track User Sign Up for Segment.io Analytics
+    Analytics.track(
+      user_id: resource.id,
+      event: 'Signed Up',
+      properties: {
+      }
+    )
+  end
+
+  def track_user_update
+    # Track User Detail Update for Segment.io Analytics
+    Analytics.track(
+      user_id: resource.id,
+      event: 'User Detail Updated',
+      properties: {
+      }
+    )
   end
 end
