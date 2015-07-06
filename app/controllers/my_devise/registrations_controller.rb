@@ -7,7 +7,7 @@ class MyDevise::RegistrationsController < Devise::RegistrationsController
 
     resource.save
 
-    # Identify User for Segment.io Analytics Tracking
+    # Identify User for Segment.io Analytics
     Analytics.identify(
       user_id: resource.id,
       traits: {
@@ -18,7 +18,7 @@ class MyDevise::RegistrationsController < Devise::RegistrationsController
       }
     )
 
-    # Track User Sign Up for Segment.io Analytics Tracking
+    # Track User Sign Up for Segment.io Analytics
     Analytics.track(
       user_id: resource.id,
       event: 'Signed Up',
