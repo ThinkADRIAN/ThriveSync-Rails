@@ -69,6 +69,8 @@ class MoodsController < ApplicationController
     
     respond_to do |format|
       if @mood.save
+        track_mood_created
+
         current_user.scorecard.update_scorecard('moods')
         flash.now[:success] = "Mood Entry was successfully tracked."
         format.js 
@@ -87,6 +89,8 @@ class MoodsController < ApplicationController
     
     respond_to do |format|
       if @mood.update(mood_params)
+        track_mood_updated
+
         flash.now[:success] = "Mood Entry was successfully updated."
         format.js
         format.json { render :json => @mood, status: :created }
@@ -108,6 +112,7 @@ class MoodsController < ApplicationController
   def destroy
     authorize! :manage, Mood
     @mood.destroy
+    track_mood_deleted
     
     respond_to do |format|
       flash.now[:success] = "Mood Entry was successfully deleted."
@@ -142,5 +147,45 @@ class MoodsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def mood_params
       params.fetch(:mood, {}).permit(:mood_rating, :anxiety_rating, :irritability_rating, :timestamp, :mood_lookback_period)
+    end
+
+    def track_mood_created
+      # Track Mood Creation for Segment.io Analytics
+      Analytics.track(
+        user_id: @mood.user_id,
+        event: 'Created Mood Entry',
+        properties: {
+          mood_id: @mood.id,
+          mood_rating: @mood.mood_rating,
+          anxiety_rating: @mood.anxiety_rating,
+          irritability_rating: @mood.irritability_rating,
+          timestamp: @mood.timestamp
+        }
+      )
+    end
+
+    def track_mood_updated
+      # Track Mood Update for Segment.io Analytics
+      Analytics.track(
+        user_id: @mood.user_id,
+        event: 'Updated Mood Entry',
+        properties: {
+          mood_id: @mood.id,
+          mood_rating: @mood.mood_rating,
+          anxiety_rating: @mood.anxiety_rating,
+          irritability_rating: @mood.irritability_rating,
+          timestamp: @mood.timestamp
+        }
+      )
+    end
+
+    def track_mood_deleted
+      # Track Mood Deletion for Segment.io Analytics
+      Analytics.track(
+        user_id: @mood.user_id,
+        event: 'Deleted Mood Entry',
+        properties: {
+        }
+      )
     end
 end

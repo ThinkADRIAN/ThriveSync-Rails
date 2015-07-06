@@ -4,6 +4,8 @@ class Api::V1::SessionsController < Devise::SessionsController
   before_filter :configure_sign_in_params, only: [:create, :destroy]
   skip_before_filter :verify_signed_out_user
   skip_before_filter  :verify_authenticity_token, only:[:destroy]
+  after_filter :track_user_login, only: [:create]
+  after_filter :track_user_logout, only: [:destroy]
 
   # GET /resource/sign_in
   def new
@@ -12,13 +14,17 @@ class Api::V1::SessionsController < Devise::SessionsController
 
   # POST /resource/sign_in
   def create
-    super
+    self.resource = warden.authenticate!(auth_options)
+    set_flash_message(:notice, :signed_in) if is_flashing_format?
+    sign_in(resource_name, resource)
+
+    yield resource if block_given?
+    respond_with resource, location: after_sign_in_path_for(resource)
   end
 
 
   # DELETE /resource/sign_out
   def destroy
-    # super
     token_was_removed = remove_current_users_token_if_json_request
 
     redirect_path = after_sign_out_path_for(resource_name)
@@ -77,5 +83,25 @@ class Api::V1::SessionsController < Devise::SessionsController
     else
       return false
     end
+  end
+
+  def track_user_login
+    # Track User Logged In for Segment.io Analytics
+    Analytics.track(
+      user_id: resource.id,
+      event: 'Logged In',
+      properties: {
+      }
+    )
+  end
+
+  def track_user_logout
+    # Track User Logged Out for Segment.io Analytics
+    Analytics.track(
+      user_id: resource.id,
+      event: 'Logged Out',
+      properties: {
+      }
+    )
   end
 end

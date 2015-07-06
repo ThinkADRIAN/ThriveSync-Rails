@@ -89,5 +89,7 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
 
  gem 'simple_token_authentication', '~> 1.0'
 
+ gem 'analytics-ruby', '~> 2.0.0', :require => 'segment/analytics'
+
  #Api gems
  gem 'active_model_serializers'

@@ -72,6 +72,7 @@ class JournalsController < ApplicationController
     
     respond_to do |format|
       if @journal.save
+        track_journal_created
         current_user.scorecard.update_scorecard('journals')
         flash.now[:success] = "Journal was successfully tracked."
         format.js
@@ -90,6 +91,7 @@ class JournalsController < ApplicationController
 
     respond_to do |format|
       if @journal.update(journal_params)
+        track_journal_updated
         flash.now[:success] = "Journal Entry was successfully updated."
         format.js
         format.json { render :json => @journal, status: :created }
@@ -113,6 +115,7 @@ class JournalsController < ApplicationController
     authorize! :manage, Journal
 
     @journal.destroy
+    track_journal_deleted
     
     respond_to do |format|
       flash.now[:success] = "Journal Entry was successfully deleted."
@@ -147,5 +150,41 @@ class JournalsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def journal_params
       params.fetch(:journal, {}).permit(:journal_entry, :timestamp, :journal_lookback_period)
+    end
+
+    def track_journal_created
+      # Track Journal Creation for Segment.io Analytics
+      Analytics.track(
+        user_id: @journal.user_id,
+        event: 'Created Journal Entry',
+        properties: {
+          journal_id: @journal.id,
+          journal_entry: @journal.journal_entry,
+          timestamp: @journal.timestamp
+        }
+      )
+    end
+
+    def track_journal_updated
+      # Track Journal Update for Segment.io Analytics
+      Analytics.track(
+        user_id: @journal.user_id,
+        event: 'Updated Journal Entry',
+        properties: {
+          journal_id: @journal.id,
+          journal_entry: @journal.journal_entry,
+          timestamp: @journal.timestamp
+        }
+      )
+    end
+
+    def track_journal_deleted
+      # Track Journal Deletion for Segment.io Analytics
+      Analytics.track(
+        user_id: @journal.user_id,
+        event: 'Deleted Journal Entry',
+        properties: {
+        }
+      )
     end
 end
