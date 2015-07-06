@@ -58,7 +58,43 @@ class Api::V1::RegistrationsController < Devise::RegistrationsController
 	end
 
 	def update
-		super
+		self.resource = resource_class.to_adapter.get!(send(:"current_#{resource_name}").to_key)
+    prev_unconfirmed_email = resource.unconfirmed_email if resource.respond_to?(:unconfirmed_email)
+
+    resource_updated = update_resource(resource, account_update_params)
+
+    # Identify User for Segment.io Analytics
+    Analytics.identify(
+      user_id: resource.id,
+      traits: {
+        first_name: resource.first_name,
+        last_name: resource.last_name,
+        email: resource.email,
+        created_at: resource.created_at
+      }
+    )
+
+    # Track User Detail Update for Segment.io Analytics
+    Analytics.track(
+      user_id: resource.id,
+      event: 'User Detail Updated',
+      properties: {
+      }
+    )
+
+    yield resource if block_given?
+    if resource_updated
+      if is_flashing_format?
+        flash_key = update_needs_confirmation?(resource, prev_unconfirmed_email) ?
+          :update_needs_confirmation : :updated
+        set_flash_message :notice, flash_key
+      end
+      sign_in resource_name, resource, bypass: true
+      respond_with resource, location: after_update_path_for(resource)
+    else
+      clean_up_passwords resource
+      respond_with resource
+    end
   end
 
 	def destroy
