@@ -101,4 +101,20 @@ class ApplicationController < ActionController::Base
     tz = current_user ? current_user.timezone : nil
     Time.zone = tz || ActiveSupport::TimeZone["Eastern Time (US & Canada)"]
   end
+
+  # Overwriting the sign_out redirect path method
+  def after_sign_out_path_for(resource_or_scope)
+    track_user_logout
+    root_path
+  end
+
+  def track_user_logout
+    # Track User Logout for Segment.io Analytics
+    Analytics.track(
+      user_id: current_user.id,
+      event: 'Logged Out',
+      properties: {
+      }
+    )
+  end
 end
