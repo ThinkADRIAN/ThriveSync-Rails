@@ -20,25 +20,6 @@ class Api::V1::RegistrationsController < Devise::RegistrationsController
 
     resource.save
 
-    # Identify User for Segment.io Analytics
-    Analytics.identify(
-      user_id: resource.id,
-      traits: {
-        first_name: resource.first_name,
-        last_name: resource.last_name,
-        email: resource.email,
-        created_at: resource.created_at
-      }
-    )
-
-    # Track User Sign Up for Segment.io Analytics
-    Analytics.track(
-      user_id: resource.id,
-      event: 'Signed Up',
-      properties: {
-      }
-    )
-
     yield resource if block_given?
     if resource.persisted?
       if resource.active_for_authentication?
@@ -62,25 +43,6 @@ class Api::V1::RegistrationsController < Devise::RegistrationsController
     prev_unconfirmed_email = resource.unconfirmed_email if resource.respond_to?(:unconfirmed_email)
 
     resource_updated = update_resource(resource, account_update_params)
-
-    # Identify User for Segment.io Analytics
-    Analytics.identify(
-      user_id: resource.id,
-      traits: {
-        first_name: resource.first_name,
-        last_name: resource.last_name,
-        email: resource.email,
-        created_at: resource.created_at
-      }
-    )
-
-    # Track User Detail Update for Segment.io Analytics
-    Analytics.track(
-      user_id: resource.id,
-      event: 'User Detail Updated',
-      properties: {
-      }
-    )
 
     yield resource if block_given?
     if resource_updated
@@ -126,11 +88,53 @@ class Api::V1::RegistrationsController < Devise::RegistrationsController
 
   # The path used after sign up.
   def after_sign_up_path_for(resource)
+    self.identify_user_for_analytics
+    self.track_user_sign_up
     super(resource)
   end
 
   # The path used after sign up for inactive accounts.
   def after_inactive_sign_up_path_for(resource)
     super(resource)
+  end
+
+  # The path used after update.
+  def after_update_path_for(resource)
+    self.identify_user_for_analytics
+    self.track_user_update
+    signed_in_root_path(resource)
+  end
+
+  def identify_user_for_analytics
+    # Identify User for Segment.io Analytics
+    Analytics.identify(
+      user_id: resource.id,
+      traits: {
+        first_name: resource.first_name,
+        last_name: resource.last_name,
+        email: resource.email,
+        created_at: resource.created_at
+      }
+    )
+  end
+
+  def track_user_sign_up
+    # Track User Sign Up for Segment.io Analytics
+    Analytics.track(
+      user_id: resource.id,
+      event: 'Signed Up',
+      properties: {
+      }
+    )
+  end
+
+  def track_user_update
+    # Track User Detail Update for Segment.io Analytics
+    Analytics.track(
+      user_id: resource.id,
+      event: 'User Detail Updated',
+      properties: {
+      }
+    )
   end
 end

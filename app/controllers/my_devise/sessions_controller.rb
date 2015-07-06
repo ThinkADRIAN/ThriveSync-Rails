@@ -1,5 +1,8 @@
 class Users::SessionsController < Devise::SessionsController
   before_filter :configure_sign_in_params, only: [:create, :destroy]
+  after_filter :track_user_login, only: [:create]
+  after_filter :track_user_logout, only: [:destroy]
+
 
   # GET /resource/sign_in
   def new
@@ -11,14 +14,6 @@ class Users::SessionsController < Devise::SessionsController
     self.resource = warden.authenticate!(auth_options)
     set_flash_message(:notice, :signed_in) if is_flashing_format?
     sign_in(resource_name, resource)
-
-    # Track User Logged In for Segment.io Analytics
-    Analytics.track(
-      user_id: resource.id,
-      event: 'Logged In',
-      properties: {
-      }
-    )
 
     yield resource if block_given?
     respond_with resource, location: after_sign_in_path_for(resource)
@@ -36,15 +31,6 @@ class Users::SessionsController < Devise::SessionsController
       format.html { redirect_to root_path }
       format.json {
         if token_was_removed
-
-          # Track User Logged Out for Segment.io Analytics
-          Analytics.track(
-            user_id: resource.id,
-            event: 'Logged Out',
-            properties: {
-            }
-          )
-
           render :status=>200, :json=>{:message => "Logout successful." }
         else
           render :status=>401, :json=>{:message => "Logout failed. Invalid token or some internal server error while saving." }
@@ -60,5 +46,26 @@ class Users::SessionsController < Devise::SessionsController
     devise_parameter_sanitizer.for(:sign_in) do |u|
       u.permit(:first_name, :last_name, :email, :password, :password_confirmation, roles: [])
     end
+  end
+
+  def track_user_login
+    # Track User Logged In for Segment.io Analytics
+    Analytics.track(
+      user_id: resource.id,
+      event: 'Logged In',
+      properties: {
+      }
+    )
+  end
+
+  def track_user_logout
+    # Track User Logged Out for Segment.io Analytics
+    puts "**********LOGGED OUT**********"
+    Analytics.track(
+      user_id: resource.id,
+      event: 'Logged Out',
+      properties: {
+      }
+    )
   end
 end
