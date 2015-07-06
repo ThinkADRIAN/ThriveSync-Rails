@@ -30,6 +30,7 @@ GEM
       thread_safe (~> 0.1)
       tzinfo (~> 1.1)
     amistad (0.10.2)
+    analytics-ruby (2.0.12)
     arel (5.0.1.20140414130214)
     bcrypt (3.1.10)
     builder (3.2.2)
@@ -219,6 +220,7 @@ PLATFORMS
 DEPENDENCIES
   active_model_serializers
   amistad
+  analytics-ruby (~> 2.0.0)
   cancancan (~> 1.10)
   chartkick
   coffee-rails (~> 4.0.0)
