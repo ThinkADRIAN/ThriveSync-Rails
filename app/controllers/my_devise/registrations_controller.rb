@@ -18,6 +18,14 @@ class MyDevise::RegistrationsController < Devise::RegistrationsController
       }
     )
 
+    # Track User Sign Up for Segment.io Analytics Tracking
+    Analytics.track(
+      user_id: resource.id,
+      event: 'Signed Up',
+      properties: {
+      }
+    )
+
     yield resource if block_given?
     if resource.persisted?
       if resource.active_for_authentication?
