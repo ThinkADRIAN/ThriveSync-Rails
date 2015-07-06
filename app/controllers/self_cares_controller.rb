@@ -157,7 +157,8 @@ class SelfCaresController < ApplicationController
           counseling: @self_care.counseling,
           medication: @self_care.medication,
           meditation: @self_care.meditation,
-          exercise: @self_care.exercise
+          exercise: @self_care.exercise,
+          timestamp: @self_care.timestamp
         }
       )
     end
@@ -172,7 +173,8 @@ class SelfCaresController < ApplicationController
           counseling: @self_care.counseling,
           medication: @self_care.medication,
           meditation: @self_care.meditation,
-          exercise: @self_care.exercise
+          exercise: @self_care.exercise,
+          timestamp: @self_care.timestamp
         }
       )
     end
