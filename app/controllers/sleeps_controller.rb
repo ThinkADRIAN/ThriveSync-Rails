@@ -69,7 +69,6 @@ class SleepsController < ApplicationController
     respond_to do |format|
       if @sleep.save
         track_sleep_created
-
         current_user.scorecard.update_scorecard('sleeps')
         flash.now[:success] = 'Sleep Entry was successfully tracked.'
         format.js 
@@ -90,7 +89,6 @@ class SleepsController < ApplicationController
       if @sleep.update(sleep_params)
         @sleep.time = (@sleep.finish_time.to_i - @sleep.start_time.to_i) / 3600
         @sleep.save
-
         track_sleep_updated
 
         flash.now[:success] = 'Sleep Entry was successfully updated.'
@@ -152,7 +150,7 @@ class SleepsController < ApplicationController
     end
 
     def track_sleep_created
-      # Track Mood Creation for Segment.io Analytics
+      # Track Sleep Creation for Segment.io Analytics
       Analytics.track(
         user_id: @sleep.user_id,
         event: 'Created Sleep Entry',
@@ -166,10 +164,10 @@ class SleepsController < ApplicationController
     end
 
     def track_sleep_updated
-      # Track Mood Update for Segment.io Analytics
+      # Track Sleep Update for Segment.io Analytics
       Analytics.track(
         user_id: @sleep.user_id,
-        event: 'Updated Mood Entry',
+        event: 'Updated Sleep Entry',
         properties: {
           sleep_id: @sleep.id,
           start_time: @sleep.start_time,
@@ -180,10 +178,10 @@ class SleepsController < ApplicationController
     end
 
     def track_sleep_deleted
-      # Track Mood Deletion for Segment.io Analytics
+      # Track Sleep Deletion for Segment.io Analytics
       Analytics.track(
         user_id: @sleep.user_id,
-        event: 'Deleted Mood Entry',
+        event: 'Deleted Sleep Entry',
         properties: {
         }
       )

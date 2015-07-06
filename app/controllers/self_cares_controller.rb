@@ -69,6 +69,7 @@ class SelfCaresController < ApplicationController
     
     respond_to do |format|
       if @self_care.save
+        track_self_care_created
         current_user.scorecard.update_scorecard('self_cares')
         flash.now[:success] = "Self Entry was successfully tracked."
         format.js
@@ -87,6 +88,7 @@ class SelfCaresController < ApplicationController
     
     respond_to do |format|
       if @self_care.update(self_care_params)
+        track_self_care_updated
         flash.now[:success] = "Self Care Entry was successfully updated."
         format.js
         format.json { render :json => @self_care, status: :created }
@@ -108,6 +110,7 @@ class SelfCaresController < ApplicationController
   def destroy
     authorize! :manage, SelfCare
     @self_care.destroy
+    track_self_care_deleted
     
     respond_to do |format|
       flash.now[:success] = "Self Care Entry was successfully removed."
@@ -142,5 +145,45 @@ class SelfCaresController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def self_care_params
       params.fetch(:self_care, {}).permit(:counseling, :medication, :meditation, :exercise, :timestamp, :self_care_lookback_period)
+    end
+
+    def track_self_care_created
+      # Track Mood Creation for Segment.io Analytics
+      Analytics.track(
+        user_id: @self_care.user_id,
+        event: 'Created Self Care Entry',
+        properties: {
+          self_care_id: @self_care.id,
+          counseling: @self_care.counseling,
+          medication: @self_care.medication,
+          meditation: @self_care.meditation,
+          exercise: @self_care.exercise
+        }
+      )
+    end
+
+    def track_self_care_updated
+      # Track Mood Update for Segment.io Analytics
+      Analytics.track(
+        user_id: @self_care.user_id,
+        event: 'Updated Self Care Entry',
+        properties: {
+          self_care_id: @self_care.id,
+          counseling: @self_care.counseling,
+          medication: @self_care.medication,
+          meditation: @self_care.meditation,
+          exercise: @self_care.exercise
+        }
+      )
+    end
+
+    def track_self_care_deleted
+      # Track Mood Deletion for Segment.io Analytics
+      Analytics.track(
+        user_id: @self_care.user_id,
+        event: 'Deleted Self Care Entry',
+        properties: {
+        }
+      )
     end
 end
