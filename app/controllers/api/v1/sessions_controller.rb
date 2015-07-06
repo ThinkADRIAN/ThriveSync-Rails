@@ -31,7 +31,6 @@ class Api::V1::SessionsController < Devise::SessionsController
 
   # DELETE /resource/sign_out
   def destroy
-    # super
     token_was_removed = remove_current_users_token_if_json_request
 
     redirect_path = after_sign_out_path_for(resource_name)
@@ -42,6 +41,15 @@ class Api::V1::SessionsController < Devise::SessionsController
       format.html { redirect_to root_path }
       format.json {
         if token_was_removed
+
+          # Track User Logged Out for Segment.io Analytics
+          Analytics.track(
+            user_id: resource.id,
+            event: 'Logged Out',
+            properties: {
+            }
+          )
+
           render :status=>200, :json=>{:message => "Logout successful." }
         else
           render :status=>401, :json=>{:message => "Logout failed. Invalid token or some internal server error while saving." }
