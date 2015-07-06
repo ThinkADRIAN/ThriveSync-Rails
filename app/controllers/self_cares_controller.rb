@@ -9,6 +9,7 @@ class SelfCaresController < ApplicationController
   check_authorization
 
   before_action :set_self_care, only: [:show, :edit, :update, :destroy]
+  before_action :set_lookback_period, only: [:index]
   before_action :authenticate_user!
 
   respond_to :html, :js, :json, :xml
@@ -130,8 +131,16 @@ class SelfCaresController < ApplicationController
       @self_care = SelfCare.find(params[:id])
     end
 
+    def set_lookback_period
+      if(params.has_key?(:self_care_lookback_period))
+        @self_care_lookback_period = params[:self_care_lookback_period]
+      else
+        @self_care_lookback_period = DEFAULT_LOOKBACK_PERIOD
+      end
+    end
+
     # Never trust parameters from the scary internet, only allow the white list through.
     def self_care_params
-      params.fetch(:self_care, {}).permit(:counseling, :medication, :meditation, :exercise, :timestamp)
+      params.fetch(:self_care, {}).permit(:counseling, :medication, :meditation, :exercise, :timestamp, :self_care_lookback_period)
     end
 end

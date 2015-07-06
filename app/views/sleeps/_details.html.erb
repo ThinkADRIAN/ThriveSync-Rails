@@ -1,0 +1,69 @@
+<div class="col-sm-12">
+  <% if !@sleeps.empty? %>
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h3 class="panel-title">Sleep Entries</h3>
+      </div>
+      <div class="panel-body">
+        <%
+          if @sleep_lookback_period == 'week' 
+            lookback_range = Date.today.at_beginning_of_week..Date.today.at_end_of_week
+          elsif @sleep_lookback_period == 'last_week'
+            lookback_range = Date.today.last_week.at_beginning_of_week..Date.today.last_week.at_end_of_week
+          elsif @sleep_lookback_period == 'month'
+            lookback_range = Date.today.at_beginning_of_month..Date.today.at_end_of_month
+          elsif @sleep_lookback_period == 'last_month'
+            lookback_range = Date.today.last_month.at_beginning_of_month..Date.today.last_month.at_end_of_month
+          elsif @sleep_lookback_period == 'year'
+            lookback_range = Date.today.at_beginning_of_year..Date.today.at_end_of_year
+          elsif @sleep_lookback_period == 'last_year'
+            lookback_range = Date.today.last_year.at_beginning_of_year..Date.today.last_year.at_end_of_year
+          end
+
+          sleeps_for_lookback_period = @sleeps.where(created_at: lookback_range)
+          sleeps_for_lookback_period = sleeps_for_lookback_period.order('created_at DESC')
+          
+          sleeps_for_lookback_period.each do |sleep| %>
+
+          <% if sleep.user_id == current_user.id || (current_user.is? :superuser) || (current_user.is? :pro) && (current_user.clients.include? sleep.user_id) %>
+            <div class="col-md-4">
+                <h4><%= sleep.updated_at.strftime("%a - %b %e, %Y - %m:%M %p") %></h4>
+            </div>
+            <div class="col-md-4">
+              <p>
+                <strong>Sleep Start Time:</strong>
+                <%= sleep.start_time %>
+              </p> 
+
+              <p>
+                <strong>Sleep Finish Time:</strong>
+                <%= sleep.finish_time %>
+              </p> 
+
+              <p>
+                <strong>Sleep Quality:</strong>
+                <% if sleep.quality == 1 %>
+                  <%= "Broken" %>
+                <% elsif sleep.quality == 2 %>
+                  <%= "Light" %>
+                <% elsif sleep.quality == 3 %>
+                  <%= "Normal" %>
+                <% elsif sleep.quality == 4 %>
+                  <%= "Deep" %>
+                <% end %>
+                (<%= sleep.quality %>)
+              </p>
+            </div>
+            <div class="col-md-4">
+              <%= link_to 'Edit', edit_sleep_path(sleep, modal_enabled: 'true'), remote: true,  class: "btn-default btn-xs" %>
+              <%= link_to 'Remove', sleep_delete_path(sleep, modal_enabled: 'true'),  class: "btn-danger btn-xs", remote: true, sleep: sleep %>
+            </div>
+            <div class="col-md-12">
+              <hr>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>

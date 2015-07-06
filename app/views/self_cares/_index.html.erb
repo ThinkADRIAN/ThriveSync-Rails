@@ -5,72 +5,26 @@
   <% else %>
     <h1><%= @user.first_name.to_s + " " + @user.last_name.to_s %><h1>
   <% end %>
+
+  <div class="btn-group">
+    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Change View Period <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu">
+      <li><%= link_to 'Last Year', self_cares_path(self_care_lookback_period: 'last_year')%></li>
+      <li><%= link_to 'Last Month', self_cares_path(self_care_lookback_period: 'last_month') %></li>
+      <li><%= link_to 'Last Week', self_cares_path(self_care_lookback_period: 'last_week') %></li>
+      <li><%= link_to 'This Week', self_cares_path(self_care_lookback_period: 'week') %></li>
+      <li><%= link_to 'This Month', self_cares_path(self_care_lookback_period: 'month') %></li>
+      <li><%= link_to 'This Year', self_cares_path(self_care_lookback_period: 'year')%></li>
+    </ul>
+  </div>
 </div>
 
 <div>
   <%= render "shared/chart_self_care" %>
 </div>
 
-<div class="col-sm-12">
-  <% if !@self_cares.empty? %>
-    <div class="panel panel-primary">
-      <div class="panel-heading">
-        <h3 class="panel-title">Self Cares Entries</h3>
-      </div>
-      <div class="panel-body">
-        <% @self_cares = @self_cares.order('timestamp DESC')
-          @self_cares.each do |self_care| %>
-          <% if self_care.user_id == current_user.id || (current_user.is? :superuser) || (current_user.is? :pro) && (current_user.clients.include? self_care.user_id) %>
-            <div class="col-md-4">
-                <h4><%= I18n.l self_care.timestamp, format: :long  %></h4>
-            </div>
-            <div class="col-md-4">
-              <p>
-                <strong>Counseling:</strong>
-                <% if self_care.counseling == false %>
-                  <%= "No" %>
-                <% elsif self_care.counseling == true %>
-                  <%= "Yes" %>
-                <% end %>
-              </p> 
-
-              <p>
-                <strong>Medication:</strong>
-                <% if self_care.medication == false %>
-                  <%= "No" %>
-                <% elsif self_care.medication == true %>
-                  <%= "Yes" %>
-                <% end %>
-              </p> 
-
-              <p>
-                <strong>Meditation:</strong>
-                <% if self_care.meditation == false %>
-                  <%= "No" %>
-                <% elsif self_care.meditation == true %>
-                  <%= "Yes" %>
-                <% end %>
-              </p> 
-
-              <p>
-                <strong>Exercise:</strong>
-                <% if self_care.exercise == false %>
-                  <%= "No" %>
-                <% elsif self_care.exercise == true %>
-                  <%= "Yes" %>
-                <% end %>
-              </p> 
-            </div>
-            <div class="col-md-4">
-              <%= link_to 'Edit', edit_self_care_path(self_care, modal_enabled: 'true'), remote: true,  class: "btn-default btn-xs" %>
-              <%= link_to 'Remove', self_care_delete_path(self_care, modal_enabled: 'true'),  class: "btn-danger btn-xs", remote: true, self_care: self_care %>
-            </div>
-            <div class="col-md-12">
-              <hr>
-            </div>
-          <% end %>
-        <% end %>
-      </div>
-    </div>
-  <% end %>
+<div>
+  <%= render "details" %>
 </div>

@@ -9,6 +9,7 @@ class SleepsController < ApplicationController
   check_authorization
 
   before_action :set_sleep, only: [:show, :edit, :update, :destroy]
+  before_action :set_lookback_period, only: [:index]
   before_action :authenticate_user!
 
   respond_to :js
@@ -132,8 +133,16 @@ class SleepsController < ApplicationController
       @sleep = Sleep.find(params[:id])
     end
 
+    def set_lookback_period
+      if(params.has_key?(:sleep_lookback_period))
+        @sleep_lookback_period = params[:sleep_lookback_period]
+      else
+        @sleep_lookback_period = DEFAULT_LOOKBACK_PERIOD
+      end
+    end
+
     # Never trust parameters from the scary internet, only allow the white list through.
     def sleep_params
-      params.fetch(:sleep, {}).permit(:start_time, :finish_time, :quality)
+      params.fetch(:sleep, {}).permit(:start_time, :finish_time, :quality, :sleep_lookback_period)
     end
 end
