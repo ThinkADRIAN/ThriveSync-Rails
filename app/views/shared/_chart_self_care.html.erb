@@ -1,11 +1,3 @@
-<% self_care_primary_color = "#8e44ad" %>
-<% self_care_background_color = "#fff" %>
-<% self_care_stroke_width = 0 %>
-<% self_care_animation_duration = 1000 %>
-<% self_care_animation_easing = 'in' %>
-<% self_care_legend_position = 'none' %>
-
-
 <% if @user == nil %>
   <% user = current_user %>
 <% else %>
@@ -19,47 +11,85 @@
 <% @self_cares_meditation = SelfCare.where(user_id: user.id, meditation: true) %>
 <% @self_cares_exercise = SelfCare.where(user_id: user.id, exercise: true) %>
 
+<% 
+if @self_care_lookback_period == 'week' 
+  counseling_chart_data = @self_cares_counseling.group_by_day(:timestamp, range: Date.today.at_beginning_of_week..Date.today.at_end_of_week, format: "%b %d, %Y").count(:counseling)
+  medication_chart_data = @self_cares_medication.group_by_day(:timestamp, range: Date.today.at_beginning_of_week..Date.today.at_end_of_week, format: "%b %d, %Y").count(:medication)
+  meditation_chart_data = @self_cares_meditation.group_by_day(:timestamp, range: Date.today.at_beginning_of_week..Date.today.at_end_of_week, format: "%b %d, %Y").count(:meditation)
+  exercise_chart_data = @self_cares_exercise.group_by_day(:timestamp, range: Date.today.at_beginning_of_week..Date.today.at_end_of_week, format: "%b %d, %Y").count(:exercise)
+  y_axis_ticks = [{v:0, f:'No'}, {v:1, f:'Yes'}]
+elsif @self_care_lookback_period == 'last_week'
+  counseling_chart_data = @self_cares_counseling.group_by_day(:timestamp, range: Date.today.last_week.at_beginning_of_week..Date.today.last_week.at_end_of_week, format: "%b %d, %Y").count(:counseling)
+  medication_chart_data = @self_cares_medication.group_by_day(:timestamp, range: Date.today.last_week.at_beginning_of_week..Date.today.last_week.at_end_of_week, format: "%b %d, %Y").count(:medication)
+  meditation_chart_data = @self_cares_meditation.group_by_day(:timestamp, range: Date.today.last_week.at_beginning_of_week..Date.today.last_week.at_end_of_week, format: "%b %d, %Y").count(:meditation)
+  exercise_chart_data = @self_cares_exercise.group_by_day(:timestamp, range: Date.today.last_week.at_beginning_of_week..Date.today.last_week.at_end_of_week, format: "%b %d, %Y").count(:exercise)
+  y_axis_ticks = [{v:0, f:'No'}, {v:1, f:'Yes'}]
+elsif @self_care_lookback_period == 'month'
+  counseling_chart_data = @self_cares_counseling.group_by_day(:timestamp, range: Date.today.at_beginning_of_month..Date.today.at_end_of_month, format: "%b %d, %Y").count(:counseling)
+  medication_chart_data = @self_cares_medication.group_by_day(:timestamp, range: Date.today.at_beginning_of_month..Date.today.at_end_of_month, format: "%b %d, %Y").count(:medication)
+  meditation_chart_data = @self_cares_meditation.group_by_day(:timestamp, range: Date.today.at_beginning_of_month..Date.today.at_end_of_month, format: "%b %d, %Y").count(:meditation)
+  exercise_chart_data = @self_cares_exercise.group_by_day(:timestamp, range: Date.today.at_beginning_of_month..Date.today.at_end_of_month, format: "%b %d, %Y").count(:exercise)
+  y_axis_ticks = [{v:0, f:'No'}, {v:1, f:'Yes'}]
+elsif @self_care_lookback_period == 'last_month'
+  counseling_chart_data = @self_cares_counseling.group_by_day(:timestamp, range: Date.today.last_month.at_beginning_of_month..Date.today.last_month.at_end_of_month, format: "%b %d, %Y").count(:counseling)
+  medication_chart_data = @self_cares_medication.group_by_day(:timestamp, range: Date.today.last_month.at_beginning_of_month..Date.today.last_month.at_end_of_month, format: "%b %d, %Y").count(:medication)
+  meditation_chart_data = @self_cares_meditation.group_by_day(:timestamp, range: Date.today.last_month.at_beginning_of_month..Date.today.last_month.at_end_of_month, format: "%b %d, %Y").count(:meditation)
+  exercise_chart_data = @self_cares_exercise.group_by_day(:timestamp, range: Date.today.last_month.at_beginning_of_month..Date.today.last_month.at_end_of_month, format: "%b %d, %Y").count(:exercise)
+  y_axis_ticks = [{v:0, f:'No'}, {v:1, f:'Yes'}]
+elsif @self_care_lookback_period == 'year'
+  counseling_chart_data = @self_cares_counseling.group_by_month(:timestamp, range: Date.today.at_beginning_of_year..Date.today.at_end_of_year, format: "%b %Y").count(:counseling)
+  medication_chart_data = @self_cares_medication.group_by_month(:timestamp, range: Date.today.at_beginning_of_year..Date.today.at_end_of_year, format: "%b %Y").count(:medication)
+  meditation_chart_data = @self_cares_meditation.group_by_month(:timestamp, range: Date.today.at_beginning_of_year..Date.today.at_end_of_year, format: "%b %Y").count(:meditation)
+  exercise_chart_data = @self_cares_exercise.group_by_month(:timestamp, range: Date.today.at_beginning_of_year..Date.today.at_end_of_year, format: "%b %Y").count(:exercise)
+elsif @self_care_lookback_period == 'last_year'
+  counseling_chart_data = @self_cares_counseling.group_by_month(:timestamp, range: Date.today.last_year.at_beginning_of_year..Date.today.last_year.at_end_of_year, format: "%b %Y").count(:counseling)
+  medication_chart_data = @self_cares_medication.group_by_month(:timestamp, range: Date.today.last_year.at_beginning_of_year..Date.today.last_year.at_end_of_year, format: "%b %Y").count(:medication)
+  meditation_chart_data = @self_cares_meditation.group_by_month(:timestamp, range: Date.today.last_year.at_beginning_of_year..Date.today.last_year.at_end_of_year, format: "%b %Y").count(:meditation)
+  exercise_chart_data = @self_cares_exercise.group_by_month(:timestamp, range: Date.today.last_year.at_beginning_of_year..Date.today.last_year.at_end_of_year, format: "%b %Y").count(:exercise)
+end
+%>
+
 <div class="col-md-12">
   <%= column_chart [
-  {name: "Counseling", data: @self_cares_counseling.group_by_day(:created_at, last: 7, format: "%b %d, %Y").count(:counseling)}
-  ], colors: [self_care_primary_color],
+  {name: "Counseling", data: counseling_chart_data}
+  ], colors: [SELF_CARE_PRIMARY_COLOR],
   library: {
       title: "Counseling",
       titlePosition: 'out',
       titleTextStyle: {
-          color: self_care_primary_color
+          color: SELF_CARE_PRIMARY_COLOR
       },
       backgroundColor: {
-          fill: self_care_background_color,
-          stroke: self_care_primary_color,
-          strokeWidth: self_care_stroke_width
+          fill: SELF_CARE_BACKGROUND_COLOR,
+          stroke: SELF_CARE_PRIMARY_COLOR,
+          strokeWidth: SELF_CARE_STROKE_WIDTH
       },
       animation: {
-          duration: self_care_animation_duration,
+          duration: SELF_CARE_ANIMATION_DURATION,
           startup: true,
-          easing: self_care_animation_easing
+          easing: SELF_CARE_ANIMATION_EASING
       },
       hAxis: {
           textStyle: {
-              color: self_care_primary_color
+              color: SELF_CARE_PRIMARY_COLOR
           },
           gridlines: {
-              color: self_care_background_color
+              color: SELF_CARE_BACKGROUND_COLOR
           }
       },
       legend: {
           textStyle: {
-              color: self_care_primary_color
+              color: SELF_CARE_PRIMARY_COLOR
           },
-          position: self_care_legend_position
+          position: SELF_CARE_LEGEND_POSITION
       },
       vAxis: {
-          ticks: [{v:0, f:'No'}, {v:1, f:'Yes'}],
+          ticks: y_axis_ticks,
           textStyle: {
-              color: self_care_primary_color
+              color: SELF_CARE_PRIMARY_COLOR
           },
           gridlines: {
-              color: self_care_background_color
+              color: SELF_CARE_BACKGROUND_COLOR
           }
       }
   } %>
@@ -67,45 +97,45 @@
 
 <div class="col-md-12">
   <%= column_chart [
-  {name: "Medication", data: @self_cares_medication.group_by_day(:created_at, last: 7, format: "%b %d, %Y").count(:medication)}
-  ], colors: [self_care_primary_color],
+  {name: "Medication", data: medication_chart_data}
+  ], colors: [SELF_CARE_PRIMARY_COLOR],
   library: {
       title: "Medication",
       titlePosition: 'out',
       titleTextStyle: {
-          color: self_care_primary_color
+          color: SELF_CARE_PRIMARY_COLOR
       },
       backgroundColor: {
-          fill: self_care_background_color,
-          stroke: self_care_primary_color,
-          strokeWidth: self_care_stroke_width
+          fill: SELF_CARE_BACKGROUND_COLOR,
+          stroke: SELF_CARE_PRIMARY_COLOR,
+          strokeWidth: SELF_CARE_STROKE_WIDTH
       },
       animation: {
-          duration: self_care_animation_duration,
+          duration: SELF_CARE_ANIMATION_DURATION,
           startup: true,
-          easing: self_care_animation_easing
+          easing: SELF_CARE_ANIMATION_EASING
       },
       hAxis: {
           textStyle: {
-              color: self_care_primary_color
+              color: SELF_CARE_PRIMARY_COLOR
           },
           gridlines: {
-              color: self_care_background_color
+              color: SELF_CARE_BACKGROUND_COLOR
           }
       },
       legend: {
           textStyle: {
-              color: self_care_primary_color
+              color: SELF_CARE_PRIMARY_COLOR
           },
-          position: self_care_legend_position
+          position: SELF_CARE_LEGEND_POSITION
       },
       vAxis: {
-          ticks: [{v:0, f:'No'}, {v:1, f:'Yes'}],
+          ticks: y_axis_ticks,
           textStyle: {
-              color: self_care_primary_color
+              color: SELF_CARE_PRIMARY_COLOR
           },
           gridlines: {
-              color: self_care_background_color
+              color: SELF_CARE_BACKGROUND_COLOR
           }
       }
   } %>
@@ -113,45 +143,45 @@
 
 <div class="col-md-12">
   <%= column_chart [
-  {name: "Meditation", data: @self_cares_meditation.group_by_day(:created_at, last: 7, format: "%b %d, %Y").count(:meditation)}
-  ], colors: [self_care_primary_color],
+  {name: "Meditation", data: meditation_chart_data}
+  ], colors: [SELF_CARE_PRIMARY_COLOR],
   library: {
       title: "Meditation",
       titlePosition: 'out',
       titleTextStyle: {
-          color: self_care_primary_color
+          color: SELF_CARE_PRIMARY_COLOR
       },
       backgroundColor: {
-          fill: self_care_background_color,
-          stroke: self_care_primary_color,
-          strokeWidth: self_care_stroke_width
+          fill: SELF_CARE_BACKGROUND_COLOR,
+          stroke: SELF_CARE_PRIMARY_COLOR,
+          strokeWidth: SELF_CARE_STROKE_WIDTH
       },
       animation: {
-          duration: self_care_animation_duration,
+          duration: SELF_CARE_ANIMATION_DURATION,
           startup: true,
-          easing: self_care_animation_easing
+          easing: SELF_CARE_ANIMATION_EASING
       },
       hAxis: {
           textStyle: {
-              color: self_care_primary_color
+              color: SELF_CARE_PRIMARY_COLOR
           },
           gridlines: {
-              color: self_care_background_color
+              color: SELF_CARE_BACKGROUND_COLOR
           }
       },
       legend: {
           textStyle: {
-              color: self_care_primary_color
+              color: SELF_CARE_PRIMARY_COLOR
           },
-          position: self_care_legend_position
+          position: SELF_CARE_LEGEND_POSITION
       },
       vAxis: {
-          ticks: [{v:0, f:'No'}, {v:1, f:'Yes'}],
+          ticks: y_axis_ticks,
           textStyle: {
-              color: self_care_primary_color
+              color: SELF_CARE_PRIMARY_COLOR
           },
           gridlines: {
-              color: self_care_background_color
+              color: SELF_CARE_BACKGROUND_COLOR
           }
       }
   } %>
@@ -159,45 +189,45 @@
 
 <div class="col-md-12">
   <%= column_chart [
-  {name: "Exercise", data: @self_cares_exercise.group_by_day(:created_at, last: 7, format: "%b %d, %Y").count(:exercise)}
-  ], colors: [self_care_primary_color],
+  {name: "Exercise", data: exercise_chart_data}
+  ], colors: [SELF_CARE_PRIMARY_COLOR],
   library: {
       title: "Exercise",
       titlePosition: 'out',
       titleTextStyle: {
-          color: self_care_primary_color
+          color: SELF_CARE_PRIMARY_COLOR
       },
       backgroundColor: {
-          fill: self_care_background_color,
-          stroke: self_care_primary_color,
-          strokeWidth: self_care_stroke_width
+          fill: SELF_CARE_BACKGROUND_COLOR,
+          stroke: SELF_CARE_PRIMARY_COLOR,
+          strokeWidth: SELF_CARE_STROKE_WIDTH
       },
       animation: {
-          duration: self_care_animation_duration,
+          duration: SELF_CARE_ANIMATION_DURATION,
           startup: true,
-          easing: self_care_animation_easing
+          easing: SELF_CARE_ANIMATION_EASING
       },
       hAxis: {
           textStyle: {
-              color: self_care_primary_color
+              color: SELF_CARE_PRIMARY_COLOR
           },
           gridlines: {
-              color: self_care_background_color
+              color: SELF_CARE_BACKGROUND_COLOR
           }
       },
       legend: {
           textStyle: {
-              color: self_care_primary_color
+              color: SELF_CARE_PRIMARY_COLOR
           },
-          position: self_care_legend_position
+          position: SELF_CARE_LEGEND_POSITION
       },
       vAxis: {
-          ticks: [{v:0, f:'No'}, {v:1, f:'Yes'}],
+          ticks: y_axis_ticks,
           textStyle: {
-              color: self_care_primary_color
+              color: SELF_CARE_PRIMARY_COLOR
           },
           gridlines: {
-              color: self_care_background_color
+              color: SELF_CARE_BACKGROUND_COLOR
           }
       }
   } %>
