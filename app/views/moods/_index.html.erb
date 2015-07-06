@@ -1,3 +1,5 @@
+<% render "shared/set_lookback" %>
+
 <div>
   <% if @user == nil %>
     <h1><%= current_user.first_name.to_s + " " + current_user.last_name.to_s %><h1>
