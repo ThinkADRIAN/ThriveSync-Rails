@@ -79,8 +79,6 @@ class MyDevise::RegistrationsController < Devise::RegistrationsController
 
   # The path used after sign up.
   def after_sign_up_path_for(resource)
-    self.identify_user_for_analytics
-    self.track_user_sign_up
     super(resource)
   end
 
@@ -105,16 +103,6 @@ class MyDevise::RegistrationsController < Devise::RegistrationsController
         last_name: resource.last_name,
         email: resource.email,
         created_at: resource.created_at
-      }
-    )
-  end
-
-  def track_user_sign_up
-    # Track User Sign Up for Segment.io Analytics
-    Analytics.track(
-      user_id: resource.id,
-      event: 'Signed Up',
-      properties: {
       }
     )
   end
