@@ -4,8 +4,6 @@ class Api::V1::SessionsController < Devise::SessionsController
   before_filter :configure_sign_in_params, only: [:create, :destroy]
   skip_before_filter :verify_signed_out_user
   skip_before_filter  :verify_authenticity_token, only:[:destroy]
-  after_filter :track_user_login, only: [:create]
-  after_filter :track_user_logout, only: [:destroy]
 
   # GET /resource/sign_in
   def new
@@ -83,25 +81,5 @@ class Api::V1::SessionsController < Devise::SessionsController
     else
       return false
     end
-  end
-
-  def track_user_login
-    # Track User Logged In for Segment.io Analytics
-    Analytics.track(
-      user_id: resource.id,
-      event: 'Logged In',
-      properties: {
-      }
-    )
-  end
-
-  def track_user_logout
-    # Track User Logged Out for Segment.io Analytics
-    Analytics.track(
-      user_id: resource.id,
-      event: 'Logged Out',
-      properties: {
-      }
-    )
   end
 end

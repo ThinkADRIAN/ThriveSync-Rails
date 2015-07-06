@@ -28,6 +28,9 @@ class User < ActiveRecord::Base
   after_create :create_reminders
   after_create :create_review
 
+  after_create :identify_user_for_analytics
+  after_create :track_user_sign_up
+
   # User is free account, Client is unlocked when coupled with a Pro account,
   # Admin will administer an organizational unit, SuperUser is for internal use
 
@@ -184,5 +187,28 @@ class User < ActiveRecord::Base
     @review = Review.new
     @review.user_id = self.id
     @review.save
+  end
+
+  def identify_user_for_analytics
+    # Identify User for Segment.io Analytics
+    Analytics.identify(
+      user_id: self.id,
+      traits: {
+        first_name: self.first_name,
+        last_name: self.last_name,
+        email: self.email,
+        created_at: self.created_at
+      }
+    )
+  end
+
+  def track_user_sign_up
+    # Track User Sign Up for Segment.io Analytics
+    Analytics.track(
+      user_id: self.id,
+      event: 'Signed Up',
+      properties: {
+      }
+    )
   end
 end
