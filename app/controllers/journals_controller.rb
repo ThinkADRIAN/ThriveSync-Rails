@@ -5,22 +5,18 @@ class JournalsController < ApplicationController
     redirect_to root_url, :alert => exception.message
   end
 
-  #load_and_authorize_resource :user
-  #load_and_authorize_resource :journal, through: :user, shallow: true
-  check_authorization
-
   before_action :set_journal, only: [:show, :edit, :update, :destroy]
   before_action :set_lookback_period, only: [:index]
   before_action :authenticate_user!
+
+  after_filter :verify_authorized,  except: [:index]
+  after_filter :verify_policy_scoped, only: [:index]
 
   respond_to :html, :js, :json, :xml
   
   # GET /journals
   # GET /journals.json
   def index
-    authorize! :manage, Journal
-    authorize! :read, Journal
-
     @user = User.find_by_id(params[:user_id])
 
     if @user == nil
@@ -28,6 +24,9 @@ class JournalsController < ApplicationController
     elsif @user != nil
       @journals = Journal.where(user_id: @user.id)
     end
+
+    authorize @journals
+    @journals = policy_scope(@journals)
 
     respond_to do |format|
       format.html
