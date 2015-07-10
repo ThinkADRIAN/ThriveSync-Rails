@@ -9,9 +9,11 @@ class JournalPolicy < ApplicationPolicy
       else
         false
       end 
-    else 
-      record.where(:user_id => user.id)
     end
+  end
+
+  def index_self?
+    true
   end
 
   def show?

@@ -21,11 +21,16 @@ class JournalsController < ApplicationController
 
     if @user == nil
       @journals = Journal.where(user_id: current_user.id)
+      authorize @journals, :index_self?
     elsif @user != nil
       @journals = Journal.where(user_id: @user.id)
+      if @user.id == current_user.id
+        authorize @journals, :index_self?
+      else
+        authorize @journals
+      end
     end
 
-    authorize @journals
     @journals = policy_scope(@journals)
 
     respond_to do |format|
