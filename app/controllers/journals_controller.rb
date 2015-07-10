@@ -21,11 +21,11 @@ class JournalsController < ApplicationController
 
     if @user == nil
       @journals = Journal.where(user_id: current_user.id)
-      authorize @journals, :index_self?
+      skip_authorization
     elsif @user != nil
       @journals = Journal.where(user_id: @user.id)
       if @user.id == current_user.id
-        authorize @journals, :index_self?
+        skip_authorization
       else
         authorize @journals
       end
@@ -56,7 +56,17 @@ class JournalsController < ApplicationController
 
   # GET /journals/new
   def new
-    authorize! :manage, Journal
+    @user = User.find_by_id(params[:user_id])
+
+    if @user == nil
+      skip_authorization
+    elsif @user != nil
+      if @user.id == current_user.id
+        skip_authorization
+      else
+        authorize @journals
+      end
+    end
 
     @journal= Journal.new
   end
@@ -69,7 +79,17 @@ class JournalsController < ApplicationController
   # POST /journals
   # POST /journals.json
   def create
-    authorize! :manage, Journal
+    @user = User.find_by_id(params[:user_id])
+
+    if @user == nil
+      skip_authorization
+    elsif @user != nil
+      if @user.id == current_user.id
+        skip_authorization
+      else
+        authorize @journals
+      end
+    end
 
     @journal = Journal.new(journal_params)
     @journal.user_id = current_user.id
@@ -92,7 +112,17 @@ class JournalsController < ApplicationController
   # PATCH/PUT /journals/1
   # PATCH/PUT /journals/1.json
   def update
-    authorize! :manage, Journal
+    @user = User.find_by_id(params[:user_id])
+
+    if @user == nil
+      skip_authorization
+    elsif @user != nil
+      if @user.id == current_user.id
+        skip_authorization
+      else
+        authorize @journals
+      end
+    end
 
     respond_to do |format|
       if @journal.update(journal_params)
@@ -109,7 +139,17 @@ class JournalsController < ApplicationController
   end
 
   def delete
-    authorize! :manage, Journal
+    @user = User.find_by_id(params[:user_id])
+
+    if @user == nil
+      skip_authorization
+    elsif @user != nil
+      if @user.id == current_user.id
+        skip_authorization
+      else
+        authorize @journals
+      end
+    end
 
     @journal = Journal.find(params[:journal_id])
   end
@@ -117,7 +157,17 @@ class JournalsController < ApplicationController
   # DELETE /journals/1
   # DELETE /journals/1.json
   def destroy
-    authorize! :manage, Journal
+    @user = User.find_by_id(params[:user_id])
+
+    if @user == nil
+      skip_authorization
+    elsif @user != nil
+      if @user.id == current_user.id
+        skip_authorization
+      else
+        authorize @journals
+      end
+    end
 
     @journal.destroy
     track_journal_deleted
@@ -130,8 +180,17 @@ class JournalsController < ApplicationController
   end
 
   def cancel
-    authorize! :manage, Journal
-    authorize! :read, Journal
+    @user = User.find_by_id(params[:user_id])
+
+    if @user == nil
+      skip_authorization
+    elsif @user != nil
+      if @user.id == current_user.id
+        skip_authorization
+      else
+        authorize @journals
+      end
+    end
 
     respond_to do |format|
       format.js

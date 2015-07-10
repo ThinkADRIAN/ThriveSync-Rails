@@ -12,10 +12,6 @@ class JournalPolicy < ApplicationPolicy
     end
   end
 
-  def index_self?
-    true
-  end
-
   def show?
     scope.where(:id => record.id).exists?
   end
