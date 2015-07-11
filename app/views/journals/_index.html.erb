@@ -36,6 +36,8 @@
   <%= render "shared/chart_journal" %>
 </div>
 
-<div>
-  <%= render "details" %>
-</div>
+<% if @user == nil || @user.id == current_user.id %>
+  <div>
+    <%= render "details" %>
+  </div>
+<% end %>
