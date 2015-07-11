@@ -4,7 +4,7 @@ Rails.application.routes.draw do
 
   resources :rewards
 
-  resources :reminders, except: [:show, :new, :destroy]
+  resources :reminders, except: [:new, :destroy]
 
   resources :scorecards, only: [:index]
   
@@ -56,7 +56,6 @@ Rails.application.routes.draw do
     resources :sleeps
     resources :self_cares
     resources :journals
-    resources :reminders
   end
 
   resources :connections, :controller => 'friendships', :except => [:show, :edit] do
