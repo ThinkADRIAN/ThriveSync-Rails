@@ -1,7 +1,7 @@
 <% render "shared/set_lookback" %>
 
 <div>
-  <% if @user == nil %>
+  <% if @user == nil || @user.id == current_user.id%>
     <h1><%= current_user.first_name.to_s + " " + current_user.last_name.to_s %><h1>
     <%= link_to 'Add a new Self Care Entry', new_self_care_path(modal_enabled: 'true'), remote: true, class: "btn btn-primary" %>
   <% else %>
@@ -13,12 +13,21 @@
       Change View Period <span class="caret"></span>
     </button>
     <ul class="dropdown-menu">
-      <li><%= link_to 'Last Year', self_cares_path(self_care_lookback_period: 'last_year')%></li>
-      <li><%= link_to 'Last Month', self_cares_path(self_care_lookback_period: 'last_month') %></li>
-      <li><%= link_to 'Last Week', self_cares_path(self_care_lookback_period: 'last_week') %></li>
-      <li><%= link_to 'This Week', self_cares_path(self_care_lookback_period: 'week') %></li>
-      <li><%= link_to 'This Month', self_cares_path(self_care_lookback_period: 'month') %></li>
-      <li><%= link_to 'This Year', self_cares_path(self_care_lookback_period: 'year')%></li>
+      <% if params.has_key?(:user_id) %>
+        <li><%= link_to 'Last Year', user_self_cares_path(@user, self_care_lookback_period: 'last_year')%></li>
+        <li><%= link_to 'Last Month', user_self_cares_path(@user, self_care_lookback_period: 'last_month') %></li>
+        <li><%= link_to 'Last Week', user_self_cares_path(@user, self_care_lookback_period: 'last_week') %></li>
+        <li><%= link_to 'This Week', user_self_cares_path(@user, self_care_lookback_period: 'week') %></li>
+        <li><%= link_to 'This Month', user_self_cares_path(@user, self_care_lookback_period: 'month') %></li>
+        <li><%= link_to 'This Year', user_self_cares_path(@user, self_care_lookback_period: 'year')%></li>
+      <% else %>
+        <li><%= link_to 'Last Year', self_cares_path(self_care_lookback_period: 'last_year')%></li>
+        <li><%= link_to 'Last Month', self_cares_path(self_care_lookback_period: 'last_month') %></li>
+        <li><%= link_to 'Last Week', self_cares_path(self_care_lookback_period: 'last_week') %></li>
+        <li><%= link_to 'This Week', self_cares_path(self_care_lookback_period: 'week') %></li>
+        <li><%= link_to 'This Month', self_cares_path(self_care_lookback_period: 'month') %></li>
+        <li><%= link_to 'This Year', self_cares_path(self_care_lookback_period: 'year')%></li>
+      <% end %>
     </ul>
   </div>
 </div>

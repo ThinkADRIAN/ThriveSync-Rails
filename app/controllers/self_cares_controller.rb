@@ -1,31 +1,33 @@
 class SelfCaresController < ApplicationController
   acts_as_token_authentication_handler_for User
 
-  rescue_from CanCan::AccessDenied do |exception|
-    redirect_to root_url, :alert => exception.message
-  end
-
-  #load_and_authorize_resource
-  check_authorization
-
   before_action :set_self_care, only: [:show, :edit, :update, :destroy]
   before_action :set_lookback_period, only: [:index]
   before_action :authenticate_user!
+
+  after_filter :verify_authorized,  except: [:index]
+  after_filter :verify_policy_scoped, only: [:index]
 
   respond_to :html, :js, :json, :xml
   
   # GET /self_cares
   # GET /self_cares.json
   def index
-    authorize! :manage, SelfCare
-    authorize! :read, SelfCare
     @user = User.find_by_id(params[:user_id])
-    
+
     if @user == nil
       @self_cares = SelfCare.where(user_id: current_user.id)
+      skip_authorization
     elsif @user != nil
       @self_cares = SelfCare.where(user_id: @user.id)
+      if @user.id == current_user.id
+        skip_authorization
+      else
+        authorize @self_cares
+      end
     end
+
+    @self_cares = policy_scope(@self_cares)
 
     respond_to do |format|
       format.html
@@ -50,19 +52,51 @@ class SelfCaresController < ApplicationController
 
   # GET /self_cares/new
   def new
-    authorize! :manage, SelfCare
+    @user = User.find_by_id(params[:user_id])
+
+    if @user == nil
+      skip_authorization
+    elsif @user != nil
+      if @user.id == current_user.id
+        skip_authorization
+      else
+        authorize @self_cares
+      end
+    end
+
     @self_care= SelfCare.new
   end
 
   # GET /self_cares/1/edit
   def edit
-    authorize! :manage, SelfCare
+    @user = User.find_by_id(params[:user_id])
+
+    if @user == nil
+      skip_authorization
+    elsif @user != nil
+      if @user.id == current_user.id
+        skip_authorization
+      else
+        authorize @self_cares
+      end
+    end
   end
 
   # POST /self_cares
   # POST /self_cares.json
   def create
-    authorize! :manage, SelfCare
+    @user = User.find_by_id(params[:user_id])
+
+    if @user == nil
+      skip_authorization
+    elsif @user != nil
+      if @user.id == current_user.id
+        skip_authorization
+      else
+        authorize @self_cares
+      end
+    end
+
     @self_care = SelfCare.new(self_care_params)
     @self_care.user_id = current_user.id
     @self_care.update_attribute(:timestamp, DateTime.now.in_time_zone)
@@ -84,7 +118,17 @@ class SelfCaresController < ApplicationController
   # PATCH/PUT /self_cares/1
   # PATCH/PUT /self_cares/1.json
   def update
-    authorize! :manage, SelfCare
+    @user = User.find_by_id(params[:user_id])
+
+    if @user == nil
+      skip_authorization
+    elsif @user != nil
+      if @user.id == current_user.id
+        skip_authorization
+      else
+        authorize @self_cares
+      end
+    end
     
     respond_to do |format|
       if @self_care.update(self_care_params)
@@ -101,14 +145,36 @@ class SelfCaresController < ApplicationController
   end
 
   def delete
-    authorize! :manage, SelfCare
+    @user = User.find_by_id(params[:user_id])
+
+    if @user == nil
+      skip_authorization
+    elsif @user != nil
+      if @user.id == current_user.id
+        skip_authorization
+      else
+        authorize @self_cares
+      end
+    end
+
     @self_care = SelfCare.find(params[:self_care_id])
   end
 
   # DELETE /self_cares/1
   # DELETE /self_cares/1.json
   def destroy
-    authorize! :manage, SelfCare
+    @user = User.find_by_id(params[:user_id])
+
+    if @user == nil
+      skip_authorization
+    elsif @user != nil
+      if @user.id == current_user.id
+        skip_authorization
+      else
+        authorize @self_cares
+      end
+    end
+    
     @self_care.destroy
     track_self_care_deleted
     
@@ -120,8 +186,17 @@ class SelfCaresController < ApplicationController
   end
 
   def cancel
-    authorize! :manage, SelfCare
-    authorize! :read, SelfCare
+    @user = User.find_by_id(params[:user_id])
+
+    if @user == nil
+      skip_authorization
+    elsif @user != nil
+      if @user.id == current_user.id
+        skip_authorization
+      else
+        authorize @self_cares
+      end
+    end
     
     respond_to do |format|
       format.js

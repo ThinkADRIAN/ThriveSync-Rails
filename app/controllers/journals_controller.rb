@@ -1,33 +1,33 @@
 class JournalsController < ApplicationController
   acts_as_token_authentication_handler_for User
 
-  rescue_from CanCan::AccessDenied do |exception|
-    redirect_to root_url, :alert => exception.message
-  end
-
-  #load_and_authorize_resource :user
-  #load_and_authorize_resource :journal, through: :user, shallow: true
-  check_authorization
-
   before_action :set_journal, only: [:show, :edit, :update, :destroy]
   before_action :set_lookback_period, only: [:index]
   before_action :authenticate_user!
+
+  after_filter :verify_authorized,  except: [:index]
+  after_filter :verify_policy_scoped, only: [:index]
 
   respond_to :html, :js, :json, :xml
   
   # GET /journals
   # GET /journals.json
   def index
-    authorize! :manage, Journal
-    authorize! :read, Journal
-
     @user = User.find_by_id(params[:user_id])
 
     if @user == nil
       @journals = Journal.where(user_id: current_user.id)
+      skip_authorization
     elsif @user != nil
       @journals = Journal.where(user_id: @user.id)
+      if @user.id == current_user.id
+        skip_authorization
+      else
+        authorize @journals
+      end
     end
+
+    @journals = policy_scope(@journals)
 
     respond_to do |format|
       format.html
@@ -52,20 +52,50 @@ class JournalsController < ApplicationController
 
   # GET /journals/new
   def new
-    authorize! :manage, Journal
+    @user = User.find_by_id(params[:user_id])
+
+    if @user == nil
+      skip_authorization
+    elsif @user != nil
+      if @user.id == current_user.id
+        skip_authorization
+      else
+        authorize @journals
+      end
+    end
 
     @journal= Journal.new
   end
 
   # GET /journals/1/edit
   def edit
-    authorize! :manage, Journal
+    @user = User.find_by_id(params[:user_id])
+
+    if @user == nil
+      skip_authorization
+    elsif @user != nil
+      if @user.id == current_user.id
+        skip_authorization
+      else
+        authorize @journals
+      end
+    end
   end
 
   # POST /journals
   # POST /journals.json
   def create
-    authorize! :manage, Journal
+    @user = User.find_by_id(params[:user_id])
+
+    if @user == nil
+      skip_authorization
+    elsif @user != nil
+      if @user.id == current_user.id
+        skip_authorization
+      else
+        authorize @journals
+      end
+    end
 
     @journal = Journal.new(journal_params)
     @journal.user_id = current_user.id
@@ -88,7 +118,17 @@ class JournalsController < ApplicationController
   # PATCH/PUT /journals/1
   # PATCH/PUT /journals/1.json
   def update
-    authorize! :manage, Journal
+    @user = User.find_by_id(params[:user_id])
+
+    if @user == nil
+      skip_authorization
+    elsif @user != nil
+      if @user.id == current_user.id
+        skip_authorization
+      else
+        authorize @journals
+      end
+    end
 
     respond_to do |format|
       if @journal.update(journal_params)
@@ -105,7 +145,17 @@ class JournalsController < ApplicationController
   end
 
   def delete
-    authorize! :manage, Journal
+    @user = User.find_by_id(params[:user_id])
+
+    if @user == nil
+      skip_authorization
+    elsif @user != nil
+      if @user.id == current_user.id
+        skip_authorization
+      else
+        authorize @journals
+      end
+    end
 
     @journal = Journal.find(params[:journal_id])
   end
@@ -113,7 +163,17 @@ class JournalsController < ApplicationController
   # DELETE /journals/1
   # DELETE /journals/1.json
   def destroy
-    authorize! :manage, Journal
+    @user = User.find_by_id(params[:user_id])
+
+    if @user == nil
+      skip_authorization
+    elsif @user != nil
+      if @user.id == current_user.id
+        skip_authorization
+      else
+        authorize @journals
+      end
+    end
 
     @journal.destroy
     track_journal_deleted
@@ -126,8 +186,17 @@ class JournalsController < ApplicationController
   end
 
   def cancel
-    authorize! :manage, Journal
-    authorize! :read, Journal
+    @user = User.find_by_id(params[:user_id])
+
+    if @user == nil
+      skip_authorization
+    elsif @user != nil
+      if @user.id == current_user.id
+        skip_authorization
+      else
+        authorize @journals
+      end
+    end
 
     respond_to do |format|
       format.js

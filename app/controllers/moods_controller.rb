@@ -1,31 +1,33 @@
 class MoodsController < ApplicationController
   acts_as_token_authentication_handler_for User
 
-  rescue_from CanCan::AccessDenied do |exception|
-    redirect_to root_url, :alert => exception.message
-  end
-
-  #load_and_authorize_resource
-  check_authorization
-
   before_action :set_mood, only: [:show, :edit, :update, :destroy]
   before_action :set_lookback_period, only: [:index]
   before_action :authenticate_user!
+
+  after_filter :verify_authorized,  except: [:index]
+  after_filter :verify_policy_scoped, only: [:index]
 
   respond_to :html, :js, :json, :xml
   
   # GET /moods
   # GET /moods.json
   def index
-    authorize! :manage, Mood
-    authorize! :read, Mood
     @user = User.find_by_id(params[:user_id])
-    
+
     if @user == nil
       @moods = Mood.where(user_id: current_user.id)
+      skip_authorization
     elsif @user != nil
       @moods = Mood.where(user_id: @user.id)
+      if @user.id == current_user.id
+        skip_authorization
+      else
+        authorize @moods
+      end
     end
+
+    @moods = policy_scope(@moods)
    
     respond_to do |format|
       format.html
@@ -50,19 +52,51 @@ class MoodsController < ApplicationController
 
   # GET /moods/new
   def new
-    authorize! :manage, Mood
+    @user = User.find_by_id(params[:user_id])
+
+    if @user == nil
+      skip_authorization
+    elsif @user != nil
+      if @user.id == current_user.id
+        skip_authorization
+      else
+        authorize @moods
+      end
+    end
+
     @mood= Mood.new
   end
 
   # GET /moods/1/edit
   def edit
-    authorize! :manage, Mood
+    @user = User.find_by_id(params[:user_id])
+
+    if @user == nil
+      skip_authorization
+    elsif @user != nil
+      if @user.id == current_user.id
+        skip_authorization
+      else
+        authorize @moods
+      end
+    end
   end
 
   # POST /moods
   # POST /moods.json
   def create
-    authorize! :manage, Mood
+    @user = User.find_by_id(params[:user_id])
+
+    if @user == nil
+      skip_authorization
+    elsif @user != nil
+      if @user.id == current_user.id
+        skip_authorization
+      else
+        authorize @moods
+      end
+    end
+
     @mood = Mood.new(mood_params)
     @mood.user_id = current_user.id
     @mood.update_attribute(:timestamp, DateTime.now.in_time_zone)
@@ -85,7 +119,17 @@ class MoodsController < ApplicationController
   # PATCH/PUT /moods/1
   # PATCH/PUT /moods/1.json
   def update
-    authorize! :manage, Mood
+    @user = User.find_by_id(params[:user_id])
+
+    if @user == nil
+      skip_authorization
+    elsif @user != nil
+      if @user.id == current_user.id
+        skip_authorization
+      else
+        authorize @moods
+      end
+    end
     
     respond_to do |format|
       if @mood.update(mood_params)
@@ -103,14 +147,36 @@ class MoodsController < ApplicationController
   end
 
   def delete
-    authorize! :manage, Mood
+    @user = User.find_by_id(params[:user_id])
+
+    if @user == nil
+      skip_authorization
+    elsif @user != nil
+      if @user.id == current_user.id
+        skip_authorization
+      else
+        authorize @moods
+      end
+    end
+
     @mood = Mood.find(params[:mood_id])
   end
 
   # DELETE /moods/1
   # DELETE /moods/1.json
   def destroy
-    authorize! :manage, Mood
+    @user = User.find_by_id(params[:user_id])
+
+    if @user == nil
+      skip_authorization
+    elsif @user != nil
+      if @user.id == current_user.id
+        skip_authorization
+      else
+        authorize @moods
+      end
+    end
+    
     @mood.destroy
     track_mood_deleted
     
@@ -122,8 +188,17 @@ class MoodsController < ApplicationController
   end
 
   def cancel
-    authorize! :manage, Mood
-    authorize! :read, Mood
+    @user = User.find_by_id(params[:user_id])
+
+    if @user == nil
+      skip_authorization
+    elsif @user != nil
+      if @user.id == current_user.id
+        skip_authorization
+      else
+        authorize @moods
+      end
+    end
     
     respond_to do |format|
       format.js

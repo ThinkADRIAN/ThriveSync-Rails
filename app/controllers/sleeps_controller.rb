@@ -1,30 +1,33 @@
 class SleepsController < ApplicationController
   acts_as_token_authentication_handler_for User
 
-  rescue_from CanCan::AccessDenied do |exception|
-    redirect_to root_url, :alert => exception.message
-  end
-
-  #load_and_authorize_resource
-  check_authorization
-
   before_action :set_sleep, only: [:show, :edit, :update, :destroy]
   before_action :set_lookback_period, only: [:index]
   before_action :authenticate_user!
+
+  after_filter :verify_authorized,  except: [:index]
+  after_filter :verify_policy_scoped, only: [:index]
 
   respond_to :js
   
   # GET /sleeps
   # GET /sleeps.json
   def index
-    authorize! :manage, Sleep
-    authorize! :read, Sleep
     @user = User.find_by_id(params[:user_id])
+
     if @user == nil
       @sleeps = Sleep.where(user_id: current_user.id)
+      skip_authorization
     elsif @user != nil
       @sleeps = Sleep.where(user_id: @user.id)
+      if @user.id == current_user.id
+        skip_authorization
+      else
+        authorize @sleeps
+      end
     end
+
+    @sleeps = policy_scope(@sleeps)
 
     respond_to do |format|
       format.html
@@ -49,19 +52,51 @@ class SleepsController < ApplicationController
 
   # GET /sleeps/new
   def new
-    authorize! :manage, Sleep
+    @user = User.find_by_id(params[:user_id])
+
+    if @user == nil
+      skip_authorization
+    elsif @user != nil
+      if @user.id == current_user.id
+        skip_authorization
+      else
+        authorize @sleeps
+      end
+    end
+
     @sleep= Sleep.new
   end
 
   # GET /sleeps/1/edit
   def edit
-    authorize! :manage, Sleep
+    @user = User.find_by_id(params[:user_id])
+
+    if @user == nil
+      skip_authorization
+    elsif @user != nil
+      if @user.id == current_user.id
+        skip_authorization
+      else
+        authorize @sleeps
+      end
+    end
   end
 
   # POST /sleeps
   # POST /sleeps.json
   def create
-    authorize! :manage, Sleep
+    @user = User.find_by_id(params[:user_id])
+
+    if @user == nil
+      skip_authorization
+    elsif @user != nil
+      if @user.id == current_user.id
+        skip_authorization
+      else
+        authorize @sleeps
+      end
+    end
+
     @sleep = Sleep.new(sleep_params)
     @sleep.user_id = current_user.id
     @sleep.time = (@sleep.finish_time.to_i - @sleep.start_time.to_i) / 3600
@@ -83,7 +118,17 @@ class SleepsController < ApplicationController
   # PATCH/PUT /sleeps/1
   # PATCH/PUT /sleeps/1.json
   def update
-    authorize! :manage, Sleep
+    @user = User.find_by_id(params[:user_id])
+
+    if @user == nil
+      skip_authorization
+    elsif @user != nil
+      if @user.id == current_user.id
+        skip_authorization
+      else
+        authorize @sleeps
+      end
+    end
 
     respond_to do |format|
       if @sleep.update(sleep_params)
@@ -103,14 +148,36 @@ class SleepsController < ApplicationController
   end
 
   def delete
-    authorize! :manage, Sleep
+    @user = User.find_by_id(params[:user_id])
+
+    if @user == nil
+      skip_authorization
+    elsif @user != nil
+      if @user.id == current_user.id
+        skip_authorization
+      else
+        authorize @sleeps
+      end
+    end
+
     @sleep = Sleep.find(params[:sleep_id])
   end
 
   # DELETE /sleeps/1
   # DELETE /sleeps/1.json
   def destroy
-    authorize! :manage, Sleep
+    @user = User.find_by_id(params[:user_id])
+
+    if @user == nil
+      skip_authorization
+    elsif @user != nil
+      if @user.id == current_user.id
+        skip_authorization
+      else
+        authorize @sleeps
+      end
+    end
+    
     @sleep.destroy
     track_sleep_deleted
 
@@ -122,8 +189,17 @@ class SleepsController < ApplicationController
   end
 
   def cancel
-    authorize! :manage, Sleep
-    authorize! :read, Sleep
+    @user = User.find_by_id(params[:user_id])
+
+    if @user == nil
+      skip_authorization
+    elsif @user != nil
+      if @user.id == current_user.id
+        skip_authorization
+      else
+        authorize @sleeps
+      end
+    end
     
     respond_to do |format|
       format.js
