@@ -44,6 +44,10 @@ class Ability
       review.user_id == @user_id
     end
 
+    can :manage, Reminder do |reminder|
+      reminder.user_id == @user_id
+    end
+
 =begin
     can :manage, User, id: user.id
     can :manage, Mood, :user => { id: user.id }
