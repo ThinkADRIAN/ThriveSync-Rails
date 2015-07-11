@@ -6,9 +6,7 @@ Rails.application.routes.draw do
 
   resources :reminders, except: [:show, :new, :destroy]
 
-  resources :scorecards, except: [:show, :new, :destroy]
-
-  resources :reviews
+  resources :scorecards, only: [:index]
   
   devise_for :users, :path => '', :path_names => {:sign_in => 'login', :sign_out => 'logout'}, :controllers => {:registrations => 'my_devise/registrations',
     :omniauth_callbacks => "omniauth_callbacks", :sessions => 'users/sessions', :passwords => 'users/passwords'}
