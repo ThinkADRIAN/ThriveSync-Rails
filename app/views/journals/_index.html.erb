@@ -1,7 +1,7 @@
 <% render "shared/set_lookback" %>
 
 <div>
-  <% if @user == nil %>
+  <% if @user == nil || @user.id == current_user.id %>
     <h1><%= current_user.first_name.to_s + " " + current_user.last_name.to_s %><h1>
     <%= link_to 'Add a new Journal Entry', new_journal_path(modal_enabled: 'true'), remote: true, class: "btn btn-primary" %>
   <% else %>

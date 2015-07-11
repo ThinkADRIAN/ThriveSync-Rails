@@ -1,10 +1,6 @@
 class JournalsController < ApplicationController
   acts_as_token_authentication_handler_for User
 
-  rescue_from CanCan::AccessDenied do |exception|
-    redirect_to root_url, :alert => exception.message
-  end
-
   before_action :set_journal, only: [:show, :edit, :update, :destroy]
   before_action :set_lookback_period, only: [:index]
   before_action :authenticate_user!
