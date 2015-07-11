@@ -44,6 +44,7 @@ class Ability
       review.user_id == @user_id
     end
 
+=begin
     can :manage, User, id: user.id
     can :manage, Mood, :user => { id: user.id }
     can :manage, Sleep, :user => { id: user.id }
@@ -70,6 +71,7 @@ class Ability
 
       # can :read, Journal if user.clients.include? :user_id
     end
+=end
 
     if user.is? :superuser
       can :manage, :all
