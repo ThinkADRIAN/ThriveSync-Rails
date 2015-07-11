@@ -73,7 +73,17 @@ class JournalsController < ApplicationController
 
   # GET /journals/1/edit
   def edit
-    authorize! :manage, Journal
+    @user = User.find_by_id(params[:user_id])
+
+    if @user == nil
+      skip_authorization
+    elsif @user != nil
+      if @user.id == current_user.id
+        skip_authorization
+      else
+        authorize @journals
+      end
+    end
   end
 
   # POST /journals
