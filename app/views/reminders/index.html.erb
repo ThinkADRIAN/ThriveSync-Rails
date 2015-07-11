@@ -20,13 +20,41 @@
     <% @reminders.order('alert_time ASC').each do |reminder| %>
       <tr>
         <td><%= reminder.message %></td>
-        <td><%= reminder.sunday_enabled %></td>
-        <td><%= reminder.monday_enabled %></td>
-        <td><%= reminder.tuesday_enabled %></td>
-        <td><%= reminder.wednesday_enabled %></td>
-        <td><%= reminder.thursday_enabled %></td>
-        <td><%= reminder.friday_enabled %></td>
-        <td><%= reminder.saturday_enabled %></td>
+        <td>
+          <% if reminder.sunday_enabled %>
+            X
+          <% end %>
+        </td>
+        <td>
+          <% if reminder.monday_enabled %>
+            X
+          <% end %>
+        </td>
+        <td>
+          <% if reminder.tuesday_enabled %>
+            X
+          <% end %>
+        </td>
+        <td>
+          <% if reminder.wednesday_enabled %>
+            X
+          <% end %>
+        </td>
+        <td>
+          <% if reminder.thursday_enabled %>
+            X
+          <% end %>
+        </td>
+        <td>
+          <% if reminder.friday_enabled %>
+            X
+          <% end %>
+        </td>
+        <td>
+          <% if reminder.saturday_enabled %>
+            X
+          <% end %>
+        </td>
         <td><%= reminder.alert_time.strftime("%I:%M %P") %></td>
         <td><%= link_to 'Edit', edit_reminder_path(reminder) %></td>
       </tr>
