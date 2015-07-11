@@ -27,17 +27,17 @@
 
           <% if sleep.user_id == current_user.id || (current_user.is? :superuser) || (current_user.is? :pro) && (current_user.clients.include? sleep.user_id) %>
             <div class="col-md-4">
-                <h4><%= sleep.updated_at.strftime("%a - %b %e, %Y - %m:%M %p") %></h4>
+                <h4><%= sleep.finish_time.strftime("%a - %B %e, %Y") %></h4>
             </div>
             <div class="col-md-4">
               <p>
                 <strong>Sleep Start Time:</strong>
-                <%= sleep.start_time %>
+                <%= I18n.l sleep.start_time, format: :long_am_pm %>
               </p> 
 
               <p>
                 <strong>Sleep Finish Time:</strong>
-                <%= sleep.finish_time %>
+                <%= I18n.l sleep.finish_time, format: :long_am_pm %>
               </p> 
 
               <p>

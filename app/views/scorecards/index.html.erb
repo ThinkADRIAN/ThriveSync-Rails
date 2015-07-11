@@ -9,11 +9,11 @@
         <th>Total Score</th>
         <th>Level Multiplier</th>
         <th>Checkin Count</th>
-        <th>Last Checkin Date</th>
+        <th>Last Checkin</th>
         <th>Streak Count</th>
         <th>Streak Record</th>
         <th>Perfect Checkin Count</th>
-        <th>Last Perfect Checkin Date</th>
+        <th>Last Perfect Checkin</th>
         <th>Days Since Signup</th>
       </tr>
     </thead>
@@ -26,7 +26,7 @@
           <td><%= scorecard.checkin_count %></td>
           <td>
             <% if scorecard.last_checkin_date != nil %>
-              <%= I18n.l scorecard.last_checkin_date, format: :long %>
+              <%= I18n.l scorecard.last_checkin_date, format: :long_am_pm %>
             <% else %>
               ---
             <% end %>
@@ -36,7 +36,7 @@
           <td><%= scorecard.perfect_checkin_count %></td>
           <td>
             <% if scorecard.last_perfect_checkin_date != nil %>
-              <%= I18n.l scorecard.last_perfect_checkin_date, format: :long %>
+              <%= I18n.l scorecard.last_perfect_checkin_date, format: :long_am_pm %>
             <% else %>
               ---
             <% end %>
@@ -57,7 +57,7 @@
         <th>Score</th>
         <th>Level Multiplier</th>
         <th>Checkin Count</th>
-        <th>Last Checkin Date</th>
+        <th>Last Checkin</th>
         <th>Streak Count</th>
         <th>Streak Record</th>
       </tr>
@@ -71,7 +71,7 @@
           <td><%= scorecard.mood_checkin_count %></td>
           <td>
             <% if scorecard.mood_last_checkin_date != nil %>
-              <%= I18n.l scorecard.mood_last_checkin_date, format: :long %>
+              <%= I18n.l scorecard.mood_last_checkin_date, format: :long_am_pm %>
             <% else %>
               ---
             <% end %>
@@ -93,7 +93,7 @@
         <th>Score</th>
         <th>Level Multiplier</th>
         <th>Checkin Count</th>
-        <th>Last Checkin Date</th>
+        <th>Last Checkin</th>
         <th>Streak Count</th>
         <th>Streak Record</th>
       </tr>
@@ -107,7 +107,7 @@
           <td><%= scorecard.sleep_checkin_count %></td>
           <td>
             <% if scorecard.sleep_last_checkin_date != nil %>
-              <%= I18n.l scorecard.sleep_last_checkin_date, format: :long %>
+              <%= I18n.l scorecard.sleep_last_checkin_date, format: :long_am_pm %>
             <% else %>
               ---
             <% end %>
@@ -129,7 +129,7 @@
         <th>Score</th>
         <th>Level Multiplier</th>
         <th>Checkin Count</th>
-        <th>Last Checkin Date</th>
+        <th>Last Checkin</th>
         <th>Streak Count</th>
         <th>Streak Record</th>
       </tr>
@@ -143,7 +143,7 @@
           <td><%= scorecard.self_care_checkin_count %></td>
           <td>
             <% if scorecard.self_care_last_checkin_date != nil %>
-              <%= I18n.l scorecard.self_care_last_checkin_date, format: :long %>
+              <%= I18n.l scorecard.self_care_last_checkin_date, format: :long_am_pm %>
             <% else %>
               ---
             <% end %>
@@ -165,7 +165,7 @@
         <th>Score</th>
         <th>Level Multiplier</th>
         <th>Checkin Count</th>
-        <th>Last Checkin Date</th>
+        <th>Last Checkin</th>
         <th>Streak Count</th>
         <th>Streak Record</th>
       </tr>
@@ -179,7 +179,7 @@
           <td><%= scorecard.journal_checkin_count %></td>
           <td>
             <% if scorecard.journal_last_checkin_date != nil %>
-              <%= I18n.l scorecard.journal_last_checkin_date, format: :long %>
+              <%= I18n.l scorecard.journal_last_checkin_date, format: :long_am_pm %>
             <% else %>
               ---
             <% end %>

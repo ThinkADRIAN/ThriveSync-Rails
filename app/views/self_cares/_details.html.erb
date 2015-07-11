@@ -27,7 +27,7 @@
           
           <% if self_care.user_id == current_user.id || (current_user.is? :superuser) || (current_user.is? :pro) && (current_user.clients.include? self_care.user_id) %>
             <div class="col-md-4">
-                <h4><%= I18n.l self_care.timestamp, format: :long  %></h4>
+                <h4><%= I18n.l self_care.timestamp, format: :long_am_pm %></h4>
             </div>
             <div class="col-md-4">
               <p>
