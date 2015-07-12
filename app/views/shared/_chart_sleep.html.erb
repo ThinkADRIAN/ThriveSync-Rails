@@ -8,11 +8,11 @@
 
 <% 
 if @sleep_lookback_period == 'week' 
-  sleep_time_chart_data = @sleeps.group_by_day(:finish_time, range: Date.today.beginning_of_week(:sunday)..(Date.today.beginning_of_week(:sunday)+7), format: "%b %d, %Y").average(:time)
+  sleep_time_chart_data = @sleeps.group_by_day(:finish_time, range: Date.today.beginning_of_week(:sunday)..(Date.today.beginning_of_week(:sunday)+7), format: "%b %d, %Y").sum(:time)
   sleep_quality_chart_data = @sleeps.group_by_day(:finish_time, range: Date.today.beginning_of_week(:sunday)..(Date.today.beginning_of_week(:sunday)+7), format: "%b %d, %Y").average(:quality)
   y_axis_ticks = [{v:0, f:'No'}, {v:1, f:'Yes'}]
 elsif @sleep_lookback_period == 'last_week'
-  sleep_time_chart_data = @sleeps.group_by_day(:finish_time, range: (Date.today.beginning_of_week(:sunday)-7)..(Date.today.beginning_of_week(:sunday)), format: "%b %d, %Y").average(:time)
+  sleep_time_chart_data = @sleeps.group_by_day(:finish_time, range: (Date.today.beginning_of_week(:sunday)-7)..(Date.today.beginning_of_week(:sunday)), format: "%b %d, %Y").sum(:time)
   sleep_quality_chart_data = @sleeps.group_by_day(:finish_time, range: (Date.today.beginning_of_week(:sunday)-7)..(Date.today.beginning_of_week(:sunday)), format: "%b %d, %Y").average(:quality)
   y_axis_ticks = [{v:0, f:'No'}, {v:1, f:'Yes'}]
 elsif @sleep_lookback_period == 'month'
