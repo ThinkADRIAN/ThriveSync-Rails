@@ -7,17 +7,17 @@
       <div class="panel-body">
         <%
           if @self_care_lookback_period == 'week' 
-            lookback_range = Date.today.at_beginning_of_week..Date.today.at_end_of_week
+            lookback_range = DATE_RANGE_THIS_WEEK
           elsif @self_care_lookback_period == 'last_week'
-            lookback_range = Date.today.last_week.at_beginning_of_week..Date.today.last_week.at_end_of_week
+            lookback_range = DATE_RANGE_LAST_WEEK
           elsif @self_care_lookback_period == 'month'
-            lookback_range = Date.today.at_beginning_of_month..Date.today.at_end_of_month
+            lookback_range = DATE_RANGE_THIS_MONTH
           elsif @self_care_lookback_period == 'last_month'
-            lookback_range = Date.today.last_month.at_beginning_of_month..Date.today.last_month.at_end_of_month
+            lookback_range = DATE_RANGE_LAST_MONTH
           elsif @self_care_lookback_period == 'year'
-            lookback_range = Date.today.at_beginning_of_year..Date.today.at_end_of_year
+            lookback_range = DATE_RANGE_THIS_YEAR
           elsif @self_care_lookback_period == 'last_year'
-            lookback_range = Date.today.last_year.at_beginning_of_year..Date.today.last_year.at_end_of_year
+            lookback_range = DATE_RANGE_LAST_YEAR
           end
 
           self_cares_for_lookback_period = @self_cares.where(timestamp: lookback_range)

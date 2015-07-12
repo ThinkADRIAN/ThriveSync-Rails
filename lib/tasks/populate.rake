@@ -53,7 +53,7 @@ namespace :db do
 
         test_user.scorecard.update_scorecard('moods')
 
-        sleep_start_time = Faker::Time.between((d).days.ago, Time.now, :morning)#rand(now-d.days.ago)
+        sleep_start_time = Faker::Time.between((d+1).days.ago, (d+1).days.ago, :evening)#rand(now-d.days.ago)
         sleep_finish_time = sleep_start_time + rand(1..10).hours
 
         sleep = Sleep.create!(:start_time => sleep_start_time.change(:sec => 0),
@@ -127,7 +127,7 @@ namespace :db do
 
         test_user.scorecard.update_scorecard('moods')
 
-        sleep_start_time = Faker::Time.between((d).days.ago, Time.now, :morning)#rand(now-d.days.ago)
+        sleep_start_time = Faker::Time.between((d+1).days.ago, (d+1).days.ago, :evening)#rand(now-d.days.ago)
         sleep_finish_time = sleep_start_time + rand(1..10).hours
 
         sleep = Sleep.create!(:start_time => sleep_start_time.change(:sec => 0),

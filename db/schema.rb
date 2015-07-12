@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150629193706) do
+ActiveRecord::Schema.define(version: 20150712053907) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -129,6 +129,15 @@ ActiveRecord::Schema.define(version: 20150629193706) do
     t.integer  "journal_level_multiplier"
     t.integer  "total_score"
     t.datetime "last_perfect_checkin_date"
+    t.integer  "checkin_goal"
+    t.boolean  "checkin_sunday"
+    t.boolean  "checkin_monday"
+    t.boolean  "checkin_tuesday"
+    t.boolean  "checkin_wednesday"
+    t.boolean  "checkin_thursday"
+    t.boolean  "checkin_friday"
+    t.boolean  "checkin_saturday"
+    t.integer  "checkins_to_reach_goal"
   end
 
   create_table "self_cares", force: true do |t|
