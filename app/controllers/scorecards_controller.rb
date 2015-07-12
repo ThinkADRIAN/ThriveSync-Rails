@@ -55,10 +55,21 @@ class ScorecardsController < ApplicationController
 
   def update
     authorize! :manage, Scorecard
-    @scorecard.update(scorecard_params)
+    
     respond_to do |format|
-      format.html { redirect_to scorecards_url, notice: 'Scorecard was successfully updated.' }
-      format.json { render :json => @journal, status: :created }
+      if @scorecard.update(scorecard_params)
+        @scorecard.update_goals
+        track_scorecard_updated
+
+        flash.now[:success] = "Scorecard was successfully updated."
+        format.html { redirect_to scorecards_url, notice: 'Scorecard was successfully updated.' }
+        format.js
+        format.json { render :json => @scorecard, status: :created }
+      else
+        flash.now[:error] = 'Scorecard was not updated... Try again???'
+        format.js   { render json: @scorecard.errors, status: :unprocessable_entity }
+        format.json { render json: @scorecard.errors, status: :unprocessable_entity }
+      end
     end
   end
 
@@ -75,5 +86,18 @@ class ScorecardsController < ApplicationController
 
     def scorecard_params
       params.fetch(:scorecard, {}).permit(:checkin_goal)
+    end
+
+    def track_scorecard_updated
+      # Track Scorecard Update for Segment.io Analytics
+      Analytics.track(
+        user_id: @scorecard.user_id,
+        event: 'Updated Scorecard',
+        properties: {
+          scorecard_id: @scorecard.id,
+          checkin_goal: @scorecard.checkin_goal,
+          updated_at: @scorecard.updated_at
+        }
+      )
     end
 end
