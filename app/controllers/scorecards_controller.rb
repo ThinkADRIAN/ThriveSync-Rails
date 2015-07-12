@@ -18,14 +18,16 @@ class ScorecardsController < ApplicationController
     @user = User.find_by_id(params[:user_id])
 
     if @user == nil
-      @scorecard = Scorecard.where(user_id: current_user.id)
+      @scorecards = Scorecard.where(user_id: current_user.id)
     elsif @user != nil
-      @scorecard = Scorecard.where(user_id: @user.id)
+      @scorecards = Scorecard.where(user_id: @user.id)
     end
+
+    current_user.scorecard.update_goals
 
     respond_to do |format|
       format.html
-      format.json { render :json => @scorecard, status: 200 }
+      format.json { render :json => @scorecards, status: 200 }
     end
   end
 
@@ -54,7 +56,10 @@ class ScorecardsController < ApplicationController
   def update
     authorize! :manage, Scorecard
     @scorecard.update(scorecard_params)
-    respond_with(@scorecard)
+    respond_to do |format|
+      format.html { redirect_to scorecards_url, notice: 'Scorecard was successfully updated.' }
+      format.json { render :json => @journal, status: :created }
+    end
   end
 
   def destroy
@@ -69,6 +74,6 @@ class ScorecardsController < ApplicationController
     end
 
     def scorecard_params
-      params.fetch(:scorecard, {}).permit(:checkin_count, :perfect_checkin_count, :last_checkin_date, :streak_count, :streak_record, :moods_score, :sleeps_score, :self_cares_score, :journals_score)
+      params.fetch(:scorecard, {}).permit(:checkin_goal)
     end
 end

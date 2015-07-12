@@ -1,6 +1,68 @@
 <h1>Scorecard</h1>
 <div class="col-sm-12">
 
+  <h5>Goals</h5>
+  
+  <table class="table table-condensed">
+    <thead>
+      <tr>
+        <th>Checkin Goal</th>
+        <th>Sunday</th>
+        <th>Monday</th>
+        <th>Tuesday</th>
+        <th>Wednesday</th>
+        <th>Thursday</th>
+        <th>Friday</th>
+        <th>Saturday</th>
+        <th>This Week's Checkins</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @scorecards.each do |scorecard| %>
+        <tr>
+          <td><%= scorecard.checkin_goal %> - <%= link_to 'Edit', edit_scorecard_path(scorecard), class: "btn-default btn-xs" %></td>
+          <td>
+            <% if scorecard.checkin_sunday %>
+              X
+            <% end %>
+          </td>
+          <td>
+            <% if scorecard.checkin_monday %>
+              X
+            <% end %>
+          </td>
+          <td>
+            <% if scorecard.checkin_tuesday %>
+              X
+            <% end %>
+          </td>
+          <td>
+            <% if scorecard.checkin_wednesday %>
+              X
+            <% end %>
+          </td>
+          <td>
+            <% if scorecard.checkin_thursday %>
+              X
+            <% end %>
+          </td>
+          <td>
+            <% if scorecard.checkin_friday %>
+              X
+            <% end %>
+          </td>
+          <td>
+            <% if scorecard.checkin_saturday %>
+              X
+            <% end %>
+          </td>
+          <td><%= scorecard.checkins_to_reach_goal %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
   <h5>Main</h5>
   
   <table class="table table-condensed">
@@ -19,7 +81,7 @@
     </thead>
 
     <tbody>
-      <% @scorecard.each do |scorecard| %>
+      <% @scorecards.each do |scorecard| %>
         <tr>
           <td><%= scorecard.total_score %></td>
           <td><%= scorecard.level_multiplier %></td>
@@ -64,7 +126,7 @@
     </thead>
 
     <tbody>
-      <% @scorecard.each do |scorecard| %>
+      <% @scorecards.each do |scorecard| %>
         <tr>
           <td><%= scorecard.moods_score %></td>
           <td><%= scorecard.mood_level_multiplier %></td>
@@ -100,7 +162,7 @@
     </thead>
 
     <tbody>
-      <% @scorecard.each do |scorecard| %>
+      <% @scorecards.each do |scorecard| %>
         <tr>
           <td><%= scorecard.sleeps_score %></td>
           <td><%= scorecard.sleep_level_multiplier %></td>
@@ -136,7 +198,7 @@
     </thead>
 
     <tbody>
-      <% @scorecard.each do |scorecard| %>
+      <% @scorecards.each do |scorecard| %>
         <tr>
           <td><%= scorecard.self_cares_score %></td>
           <td><%= scorecard.self_care_level_multiplier %></td>
@@ -172,7 +234,7 @@
     </thead>
 
     <tbody>
-      <% @scorecard.each do |scorecard| %>
+      <% @scorecards.each do |scorecard| %>
         <tr>
           <td><%= scorecard.journals_score %></td>
           <td><%= scorecard.journal_level_multiplier %></td>

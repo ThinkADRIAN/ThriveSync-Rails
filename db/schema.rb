@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150712031009) do
+ActiveRecord::Schema.define(version: 20150712053907) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -137,6 +137,7 @@ ActiveRecord::Schema.define(version: 20150712031009) do
     t.boolean  "checkin_thursday"
     t.boolean  "checkin_friday"
     t.boolean  "checkin_saturday"
+    t.integer  "checkins_to_reach_goal"
   end
 
   create_table "self_cares", force: true do |t|
