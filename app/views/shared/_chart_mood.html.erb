@@ -8,29 +8,29 @@
 
 <% 
 if @mood_lookback_period == 'week' 
-  mood_chart_data = @moods.group_by_day(:timestamp, range: Date.today.beginning_of_week(:sunday)..(Date.today.beginning_of_week(:sunday)+7)).average(:mood_rating)
-  anxiety_chart_data = @moods.group_by_day(:timestamp, range: Date.today.beginning_of_week(:sunday)..(Date.today.beginning_of_week(:sunday)+7)).average(:anxiety_rating)
-  irritability_chart_data = @moods.group_by_day(:timestamp, range: Date.today.beginning_of_week(:sunday)..(Date.today.beginning_of_week(:sunday)+7)).average(:irritability_rating)
+  mood_chart_data = @moods.group_by_day(:timestamp, range: DATE_RANGE_THIS_WEEK).average(:mood_rating)
+  anxiety_chart_data = @moods.group_by_day(:timestamp, range: DATE_RANGE_THIS_WEEK).average(:anxiety_rating)
+  irritability_chart_data = @moods.group_by_day(:timestamp, range: DATE_RANGE_THIS_WEEK).average(:irritability_rating)
 elsif @mood_lookback_period == 'last_week'
-  mood_chart_data = @moods.group_by_day(:timestamp, range: (Date.today.beginning_of_week(:sunday)-7)..(Date.today.beginning_of_week(:sunday))).average(:mood_rating)
-  anxiety_chart_data = @moods.group_by_day(:timestamp, range: (Date.today.beginning_of_week(:sunday)-7)..(Date.today.beginning_of_week(:sunday))).average(:anxiety_rating)
-  irritability_chart_data = @moods.group_by_day(:timestamp, range: (Date.today.beginning_of_week(:sunday)-7)..(Date.today.beginning_of_week(:sunday))).average(:irritability_rating)
+  mood_chart_data = @moods.group_by_day(:timestamp, range: DATE_RANGE_LAST_WEEK).average(:mood_rating)
+  anxiety_chart_data = @moods.group_by_day(:timestamp, range: DATE_RANGE_LAST_WEEK).average(:anxiety_rating)
+  irritability_chart_data = @moods.group_by_day(:timestamp, range: DATE_RANGE_LAST_WEEK).average(:irritability_rating)
 elsif @mood_lookback_period == 'month'
-  mood_chart_data = @moods.group_by_day(:timestamp, range: Date.today.at_beginning_of_month..Date.today.at_end_of_month).average(:mood_rating)
-  anxiety_chart_data = @moods.group_by_day(:timestamp, range: Date.today.at_beginning_of_month..Date.today.at_end_of_month).average(:anxiety_rating)
-  irritability_chart_data = @moods.group_by_day(:timestamp, range: Date.today.at_beginning_of_month..Date.today.at_end_of_month).average(:irritability_rating)
+  mood_chart_data = @moods.group_by_day(:timestamp, range: DATE_RANGE_THIS_MONTH).average(:mood_rating)
+  anxiety_chart_data = @moods.group_by_day(:timestamp, range: DATE_RANGE_THIS_MONTH).average(:anxiety_rating)
+  irritability_chart_data = @moods.group_by_day(:timestamp, range: DATE_RANGE_THIS_MONTH).average(:irritability_rating)
 elsif @mood_lookback_period == 'last_month'
-  mood_chart_data = @moods.group_by_day(:timestamp, range: Date.today.last_month.at_beginning_of_month..Date.today.last_month.at_end_of_month).average(:mood_rating)
-  anxiety_chart_data = @moods.group_by_day(:timestamp, range: Date.today.last_month.at_beginning_of_month..Date.today.last_month.at_end_of_month).average(:anxiety_rating)
-  irritability_chart_data = @moods.group_by_day(:timestamp, range: Date.today.last_month.at_beginning_of_month..Date.today.last_month.at_end_of_month).average(:irritability_rating)
+  mood_chart_data = @moods.group_by_day(:timestamp, range: DATE_RANGE_LAST_MONTH).average(:mood_rating)
+  anxiety_chart_data = @moods.group_by_day(:timestamp, range: DATE_RANGE_LAST_MONTH).average(:anxiety_rating)
+  irritability_chart_data = @moods.group_by_day(:timestamp, range: DATE_RANGE_LAST_MONTH).average(:irritability_rating)
 elsif @mood_lookback_period == 'year'
-  mood_chart_data = @moods.group_by_month(:timestamp, range: Date.today.at_beginning_of_year..Date.today.at_end_of_year).average(:mood_rating)
-  anxiety_chart_data = @moods.group_by_month(:timestamp, range: Date.today.at_beginning_of_year..Date.today.at_end_of_year).average(:anxiety_rating)
-  irritability_chart_data = @moods.group_by_month(:timestamp, range: Date.today.at_beginning_of_year..Date.today.at_end_of_year).average(:irritability_rating)
+  mood_chart_data = @moods.group_by_month(:timestamp, range: DATE_RANGE_THIS_YEAR).average(:mood_rating)
+  anxiety_chart_data = @moods.group_by_month(:timestamp, range: DATE_RANGE_THIS_YEAR).average(:anxiety_rating)
+  irritability_chart_data = @moods.group_by_month(:timestamp, range: DATE_RANGE_THIS_YEAR).average(:irritability_rating)
 elsif @mood_lookback_period == 'last_year'
-  mood_chart_data = @moods.group_by_month(:timestamp, range: Date.today.last_year.at_beginning_of_year..Date.today.last_year.at_end_of_year).average(:mood_rating)
-  anxiety_chart_data = @moods.group_by_month(:timestamp, range: Date.today.last_year.at_beginning_of_year..Date.today.last_year.at_end_of_year).average(:anxiety_rating)
-  irritability_chart_data = @moods.group_by_month(:timestamp, range: Date.today.last_year.at_beginning_of_year..Date.today.last_year.at_end_of_year).average(:irritability_rating)
+  mood_chart_data = @moods.group_by_month(:timestamp, range: DATE_RANGE_LAST_YEAR).average(:mood_rating)
+  anxiety_chart_data = @moods.group_by_month(:timestamp, range: DATE_RANGE_LAST_YEAR).average(:anxiety_rating)
+  irritability_chart_data = @moods.group_by_month(:timestamp, range: DATE_RANGE_LAST_YEAR).average(:irritability_rating)
 end
 %>
 
