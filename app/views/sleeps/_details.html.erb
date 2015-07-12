@@ -7,9 +7,9 @@
       <div class="panel-body">
         <%
           if @sleep_lookback_period == 'week' 
-            lookback_range = Date.today.at_beginning_of_week..Date.today.at_end_of_week
+            lookback_range = Date.today.beginning_of_week(:sunday)..(Date.today.beginning_of_week(:sunday)+7)
           elsif @sleep_lookback_period == 'last_week'
-            lookback_range = Date.today.last_week.at_beginning_of_week..Date.today.last_week.at_end_of_week
+            lookback_range = (Date.today.beginning_of_week(:sunday)-7)..(Date.today.beginning_of_week(:sunday))
           elsif @sleep_lookback_period == 'month'
             lookback_range = Date.today.at_beginning_of_month..Date.today.at_end_of_month
           elsif @sleep_lookback_period == 'last_month'
@@ -20,7 +20,7 @@
             lookback_range = Date.today.last_year.at_beginning_of_year..Date.today.last_year.at_end_of_year
           end
 
-          sleeps_for_lookback_period = @sleeps.where(created_at: lookback_range)
+          sleeps_for_lookback_period = @sleeps.where(finish_time: lookback_range)
           sleeps_for_lookback_period = sleeps_for_lookback_period.order('finish_time DESC')
           
           sleeps_for_lookback_period.each do |sleep| %>

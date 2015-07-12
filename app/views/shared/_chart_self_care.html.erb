@@ -13,16 +13,16 @@
 
 <% 
 if @self_care_lookback_period == 'week' 
-  counseling_chart_data = @self_cares_counseling.group_by_day(:timestamp, range: Date.today.at_beginning_of_week..Date.today.at_end_of_week, format: "%b %d, %Y").count(:counseling)
-  medication_chart_data = @self_cares_medication.group_by_day(:timestamp, range: Date.today.at_beginning_of_week..Date.today.at_end_of_week, format: "%b %d, %Y").count(:medication)
-  meditation_chart_data = @self_cares_meditation.group_by_day(:timestamp, range: Date.today.at_beginning_of_week..Date.today.at_end_of_week, format: "%b %d, %Y").count(:meditation)
-  exercise_chart_data = @self_cares_exercise.group_by_day(:timestamp, range: Date.today.at_beginning_of_week..Date.today.at_end_of_week, format: "%b %d, %Y").count(:exercise)
+  counseling_chart_data = @self_cares_counseling.group_by_day(:timestamp, range: Date.today.beginning_of_week(:sunday)..(Date.today.beginning_of_week(:sunday)+7), format: "%b %d, %Y").count(:counseling)
+  medication_chart_data = @self_cares_medication.group_by_day(:timestamp, range: Date.today.beginning_of_week(:sunday)..(Date.today.beginning_of_week(:sunday)+7), format: "%b %d, %Y").count(:medication)
+  meditation_chart_data = @self_cares_meditation.group_by_day(:timestamp, range: Date.today.beginning_of_week(:sunday)..(Date.today.beginning_of_week(:sunday)+7), format: "%b %d, %Y").count(:meditation)
+  exercise_chart_data = @self_cares_exercise.group_by_day(:timestamp, range: Date.today.beginning_of_week(:sunday)..(Date.today.beginning_of_week(:sunday)+7), format: "%b %d, %Y").count(:exercise)
   y_axis_ticks = [{v:0, f:'No'}, {v:1, f:'Yes'}]
 elsif @self_care_lookback_period == 'last_week'
-  counseling_chart_data = @self_cares_counseling.group_by_day(:timestamp, range: Date.today.last_week.at_beginning_of_week..Date.today.last_week.at_end_of_week, format: "%b %d, %Y").count(:counseling)
-  medication_chart_data = @self_cares_medication.group_by_day(:timestamp, range: Date.today.last_week.at_beginning_of_week..Date.today.last_week.at_end_of_week, format: "%b %d, %Y").count(:medication)
-  meditation_chart_data = @self_cares_meditation.group_by_day(:timestamp, range: Date.today.last_week.at_beginning_of_week..Date.today.last_week.at_end_of_week, format: "%b %d, %Y").count(:meditation)
-  exercise_chart_data = @self_cares_exercise.group_by_day(:timestamp, range: Date.today.last_week.at_beginning_of_week..Date.today.last_week.at_end_of_week, format: "%b %d, %Y").count(:exercise)
+  counseling_chart_data = @self_cares_counseling.group_by_day(:timestamp, range: (Date.today.beginning_of_week(:sunday)-7)..(Date.today.beginning_of_week(:sunday)), format: "%b %d, %Y").count(:counseling)
+  medication_chart_data = @self_cares_medication.group_by_day(:timestamp, range: (Date.today.beginning_of_week(:sunday)-7)..(Date.today.beginning_of_week(:sunday)), format: "%b %d, %Y").count(:medication)
+  meditation_chart_data = @self_cares_meditation.group_by_day(:timestamp, range: (Date.today.beginning_of_week(:sunday)-7)..(Date.today.beginning_of_week(:sunday)), format: "%b %d, %Y").count(:meditation)
+  exercise_chart_data = @self_cares_exercise.group_by_day(:timestamp, range: (Date.today.beginning_of_week(:sunday)-7)..(Date.today.beginning_of_week(:sunday)), format: "%b %d, %Y").count(:exercise)
   y_axis_ticks = [{v:0, f:'No'}, {v:1, f:'Yes'}]
 elsif @self_care_lookback_period == 'month'
   counseling_chart_data = @self_cares_counseling.group_by_day(:timestamp, range: Date.today.at_beginning_of_month..Date.today.at_end_of_month, format: "%b %d, %Y").count(:counseling)

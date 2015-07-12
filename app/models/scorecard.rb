@@ -317,10 +317,10 @@ class Scorecard < ActiveRecord::Base
     self.checkin_saturday = false
 
     # Load current week data
-    moods_this_week = Mood.where(user_id: self.user_id).where(:timestamp => Date.today.at_beginning_of_week..Date.today.at_end_of_week)
-    sleeps_this_week = Sleep.where(user_id: self.user_id).where(:finish_time => Date.today.at_beginning_of_week..Date.today.at_end_of_week)
-    self_cares_this_week = SelfCare.where(user_id: self.user_id).where(:timestamp => Date.today.at_beginning_of_week..Date.today.at_end_of_week)
-    journals_this_week = Journal.where(user_id: self.user_id).where(:timestamp => Date.today.at_beginning_of_week..Date.today.at_end_of_week)
+    moods_this_week = Mood.where(user_id: self.user_id).where(:timestamp => Date.today.beginning_of_week(:sunday)..(Date.today.beginning_of_week(:sunday)+7))
+    sleeps_this_week = Sleep.where(user_id: self.user_id).where(:finish_time => Date.today.beginning_of_week(:sunday)..(Date.today.beginning_of_week(:sunday)+7))
+    self_cares_this_week = SelfCare.where(user_id: self.user_id).where(:timestamp => Date.today.beginning_of_week(:sunday)..(Date.today.beginning_of_week(:sunday)+7))
+    journals_this_week = Journal.where(user_id: self.user_id).where(:timestamp => Date.today.beginning_of_week(:sunday)..(Date.today.beginning_of_week(:sunday)+7))
 
     # Check flag if timestamp present
     moods_this_week.each do |mood|

@@ -7,9 +7,9 @@
       <div class="panel-body">
         <%
           if @mood_lookback_period == 'week' 
-            lookback_range = Date.today.at_beginning_of_week..Date.today.at_end_of_week
+            lookback_range = Date.today.beginning_of_week(:sunday)..(Date.today.beginning_of_week(:sunday)+7)
           elsif @mood_lookback_period == 'last_week'
-            lookback_range = Date.today.last_week.at_beginning_of_week..Date.today.last_week.at_end_of_week
+            lookback_range = (Date.today.beginning_of_week(:sunday)-7)..(Date.today.beginning_of_week(:sunday))
           elsif @mood_lookback_period == 'month'
             lookback_range = Date.today.at_beginning_of_month..Date.today.at_end_of_month
           elsif @mood_lookback_period == 'last_month'
