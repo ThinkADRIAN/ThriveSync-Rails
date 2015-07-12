@@ -21,7 +21,7 @@
           end
 
           sleeps_for_lookback_period = @sleeps.where(created_at: lookback_range)
-          sleeps_for_lookback_period = sleeps_for_lookback_period.order('created_at DESC')
+          sleeps_for_lookback_period = sleeps_for_lookback_period.order('finish_time DESC')
           
           sleeps_for_lookback_period.each do |sleep| %>
 
