@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150712030630) do
+ActiveRecord::Schema.define(version: 20150712031009) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -130,6 +130,13 @@ ActiveRecord::Schema.define(version: 20150712030630) do
     t.integer  "total_score"
     t.datetime "last_perfect_checkin_date"
     t.integer  "checkin_goal"
+    t.boolean  "checkin_sunday"
+    t.boolean  "checkin_monday"
+    t.boolean  "checkin_tuesday"
+    t.boolean  "checkin_wednesday"
+    t.boolean  "checkin_thursday"
+    t.boolean  "checkin_friday"
+    t.boolean  "checkin_saturday"
   end
 
   create_table "self_cares", force: true do |t|
