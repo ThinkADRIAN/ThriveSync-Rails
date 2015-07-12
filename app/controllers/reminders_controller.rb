@@ -5,9 +5,7 @@ class RemindersController < ApplicationController
     redirect_to root_url, :alert => exception.message
   end
 
-  load_and_authorize_resource :user
-  load_and_authorize_resource :reminder, through: :user, shallow: true
-  #check_authorization
+  check_authorization
 
   before_action :set_reminder, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!
@@ -23,6 +21,8 @@ class RemindersController < ApplicationController
       @reminders = Reminder.where(user_id: @user.id)
     end
 
+    authorize! :manage, Reminder
+
     respond_to do |format|
       format.html
       format.js
@@ -32,6 +32,8 @@ class RemindersController < ApplicationController
   end
 
   def show
+    authorize! :manage, Reminder
+
     respond_to do |format|
       format.html
       format.js
@@ -45,6 +47,7 @@ class RemindersController < ApplicationController
   end
 
   def edit
+    authorize! :manage, Reminder
   end
 
   def create
@@ -54,6 +57,7 @@ class RemindersController < ApplicationController
   end
 
   def update
+    authorize! :manage, Reminder
     @reminder.update(reminder_params)
     respond_with(@reminder)
   end

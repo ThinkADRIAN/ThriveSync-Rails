@@ -7,37 +7,37 @@
       <div class="panel-body">
         <%
           if @sleep_lookback_period == 'week' 
-            lookback_range = Date.today.at_beginning_of_week..Date.today.at_end_of_week
+            lookback_range = DATE_RANGE_THIS_WEEK
           elsif @sleep_lookback_period == 'last_week'
-            lookback_range = Date.today.last_week.at_beginning_of_week..Date.today.last_week.at_end_of_week
+            lookback_range = DATE_RANGE_LAST_WEEK
           elsif @sleep_lookback_period == 'month'
-            lookback_range = Date.today.at_beginning_of_month..Date.today.at_end_of_month
+            lookback_range = DATE_RANGE_THIS_MONTH
           elsif @sleep_lookback_period == 'last_month'
-            lookback_range = Date.today.last_month.at_beginning_of_month..Date.today.last_month.at_end_of_month
+            lookback_range = DATE_RANGE_LAST_MONTH
           elsif @sleep_lookback_period == 'year'
-            lookback_range = Date.today.at_beginning_of_year..Date.today.at_end_of_year
+            lookback_range = DATE_RANGE_THIS_YEAR
           elsif @sleep_lookback_period == 'last_year'
-            lookback_range = Date.today.last_year.at_beginning_of_year..Date.today.last_year.at_end_of_year
+            lookback_range = DATE_RANGE_LAST_YEAR
           end
 
-          sleeps_for_lookback_period = @sleeps.where(created_at: lookback_range)
-          sleeps_for_lookback_period = sleeps_for_lookback_period.order('created_at DESC')
+          sleeps_for_lookback_period = @sleeps.where(finish_time: lookback_range)
+          sleeps_for_lookback_period = sleeps_for_lookback_period.order('finish_time DESC')
           
           sleeps_for_lookback_period.each do |sleep| %>
 
           <% if sleep.user_id == current_user.id || (current_user.is? :superuser) || (current_user.is? :pro) && (current_user.clients.include? sleep.user_id) %>
             <div class="col-md-4">
-                <h4><%= sleep.updated_at.strftime("%a - %b %e, %Y - %m:%M %p") %></h4>
+                <h4><%= sleep.finish_time.strftime("%a - %B %e, %Y") %></h4>
             </div>
             <div class="col-md-4">
               <p>
                 <strong>Sleep Start Time:</strong>
-                <%= sleep.start_time %>
+                <%= I18n.l sleep.start_time, format: :long_am_pm %>
               </p> 
 
               <p>
                 <strong>Sleep Finish Time:</strong>
-                <%= sleep.finish_time %>
+                <%= I18n.l sleep.finish_time, format: :long_am_pm %>
               </p> 
 
               <p>

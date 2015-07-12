@@ -18,14 +18,16 @@ class ScorecardsController < ApplicationController
     @user = User.find_by_id(params[:user_id])
 
     if @user == nil
-      @scorecard = Scorecard.where(user_id: current_user.id)
+      @scorecards = Scorecard.where(user_id: current_user.id)
     elsif @user != nil
-      @scorecard = Scorecard.where(user_id: @user.id)
+      @scorecards = Scorecard.where(user_id: @user.id)
     end
+
+    current_user.scorecard.update_goals
 
     respond_to do |format|
       format.html
-      format.json { render :json => @scorecard, status: 200 }
+      format.json { render :json => @scorecards, status: 200 }
     end
   end
 
@@ -53,8 +55,22 @@ class ScorecardsController < ApplicationController
 
   def update
     authorize! :manage, Scorecard
-    @scorecard.update(scorecard_params)
-    respond_with(@scorecard)
+    
+    respond_to do |format|
+      if @scorecard.update(scorecard_params)
+        @scorecard.update_goals
+        track_scorecard_updated
+
+        flash.now[:success] = "Scorecard was successfully updated."
+        format.html { redirect_to scorecards_url, notice: 'Scorecard was successfully updated.' }
+        format.js
+        format.json { render :json => @scorecard, status: :created }
+      else
+        flash.now[:error] = 'Scorecard was not updated... Try again???'
+        format.js   { render json: @scorecard.errors, status: :unprocessable_entity }
+        format.json { render json: @scorecard.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   def destroy
@@ -69,6 +85,19 @@ class ScorecardsController < ApplicationController
     end
 
     def scorecard_params
-      params.fetch(:scorecard, {}).permit(:checkin_count, :perfect_checkin_count, :last_checkin_date, :streak_count, :streak_record, :moods_score, :sleeps_score, :self_cares_score, :journals_score)
+      params.fetch(:scorecard, {}).permit(:checkin_goal)
+    end
+
+    def track_scorecard_updated
+      # Track Scorecard Update for Segment.io Analytics
+      Analytics.track(
+        user_id: @scorecard.user_id,
+        event: 'Updated Scorecard',
+        properties: {
+          scorecard_id: @scorecard.id,
+          checkin_goal: @scorecard.checkin_goal,
+          updated_at: @scorecard.updated_at
+        }
+      )
     end
 end

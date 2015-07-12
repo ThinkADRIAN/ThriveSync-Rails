@@ -7,17 +7,17 @@
       <div class="panel-body">
         <%
           if @journal_lookback_period == 'week' 
-            lookback_range = Date.today.at_beginning_of_week..Date.today.at_end_of_week
+            lookback_range = DATE_RANGE_THIS_WEEK
           elsif @journal_lookback_period == 'last_week'
-            lookback_range = Date.today.last_week.at_beginning_of_week..Date.today.last_week.at_end_of_week
+            lookback_range = DATE_RANGE_LAST_WEEK
           elsif @journal_lookback_period == 'month'
-            lookback_range = Date.today.at_beginning_of_month..Date.today.at_end_of_month
+            lookback_range = DATE_RANGE_THIS_MONTH
           elsif @journal_lookback_period == 'last_month'
-            lookback_range = Date.today.last_month.at_beginning_of_month..Date.today.last_month.at_end_of_month
+            lookback_range = DATE_RANGE_LAST_MONTH
           elsif @journal_lookback_period == 'year'
-            lookback_range = Date.today.at_beginning_of_year..Date.today.at_end_of_year
+            lookback_range = DATE_RANGE_THIS_YEAR
           elsif @journal_lookback_period == 'last_year'
-            lookback_range = Date.today.last_year.at_beginning_of_year..Date.today.last_year.at_end_of_year
+            lookback_range = DATE_RANGE_LAST_YEAR
           end
 
           journals_for_lookback_period = @journals.where(timestamp: lookback_range)
@@ -27,7 +27,7 @@
 
           <% if journal.user_id == current_user.id || (current_user.is? :superuser) || (current_user.is? :pro) && (current_user.clients.include? journal.user_id) %>
             <div class="col-md-8">
-                <h4><%= I18n.l journal.timestamp, format: :long  %></h4>
+                <h4><%= I18n.l journal.timestamp, format: :long_am_pm  %></h4>
             </div>
             <div class="col-md-4">
               <%= link_to 'Edit', edit_journal_path(journal, modal_enabled: 'true'), remote: true, class: "btn-default btn-xs" %>

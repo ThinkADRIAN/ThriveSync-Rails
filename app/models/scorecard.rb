@@ -9,6 +9,8 @@ class Scorecard < ActiveRecord::Base
 
   belongs_to :user
 
+  validates :checkin_goal, numericality: {only_integer: true, greater_than_or_equal_to: 1, less_than_or_equal_to: 7}
+
   after_initialize :init
 
   def init
@@ -39,6 +41,8 @@ class Scorecard < ActiveRecord::Base
     self.journal_streak_count ||= 0
     self.journal_streak_record ||= 0
     self.journal_level_multiplier ||= 1
+    self.checkin_goal ||= 4
+    self.checkins_to_reach_goal ||= 4
   end
 
   def increment_checkin_count(data_type)
@@ -302,6 +306,142 @@ class Scorecard < ActiveRecord::Base
   def set_total_score
     self.total_score = self.moods_score + self.sleeps_score + self.self_cares_score + self.journals_score
     self.save
+  end
+
+  def set_checkin_flags
+    # Clear Flags
+    self.checkin_sunday = false
+    self.checkin_monday = false
+    self.checkin_tuesday = false
+    self.checkin_wednesday = false
+    self.checkin_thursday = false
+    self.checkin_friday = false
+    self.checkin_saturday = false
+
+    # Load current week data
+    moods_this_week = Mood.where(user_id: self.user_id).where(:timestamp => DATE_RANGE_THIS_WEEK)
+    sleeps_this_week = Sleep.where(user_id: self.user_id).where(:finish_time => DATE_RANGE_THIS_WEEK)
+    self_cares_this_week = SelfCare.where(user_id: self.user_id).where(:timestamp => DATE_RANGE_THIS_WEEK)
+    journals_this_week = Journal.where(user_id: self.user_id).where(:timestamp => DATE_RANGE_THIS_WEEK)
+
+    # Check flag if timestamp present
+    moods_this_week.each do |mood|
+      if mood.timestamp.sunday?
+        self.checkin_sunday = true
+      elsif mood.timestamp.monday?
+        self.checkin_monday = true
+      elsif mood.timestamp.tuesday?
+        self.checkin_tuesday = true
+      elsif mood.timestamp.wednesday?
+        self.checkin_wednesday = true
+      elsif mood.timestamp.thursday?
+        self.checkin_thursday = true
+      elsif mood.timestamp.friday?
+        self.checkin_friday = true
+      elsif mood.timestamp.saturday?
+        self.checkin_saturday = true
+      end
+    end
+
+    sleeps_this_week.each do |sleep|
+      if sleep.finish_time.sunday?
+        self.checkin_sunday = true
+      elsif sleep.finish_time.monday?
+        self.checkin_monday = true
+      elsif sleep.finish_time.tuesday?
+        self.checkin_tuesday = true
+      elsif sleep.finish_time.wednesday?
+        self.checkin_wednesday = true
+      elsif sleep.finish_time.thursday?
+        self.checkin_thursday = true
+      elsif sleep.finish_time.friday?
+        self.checkin_friday = true
+      elsif sleep.finish_time.saturday?
+        self.checkin_saturday = true
+      end
+    end
+
+    self_cares_this_week.each do |self_care|
+      if self_care.timestamp.sunday?
+        self.checkin_sunday = true
+      elsif self_care.timestamp.monday?
+        self.checkin_monday = true
+      elsif self_care.timestamp.tuesday?
+        self.checkin_tuesday = true
+      elsif self_care.timestamp.wednesday?
+        self.checkin_wednesday = true
+      elsif self_care.timestamp.thursday?
+        self.checkin_thursday = true
+      elsif self_care.timestamp.friday?
+        self.checkin_friday = true
+      elsif self_care.timestamp.saturday?
+        self.checkin_saturday = true
+      end
+    end
+
+    journals_this_week.each do |journal|
+      if journal.timestamp.sunday?
+        self.checkin_sunday = true
+      elsif journal.timestamp.monday?
+        self.checkin_monday = true
+      elsif journal.timestamp.tuesday?
+        self.checkin_tuesday = true
+      elsif journal.timestamp.wednesday?
+        self.checkin_wednesday = true
+      elsif journal.timestamp.thursday?
+        self.checkin_thursday = true
+      elsif journal.timestamp.friday?
+        self.checkin_friday = true
+      elsif journal.timestamp.saturday?
+        self.checkin_saturday = true
+      end
+    end
+
+    self.save
+  end
+
+  def set_checkins_to_reach_goal
+    checkins_to_reach_goal = self.checkin_goal
+
+    if self.checkin_sunday == true
+      checkins_to_reach_goal -= 1
+    end
+
+    if self.checkin_monday == true
+      checkins_to_reach_goal -= 1
+    end
+
+    if self.checkin_tuesday == true
+      checkins_to_reach_goal -= 1
+    end
+
+    if self.checkin_wednesday == true
+      checkins_to_reach_goal -= 1
+    end
+
+    if self.checkin_thursday == true
+      checkins_to_reach_goal -= 1
+    end
+
+    if self.checkin_friday == true
+      checkins_to_reach_goal -= 1
+    end
+
+    if self.checkin_saturday == true
+      checkins_to_reach_goal -= 1
+    end
+    
+    if checkins_to_reach_goal < 0
+      checkins_to_reach_goal = 0
+    end
+
+    self.checkins_to_reach_goal = checkins_to_reach_goal
+    self.save
+  end
+
+  def update_goals
+    self.set_checkin_flags
+    self.set_checkins_to_reach_goal
   end
 
   def update_scorecard(data_type)
