@@ -6,7 +6,7 @@ class MoodsController < ApplicationController
   before_action :authenticate_user!
 
   after_filter :verify_authorized,  except: [:index]
-  after_filter :verify_policy_scoped, only: [:index]
+  #after_filter :verify_policy_scoped, only: [:index]
 
   respond_to :html, :js, :json, :xml
   
@@ -27,7 +27,7 @@ class MoodsController < ApplicationController
       end
     end
 
-    @moods = policy_scope(@moods)
+    #@moods = policy_scope(@moods)
    
     respond_to do |format|
       format.html

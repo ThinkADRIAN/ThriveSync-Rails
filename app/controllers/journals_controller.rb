@@ -6,7 +6,7 @@ class JournalsController < ApplicationController
   before_action :authenticate_user!
 
   after_filter :verify_authorized,  except: [:index]
-  after_filter :verify_policy_scoped, only: [:index]
+  #after_filter :verify_policy_scoped, only: [:index]
 
   respond_to :html, :js, :json, :xml
   
@@ -27,7 +27,7 @@ class JournalsController < ApplicationController
       end
     end
 
-    @journals = policy_scope(@journals)
+    #@journals = policy_scope(@journals)
 
     respond_to do |format|
       format.html

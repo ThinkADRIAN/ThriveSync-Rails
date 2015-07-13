@@ -6,7 +6,7 @@ class SleepsController < ApplicationController
   before_action :authenticate_user!
 
   after_filter :verify_authorized,  except: [:index]
-  after_filter :verify_policy_scoped, only: [:index]
+  #after_filter :verify_policy_scoped, only: [:index]
 
   respond_to :js
   
@@ -27,7 +27,7 @@ class SleepsController < ApplicationController
       end
     end
 
-    @sleeps = policy_scope(@sleeps)
+    #@sleeps = policy_scope(@sleeps)
 
     respond_to do |format|
       format.html
