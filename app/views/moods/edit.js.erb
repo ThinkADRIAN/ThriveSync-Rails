@@ -1,3 +1,3 @@
 $("#inner-mood-modal").html("<%= escape_javascript(render 'edit') %>");
-$("#mood-modal").modal("show");
+$("#mood-modal").appendTo("body").modal("show");
 $("#mood-modal").css("z-index", "1500");

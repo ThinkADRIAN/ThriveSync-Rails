@@ -1,6 +1,6 @@
 <% if params[:modal_enabled] == 'true' %>
   $("#inner-mood-modal").html("<%= escape_javascript(render 'new') %>");  
-  $("#mood-modal").modal("show");
+  $("#mood-modal").appendTo("body").modal("show");
   $("#mood-modal").css("z-index", "1500");
 <% else %>
   $(".capture-delorean").html("<%= escape_javascript(render 'capture/delorean_disabled') %>");
