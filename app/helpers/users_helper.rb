@@ -3,6 +3,73 @@ module UsersHelper
     @parse_user = Parse::User.authenticate("adrian@adriancunanan.com", "ABCvsp0138THR")
   end
 
+  def get_data_count(parse_data_type)
+    if parse_data_type == "UserData"
+      @parse_user_data_count = Parse::Query.new("UserData").tap do |q|
+        q.eq("UserID", @parse_user.id)
+        q.limit = 0
+        q.count
+      end.get
+    elsif parse_data_type == "Mood"
+      @parse_mood_count = Parse::Query.new("Mood").tap do |q|
+        q.eq("UserID", @parse_user.id)
+        q.limit = 0
+        q.count
+      end.get
+    elsif parse_data_type == "Sleep"
+      @parse_sleep_count = Parse::Query.new("Sleep").tap do |q|
+        q.eq("UserID", @parse_user.id)
+        q.limit = 0
+        q.count
+      end.get
+    elsif parse_data_type == "SelfCare"
+      @parse_self_care_count = Parse::Query.new("SelfCare").tap do |q|
+        q.eq("UserID", @parse_user.id)
+        q.limit = 0
+        q.count
+      end.get
+    elsif parse_data_type == "Journal"
+      @parse_journal_count = Parse::Query.new("Journal").tap do |q|
+        q.eq("UserID", @parse_user.id)
+        q.limit = 0
+        q.count
+      end.get
+    end 
+  end
+
+  def extract_parse_data(parse_data_type, last_object_limit)
+    if parse_data_type == "UserData"
+      @user_data <<  Parse::Query.new("UserData")
+        q.limit = 100
+        q.skip = last_object_limit
+      end.get
+    elsif parse_data_type == "Mood"
+      @parse_mood <<  Parse::Query.new("Mood")
+        q.limit = 100
+        q.skip = last_object_limit
+      end.get
+    elsif parse_data_type == "Sleep"
+      @parse_sleep <<  Parse::Query.new("Sleep")
+        q.limit = 100
+        q.skip = last_object_limit
+      end.get
+    elsif parse_data_type == "SelfCare"
+      @parse_self_care <<  Parse::Query.new("SelfCare")
+        q.limit = 100
+        q.skip = last_object_limit
+      end.get
+    elsif parse_data_type == "Journal"
+      @parse_journal <<  Parse::Query.new("Journal")
+        q.limit = 100
+        q.skip = last_object_limit
+      end.get
+    end
+      
+    if last_object_limit < @user_data_count
+      extract_parse_data(parse_data_type, last_object_limit + 100)
+    end
+  end
+
   def extract_parse_data
     @parse_client = $parse_client
     @mood_query = @parse_client.query("Mood").eq("user_id", @parse_user.id).get
@@ -76,8 +143,6 @@ module UsersHelper
       journal.save!
     end
   end
-
-
 
   def etl_for_parse(user_id)
     login_to_parse
