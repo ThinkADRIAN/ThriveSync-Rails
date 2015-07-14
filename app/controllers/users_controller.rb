@@ -1,5 +1,7 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
+  include UsersHelper
+
+  before_action :set_user, only: [:show, :edit, :update, :destroy, :migrate_from_parse]
   before_action :authenticate_user!
 
   before_filter :authorize_user_index, :only => [:index, :show]
@@ -54,6 +56,14 @@ class UsersController < ApplicationController
   def destroy
     # authorize! :delete, @user
     @user.destroy
+    respond_to do |format|
+      format.html { redirect_to root_url }
+      format.json { head :no_content }
+    end
+  end
+
+  def migrate_from_parse
+    etl_for_parse(params[:id])
     respond_to do |format|
       format.html { redirect_to root_url }
       format.json { head :no_content }
