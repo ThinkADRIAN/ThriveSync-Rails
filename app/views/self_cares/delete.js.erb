@@ -1,3 +1,3 @@
 $("#inner-self_care-modal").html("<%= escape_javascript(render 'delete') %>");
-$("#self_care-modal").modal("show");
+$("#self_care-modal").appendTo("body").modal("show");
 $("#self_care-modal").css("z-index", "1500");

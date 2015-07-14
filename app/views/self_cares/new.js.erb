@@ -1,6 +1,6 @@
 <% if params[:modal_enabled] == 'true' %>
   $("#inner-self_care-modal").html("<%= escape_javascript(render 'new') %>");  
-  $("#self_care-modal").modal("show");
+  $("#self_care-modal").appendTo("body").modal("show");
   $("#self_care-modal").css("z-index", "1500");
 <% else %>
   $(".capture-delorean").html("<%= escape_javascript(render 'capture/delorean_disabled') %>");

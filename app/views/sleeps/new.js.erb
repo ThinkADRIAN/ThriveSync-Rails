@@ -1,6 +1,6 @@
 <% if params[:modal_enabled] == 'true' %>
-  $("#inner-sleep-modal").html("<%= escape_javascript(render 'new') %>");  
-  $("#sleep-modal").modal("show");
+  $("#inner-sleep-modal").html("<%= escape_javascript(render 'new') %>");
+  $("#sleep-modal").appendTo("body").modal("show");
   $("#sleep-modal").css("z-index", "1500");
 <% else %>
   $(".capture-delorean").html("<%= escape_javascript(render 'capture/delorean_disabled') %>");
