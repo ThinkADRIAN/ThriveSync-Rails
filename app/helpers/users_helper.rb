@@ -227,6 +227,7 @@ module UsersHelper
       get_data_count("SelfCare")
       get_data_count("Journal")
 
+      extract_parse_data("UserData", @parse_user["objectId"], 0, @parse_user_data_count)
       extract_parse_data("Mood", @parse_user["objectId"], 0, @parse_mood_count)
       extract_parse_data("Sleep", @parse_user["objectId"], 0, @parse_sleep_count)
       #extract_parse_data("SelfCare", @parse_user["objectId"], 0, @parse_self_care_count)
