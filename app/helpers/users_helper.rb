@@ -47,7 +47,7 @@ module UsersHelper
 
   def extract_parse_data(parse_data_type, user_id, last_object_limit, key_data_count)
     if parse_data_type == "UserData"
-      user_data_query = Parse::Query.new("UserData").eq("user_id", user_id).tap do |q|
+      user_data_query = Parse::Query.new("UserData").eq("UserID", user_id).tap do |q|
         q.limit = 100
         q.skip = last_object_limit
       end.get
@@ -136,8 +136,12 @@ module UsersHelper
       time = key_data.first["updatedAt"].to_datetime.strftime("%I:%M %P")
     end
 
-    date = user_data.first["userCreatedDate"]
-    combine_date_and_time(date, time)
+    if user_data.first == nil || time == nil
+      return nil
+    else
+      date = user_data.first["userCreatedDate"]
+      combine_date_and_time(date, time)
+    end
   end
 
 =begin
@@ -168,11 +172,13 @@ module UsersHelper
       @parse_moods.each do |parse_mood|
         mood = Mood.create!(
           :mood_rating => parse_mood["moodRating"],
-          :anxiety_rating => parse_mood["anxietyRating"] + 1,
-          :irritability_rating => parse_mood["irritabilityRating"] + 1,
+          :anxiety_rating => (parse_mood["anxietyRating"] + 1),
+          :irritability_rating => (parse_mood["irritabilityRating"] + 1),
           :user_id => user_id
         )
-        mood.timestamp = get_key_data_datetime_from_user_data("Mood", parse_mood["objectId"])
+        timestamp = get_key_data_datetime_from_user_data("Mood", parse_mood["objectId"])
+        break if timestamp == nil
+        mood.timestamp = timestamp
         mood.created_at = parse_mood["createdAt"]
         mood.updated_at = parse_mood["updatedAt"]
         mood.save!
@@ -184,7 +190,7 @@ module UsersHelper
           :start_time => parse_sleep["startTime"],
           :finish_time => parse_sleep["finishTime"],
           :time => (parse_sleep["finishTime"].to_i - parse_sleep["startTime"].to_i) / 3600,
-          :quality => parse_sleep["quality"],
+          :quality => (parse_sleep["quality"] + 1),
           :user_id => user_id
         )
         sleep.created_at = parse_sleep["createdAt"]
@@ -201,7 +207,9 @@ module UsersHelper
           :exercise => parse_self_care["exercise"],
           :user_id => user_id
         )
-        self_care.timestamp = get_key_data_datetime_from_user_data("SelfCare", parse_self_care["objectId"])
+        timestamp = get_key_data_datetime_from_user_data("SelfCare", parse_self_care["objectId"])
+        break if timestamp == nil
+        self_care.timestamp = timestamp
         self_care.created_at = parse_self_care["createdAt"]
         self_care.updated_at = parse_self_care["updatedAt"]
         self_care.save!
@@ -213,7 +221,9 @@ module UsersHelper
           :journal_entry => parse_journal["journalEntry"],
           :user_id => user_id
         )
-        journal.timestamp = get_key_data_datetime_from_user_data("Journal", parse_journal["objectId"])
+        timestamp = get_key_data_datetime_from_user_data("Journal", parse_journal["objectId"])
+        break if timestamp == nil
+        journal.timestamp = timestamp
         journal.created_at = parse_journal["createdAt"]
         journal.updated_at = parse_journal["updatedAt"]
         journal.save!
@@ -234,7 +244,7 @@ module UsersHelper
       extract_parse_data("UserData", @parse_user["objectId"], 0, @parse_user_data_count)
       extract_parse_data("Mood", @parse_user["objectId"], 0, @parse_mood_count)
       extract_parse_data("Sleep", @parse_user["objectId"], 0, @parse_sleep_count)
-      #extract_parse_data("SelfCare", @parse_user["objectId"], 0, @parse_self_care_count)
+      extract_parse_data("SelfCare", @parse_user["objectId"], 0, @parse_self_care_count)
       extract_parse_data("Journal", @parse_user["objectId"], 0, @parse_journal_count)
       
       transform_and_load_parse_data("Mood", user_id)
