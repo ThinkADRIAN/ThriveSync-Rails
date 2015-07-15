@@ -197,9 +197,11 @@ module UsersHelper
             :irritability_rating => (parse_mood["irritabilityRating"] + 1),
             :user_id => user_id
           )
+
           find_timestamp("Mood", parse_mood["objectId"])
           next if @timestamp == nil
           mood.timestamp = @timestamp
+
           mood.created_at = parse_mood["createdAt"]
           mood.updated_at = parse_mood["updatedAt"]
           mood.parse_object_id = parse_mood["objectId"]
@@ -210,9 +212,11 @@ module UsersHelper
             mood.mood_rating = (parse_mood["moodRating"] + 1)
             mood.anxiety_rating = (parse_mood["anxietyRating"] + 1)
             mood.irritability_rating = (parse_mood["irritabilityRating"] + 1)
+
             find_timestamp("Mood", parse_mood["objectId"])
             next if @timestamp == nil
             mood.timestamp = @timestamp
+
             mood.created_at = parse_mood["createdAt"]
             mood.updated_at = parse_mood["updatedAt"]
             mood.parse_object_id = parse_mood["objectId"]
@@ -231,10 +235,25 @@ module UsersHelper
             :quality => (parse_sleep["quality"] + 1),
             :user_id => user_id
           )
+
           sleep.created_at = parse_sleep["createdAt"]
           sleep.updated_at = parse_sleep["updatedAt"]
           sleep.parse_object_id = parse_sleep["objectId"]
           sleep.save!
+        else
+          if duplicate_entry_updated?(data_type, parse_sleep["objectId"], parse_sleep)
+            sleep = Sleep.where(parse_object_id: parse_sleep["objectId"]).first
+
+            sleep.start_time = parse_sleep["startTime"]
+            sleep.finish_time = parse_sleep["finishTime"]
+            sleep.time = (parse_sleep["finishTime"].to_i - parse_sleep["startTime"].to_i) / 3600
+            sleep.quality = (parse_sleep["quality"] + 1)
+
+            sleep.created_at = parse_sleep["createdAt"]
+            sleep.updated_at = parse_sleep["updatedAt"]
+            sleep.parse_object_id = parse_sleep["objectId"]
+            sleep.save!
+          end
         end
       end
 
@@ -248,13 +267,33 @@ module UsersHelper
             :exercise => parse_self_care["exercise"],
             :user_id => user_id
           )
+
           find_timestamp("SelfCare", parse_self_care["objectId"])
           next if @timestamp == nil
           self_care.timestamp = @timestamp
+
           self_care.created_at = parse_self_care["createdAt"]
           self_care.updated_at = parse_self_care["updatedAt"]
           self_care.parse_object_id = parse_self_care["objectId"]
           self_care.save!
+        else
+          if duplicate_entry_updated?(data_type, parse_self_care["objectId"], parse_self_care)
+            self_care = SelfCare.where(parse_object_id: parse_self_care["objectId"]).first
+
+            self_care.counseling = parse_self_care["counseling"]
+            self_care.medication = parse_self_care["medication"]
+            self_care.meditation = parse_self_care["meditation"]
+            self_care.exercise = parse_self_care["exercise"]
+
+            find_timestamp("SelfCare", parse_self_care["objectId"])
+            next if @timestamp == nil
+            self_care.timestamp = @timestamp
+
+            self_care.created_at = parse_self_care["createdAt"]
+            self_care.updated_at = parse_self_care["updatedAt"]
+            self_care.parse_object_id = parse_self_care["objectId"]
+            self_care.save!
+          end
         end
       end
 
@@ -272,6 +311,21 @@ module UsersHelper
           journal.updated_at = parse_journal["updatedAt"]
           journal.parse_object_id = parse_journal["objectId"]
           journal.save!
+        else
+          if duplicate_entry_updated?(data_type, parse_journal["objectId"], parse_journal)
+            journal = Journal.where(parse_object_id: parse_journal["objectId"]).first
+
+            journal.journal_entry = parse_journal["journalEntry"]
+
+            find_timestamp("Journal", parse_journal["objectId"])
+            next if @timestamp == nil
+            journal.timestamp = @timestamp
+
+            journal.created_at = parse_journal["createdAt"]
+            journal.updated_at = parse_journal["updatedAt"]
+            journal.parse_object_id = parse_journal["objectId"]
+            journal.save!
+          end
         end
       end
     end
