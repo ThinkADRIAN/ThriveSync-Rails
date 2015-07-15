@@ -110,37 +110,64 @@ module UsersHelper
   end
 
   def get_key_data_datetime_from_user_data(data_type, object_id)
-    if data_type == "Mood" 
+    if data_type == "Mood"
       mood_pointer = Parse::Pointer.new({
         "className" => "Mood",
         "objectId"  => object_id
       })
-      user_data = Parse::Query.new("UserData").eq("Mood", mood_pointer).get
-      key_data = Parse::Query.new("Mood").eq("objectId", object_id).get
-      time = key_data.first["timeStamp"].to_datetime.strftime("%I:%M %P")
+
+      @parse_user_datas.each do |user_data|
+        if user_data["Mood"] != nil
+          if user_data["Mood"].include? mood_pointer
+            @user_data = user_data
+          end
+        end
+      end
+
+      @key_data = @parse_moods.detect {|parse_mood| parse_mood["objectId"].include? object_id }
+
+      time = @key_data["timeStamp"].to_time
     elsif data_type == "SelfCare"
       self_care_pointer = Parse::Pointer.new({
         "className" => "SelfCare",
         "objectId"  => object_id
       })
-      user_data = Parse::Query.new("UserData").eq("SelfCare", self_care_pointer).get
-      key_data = Parse::Query.new("SelfCare").eq("objectId", object_id).get
-      time = key_data.first["updatedAt"].to_datetime.strftime("%I:%M %P")
+
+      @parse_user_datas.each do |user_data|
+        if user_data["SelfCare"] != nil
+          if user_data["SelfCare"] == self_care_pointer
+            @user_data = user_data
+          end
+        end
+      end
+
+      @key_data = @parse_self_cares.detect {|parse_self_care| parse_self_care["objectId"] == object_id }
+
+      time = @key_data["updatedAt"].to_time
     elsif data_type == "Journal"
       journal_pointer = Parse::Pointer.new({
         "className" => "Journal",
         "objectId"  => object_id
       })
-      user_data = Parse::Query.new("UserData").eq("Journal", journal_pointer).get
-      key_data = Parse::Query.new("Journal").eq("objectId", object_id).get
-      time = key_data.first["updatedAt"].to_datetime.strftime("%I:%M %P")
+
+      @parse_user_datas.each do |user_data|
+        if user_data["Journal"] != nil
+          if user_data["Journal"] == journal_pointer
+            @user_data = user_data
+          end
+        end
+      end
+
+      @key_data = @parse_journals.detect {|parse_journal| parse_journal["objectId"] == object_id }
+
+      time = @key_data["updatedAt"].to_time
     end
 
-    if user_data.first == nil || time == nil
+    if @user_data == nil || time == nil
       return nil
     else
-      date = user_data.first["userCreatedDate"]
-      combine_date_and_time(date, time)
+      date = @user_data["userCreatedDate"]
+      @timestamp = combine_date_and_time(date, time)
     end
   end
 
@@ -176,9 +203,9 @@ module UsersHelper
           :irritability_rating => (parse_mood["irritabilityRating"] + 1),
           :user_id => user_id
         )
-        timestamp = get_key_data_datetime_from_user_data("Mood", parse_mood["objectId"])
-        break if timestamp == nil
-        mood.timestamp = timestamp
+        get_key_data_datetime_from_user_data("Mood", parse_mood["objectId"])
+        next if @timestamp == nil
+        mood.timestamp = @timestamp
         mood.created_at = parse_mood["createdAt"]
         mood.updated_at = parse_mood["updatedAt"]
         mood.save!
@@ -207,9 +234,9 @@ module UsersHelper
           :exercise => parse_self_care["exercise"],
           :user_id => user_id
         )
-        timestamp = get_key_data_datetime_from_user_data("SelfCare", parse_self_care["objectId"])
-        break if timestamp == nil
-        self_care.timestamp = timestamp
+        get_key_data_datetime_from_user_data("SelfCare", parse_self_care["objectId"])
+        next if @timestamp == nil
+        self_care.timestamp = @timestamp
         self_care.created_at = parse_self_care["createdAt"]
         self_care.updated_at = parse_self_care["updatedAt"]
         self_care.save!
@@ -221,9 +248,9 @@ module UsersHelper
           :journal_entry => parse_journal["journalEntry"],
           :user_id => user_id
         )
-        timestamp = get_key_data_datetime_from_user_data("Journal", parse_journal["objectId"])
-        break if timestamp == nil
-        journal.timestamp = timestamp
+        get_key_data_datetime_from_user_data("Journal", parse_journal["objectId"])
+        next if @timestamp == nil
+        journal.timestamp = @timestamp
         journal.created_at = parse_journal["createdAt"]
         journal.updated_at = parse_journal["updatedAt"]
         journal.save!
