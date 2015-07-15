@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   include UsersHelper
 
-  before_action :set_user, only: [:show, :edit, :update, :destroy, :migrate_from_parse]
+  before_action :set_user, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!
 
   before_filter :authorize_user_index, :only => [:index, :show]
@@ -63,7 +63,7 @@ class UsersController < ApplicationController
   end
 
   def migrate_from_parse
-    etl_for_parse(params[:id])
+    etl_for_parse(current_user.id)
     respond_to do |format|
       format.html { redirect_to root_url }
       format.json { head :no_content }

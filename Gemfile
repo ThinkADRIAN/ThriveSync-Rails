@@ -92,7 +92,7 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
 
  gem 'analytics-ruby', '~> 2.0.0', :require => 'segment/analytics'
 
- gem 'parse-ruby-client', git: 'https://github.com/adelevie/parse-ruby-client.git'
+ gem 'parse-ruby-client'
 
  #Api gems
  gem 'active_model_serializers'
