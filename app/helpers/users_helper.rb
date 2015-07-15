@@ -51,7 +51,11 @@ module UsersHelper
         q.limit = 100
         q.skip = last_object_limit
       end.get
-      @parse_user_datas << user_data_query
+      if user_data_query != nil
+        user_data_query.each do |user_data|
+          @parse_user_datas << user_data
+        end
+      end
     elsif parse_data_type == "Mood"
       parse_moods_query = Parse::Query.new("Mood").eq("user_id", user_id).tap do |q|
         q.limit = 100
