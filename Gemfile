@@ -94,3 +94,4 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
 
  #Api gems
  gem 'active_model_serializers'
+ gem 'apipie-rails'

@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   
+  apipie
   resources :reviews
 
   resources :rewards
