@@ -1,4 +1,42 @@
 class SelfCaresController < ApplicationController
+  resource_description do
+    short 'Self Care Entries'
+    desc <<-EOS
+      == Long description
+        Self Care Entries include:
+          Counseling
+          Medication
+          Meditation
+          Exercise
+          Timestamp
+
+      ===Sample JSON Output:
+          {
+            "id": 2213,
+            "counseling": true,
+            "medication": true,
+            "meditation": false,
+            "exercise": false,
+            "timestamp": "2014-10-27 00:02:00 -0400",
+            "user_id": 24
+          }
+      EOS
+    api_base_url ""
+    formats ['html', 'json']
+  end
+
+  def_param_group :self_cares_data do
+    param :counseling, [true, false], :desc => "Counseling", :required => true
+    param :medication, [true, false], :desc => "Medication", :required => true
+    param :meditation, [true, false], :desc => "Meditation", :required => true
+    param :exercise, [true, false], :desc => "Exercise", :required => true
+  end
+
+  def_param_group :self_cares_all do
+    param_group :self_cares_data
+    param :timestamp, DateTime, :desc => "Timestamp for Self Care Entry", :required => false
+  end
+
   acts_as_token_authentication_handler_for User
 
   before_action :set_self_care, only: [:show, :edit, :update, :destroy]
@@ -12,7 +50,7 @@ class SelfCaresController < ApplicationController
   
   # GET /self_cares
   # GET /self_cares.json
-  api!
+  api! "Show Self Care Entries"
   def index
     @user = User.find_by_id(params[:user_id])
 
@@ -52,7 +90,6 @@ class SelfCaresController < ApplicationController
   end
 
   # GET /self_cares/new
-  api!
   def new
     @user = User.find_by_id(params[:user_id])
 
@@ -70,7 +107,8 @@ class SelfCaresController < ApplicationController
   end
 
   # GET /self_cares/1/edit
-  api!
+  api! "Edit Self Care Entry"
+  param_group :self_cares_all
   def edit
     @user = User.find_by_id(params[:user_id])
 
@@ -87,7 +125,8 @@ class SelfCaresController < ApplicationController
 
   # POST /self_cares
   # POST /self_cares.json
-  api!
+  api! "Create Self Care Entry"
+  param_group :self_cares_data
   def create
     @user = User.find_by_id(params[:user_id])
 
@@ -121,7 +160,8 @@ class SelfCaresController < ApplicationController
 
   # PATCH/PUT /self_cares/1
   # PATCH/PUT /self_cares/1.json
-  api!
+  api! "Update Self Care Entry"
+  param_group :self_cares_all
   def update
     @user = User.find_by_id(params[:user_id])
 
@@ -149,7 +189,6 @@ class SelfCaresController < ApplicationController
     end
   end
 
-  api!
   def delete
     @user = User.find_by_id(params[:user_id])
 
@@ -168,7 +207,7 @@ class SelfCaresController < ApplicationController
 
   # DELETE /self_cares/1
   # DELETE /self_cares/1.json
-  api!
+  api! "Delete Self Care Entry"
   def destroy
     @user = User.find_by_id(params[:user_id])
 
