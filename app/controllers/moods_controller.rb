@@ -11,14 +11,18 @@ class MoodsController < ApplicationController
 
       ===Sample JSON Output:
           {
-            "id": 2712,
-            "mood_rating": 4,
-            "anxiety_rating": 1,
-            "irritability_rating": 1,
-            "timestamp": "2014-10-27 09:59:00 -0400",
-            "created_at": "2014-10-27 05:59:41 -0400",
-            "updated_at": "2014-10-27 05:59:41 -0400",
-            "user_id": 24
+            "moods": [
+              {
+                "id": 2712,
+                "mood_rating": 4,
+                "anxiety_rating": 1,
+                "irritability_rating": 1,
+                "timestamp": "2014-10-27 09:59:00 -0400",
+                "created_at": "2014-10-27 05:59:41 -0400",
+                "updated_at": "2014-10-27 05:59:41 -0400",
+                "user_id": 24
+              }
+            ]
           }
       EOS
     api_base_url ""

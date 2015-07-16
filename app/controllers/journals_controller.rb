@@ -9,10 +9,16 @@ class JournalsController < ApplicationController
 
       ===Sample JSON Output:
           {
-            "id": 1064,
-            "journal_entry": "“Rivers know this: there is no hurry. We shall get there some day.”",
-            "timestamp": "2014-12-02 12:45:00 -0500",
-            "user_id": 24
+            "journals": [
+              {
+                "id": 1064,
+                "journal_entry": "“Rivers know this: there is no hurry. We shall get there some day.”",
+                "timestamp": "2014-12-02 12:45:00 -0500",
+                "created_at": "2014-12-02 08:45:10 -0500",
+                "updated_at": "2014-12-02 08:45:10 -0500",
+                "user_id": 24
+              }
+            ]
           }
       EOS
     api_base_url ""

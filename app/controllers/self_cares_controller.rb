@@ -12,13 +12,19 @@ class SelfCaresController < ApplicationController
 
       ===Sample JSON Output:
           {
-            "id": 2213,
-            "counseling": true,
-            "medication": true,
-            "meditation": false,
-            "exercise": false,
-            "timestamp": "2014-10-27 00:02:00 -0400",
-            "user_id": 24
+            "self_cares": [
+              {
+                "id": 2213,
+                "counseling": true,
+                "medication": true,
+                "meditation": false,
+                "exercise": false,
+                "timestamp": "2014-10-27 00:02:00 -0400",
+                "created_at": "2014-10-27 15:11:49 -0400",
+                "updated_at": "2014-11-01 20:02:31 -0400",
+                "user_id": 24
+              }
+            ]
           }
       EOS
     api_base_url ""
