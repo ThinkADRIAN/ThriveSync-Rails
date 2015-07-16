@@ -12,7 +12,6 @@ Apipie.configure do |config|
   config.authenticate = Proc.new do
      authenticate_or_request_with_http_basic do |username, password|
        username == "Neo" && password == "Th30n3"
-       username == "dev@thrivestreams.com" && password == "Jacinta16"
     end
   end
 end
