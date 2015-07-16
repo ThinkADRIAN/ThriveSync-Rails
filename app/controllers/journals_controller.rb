@@ -1,4 +1,39 @@
 class JournalsController < ApplicationController
+  resource_description do
+    short 'Journal Entries'
+    desc <<-EOS
+      == Long description
+        Journal Entries include:
+          Journal Entry
+          Timestamp
+
+      ===Sample JSON Output:
+          {
+            "journals": [
+              {
+                "id": 1064,
+                "journal_entry": "“Rivers know this: there is no hurry. We shall get there some day.”",
+                "timestamp": "2014-12-02 12:45:00 -0500",
+                "created_at": "2014-12-02 08:45:10 -0500",
+                "updated_at": "2014-12-02 08:45:10 -0500",
+                "user_id": 24
+              }
+            ]
+          }
+      EOS
+    api_base_url ""
+    formats ['html', 'json']
+  end
+
+  def_param_group :journals_data do
+    param :journal_entry, String, :desc => "Journal Entry", :required => true
+  end
+
+  def_param_group :journals_all do
+    param_group :journals_data
+    param :timestamp, DateTime, :desc => "Timestamp for Journal Entry", :required => false
+  end
+
   acts_as_token_authentication_handler_for User
 
   before_action :set_journal, only: [:show, :edit, :update, :destroy]
@@ -8,10 +43,11 @@ class JournalsController < ApplicationController
   after_filter :verify_authorized,  except: [:index]
   #after_filter :verify_policy_scoped, only: [:index]
 
-  respond_to :html, :js, :json, :xml
+  respond_to :html, :js, :json
   
   # GET /journals
   # GET /journals.json
+  api! "Show Journal Entries"
   def index
     @user = User.find_by_id(params[:user_id])
 
@@ -68,6 +104,8 @@ class JournalsController < ApplicationController
   end
 
   # GET /journals/1/edit
+  api! "Edit Journal Entry"
+  param_group :journals_all
   def edit
     @user = User.find_by_id(params[:user_id])
 
@@ -84,6 +122,8 @@ class JournalsController < ApplicationController
 
   # POST /journals
   # POST /journals.json
+  api! "Create Journal Entry"
+  param_group :journals_data
   def create
     @user = User.find_by_id(params[:user_id])
 
@@ -117,6 +157,8 @@ class JournalsController < ApplicationController
 
   # PATCH/PUT /journals/1
   # PATCH/PUT /journals/1.json
+  api! "Update Journal Entry"
+  param_group :journals_all
   def update
     @user = User.find_by_id(params[:user_id])
 
@@ -162,6 +204,7 @@ class JournalsController < ApplicationController
 
   # DELETE /journals/1
   # DELETE /journals/1.json
+  api! "Delete Journal Entry"
   def destroy
     @user = User.find_by_id(params[:user_id])
 
