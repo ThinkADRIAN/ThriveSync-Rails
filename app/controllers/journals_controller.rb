@@ -12,6 +12,7 @@ class JournalsController < ApplicationController
   
   # GET /journals
   # GET /journals.json
+  api!
   def index
     @user = User.find_by_id(params[:user_id])
 
@@ -51,6 +52,7 @@ class JournalsController < ApplicationController
   end
 
   # GET /journals/new
+  api!
   def new
     @user = User.find_by_id(params[:user_id])
 
@@ -68,6 +70,7 @@ class JournalsController < ApplicationController
   end
 
   # GET /journals/1/edit
+  api!
   def edit
     @user = User.find_by_id(params[:user_id])
 
@@ -84,6 +87,7 @@ class JournalsController < ApplicationController
 
   # POST /journals
   # POST /journals.json
+  api!
   def create
     @user = User.find_by_id(params[:user_id])
 
@@ -117,6 +121,7 @@ class JournalsController < ApplicationController
 
   # PATCH/PUT /journals/1
   # PATCH/PUT /journals/1.json
+  api!
   def update
     @user = User.find_by_id(params[:user_id])
 
@@ -144,6 +149,7 @@ class JournalsController < ApplicationController
     end
   end
 
+  api!
   def delete
     @user = User.find_by_id(params[:user_id])
 
@@ -162,6 +168,7 @@ class JournalsController < ApplicationController
 
   # DELETE /journals/1
   # DELETE /journals/1.json
+  api!
   def destroy
     @user = User.find_by_id(params[:user_id])
 

@@ -12,6 +12,7 @@ class SelfCaresController < ApplicationController
   
   # GET /self_cares
   # GET /self_cares.json
+  api!
   def index
     @user = User.find_by_id(params[:user_id])
 
@@ -51,6 +52,7 @@ class SelfCaresController < ApplicationController
   end
 
   # GET /self_cares/new
+  api!
   def new
     @user = User.find_by_id(params[:user_id])
 
@@ -68,6 +70,7 @@ class SelfCaresController < ApplicationController
   end
 
   # GET /self_cares/1/edit
+  api!
   def edit
     @user = User.find_by_id(params[:user_id])
 
@@ -84,6 +87,7 @@ class SelfCaresController < ApplicationController
 
   # POST /self_cares
   # POST /self_cares.json
+  api!
   def create
     @user = User.find_by_id(params[:user_id])
 
@@ -117,6 +121,7 @@ class SelfCaresController < ApplicationController
 
   # PATCH/PUT /self_cares/1
   # PATCH/PUT /self_cares/1.json
+  api!
   def update
     @user = User.find_by_id(params[:user_id])
 
@@ -144,6 +149,7 @@ class SelfCaresController < ApplicationController
     end
   end
 
+  api!
   def delete
     @user = User.find_by_id(params[:user_id])
 
@@ -162,6 +168,7 @@ class SelfCaresController < ApplicationController
 
   # DELETE /self_cares/1
   # DELETE /self_cares/1.json
+  api!
   def destroy
     @user = User.find_by_id(params[:user_id])
 

@@ -12,6 +12,7 @@ class SleepsController < ApplicationController
   
   # GET /sleeps
   # GET /sleeps.json
+  api!
   def index
     @user = User.find_by_id(params[:user_id])
 
@@ -51,6 +52,7 @@ class SleepsController < ApplicationController
   end
 
   # GET /sleeps/new
+  api!
   def new
     @user = User.find_by_id(params[:user_id])
 
@@ -68,6 +70,7 @@ class SleepsController < ApplicationController
   end
 
   # GET /sleeps/1/edit
+  api!
   def edit
     @user = User.find_by_id(params[:user_id])
 
@@ -84,6 +87,7 @@ class SleepsController < ApplicationController
 
   # POST /sleeps
   # POST /sleeps.json
+  api!
   def create
     @user = User.find_by_id(params[:user_id])
 
@@ -117,6 +121,7 @@ class SleepsController < ApplicationController
 
   # PATCH/PUT /sleeps/1
   # PATCH/PUT /sleeps/1.json
+  api!
   def update
     @user = User.find_by_id(params[:user_id])
 
@@ -147,6 +152,7 @@ class SleepsController < ApplicationController
     end
   end
 
+  api!
   def delete
     @user = User.find_by_id(params[:user_id])
 
@@ -165,6 +171,7 @@ class SleepsController < ApplicationController
 
   # DELETE /sleeps/1
   # DELETE /sleeps/1.json
+  api!
   def destroy
     @user = User.find_by_id(params[:user_id])
 
