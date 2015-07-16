@@ -1,4 +1,24 @@
 class Api::V1::SessionsController < Devise::SessionsController
+  resource_description do
+    short 'Sessions'
+    desc <<-EOS
+      == Long description
+        Used for managing user session.
+
+      ===Sample JSON Input:
+          {
+            "user": 
+            {
+              "email": "tanderson@thrivesync.com", 
+              "password": "Thrive1234"
+            }
+          }
+      EOS
+    api_base_url "/api"
+    api_version "v1"
+    formats ['html', 'json']
+  end
+
   acts_as_token_authentication_handler_for User, fallback_to_devise: false
 
   before_filter :configure_sign_in_params, only: [:create, :destroy]
@@ -11,6 +31,9 @@ class Api::V1::SessionsController < Devise::SessionsController
   end
 
   # POST /resource/sign_in
+  api :POST, "/registrations", "Login User"
+  param :email, String, :desc => "Email", :required => true
+  param :password, String, :desc => "Password", :required => true
   def create
     self.resource = warden.authenticate!(auth_options)
     set_flash_message(:notice, :signed_in) if is_flashing_format?
@@ -22,6 +45,9 @@ class Api::V1::SessionsController < Devise::SessionsController
 
 
   # DELETE /resource/sign_out
+  api :DELETE, "/registrations", "Logout User"
+  param :user_email, String, :desc => "Email", :required => true
+  param :user_token, String, :desc => "Authentication Token", :required => true
   def destroy
     token_was_removed = remove_current_users_token_if_json_request
 

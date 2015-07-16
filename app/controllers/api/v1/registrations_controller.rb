@@ -1,4 +1,26 @@
 class Api::V1::RegistrationsController < Devise::RegistrationsController
+  resource_description do
+    short 'Registrations'
+    desc <<-EOS
+      == Long description
+        Used for managing user registration.
+
+      ===Sample JSON Input:
+          {
+            "user": 
+            {
+              "first_name": "Thomas",
+              "last_name": "Anderson",
+              "email": "tanderson@thrivesync.com", 
+              "password": "Thrive1234"
+            }
+          }
+      EOS
+    api_base_url "/api"
+    api_version "v1"
+    formats ['html', 'json']
+  end
+
   prepend_before_filter :require_no_authentication, only: [ :new, :create, :edit, :update, :cancel ]
   prepend_before_filter :authenticate_scope!, only: [:destroy]
   acts_as_token_authentication_handler_for User, fallback_to_devise: false
@@ -15,7 +37,12 @@ class Api::V1::RegistrationsController < Devise::RegistrationsController
   before_filter :configure_sign_up_params, only: [:create]
   before_filter :configure_account_update_params, only: [:update]
 
-	def create
+	api :POST, "/registrations", "Sign Up User"
+  param :first_name, String, :desc => "First Name", :required => true
+  param :last_name, String, :desc => "Last Name", :required => true
+  param :email, String, :desc => "Email", :required => true
+  param :password, String, :desc => "Password", :required => true
+  def create
     build_resource(sign_up_params)
 
     resource.save
@@ -38,7 +65,14 @@ class Api::V1::RegistrationsController < Devise::RegistrationsController
     end
 	end
 
-	def update
+	api :PUT, "/registrations", "Update User"
+  param :first_name, String, :desc => "First Name", :required => false
+  param :last_name, String, :desc => "Last Name", :required => false
+  param :email, String, :desc => "Email", :required => false
+  param :password, String, :desc => "Password", :required => false
+  param :confirm_password, String, :desc => "Confirm Password", :required => false
+  param :current_password, String, :desc => "Current Password", :required => true
+  def update
 		self.resource = resource_class.to_adapter.get!(send(:"current_#{resource_name}").to_key)
     prev_unconfirmed_email = resource.unconfirmed_email if resource.respond_to?(:unconfirmed_email)
 
