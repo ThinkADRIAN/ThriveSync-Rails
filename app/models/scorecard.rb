@@ -1,11 +1,4 @@
 class Scorecard < ActiveRecord::Base
-=begin
-  Open Issues:
-    - These attributes are not working:
-      "streak_count": 0,
-      "streak_record": 0
-    - Streak Count and Streak Record not working for data types
-=end
 
   belongs_to :user
 
@@ -60,21 +53,22 @@ class Scorecard < ActiveRecord::Base
   end
 
   def checkin_yesterday?(data_type)
+    todays_date = DateTime.yesterday.in_time_zone.to_date
     if data_type == 'moods'
       if self.mood_last_checkin_date != nil
-        self.mood_last_checkin_date.to_date == DateTime.yesterday
+        self.mood_last_checkin_date.to_date == todays_date
       end
     elsif data_type == 'sleeps'
       if self.sleep_last_checkin_date != nil
-        self.sleep_last_checkin_date.to_date == DateTime.yesterday
+        self.sleep_last_checkin_date.to_date == todays_date
       end
     elsif data_type == 'self_cares'
       if self.self_care_last_checkin_date != nil
-        self.self_care_last_checkin_date.to_date == DateTime.yesterday
+        self.self_care_last_checkin_date.to_date == todays_date
       end
     elsif data_type == 'journals'
       if self.journal_last_checkin_date != nil
-        self.journal_last_checkin_date.to_date == DateTime.yesterday
+        self.journal_last_checkin_date.to_date == todays_date
       end
     end
   end
@@ -89,7 +83,7 @@ class Scorecard < ActiveRecord::Base
   end
 
   def perfect_checkin_today?
-    todays_date = DateTime.now.to_date
+    todays_date = DateTime.now.in_time_zone.to_date
 
     last_mood_entry = Mood.where(user_id: self.user_id)
     if last_mood_entry.empty?
@@ -119,7 +113,7 @@ class Scorecard < ActiveRecord::Base
       last_journals_date = last_journal_entry.last.created_at_before_type_cast.to_datetime.to_date
     end
 
-    return ( last_moods_date == todays_date && 
+    return ( last_moods_date == todays_date &&
       last_sleeps_date == todays_date && 
       last_self_cares_date == todays_date && 
       last_journals_date == todays_date )
@@ -127,9 +121,9 @@ class Scorecard < ActiveRecord::Base
 
   def first_perfect_checkin_for_day?
     if self.last_perfect_checkin_date == nil
-      return false
+      return true
     else
-      DateTime.now.to_date != self.last_perfect_checkin_date.to_date
+      DateTime.now.in_time_zone.to_date != self.last_perfect_checkin_date.to_date
     end
   end
 
@@ -157,7 +151,7 @@ class Scorecard < ActiveRecord::Base
     elsif data_type == 'journals'
       self.journal_streak_count += 1
     end
-    if self.last_checkin_date.to_date != DateTime.now.to_date
+    if self.last_checkin_date.to_date != DateTime.now.in_time_zone.to_date
       self.last_checkin_date += 1
     end
     self.save
@@ -187,19 +181,19 @@ class Scorecard < ActiveRecord::Base
   end
 
   def update_streak_record(data_type)
-    if data_type == 'moods' && (self.mood_last_checkin_date != nil) && self.mood_last_checkin_date.to_date != DateTime.now.to_date
+    if data_type == 'moods' && (self.mood_last_checkin_date != nil) && self.mood_last_checkin_date.to_date != DateTime.now.in_time_zone.to_date
       if self.mood_streak_record <= self.mood_streak_count
         self.mood_streak_record += 1
       end
-    elsif data_type == 'sleeps' && (self.sleep_last_checkin_date != nil) && self.sleep_last_checkin_date.to_date != DateTime.now.to_date
+    elsif data_type == 'sleeps' && (self.sleep_last_checkin_date != nil) && self.sleep_last_checkin_date.to_date != DateTime.now.in_time_zone.to_date
       if self.sleep_streak_record <= self.sleep_streak_count
         self.sleep_streak_record += 1
       end
-    elsif data_type == 'self_cares' && (self.self_care_last_checkin_date != nil) && self.self_care_last_checkin_date.to_date != DateTime.now.to_date
+    elsif data_type == 'self_cares' && (self.self_care_last_checkin_date != nil) && self.self_care_last_checkin_date.to_date != DateTime.now.in_time_zone.to_date
       if self.self_care_streak_record <= self.self_care_streak_count
         self.self_care_streak_record += 1
       end
-    elsif data_type == 'journals' && (self.journal_last_checkin_date != nil) && self.journal_last_checkin_date.to_date != DateTime.now.to_date
+    elsif data_type == 'journals' && (self.journal_last_checkin_date != nil) && self.journal_last_checkin_date.to_date != DateTime.now.in_time_zone.to_date
       if self.journal_streak_record <= self.journal_streak_count
         self.journal_streak_record += 1
       end
@@ -218,8 +212,8 @@ class Scorecard < ActiveRecord::Base
   end
 
   def calculate_days_since_signup
-    user_signup_date = User.find(self.user_id).created_at_before_type_cast.to_datetime
-    days_since_signup = (DateTime.now - user_signup_date).to_i
+    user_signup_date = User.find(self.user_id).created_at_before_type_cast.to_date
+    days_since_signup = (DateTime.now.in_time_zone.to_date - user_signup_date).to_i
     self.days_since_signup = days_since_signup
     self.save
   end
@@ -457,14 +451,14 @@ class Scorecard < ActiveRecord::Base
     self.update_streak_record(data_type)
     self.update_main_streak_record
 
-    self.set_last_checkin_date(data_type, DateTime.now)
-
     if perfect_checkin_today?
       if first_perfect_checkin_for_day?
         self.increment_perfect_checkin_count
-        self.set_last_perfect_checkin_date(DateTime.now)
+        self.set_last_perfect_checkin_date(DateTime.now.in_time_zone)
       end
     end
+
+    self.set_last_checkin_date(data_type, DateTime.now.in_time_zone)
 
     self.calculate_days_since_signup
     self.set_level_multiplier(data_type)
