@@ -9,7 +9,6 @@
 <% 
 if @mood_lookback_period == 'week' 
   mood_chart_data = @moods.group_by_day(:timestamp, range: DATE_RANGE_THIS_WEEK).average(:mood_rating)
-  mood_chart_data_count = @moods.group_by_day(:timestamp, range: DATE_RANGE_THIS_WEEK).count(:mood_rating)
   anxiety_chart_data = @moods.group_by_day(:timestamp, range: DATE_RANGE_THIS_WEEK).average(:anxiety_rating)
   irritability_chart_data = @moods.group_by_day(:timestamp, range: DATE_RANGE_THIS_WEEK).average(:irritability_rating)
 elsif @mood_lookback_period == 'last_week'
