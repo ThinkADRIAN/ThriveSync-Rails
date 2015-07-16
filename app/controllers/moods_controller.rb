@@ -10,14 +10,16 @@ class MoodsController < ApplicationController
           Timestamp
 
       ===Sample JSON Output:
-          "id": 2712,
-          "mood_rating": 4,
-          "anxiety_rating": 1,
-          "irritability_rating": 1,
-          "timestamp": "2014-10-27 09:59:00 -0400",
-          "created_at": "2014-10-27 05:59:41 -0400",
-          "updated_at": "2014-10-27 05:59:41 -0400",
-          "user_id": 24
+          {
+            "id": 2712,
+            "mood_rating": 4,
+            "anxiety_rating": 1,
+            "irritability_rating": 1,
+            "timestamp": "2014-10-27 09:59:00 -0400",
+            "created_at": "2014-10-27 05:59:41 -0400",
+            "updated_at": "2014-10-27 05:59:41 -0400",
+            "user_id": 24
+          }
       EOS
     api_base_url ""
     formats ['html', 'json']
@@ -43,7 +45,7 @@ class MoodsController < ApplicationController
   after_filter :verify_authorized,  except: [:index]
   #after_filter :verify_policy_scoped, only: [:index]
 
-  respond_to :html, :js, :json, :xml
+  respond_to :html, :js, :json
   
   # GET /moods
   # GET /moods.json
