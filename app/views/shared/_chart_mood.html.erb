@@ -10,15 +10,6 @@
 if @mood_lookback_period == 'week' 
   mood_chart_data = @moods.group_by_day(:timestamp, range: DATE_RANGE_THIS_WEEK).average(:mood_rating)
   mood_chart_data_count = @moods.group_by_day(:timestamp, range: DATE_RANGE_THIS_WEEK).count(:mood_rating)
-
-  mood_chart_keys_for_no_entry = mood_chart_data.keys
-
-  mood_chart_keys_for_no_entry.each do |key|
-    if mood_chart_data_count[key] == 0
-      mood_chart_data[key] = nil
-    end
-  end
-
   anxiety_chart_data = @moods.group_by_day(:timestamp, range: DATE_RANGE_THIS_WEEK).average(:anxiety_rating)
   irritability_chart_data = @moods.group_by_day(:timestamp, range: DATE_RANGE_THIS_WEEK).average(:irritability_rating)
 elsif @mood_lookback_period == 'last_week'
@@ -43,8 +34,6 @@ elsif @mood_lookback_period == 'last_year'
   irritability_chart_data = @moods.group_by_month(:timestamp, range: DATE_RANGE_LAST_YEAR).average(:irritability_rating)
 end
 %>
-
-<%= mood_chart_data %>
 
 <div class="col-md-12">
     <%= line_chart [
