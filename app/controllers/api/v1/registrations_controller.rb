@@ -17,7 +17,7 @@ class Api::V1::RegistrationsController < Devise::RegistrationsController
           }
       EOS
     api_base_url "/api"
-    api_version "v1"
+    # api_version "v1"
     formats ['html', 'json']
   end
 

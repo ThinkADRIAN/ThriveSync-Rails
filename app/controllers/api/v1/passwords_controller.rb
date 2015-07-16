@@ -6,7 +6,7 @@ class Api::V1::PasswordsController < Devise::PasswordsController
         Used for managing password credentials.
       EOS
     api_base_url "/api"
-    api_version "v1"
+    # api_version "v1"
     formats ['html', 'json']
   end
 
