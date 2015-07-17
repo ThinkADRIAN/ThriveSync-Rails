@@ -32,7 +32,7 @@ class Api::V1::SessionsController < Devise::SessionsController
 
   # POST /resource/sign_in
   api :POST, "/registrations", "Login User"
-  param :user, Hash do
+  param :user, Hash , :desc => "User", :required => true do
     param :email, String, :desc => "Email", :required => true
     param :password, String, :desc => "Password", :required => true
   end
@@ -48,7 +48,7 @@ class Api::V1::SessionsController < Devise::SessionsController
 
   # DELETE /resource/sign_out
   api :DELETE, "/registrations", "Logout User"
-  param :user, Hash do
+  param :user, Hash , :desc => "User", :required => true do
     param :user_email, String, :desc => "Email", :required => true
     param :user_token, String, :desc => "Authentication Token", :required => true
   end
