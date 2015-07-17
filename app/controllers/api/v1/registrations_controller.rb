@@ -38,7 +38,7 @@ class Api::V1::RegistrationsController < Devise::RegistrationsController
   before_filter :configure_account_update_params, only: [:update]
 
 	api :POST, "/registrations", "Sign Up User"
-  param :user, Hash do
+  param :user, Hash , :desc => "User", :required => true do
     param :first_name, String, :desc => "First Name", :required => true
     param :last_name, String, :desc => "Last Name", :required => true
     param :email, String, :desc => "Email", :required => true
@@ -68,7 +68,7 @@ class Api::V1::RegistrationsController < Devise::RegistrationsController
 	end
 
 	api :PUT, "/registrations", "Update User"
-  param :user, Hash do
+  param :user, Hash , :desc => "User", :required => true do
     param :first_name, String, :desc => "First Name", :required => false
     param :last_name, String, :desc => "Last Name", :required => false
     param :email, String, :desc => "Email", :required => false
