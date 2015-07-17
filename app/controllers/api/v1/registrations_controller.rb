@@ -38,10 +38,12 @@ class Api::V1::RegistrationsController < Devise::RegistrationsController
   before_filter :configure_account_update_params, only: [:update]
 
 	api :POST, "/registrations", "Sign Up User"
-  param :first_name, String, :desc => "First Name", :required => true
-  param :last_name, String, :desc => "Last Name", :required => true
-  param :email, String, :desc => "Email", :required => true
-  param :password, String, :desc => "Password", :required => true
+  param :user, Hash do
+    param :first_name, String, :desc => "First Name", :required => true
+    param :last_name, String, :desc => "Last Name", :required => true
+    param :email, String, :desc => "Email", :required => true
+    param :password, String, :desc => "Password", :required => true
+  end
   def create
     build_resource(sign_up_params)
 
@@ -66,12 +68,14 @@ class Api::V1::RegistrationsController < Devise::RegistrationsController
 	end
 
 	api :PUT, "/registrations", "Update User"
-  param :first_name, String, :desc => "First Name", :required => false
-  param :last_name, String, :desc => "Last Name", :required => false
-  param :email, String, :desc => "Email", :required => false
-  param :password, String, :desc => "Password", :required => false
-  param :confirm_password, String, :desc => "Confirm Password", :required => false
-  param :current_password, String, :desc => "Current Password", :required => true
+  param :user, Hash do
+    param :first_name, String, :desc => "First Name", :required => false
+    param :last_name, String, :desc => "Last Name", :required => false
+    param :email, String, :desc => "Email", :required => false
+    param :password, String, :desc => "Password", :required => false
+    param :confirm_password, String, :desc => "Confirm Password", :required => false
+    param :current_password, String, :desc => "Current Password", :required => true
+  end
   def update
 		self.resource = resource_class.to_adapter.get!(send(:"current_#{resource_name}").to_key)
     prev_unconfirmed_email = resource.unconfirmed_email if resource.respond_to?(:unconfirmed_email)

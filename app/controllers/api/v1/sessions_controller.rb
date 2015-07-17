@@ -32,8 +32,10 @@ class Api::V1::SessionsController < Devise::SessionsController
 
   # POST /resource/sign_in
   api :POST, "/registrations", "Login User"
-  param :email, String, :desc => "Email", :required => true
-  param :password, String, :desc => "Password", :required => true
+  param :user, Hash do
+    param :email, String, :desc => "Email", :required => true
+    param :password, String, :desc => "Password", :required => true
+  end
   def create
     self.resource = warden.authenticate!(auth_options)
     set_flash_message(:notice, :signed_in) if is_flashing_format?
@@ -46,8 +48,10 @@ class Api::V1::SessionsController < Devise::SessionsController
 
   # DELETE /resource/sign_out
   api :DELETE, "/registrations", "Logout User"
-  param :user_email, String, :desc => "Email", :required => true
-  param :user_token, String, :desc => "Authentication Token", :required => true
+  param :user, Hash do
+    param :user_email, String, :desc => "Email", :required => true
+    param :user_token, String, :desc => "Authentication Token", :required => true
+  end
   def destroy
     token_was_removed = remove_current_users_token_if_json_request
 
