@@ -98,7 +98,15 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
  gem 'analytics-ruby', '~> 2.0.0', :require => 'segment/analytics'
 
  # Testing
- gem "rspec-rails", :group => [:development, :test]
+ group :development, :test do 
+   gem 'rspec-rails' 
+   gem 'factory_girl_rails' 
+ end 
+ group :test do
+   gem 'capybara' 
+   gem 'guard-rspec' 
+   gem 'launchy' 
+ end
 
  #Api gems
  gem 'active_model_serializers'
