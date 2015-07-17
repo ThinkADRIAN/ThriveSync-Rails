@@ -8,7 +8,7 @@ gem 'rails', '4.1.6'
 #gem 'sqlite3'
 
 group :development, :test do
-	# Use sqlite3 as the database for Active Record
+# Use sqlite3 as the database for Active Record
 #	gem 'sqlite3'
 	gem 'sunspot_solr'
 end
@@ -51,45 +51,50 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
+ # Authentication
  gem 'devise'
- gem 'cancancan', '~> 1.10'
- gem 'pundit'
-
  gem 'omniauth'
  gem 'omniauth-twitter'
  gem 'omniauth-facebook'
  gem 'omniauth-linkedin'
- gem 'omniauth-google-oauth2' 
+ gem 'omniauth-google-oauth2'
+ gem 'simple_token_authentication', '~> 1.0'
 
+ # Authorization
+ gem 'cancancan', '~> 1.10'
+ gem 'pundit'
+
+ # Graphing
  gem 'chartkick'
  gem 'groupdate'
 
+ # Email Services
  gem 'mandrill-api'
 
- gem 'less-rails-bootstrap'
-
+ # Friendships
  gem 'amistad'
 
+ # Data Generator
  gem 'faker'
 
+ # ENV Variable Handling
  gem 'figaro'
 
- gem 'jquery-ui-rails'
-
- gem 'less-rails'
-
+ # Styling
  gem 'designmodo-startup_framework-rails'
+ gem 'less-rails-bootstrap'
+ gem 'less-rails'
+ gem 'font-awesome-rails'
 
- gem "font-awesome-rails"
-
- gem "jquery-slick-rails"
-
+ # Interface
+ gem 'jquery-ui-rails'
+ gem 'jquery-slick-rails'
  gem 'touchpunch-rails'
  
+ # Search
  gem 'sunspot_rails'
 
- gem 'simple_token_authentication', '~> 1.0'
-
+ # Analytics
  gem 'analytics-ruby', '~> 2.0.0', :require => 'segment/analytics'
 
  #Api gems
