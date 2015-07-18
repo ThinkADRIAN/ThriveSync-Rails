@@ -99,13 +99,15 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
 
  # Testing
  group :development, :test do 
-   gem 'rspec-rails' 
-   gem 'factory_girl_rails' 
+  gem 'rspec-rails'
+  gem 'factory_girl_rails'
+  gem 'capybara'
+  gem 'guard-rspec'
+  gem 'spring-commands-rspec'
+  gem 'vcr'
  end 
  group :test do
-   gem 'capybara' 
-   gem 'guard-rspec' 
-   gem 'launchy' 
+  gem 'webmock'
  end
 
  #Api gems

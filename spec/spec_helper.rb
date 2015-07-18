@@ -21,6 +21,9 @@ require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
 require "capybara/rspec"
 
+require 'webmock/rspec'
+WebMock.disable_net_connect!(allow_localhost: true)
+
 # Devise Requirements
 require_relative 'support/controller_helpers'
 require 'devise'
@@ -59,10 +62,19 @@ RSpec.configure do |config|
 
   # Enable should and expect syntax
   config.expect_with :rspec do |c|
-    c.syntax = [:should, :expect]
+    c.syntax = [:expect]
   end
 
   config.infer_spec_type_from_file_location!
+
+  # Webmock Stub for Solr
+  config.before(:each) do
+    stub_request(:post, "http://localhost:8981/solr/test/update?wt=ruby").
+      with(:body => "<?xml version=\"1.0\" encoding=\"UTF-8\"?><add><doc><field name=\"id\">User 202</field><field name=\"type\">User</field><field name=\"type\">ActiveRecord::Base</field><field name=\"class_name\">User</field><field name=\"email_s\">mikayla@kirlin.com</field></doc></add>",
+        :headers => {'Content-Type'=>'text/xml'}).
+      to_return(:status => 200, :body => "", :headers => {})
+  end
+
 
 # The settings below are suggested to provide a good initial experience
 # with RSpec, but feel free to customize to your heart's content.
