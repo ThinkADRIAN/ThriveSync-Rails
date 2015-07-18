@@ -8,8 +8,4 @@ FactoryGirl.define do
     f.timestamp DateTime.now
     user
   end
-
-  factory :invalid_mood, parent: :mood do |f| 
-    f.mood_rating nil 
-  end
 end 

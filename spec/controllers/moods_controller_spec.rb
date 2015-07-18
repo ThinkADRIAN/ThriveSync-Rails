@@ -1,4 +1,4 @@
-require 'spec_helper' 
+require 'rails_helper' 
 
 describe MoodsController, :type => :controller do
   include Devise::TestHelpers

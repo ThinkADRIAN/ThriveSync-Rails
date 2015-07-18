@@ -1,4 +1,4 @@
-require 'spec_helper' 
+require 'rails_helper' 
 
 describe Mood do 
   it "has a valid factory" do

@@ -60,7 +60,7 @@ RSpec.configure do |config|
     mocks.verify_partial_doubles = true
   end
 
-  # Enable should and expect syntax
+  # Enable expect syntax
   config.expect_with :rspec do |c|
     c.syntax = [:expect]
   end
@@ -74,7 +74,6 @@ RSpec.configure do |config|
         :headers => {'Content-Type'=>'text/xml'}).
       to_return(:status => 200, :body => "", :headers => {})
   end
-
 
 # The settings below are suggested to provide a good initial experience
 # with RSpec, but feel free to customize to your heart's content.
