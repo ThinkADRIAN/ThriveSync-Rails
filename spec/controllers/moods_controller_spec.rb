@@ -20,6 +20,7 @@ describe MoodsController, :type => :controller do
         # This simulates an authenticated user
         @spec_user = FactoryGirl.create(:user)
         login_with @spec_user
+        
         @spec_moods = FactoryGirl.create_list(:mood, 5, user: @spec_user)
       end
 
@@ -62,12 +63,39 @@ describe MoodsController, :type => :controller do
     end
   end 
 
-  describe "GET #show" do 
-    it "assigns the requested mood to @mood" 
-    #it "renders the :show template" 
-    it "renders js output" 
-    it "renders json output" 
-  end 
+  describe "GET #show" do
+    context "with anonymous user" do
+      before :each do
+        # This simulates an anonymous user
+        login_with nil
+      end
+      it "redirects to signin" do
+        get :index
+        expect( response ).to redirect_to( new_user_session_path )
+      end
+    end
+    
+    context "with authenticated user" do
+      before :each do
+        # This simulates an authenticated user
+        @spec_user = FactoryGirl.create(:user)
+        login_with @spec_user
+      end
+
+      context "with HTML request" do
+        before :each do
+          @spec_mood = FactoryGirl.create(:mood, user: @spec_user) 
+          get :show, id: @spec_mood.id
+        end
+        it "assigns the requested mood to @mood" do
+          expect(assigns(:mood)).to eq(@spec_mood)
+        end
+        #it "renders the :show template" 
+        it "renders js output" 
+        it "renders json output" 
+      end
+    end
+  end
 
   describe "GET #new" do 
     it "assigns a new Mood to @mood" 
