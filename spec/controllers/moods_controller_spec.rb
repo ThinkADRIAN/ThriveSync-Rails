@@ -9,7 +9,7 @@ describe MoodsController, :type => :controller do
         # This simulates an anonymous user
         login_with nil
       end
-      it "should be redirected to signin" do
+      it "redirects to signin" do
         get :index
         expect( response ).to redirect_to( new_user_session_path )
       end
@@ -18,21 +18,47 @@ describe MoodsController, :type => :controller do
     context "with authenticated user" do
       before :each do
         # This simulates an authenticated user
-        user = FactoryGirl.create(:user)
-        login_with user
+        @spec_user = FactoryGirl.create(:user)
+        login_with @spec_user
+        @spec_moods = FactoryGirl.create_list(:mood, 5, user: @spec_user)
       end
 
-      it "populates an array of moods" do 
-        mood = FactoryGirl.create(:mood) 
-        get :index
-        expect(assigns(:moods)).to eq([mood])
+      context "with HTML request" do
+        before :each do
+          get :index
+        end
+
+        it "returns a successful 200 response" do
+          expect(response).to be_success
+        end
+        it "populates an array of moods" do 
+          expect(assigns(:moods).to_a).to eq(@spec_moods)
+        end
+        it "renders the :index view" do
+          expect(response).to render_template :index
+        end
       end
-      it "renders the :index view" do
-        get :index 
-        response.should render_template :index
+
+      context "with JS request" do
+        it "renders js output" do
+          xhr :get, :index, @params
+        end
       end
-      it "renders js output" 
-      it "renders json output"
+
+      context "with JSON request" do
+        before :each do
+          get :index, format: :json
+        end
+
+        it "returns a successful 200 response" do
+          expect(response).to be_success
+        end
+
+        it "returns all the moods" do
+          parsed_response = JSON.parse(response.body)
+          expect(parsed_response['moods'].length).to eq(5)
+        end
+      end
     end
   end 
 
