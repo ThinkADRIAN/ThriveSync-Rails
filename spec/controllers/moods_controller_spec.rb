@@ -90,9 +90,27 @@ describe MoodsController, :type => :controller do
         it "assigns the requested mood to @mood" do
           expect(assigns(:mood)).to eq(@spec_mood)
         end
-        #it "renders the :show template" 
-        it "renders js output" 
-        it "renders json output" 
+      end
+
+      context "with JS request" do
+        it "renders js output" do
+          xhr :get, :index, @params
+        end
+      end
+
+      context "with JSON request" do
+        before :each do
+          get :index, format: :json
+        end
+
+        it "returns a successful 200 response" do
+          expect(response).to be_success
+        end
+
+        it "returns the requested mood" do
+          parsed_response = JSON.parse(response.body)
+          expect(parsed_response[:mood]).to eq(@spec_mood)
+        end
       end
     end
   end
