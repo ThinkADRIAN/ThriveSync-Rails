@@ -70,7 +70,7 @@ describe MoodsController, :type => :controller do
         login_with nil
       end
       it "redirects to signin" do
-        get :index
+        get :show, id: 1 
         expect( response ).to redirect_to( new_user_session_path )
       end
     end
@@ -116,13 +116,108 @@ describe MoodsController, :type => :controller do
   end
 
   describe "GET #new" do 
-    it "assigns a new Mood to @mood" 
-    it "renders the :new template" 
+    context "with anonymous user" do
+      before :each do
+        # This simulates an anonymous user
+        login_with nil
+      end
+      it "redirects to signin" do
+        get :new
+        expect( response ).to redirect_to( new_user_session_path )
+      end
+    end
+    
+    context "with authenticated user" do
+      before :each do
+        # This simulates an authenticated user
+        @spec_user = FactoryGirl.create(:user)
+        login_with @spec_user
+      end
+
+      context "with HTML request" do
+        before :each do
+          get :new 
+        end
+        it "assigns a new Mood to @mood" do
+          expect(assigns(:mood)).to be_a_new(Mood)
+        end
+      end
+
+      context "with JS request" do
+        it "renders js output" do
+          xhr :get, :new, @params
+        end
+      end
+
+      context "with JSON request" do
+        before :each do
+          get :new, format: :json
+        end
+
+        it "returns a successful 200 response" do
+          expect(response).to be_success
+        end
+
+        it "returns the requested mood" do
+          parsed_response = JSON.parse(response.body)
+          expect(parsed_response[:mood]).to eq(@spec_mood)
+        end
+      end
+    end
   end 
 
   describe "GET #edit" do 
-    it "assigns an existing Mood to @mood" 
-    it "renders the :edit template" 
+    context "with anonymous user" do
+      before :each do
+        # This simulates an anonymous user
+        login_with nil
+      end
+      it "redirects to signin" do
+        get :edit, id: 1
+        expect( response ).to redirect_to( new_user_session_path )
+      end
+    end
+    
+    context "with authenticated user" do
+      before :each do
+        # This simulates an authenticated user
+        @spec_user = FactoryGirl.create(:user)
+        login_with @spec_user
+
+        @spec_mood = FactoryGirl.create(:mood, user: @spec_user) 
+      end
+
+      context "with HTML request" do
+        before :each do
+          get :edit, id: @spec_mood.id, mood_rating: @spec_mood.mood_rating, anxiety_rating: @spec_mood.anxiety_rating, irritability_rating: @spec_mood.irritability_rating
+        end
+        it "assigns an existing Mood to @mood" do
+          expect(assigns(:mood)).to eq(@spec_mood)
+        end
+      end
+
+      context "with JS request" do
+        it "renders js output" do
+          xhr :get, :edit, id: @spec_mood.id, mood_rating: @spec_mood.mood_rating, anxiety_rating: @spec_mood.anxiety_rating, irritability_rating: @spec_mood.irritability_rating
+        end
+      end
+
+      context "with JSON request" do
+        before :each do
+          get :edit, format: :json, id: @spec_mood.id, mood_rating: @spec_mood.mood_rating, anxiety_rating: @spec_mood.anxiety_rating, irritability_rating: @spec_mood.irritability_rating
+        end
+
+        it "returns a successful 200 response" do
+          expect(response).to be_success
+        end
+
+        it "returns the requested mood" do
+          parsed_response = JSON.parse(response.body)
+          moods = parsed_response['mood']
+          expect(moods["id"]).to eq(@spec_mood.id)
+        end
+      end
+    end
   end
 
   describe "POST #create" do 

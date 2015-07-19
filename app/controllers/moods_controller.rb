@@ -30,9 +30,9 @@ class MoodsController < ApplicationController
   end
 
   def_param_group :moods_data do
-    param :mood_rating, Integer, :desc => "[['Severely Depressed', 1], ['Moderately Depressed', 2], ['Mildly Depressed', 3], ['Baseline',4], ['Mildly Elevated',5], ['Moderately Elevated', 6], ['Severely Elevated',7]]", :required => true
-    param :anxiety_rating, Integer, :desc => "[['None', 1], ['Mild', 2], ['Moderate', 3], ['Severe',4]]", :required => true
-    param :irritability_rating, Integer, :desc => "[['None', 1], ['Mild', 2], ['Moderate', 3], ['Severe',4]]", :required => true
+    param :mood_rating, :number, :desc => "[['Severely Depressed', 1], ['Moderately Depressed', 2], ['Mildly Depressed', 3], ['Baseline',4], ['Mildly Elevated',5], ['Moderately Elevated', 6], ['Severely Elevated',7]]", :required => true
+    param :anxiety_rating, :number, :desc => "[['None', 1], ['Mild', 2], ['Moderate', 3], ['Severe',4]]", :required => true
+    param :irritability_rating, :number, :desc => "[['None', 1], ['Mild', 2], ['Moderate', 3], ['Severe',4]]", :required => true
   end
 
   def_param_group :moods_all do
@@ -75,7 +75,6 @@ class MoodsController < ApplicationController
       format.html
       format.js
       format.json { render :json => @moods, status: 200 }
-      # format.xml { render :xml => @moods, status: 200 }
     end
   end
 
@@ -86,9 +85,9 @@ class MoodsController < ApplicationController
     authorize! :read, Mood
     
     respond_to do |format|
+      format.html { render :nothing => true }
       format.js
       format.json { render :json =>  @mood, status: 200 }
-      # format.xml { render :xml => @mood, status: 200 }
     end
   end
 
@@ -107,6 +106,12 @@ class MoodsController < ApplicationController
     end
 
     @mood= Mood.new
+
+    respond_to do |format|
+      format.html { render :nothing => true }
+      format.js
+      format.json { render :json =>  @mood, status: 200 }
+    end
   end
 
   # GET /moods/1/edit
@@ -123,6 +128,12 @@ class MoodsController < ApplicationController
       else
         authorize @moods
       end
+    end
+
+    respond_to do |format|
+      format.html { render :nothing => true }
+      format.js
+      format.json { render :json =>  @mood, status: 200 }
     end
   end
 
