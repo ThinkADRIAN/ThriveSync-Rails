@@ -32,8 +32,10 @@ class Api::V1::SessionsController < Devise::SessionsController
 
   # POST /resource/sign_in
   api :POST, "/registrations", "Login User"
-  param :email, String, :desc => "Email", :required => true
-  param :password, String, :desc => "Password", :required => true
+  param :user, Hash , :desc => "User", :required => true do
+    param :email, String, :desc => "Email", :required => true
+    param :password, String, :desc => "Password", :required => true
+  end
   def create
     self.resource = warden.authenticate!(auth_options)
     set_flash_message(:notice, :signed_in) if is_flashing_format?

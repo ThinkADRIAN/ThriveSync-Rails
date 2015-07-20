@@ -22,8 +22,10 @@ class Api::V1::PasswordsController < Devise::PasswordsController
   end
 
   # POST /resource/password
-  api! "Reset Password via Email"
-  param :email, String, :desc => "Email Address for Thriver Requesting Password Reset"
+  api :POST, "/passwords", "Reset Password via Email"
+  param :user, Hash , :desc => "User", :required => true do
+    param :email, String, :desc => "Email Address for Thriver Requesting Password Reset"
+  end
   def create
     super
   end
