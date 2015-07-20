@@ -9,6 +9,7 @@ describe MoodsController, :type => :controller do
         # This simulates an anonymous user
         login_with nil
       end
+      
       it "redirects to signin" do
         get :index
         expect( response ).to redirect_to( new_user_session_path )
@@ -32,9 +33,11 @@ describe MoodsController, :type => :controller do
         it "returns a successful 200 response" do
           expect(response).to be_success
         end
+        
         it "populates an array of moods" do 
           expect(assigns(:moods).to_a).to eq(@spec_moods)
         end
+        
         it "renders the :index view" do
           expect(response).to render_template :index
         end
@@ -69,6 +72,7 @@ describe MoodsController, :type => :controller do
         # This simulates an anonymous user
         login_with nil
       end
+      
       it "redirects to signin" do
         get :show, id: 1 
         expect( response ).to redirect_to( new_user_session_path )
@@ -87,6 +91,7 @@ describe MoodsController, :type => :controller do
           @spec_mood = FactoryGirl.create(:mood, user: @spec_user) 
           get :show, id: @spec_mood.id
         end
+        
         it "assigns the requested mood to @mood" do
           expect(assigns(:mood)).to eq(@spec_mood)
         end
@@ -121,6 +126,7 @@ describe MoodsController, :type => :controller do
         # This simulates an anonymous user
         login_with nil
       end
+      
       it "redirects to signin" do
         get :new
         expect( response ).to redirect_to( new_user_session_path )
@@ -138,6 +144,7 @@ describe MoodsController, :type => :controller do
         before :each do
           get :new 
         end
+        
         it "assigns a new Mood to @mood" do
           expect(assigns(:mood)).to be_a_new(Mood)
         end
@@ -172,6 +179,7 @@ describe MoodsController, :type => :controller do
         # This simulates an anonymous user
         login_with nil
       end
+      
       it "redirects to signin" do
         get :edit, id: 1
         expect( response ).to redirect_to( new_user_session_path )
@@ -221,21 +229,40 @@ describe MoodsController, :type => :controller do
   end
 
   describe "POST #create" do 
-    context "with valid attributes" do 
-      it "saves the new mood in the database" 
-      #it "redirects to the home page" 
-      it "gives a success flash message"
-      it "renders js output" 
-      it "renders json output" 
-    end 
+    context "with authenticated user" do
+      before :each do
+        # This simulates an authenticated user
+        @spec_user = FactoryGirl.create(:user)
+        login_with @spec_user
+      end
 
-    context "with invalid attributes" do 
-      it "does not save the new mood in the database" 
-      #it "re-renders the :new template" 
-      it "gives an error flash message"
-      it "renders js error" 
-      it "renders json error" 
-    end 
+      context "with valid attributes" do 
+        it "creates a new mood" do 
+          expect{
+            post :create, format: :json, :mood_rating => 4, :anxiety_rating => 4, :irritability_rating => 4
+
+          }.to change(Mood,:count).by(1) 
+        end
+
+        it "redirects to the new contact" do 
+          post :create, format: :json, :mood_rating => 4, :anxiety_rating => 4, :irritability_rating => 4
+          puts response
+          expect(response).to have_http_status(:created)
+          #expect(response).to redirect_to Mood.last 
+        end 
+      end 
+
+      context "with invalid attributes" do 
+        it "does not save the new contact" do 
+          expect{ post :create, contact: Factory.attributes_for(:invalid_contact) }.to_not change(Contact,:count) 
+        end 
+
+        it "re-renders the new method" do 
+          post :create, contact: Factory.attributes_for(:invalid_contact) 
+          response.should render_template :new 
+        end 
+      end 
+    end
   end
 
   describe "PATCH/PUT #update" do 
