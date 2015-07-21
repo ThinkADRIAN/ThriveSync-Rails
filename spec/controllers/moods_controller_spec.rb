@@ -239,13 +239,13 @@ describe MoodsController, :type => :controller do
       context "with valid attributes" do 
         it "creates a new mood" do 
           expect{
-            post :create, format: :json, :mood_rating => 4, :anxiety_rating => 4, :irritability_rating => 4
+            post :create, :mood_rating => 4, :anxiety_rating => 4, :irritability_rating => 4, format: :json
 
           }.to change(Mood,:count).by(1) 
         end
 
-        it "redirects to the new contact" do 
-          post :create, format: :json, :mood_rating => 4, :anxiety_rating => 4, :irritability_rating => 4
+        it "returns a created 201 response" do 
+          post :create, :mood_rating => 4, :anxiety_rating => 4, :irritability_rating => 4, format: :json
           puts response
           expect(response).to have_http_status(:created)
           #expect(response).to redirect_to Mood.last 
@@ -254,7 +254,9 @@ describe MoodsController, :type => :controller do
 
       context "with invalid attributes" do 
         it "does not save the new contact" do 
-          expect{ post :create, contact: Factory.attributes_for(:invalid_contact) }.to_not change(Contact,:count) 
+          expect{ 
+            post :create, :mood_rating => 2001, :anxiety_rating => 4, :irritability_rating => 4, format: :json
+          }.to_not change(Mood,:count) 
         end 
 
         it "re-renders the new method" do 

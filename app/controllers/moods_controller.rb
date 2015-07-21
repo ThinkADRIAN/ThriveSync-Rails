@@ -281,7 +281,7 @@ class MoodsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def mood_params
-      params.fetch(:mood, {}).permit(:mood_rating, :anxiety_rating, :irritability_rating, :timestamp, :mood_lookback_period)
+      params.permit(:mood_rating, :anxiety_rating, :irritability_rating, :timestamp, :mood_lookback_period)
     end
 
     def track_mood_created
