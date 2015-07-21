@@ -229,6 +229,18 @@ describe MoodsController, :type => :controller do
   end
 
   describe "POST #create" do 
+    context "with anonymous user" do
+      before :each do
+        # This simulates an anonymous user
+        login_with nil
+      end
+      
+      it "redirects to signin" do
+        post :create
+        expect( response ).to redirect_to( new_user_session_path )
+      end
+    end
+    
     context "with authenticated user" do
       before :each do
         # This simulates an authenticated user
@@ -273,6 +285,18 @@ describe MoodsController, :type => :controller do
   end
 
   describe "PATCH/PUT #update" do
+    context "with anonymous user" do
+      before :each do
+        # This simulates an anonymous user
+        login_with nil
+      end
+      
+      it "redirects to signin" do
+        put :update, id: 1
+        expect( response ).to redirect_to( new_user_session_path )
+      end
+    end
+    
     context "with authenticated user" do
       before :each do
         # This simulates an authenticated user
@@ -342,21 +366,61 @@ describe MoodsController, :type => :controller do
   end
 
   describe "DELETE #destroy" do 
-    context "with valid attributes" do 
-      it "deletes the existing mood in the database" 
-      #it "redirects to the home page"   
-      it "gives a success flash message"
-      it "renders js output" 
-      it "renders json output" 
-    end 
+    context "with anonymous user" do
+      before :each do
+        # This simulates an anonymous user
+        login_with nil
+      end
+      
+      it "redirects to signin" do
+        get :edit, id: 1
+        expect( response ).to redirect_to( new_user_session_path )
+      end
+    end
 
-    context "with invalid attributes" do 
-      it "does not delete the existing mood in the database" 
-      #it "re-renders the :new template" 
-      it "gives an error flash message"
-      it "renders js error" 
-      it "renders json error" 
-    end 
+    context "with authenticated user" do
+      before :each do
+        # This simulates an authenticated user
+        @spec_user = FactoryGirl.create(:user)
+        login_with @spec_user
+      end
+
+      before :each do 
+        @spec_mood_attrs = FactoryGirl.attributes_for(:mood, user: @spec_user).as_json
+        @spec_mood = FactoryGirl.create(:mood, @spec_mood_attrs)
+      end 
+
+      context "with JS request" do
+        it "deletes the mood" do 
+          expect{ 
+            delete :destroy, id: @spec_mood.as_json["id"], format: :js
+          }.to change(Mood,:count).by(-1) 
+        end 
+
+        it "re-renders JS for index method" do 
+          delete :destroy, id: @spec_mood.as_json["id"], format: :js
+          xhr :get, :index, @params
+        end
+
+        it "gives a success flash message" do 
+          delete :destroy, id: @spec_mood.as_json["id"], format: :js
+          expect(flash[:success]).to eq("Mood Entry was successfully deleted.")
+        end
+      end
+
+      context "with JSON request" do
+        it "deletes the mood" do 
+          expect{ 
+            delete :destroy, id: @spec_mood.as_json["id"], format: :json
+          }.to change(Mood,:count).by(-1) 
+        end 
+
+        it "returns a no content 204 response" do 
+          delete :destroy, id: @spec_mood.as_json["id"], format: :json
+          expect(response).to have_http_status(:no_content)
+        end
+      end
+    end
   end
 
   describe "GET #cancel" do 
