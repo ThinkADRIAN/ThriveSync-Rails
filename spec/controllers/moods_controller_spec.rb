@@ -258,7 +258,6 @@ describe MoodsController, :type => :controller do
       describe "with invalid attributes" do 
         it "does not save the new mood" do
           @spec_invalid_mood_attrs = FactoryGirl.attributes_for(:invalid_mood).as_json
-          puts @spec_invalid_mood_attrs
           expect{ 
             post :create, :mood_rating => @spec_invalid_mood_attrs["mood_rating"], :anxiety_rating => @spec_invalid_mood_attrs["anxiety_rating"], :irritability_rating => @spec_invalid_mood_attrs["irritability_rating"], format: :json
           }.to_not change(Mood,:count) 
