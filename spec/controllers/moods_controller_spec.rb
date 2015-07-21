@@ -460,7 +460,7 @@ describe MoodsController, :type => :controller do
       end
       
       it "redirects to signin" do
-        get :edit, id: 1
+        get :delete, mood_id: 1
         expect( response ).to redirect_to( new_user_session_path )
       end
     end
