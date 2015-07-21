@@ -30,7 +30,7 @@ class SleepsController < ApplicationController
   end
 
   def_param_group :sleeps_data do
-    param :start_time, :undef, :desc => "Sleep Start Time", :required => true
+    param :start_time, :undef, :desc => "Sleep Start Time [DateTime(UTC)]", :required => true
     param :finish_time, :undef, :desc => "Sleep Finish Time", :required => true
     param :quality, Integer, :desc => "[['Broken', 1], ['Light', 2], ['Normal', 3], ['Deep',4]]", :required => true
   end
