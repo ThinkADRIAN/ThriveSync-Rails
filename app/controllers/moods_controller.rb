@@ -219,6 +219,10 @@ class MoodsController < ApplicationController
     end
 
     @mood = Mood.find(params[:mood_id])
+
+    respond_to do |format|
+      format.js
+    end
   end
 
   # DELETE /moods/1

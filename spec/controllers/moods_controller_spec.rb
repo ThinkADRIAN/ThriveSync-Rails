@@ -337,6 +337,7 @@ describe MoodsController, :type => :controller do
       before do
         @spec_mood_attrs = FactoryGirl.attributes_for(:mood, user: @spec_user).as_json
         @spec_updated_mood_attrs = FactoryGirl.attributes_for(:mood, user: @spec_user).as_json
+        @spec_updated_mood_timestamp = DateTime.now
         @spec_mood = FactoryGirl.create(:mood, @spec_mood_attrs)
       end
 
@@ -347,7 +348,7 @@ describe MoodsController, :type => :controller do
         end
 
         it "updates an existing mood using JSON" do 
-          put :update, :id => @spec_mood.as_json["id"], :mood_rating => @spec_updated_mood_attrs["mood_rating"], :anxiety_rating => @spec_updated_mood_attrs["anxiety_rating"], :irritability_rating => @spec_updated_mood_attrs["irritability_rating"], format: :js
+          put :update, :id => @spec_mood.as_json["id"], :mood_rating => @spec_updated_mood_attrs["mood_rating"], :anxiety_rating => @spec_updated_mood_attrs["anxiety_rating"], :irritability_rating => @spec_updated_mood_attrs["irritability_rating"], :timestamp => @spec_updated_mood_timestamp, format: :js
 
           @spec_mood.reload
           expect(@spec_mood.mood_rating).to eq(@spec_updated_mood_attrs["mood_rating"])
@@ -374,7 +375,7 @@ describe MoodsController, :type => :controller do
         end
 
         it "updates an existing mood using JSON" do 
-          put :update, :id => @spec_mood.as_json["id"], :mood_rating => @spec_updated_mood_attrs["mood_rating"], :anxiety_rating => @spec_updated_mood_attrs["anxiety_rating"], :irritability_rating => @spec_updated_mood_attrs["irritability_rating"], format: :json
+          put :update, :id => @spec_mood.as_json["id"], :mood_rating => @spec_updated_mood_attrs["mood_rating"], :anxiety_rating => @spec_updated_mood_attrs["anxiety_rating"], :irritability_rating => @spec_updated_mood_attrs["irritability_rating"], :timestamp => @spec_updated_mood_timestamp, format: :json
 
           @spec_mood.reload
           expect(@spec_mood.mood_rating).to eq(@spec_updated_mood_attrs["mood_rating"])
@@ -481,7 +482,31 @@ describe MoodsController, :type => :controller do
   end
 
   describe "GET #cancel" do 
-    it "assigns an existing Mood to @mood" 
-    it "renders the :cancel template" 
+    context "with anonymous user" do
+      before :each do
+        # This simulates an anonymous user
+        login_with nil
+      end
+      
+      it "redirects to signin" do
+        get :cancel
+        expect( response ).to redirect_to( new_user_session_path )
+      end
+    end
+
+    context "with authenticated user" do
+      before :each do
+        # This simulates an authenticated user
+        @spec_user = FactoryGirl.create(:user)
+        login_with @spec_user
+      end
+
+      context "with JS request" do
+        it "re-renders JS for index method" do 
+          xhr :get, :cancel, format: :js
+          xhr :get, :index
+        end
+      end
+    end
   end
 end
