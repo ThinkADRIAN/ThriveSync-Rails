@@ -1,3 +1,11 @@
+GIT
+  remote: git://github.com/Apipie/apipie-rails.git
+  revision: 928bd858fd14ec67eeb9483ba0d43b3be8339608
+  ref: 928bd858fd14ec67eeb9483ba0d43b3be8339608
+  specs:
+    apipie-rails (0.3.4)
+      json
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -228,6 +236,7 @@ DEPENDENCIES
   active_model_serializers
   amistad
   analytics-ruby (~> 2.0.0)
+  apipie-rails!
   cancancan (~> 1.10)
   chartkick
   coffee-rails (~> 4.0.0)
