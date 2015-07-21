@@ -264,7 +264,7 @@ describe MoodsController, :type => :controller do
           }.to_not change(Mood,:count) 
         end 
 
-        it "re-renders JS response" do 
+        it "re-renders JS for new method" do 
           @spec_invalid_mood_attrs = FactoryGirl.attributes_for(:invalid_mood).as_json
           post :create, :mood_rating => @spec_invalid_mood_attrs["mood_rating"], :anxiety_rating => @spec_invalid_mood_attrs["anxiety_rating"], :irritability_rating => @spec_invalid_mood_attrs["irritability_rating"], format: :json
           xhr :get, :new, @params
