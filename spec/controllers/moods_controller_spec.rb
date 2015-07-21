@@ -418,9 +418,38 @@ describe MoodsController, :type => :controller do
     end
   end
 
-  describe "GET #delete" do 
-    it "assigns an existing Mood to @mood" 
-    it "renders the :delete template" 
+  describe "GET #delete" do
+    context "with anonymous user" do
+      before :each do
+        # This simulates an anonymous user
+        login_with nil
+      end
+      
+      it "redirects to signin" do
+        get :cancel
+        expect( response ).to redirect_to( new_user_session_path )
+      end
+    end
+
+    context "with authenticated user" do
+      before :each do
+        # This simulates an authenticated user
+        @spec_user = FactoryGirl.create(:user)
+        login_with @spec_user
+      end
+
+      before :each do 
+        @spec_mood_attrs = FactoryGirl.attributes_for(:mood, user: @spec_user).as_json
+        @spec_mood = FactoryGirl.create(:mood, @spec_mood_attrs)
+      end
+
+      context "with JS request" do
+        it "re-renders JS for index method" do 
+          xhr :get, :delete, mood_id: @spec_mood.as_json["id"], format: :js
+          xhr :get, :index
+        end
+      end
+    end
   end
 
   describe "DELETE #destroy" do 
