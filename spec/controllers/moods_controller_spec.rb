@@ -236,32 +236,38 @@ describe MoodsController, :type => :controller do
         login_with @spec_user
       end
 
-      context "with valid attributes" do 
+      before(:context) do
+         @spec_mood_attrs = FactoryGirl.attributes_for(:mood, user: @spec_user).as_json
+      end
+
+      context "with valid attributes(:context)" do 
         it "creates a new mood" do 
           expect{
-            post :create, :mood_rating => 4, :anxiety_rating => 4, :irritability_rating => 4, format: :json
+            post :create, :mood_rating => @spec_mood_attrs["mood_rating"], :anxiety_rating => @spec_mood_attrs["anxiety_rating"], :irritability_rating => @spec_mood_attrs["irritability_rating"], format: :json
 
           }.to change(Mood,:count).by(1) 
         end
 
         it "returns a created 201 response" do 
-          post :create, :mood_rating => 4, :anxiety_rating => 4, :irritability_rating => 4, format: :json
-          puts response
+          post :create, :mood_rating => @spec_mood_attrs["mood_rating"], :anxiety_rating => @spec_mood_attrs["anxiety_rating"], :irritability_rating => @spec_mood_attrs["irritability_rating"], format: :json
           expect(response).to have_http_status(:created)
           #expect(response).to redirect_to Mood.last 
         end 
       end 
 
-      context "with invalid attributes" do 
-        it "does not save the new contact" do 
+      describe "with invalid attributes" do 
+        it "does not save the new mood" do
+          @spec_invalid_mood_attrs = FactoryGirl.attributes_for(:invalid_mood).as_json
+          puts @spec_invalid_mood_attrs
           expect{ 
-            post :create, :mood_rating => 2001, :anxiety_rating => 4, :irritability_rating => 4, format: :json
+            post :create, :mood_rating => @spec_invalid_mood_attrs["mood_rating"], :anxiety_rating => @spec_invalid_mood_attrs["anxiety_rating"], :irritability_rating => @spec_invalid_mood_attrs["irritability_rating"], format: :json
           }.to_not change(Mood,:count) 
         end 
 
-        it "re-renders the new method" do 
-          post :create, contact: Factory.attributes_for(:invalid_contact) 
-          response.should render_template :new 
+        it "re-renders JS response" do 
+          @spec_invalid_mood_attrs = FactoryGirl.attributes_for(:invalid_mood).as_json
+          post :create, :mood_rating => @spec_invalid_mood_attrs["mood_rating"], :anxiety_rating => @spec_invalid_mood_attrs["anxiety_rating"], :irritability_rating => @spec_invalid_mood_attrs["irritability_rating"], format: :json
+          xhr :get, :new, @params
         end 
       end 
     end

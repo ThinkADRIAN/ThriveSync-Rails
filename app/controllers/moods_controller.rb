@@ -156,7 +156,7 @@ class MoodsController < ApplicationController
 
     @mood = Mood.new(mood_params)
     @mood.user_id = current_user.id
-    @mood.update_attribute(:timestamp, DateTime.now.in_time_zone)
+    @mood.timestamp = DateTime.now.in_time_zone
     
     respond_to do |format|
       if @mood.save
