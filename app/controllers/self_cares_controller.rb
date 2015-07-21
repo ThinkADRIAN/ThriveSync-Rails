@@ -40,7 +40,7 @@ class SelfCaresController < ApplicationController
 
   def_param_group :self_cares_all do
     param_group :self_cares_data
-    param :timestamp, DateTime, :desc => "Timestamp for Self Care Entry", :required => false
+    param :timestamp, :undef, :desc => "Timestamp for Self Care Entry", :required => false
   end
 
   acts_as_token_authentication_handler_for User
