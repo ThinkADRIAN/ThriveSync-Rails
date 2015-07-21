@@ -252,6 +252,21 @@ describe MoodsController, :type => :controller do
         @spec_mood_attrs = FactoryGirl.attributes_for(:mood, user: @spec_user).as_json
       end
 
+      context "with valid JS request(:context)" do 
+        it "creates a new mood" do 
+          expect{
+            post :create, :mood_rating => @spec_mood_attrs["mood_rating"], :anxiety_rating => @spec_mood_attrs["anxiety_rating"], :irritability_rating => @spec_mood_attrs["irritability_rating"], format: :js
+
+          }.to change(Mood,:count).by(1) 
+        end
+
+        it "returns a created 201 response" do 
+          post :create, :mood_rating => @spec_mood_attrs["mood_rating"], :anxiety_rating => @spec_mood_attrs["anxiety_rating"], :irritability_rating => @spec_mood_attrs["irritability_rating"], format: :js
+          expect(response).to have_http_status(:created)
+          #expect(response).to redirect_to Mood.last 
+        end 
+      end 
+
       context "with valid JSON attributes(:context)" do 
         it "creates a new mood" do 
           expect{
@@ -267,6 +282,21 @@ describe MoodsController, :type => :controller do
         end 
       end 
 
+      context "with invalid JS request" do 
+        it "does not save the new mood" do
+          @spec_invalid_mood_attrs = FactoryGirl.attributes_for(:invalid_mood).as_json
+          expect{ 
+            post :create, :mood_rating => @spec_invalid_mood_attrs["mood_rating"], :anxiety_rating => @spec_invalid_mood_attrs["anxiety_rating"], :irritability_rating => @spec_invalid_mood_attrs["irritability_rating"], format: :js
+          }.to_not change(Mood,:count) 
+        end 
+
+        it "re-renders JS for new method" do 
+          @spec_invalid_mood_attrs = FactoryGirl.attributes_for(:invalid_mood).as_json
+          xhr :post, :create, :mood_rating => @spec_invalid_mood_attrs["mood_rating"], :anxiety_rating => @spec_invalid_mood_attrs["anxiety_rating"], :irritability_rating => @spec_invalid_mood_attrs["irritability_rating"], format: :js
+          xhr :get, :new, @params
+        end 
+      end
+
       context "with invalid JSON attributes" do 
         it "does not save the new mood" do
           @spec_invalid_mood_attrs = FactoryGirl.attributes_for(:invalid_mood).as_json
@@ -277,7 +307,7 @@ describe MoodsController, :type => :controller do
 
         it "re-renders JS for new method" do 
           @spec_invalid_mood_attrs = FactoryGirl.attributes_for(:invalid_mood).as_json
-          post :create, :mood_rating => @spec_invalid_mood_attrs["mood_rating"], :anxiety_rating => @spec_invalid_mood_attrs["anxiety_rating"], :irritability_rating => @spec_invalid_mood_attrs["irritability_rating"], format: :json
+          xhr :post, :create, :mood_rating => @spec_invalid_mood_attrs["mood_rating"], :anxiety_rating => @spec_invalid_mood_attrs["anxiety_rating"], :irritability_rating => @spec_invalid_mood_attrs["irritability_rating"], format: :json
           xhr :get, :new, @params
         end 
       end 
@@ -310,6 +340,33 @@ describe MoodsController, :type => :controller do
         @spec_mood = FactoryGirl.create(:mood, @spec_mood_attrs)
       end
 
+      context "with valid JS request" do
+        it "located the requested @mood" do
+          put :update, :id => @spec_mood.as_json["id"], :mood_rating => @spec_mood_attrs["mood_rating"], :anxiety_rating => @spec_mood_attrs["anxiety_rating"], :irritability_rating => @spec_mood_attrs["irritability_rating"], format: :js
+          expect(assigns(:mood).as_json).to eq(@spec_mood.as_json)
+        end
+
+        it "updates an existing mood using JSON" do 
+          put :update, :id => @spec_mood.as_json["id"], :mood_rating => @spec_updated_mood_attrs["mood_rating"], :anxiety_rating => @spec_updated_mood_attrs["anxiety_rating"], :irritability_rating => @spec_updated_mood_attrs["irritability_rating"], format: :js
+
+          @spec_mood.reload
+          expect(@spec_mood.mood_rating).to eq(@spec_updated_mood_attrs["mood_rating"])
+          expect(@spec_mood.anxiety_rating).to eq(@spec_updated_mood_attrs["anxiety_rating"])
+          expect(@spec_mood.irritability_rating).to eq(@spec_updated_mood_attrs["irritability_rating"])
+        end
+
+        it "returns a updated 200 response" do 
+          put :update, :id => @spec_mood.as_json["id"], :mood_rating => @spec_updated_mood_attrs["mood_rating"], :anxiety_rating => @spec_updated_mood_attrs["anxiety_rating"], :irritability_rating => @spec_updated_mood_attrs["irritability_rating"], format: :js
+          expect(response).to be_success
+          #expect(response).to redirect_to Mood.last 
+        end 
+
+        it "gives a success flash message" do
+          put :update, :id => @spec_mood.as_json["id"], :mood_rating => @spec_updated_mood_attrs["mood_rating"], :anxiety_rating => @spec_updated_mood_attrs["anxiety_rating"], :irritability_rating => @spec_updated_mood_attrs["irritability_rating"], format: :json
+          expect(flash[:success]).to eq("Mood Entry was successfully updated.")
+        end
+      end 
+
       context "with valid JSON attributes" do
         it "located the requested @mood" do
           put :update, :id => @spec_mood.as_json["id"], :mood_rating => @spec_mood_attrs["mood_rating"], :anxiety_rating => @spec_mood_attrs["anxiety_rating"], :irritability_rating => @spec_mood_attrs["irritability_rating"], format: :json
@@ -325,9 +382,9 @@ describe MoodsController, :type => :controller do
           expect(@spec_mood.irritability_rating).to eq(@spec_updated_mood_attrs["irritability_rating"])
         end
 
-        it "returns a created 201 response" do 
+        it "returns a created 200 response" do 
           put :update, :id => @spec_mood.as_json["id"], :mood_rating => @spec_updated_mood_attrs["mood_rating"], :anxiety_rating => @spec_updated_mood_attrs["anxiety_rating"], :irritability_rating => @spec_updated_mood_attrs["irritability_rating"], format: :json
-          expect(response).to have_http_status(:created)
+          expect(response).to be_success
           #expect(response).to redirect_to Mood.last 
         end 
 
@@ -348,7 +405,7 @@ describe MoodsController, :type => :controller do
         it "re-renders JS for edit method" do 
           @spec_invalid_mood_attrs = FactoryGirl.attributes_for(:invalid_mood).as_json
           put :update, :id => @spec_mood.as_json["id"], :mood_rating => @spec_invalid_mood_attrs["mood_rating"], :anxiety_rating => @spec_invalid_mood_attrs["anxiety_rating"], :irritability_rating => @spec_invalid_mood_attrs["irritability_rating"], format: :json
-          get :edit, :id => @spec_mood.as_json["id"], :mood_rating => @spec_updated_mood_attrs["mood_rating"], :anxiety_rating => @spec_updated_mood_attrs["anxiety_rating"], :irritability_rating => @spec_updated_mood_attrs["irritability_rating"]
+          xhr :get, :edit, :id => @spec_mood.as_json["id"], :mood_rating => @spec_updated_mood_attrs["mood_rating"], :anxiety_rating => @spec_updated_mood_attrs["anxiety_rating"], :irritability_rating => @spec_updated_mood_attrs["irritability_rating"]
         end
 
         it "gives an error flash message" do

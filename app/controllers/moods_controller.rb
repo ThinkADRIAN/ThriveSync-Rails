@@ -164,7 +164,7 @@ class MoodsController < ApplicationController
 
         current_user.scorecard.update_scorecard('moods')
         flash.now[:success] = "Mood Entry was successfully tracked."
-        format.js 
+        format.js { render status: :created }
         format.json { render :json => @mood, status: :created }
       else
         format.js   { render json: @mood.errors, status: :unprocessable_entity }
@@ -195,8 +195,8 @@ class MoodsController < ApplicationController
         track_mood_updated
 
         flash.now[:success] = "Mood Entry was successfully updated."
-        format.js
-        format.json { render :json => @mood, status: :created }
+        format.js { render status: 200 }
+        format.json { render :json => @mood, status: 200 }
       else
         flash.now[:error] = "Mood Entry was not updated... Try again???"
         format.js   { render json: @mood.errors, status: :unprocessable_entity }
