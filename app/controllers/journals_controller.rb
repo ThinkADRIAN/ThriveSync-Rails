@@ -12,7 +12,7 @@ class JournalsController < ApplicationController
             "journals": [
               {
                 "id": 1064,
-                "journal_entry": "“Rivers know this: there is no hurry. We shall get there some day.”",
+                "journal_entry": "Rivers know this: there is no hurry. We shall get there some day.",
                 "timestamp": "2014-12-02 12:45:00 -0500",
                 "created_at": "2014-12-02 08:45:10 -0500",
                 "updated_at": "2014-12-02 08:45:10 -0500",
@@ -26,7 +26,7 @@ class JournalsController < ApplicationController
   end
 
   def_param_group :journals_data do
-    param :journal_entry, String, :desc => "Journal Entry", :required => true
+    param :journal_entry, :undef, :desc => "Journal Entry [String]", :required => true
   end
 
   def_param_group :journals_all do
@@ -80,9 +80,9 @@ class JournalsController < ApplicationController
     authorize! :read, Journal
 
     respond_to do |format|
+      format.html { render :nothing => true }
       format.js
       format.json { render :json =>  @journal, status: 200 }
-      format.xml { render :xml => @journal, status: 200 }
     end
   end
 
@@ -101,6 +101,12 @@ class JournalsController < ApplicationController
     end
 
     @journal= Journal.new
+
+    respond_to do |format|
+      format.html { render :nothing => true }
+      format.js
+      format.json { render :json =>  @journal, status: 200 }
+    end
   end
 
   # GET /journals/1/edit
@@ -117,6 +123,12 @@ class JournalsController < ApplicationController
       else
         authorize @journals
       end
+    end
+
+    respond_to do |format|
+      format.html { render :nothing => true }
+      format.js
+      format.json { render :json =>  @journal, status: 200 }
     end
   end
 
@@ -146,7 +158,7 @@ class JournalsController < ApplicationController
         track_journal_created
         current_user.scorecard.update_scorecard('journals')
         flash.now[:success] = "Journal was successfully tracked."
-        format.js
+        format.js { render status: :created }
         format.json { render :json => @journal, status: :created }
       else
         format.js   { render json: @journal.errors, status: :unprocessable_entity }
@@ -262,7 +274,7 @@ class JournalsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def journal_params
-      params.fetch(:journal, {}).permit(:journal_entry, :timestamp, :journal_lookback_period)
+      params.permit(:journal_entry, :timestamp, :journal_lookback_period)
     end
 
     def track_journal_created
