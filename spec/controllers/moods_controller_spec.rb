@@ -347,7 +347,7 @@ describe MoodsController, :type => :controller do
           expect(assigns(:mood).as_json).to eq(@spec_mood.as_json)
         end
 
-        it "updates an existing mood using JSON" do 
+        it "updates an existing mood" do 
           put :update, :id => @spec_mood.as_json["id"], :mood_rating => @spec_updated_mood_attrs["mood_rating"], :anxiety_rating => @spec_updated_mood_attrs["anxiety_rating"], :irritability_rating => @spec_updated_mood_attrs["irritability_rating"], :timestamp => @spec_updated_mood_timestamp, format: :js
 
           @spec_mood.reload
@@ -363,7 +363,7 @@ describe MoodsController, :type => :controller do
         end 
 
         it "gives a success flash message" do
-          put :update, :id => @spec_mood.as_json["id"], :mood_rating => @spec_updated_mood_attrs["mood_rating"], :anxiety_rating => @spec_updated_mood_attrs["anxiety_rating"], :irritability_rating => @spec_updated_mood_attrs["irritability_rating"], format: :json
+          put :update, :id => @spec_mood.as_json["id"], :mood_rating => @spec_updated_mood_attrs["mood_rating"], :anxiety_rating => @spec_updated_mood_attrs["anxiety_rating"], :irritability_rating => @spec_updated_mood_attrs["irritability_rating"], format: :js
           expect(flash[:success]).to eq("Mood Entry was successfully updated.")
         end
       end 
@@ -374,7 +374,7 @@ describe MoodsController, :type => :controller do
           expect(assigns(:mood).as_json).to eq(@spec_mood.as_json)
         end
 
-        it "updates an existing mood using JSON" do 
+        it "updates an existing mood" do 
           put :update, :id => @spec_mood.as_json["id"], :mood_rating => @spec_updated_mood_attrs["mood_rating"], :anxiety_rating => @spec_updated_mood_attrs["anxiety_rating"], :irritability_rating => @spec_updated_mood_attrs["irritability_rating"], :timestamp => @spec_updated_mood_timestamp, format: :json
 
           @spec_mood.reload

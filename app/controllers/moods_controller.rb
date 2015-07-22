@@ -167,6 +167,7 @@ class MoodsController < ApplicationController
         format.js { render status: :created }
         format.json { render :json => @mood, status: :created }
       else
+        flash.now[:error] = "Mood Entry was not tracked... Try again???"
         format.js   { render json: @mood.errors, status: :unprocessable_entity }
         format.json { render json: @mood.errors, status: :unprocessable_entity }
       end
