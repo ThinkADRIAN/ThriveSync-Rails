@@ -263,7 +263,7 @@ describe SleepsController, :type => :controller do
         it "returns a created 201 response" do 
           post :create, :start_time => @spec_sleep_attrs["start_time"], :finish_time => @spec_sleep_attrs["finish_time"], :quality => @spec_sleep_attrs["quality"], format: :js
           expect(response).to have_http_status(:created)
-          #expect(response).to redirect_to Mood.last 
+          #expect(response).to redirect_to Sleep.last 
         end 
       end 
 
@@ -278,7 +278,7 @@ describe SleepsController, :type => :controller do
         it "returns a created 201 response" do 
           post :create, :start_time => @spec_sleep_attrs["start_time"], :finish_time => @spec_sleep_attrs["finish_time"], :quality => @spec_sleep_attrs["quality"], format: :json
           expect(response).to have_http_status(:created)
-          #expect(response).to redirect_to Mood.last 
+          #expect(response).to redirect_to SelfCare.last 
         end 
       end 
 
@@ -359,7 +359,7 @@ describe SleepsController, :type => :controller do
         it "returns a updated 200 response" do 
           put :update, :id => @spec_sleep.as_json["id"], :start_time => @spec_updated_sleep_attrs["start_time"], :finish_time => @spec_updated_sleep_attrs["finish_time"], :quality => @spec_updated_sleep_attrs["quality"], format: :js
           expect(response).to be_success
-          #expect(response).to redirect_to Mood.last 
+          #expect(response).to redirect_to SelfCare.last 
         end 
 
         it "gives a success flash message" do
@@ -387,7 +387,7 @@ describe SleepsController, :type => :controller do
         it "returns a created 200 response" do 
           put :update, :id => @spec_sleep.as_json["id"], :start_time => @spec_updated_sleep_attrs["start_time"], :finish_time => @spec_updated_sleep_attrs["finish_time"], :quality => @spec_updated_sleep_attrs["quality"], format: :json
           expect(response).to be_success
-          #expect(response).to redirect_to Mood.last 
+          #expect(response).to redirect_to SelfCare.last 
         end 
 
         it "gives a success flash message" do
