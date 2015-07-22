@@ -30,9 +30,9 @@ class MoodsController < ApplicationController
   end
 
   def_param_group :moods_data do
-    param :mood_rating, Integer, :desc => "[['Severely Depressed', 1], ['Moderately Depressed', 2], ['Mildly Depressed', 3], ['Baseline',4], ['Mildly Elevated',5], ['Moderately Elevated', 6], ['Severely Elevated',7]]", :required => true
-    param :anxiety_rating, Integer, :desc => "[['None', 1], ['Mild', 2], ['Moderate', 3], ['Severe',4]]", :required => true
-    param :irritability_rating, Integer, :desc => "[['None', 1], ['Mild', 2], ['Moderate', 3], ['Severe',4]]", :required => true
+    param :mood_rating, :number, :desc => "[['Severely Depressed', 1], ['Moderately Depressed', 2], ['Mildly Depressed', 3], ['Baseline',4], ['Mildly Elevated',5], ['Moderately Elevated', 6], ['Severely Elevated',7]]", :required => true
+    param :anxiety_rating, :number, :desc => "[['None', 1], ['Mild', 2], ['Moderate', 3], ['Severe',4]]", :required => true
+    param :irritability_rating, :number, :desc => "[['None', 1], ['Mild', 2], ['Moderate', 3], ['Severe',4]]", :required => true
   end
 
   def_param_group :moods_all do
@@ -75,7 +75,6 @@ class MoodsController < ApplicationController
       format.html
       format.js
       format.json { render :json => @moods, status: 200 }
-      # format.xml { render :xml => @moods, status: 200 }
     end
   end
 
@@ -86,9 +85,9 @@ class MoodsController < ApplicationController
     authorize! :read, Mood
     
     respond_to do |format|
+      format.html { render :nothing => true }
       format.js
       format.json { render :json =>  @mood, status: 200 }
-      # format.xml { render :xml => @mood, status: 200 }
     end
   end
 
@@ -107,6 +106,12 @@ class MoodsController < ApplicationController
     end
 
     @mood= Mood.new
+
+    respond_to do |format|
+      format.html { render :nothing => true }
+      format.js
+      format.json { render :json =>  @mood, status: 200 }
+    end
   end
 
   # GET /moods/1/edit
@@ -123,6 +128,12 @@ class MoodsController < ApplicationController
       else
         authorize @moods
       end
+    end
+
+    respond_to do |format|
+      format.html { render :nothing => true }
+      format.js
+      format.json { render :json =>  @mood, status: 200 }
     end
   end
 
@@ -145,7 +156,7 @@ class MoodsController < ApplicationController
 
     @mood = Mood.new(mood_params)
     @mood.user_id = current_user.id
-    @mood.update_attribute(:timestamp, DateTime.now.in_time_zone)
+    @mood.timestamp = DateTime.now.in_time_zone
     
     respond_to do |format|
       if @mood.save
@@ -153,9 +164,10 @@ class MoodsController < ApplicationController
 
         current_user.scorecard.update_scorecard('moods')
         flash.now[:success] = "Mood Entry was successfully tracked."
-        format.js 
+        format.js { render status: :created }
         format.json { render :json => @mood, status: :created }
       else
+        flash.now[:error] = "Mood Entry was not tracked... Try again???"
         format.js   { render json: @mood.errors, status: :unprocessable_entity }
         format.json { render json: @mood.errors, status: :unprocessable_entity }
       end
@@ -184,10 +196,10 @@ class MoodsController < ApplicationController
         track_mood_updated
 
         flash.now[:success] = "Mood Entry was successfully updated."
-        format.js
-        format.json { render :json => @mood, status: :created }
+        format.js { render status: 200 }
+        format.json { render :json => @mood, status: 200 }
       else
-        flash.now[:error] = 'Mood Entry was not updated... Try again???'
+        flash.now[:error] = "Mood Entry was not updated... Try again???"
         format.js   { render json: @mood.errors, status: :unprocessable_entity }
         format.json { render json: @mood.errors, status: :unprocessable_entity }
       end
@@ -208,6 +220,10 @@ class MoodsController < ApplicationController
     end
 
     @mood = Mood.find(params[:mood_id])
+
+    respond_to do |format|
+      format.js
+    end
   end
 
   # DELETE /moods/1
@@ -270,7 +286,7 @@ class MoodsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def mood_params
-      params.fetch(:mood, {}).permit(:mood_rating, :anxiety_rating, :irritability_rating, :timestamp, :mood_lookback_period)
+      params.permit(:mood_rating, :anxiety_rating, :irritability_rating, :timestamp, :mood_lookback_period)
     end
 
     def track_mood_created
