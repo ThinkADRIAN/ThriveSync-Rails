@@ -1,4 +1,44 @@
 class SleepsController < ApplicationController
+  resource_description do
+    short 'Sleep Entries'
+    desc <<-EOS
+      == Long description
+        Sleep Entries include:
+          Start Time
+          Finish Time
+          Quality
+          Time
+
+      ===Sample JSON Output:
+          {
+            "sleeps": [
+              {
+                "id": 2657,
+                "start_time": "2014-10-27 00:30:00 -0400",
+                "finish_time": "2014-10-27 06:00:00 -0400",
+                "quality": 2,
+                "time": 5,
+                "created_at": "2014-10-27 06:02:09 -0400",
+                "updated_at": "2014-10-27 06:02:09 -0400",
+                "user_id": 24
+              }
+            ]
+          }
+      EOS
+    api_base_url ""
+    formats ['html', 'json']
+  end
+
+  def_param_group :sleeps_data do
+    param :start_time, :undef, :desc => "Sleep Start Time [DateTime(UTC)]", :required => true
+    param :finish_time, :undef, :desc => "Sleep Finish Time", :required => true
+    param :quality, Integer, :desc => "[['Broken', 1], ['Light', 2], ['Normal', 3], ['Deep',4]]", :required => true
+  end
+
+  def_param_group :sleeps_all do
+    param_group :sleeps_data
+  end
+
   acts_as_token_authentication_handler_for User
 
   before_action :set_sleep, only: [:show, :edit, :update, :destroy]
@@ -12,6 +52,7 @@ class SleepsController < ApplicationController
   
   # GET /sleeps
   # GET /sleeps.json
+  api! "Show Sleep Entries"
   def index
     @user = User.find_by_id(params[:user_id])
 
@@ -68,6 +109,8 @@ class SleepsController < ApplicationController
   end
 
   # GET /sleeps/1/edit
+  api! "Edit Sleep Entry"
+  param_group :sleeps_all
   def edit
     @user = User.find_by_id(params[:user_id])
 
@@ -84,6 +127,8 @@ class SleepsController < ApplicationController
 
   # POST /sleeps
   # POST /sleeps.json
+  api! "Create Sleep Entry"
+  param_group :sleeps_data
   def create
     @user = User.find_by_id(params[:user_id])
 
@@ -117,6 +162,8 @@ class SleepsController < ApplicationController
 
   # PATCH/PUT /sleeps/1
   # PATCH/PUT /sleeps/1.json
+  api! "Update Sleep Entry"
+  param_group :sleeps_all
   def update
     @user = User.find_by_id(params[:user_id])
 
@@ -165,6 +212,7 @@ class SleepsController < ApplicationController
 
   # DELETE /sleeps/1
   # DELETE /sleeps/1.json
+  api! "Delete Sleep Entry"
   def destroy
     @user = User.find_by_id(params[:user_id])
 

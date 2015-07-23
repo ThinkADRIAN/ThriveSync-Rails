@@ -1,4 +1,15 @@
 class Api::V1::PasswordsController < Devise::PasswordsController
+  resource_description do
+    short 'Passwords'
+    desc <<-EOS
+      == Long description
+        Used for managing password credentials.
+      EOS
+    api_base_url "/api"
+    # api_version "v1"
+    formats ['html', 'json']
+  end
+
   acts_as_token_authentication_handler_for User, fallback_to_devise: false
 
   prepend_before_filter :require_no_authentication
@@ -11,6 +22,10 @@ class Api::V1::PasswordsController < Devise::PasswordsController
   end
 
   # POST /resource/password
+  api :POST, "/passwords", "Reset Password via Email"
+  param :user, Hash , :desc => "User", :required => true do
+    param :email, String, :desc => "Email Address for Thriver Requesting Password Reset"
+  end
   def create
     super
   end
