@@ -344,7 +344,7 @@ describe SelfCaresController, :type => :controller do
       context "with valid JS request" do
         it "located the requested @self_care" do
           put :update, :id => @spec_self_care.as_json["id"], :counseling => @spec_self_care_attrs["counseling"], :medication => @spec_self_care_attrs["medication"], :meditation => @spec_self_care_attrs["meditation"], :exercise => @spec_self_care_attrs["exercise"], format: :js
-          expect(assigns(:self_care).as_json).to eq(@spec_self_care.as_json)
+          expect(assigns(:self_care).as_json.except('created_at', 'updated_at')).to eq(@spec_self_care.as_json.except('created_at', 'updated_at'))
         end
 
         it "updates an existing self care" do 
@@ -372,7 +372,7 @@ describe SelfCaresController, :type => :controller do
       context "with valid JSON attributes" do
         it "located the requested @self_care" do
           put :update, :id => @spec_self_care.as_json["id"], :counseling => @spec_self_care_attrs["counseling"], :medication => @spec_self_care_attrs["medication"], :meditation => @spec_self_care_attrs["meditation"], :exercise => @spec_self_care_attrs["exercise"], format: :json
-          expect(assigns(:self_care).as_json).to eq(@spec_self_care.as_json)
+          expect(assigns(:self_care).as_json.except('created_at', 'updated_at')).to eq(@spec_self_care.as_json.except('created_at', 'updated_at'))
         end
 
         it "updates an existing self care" do 

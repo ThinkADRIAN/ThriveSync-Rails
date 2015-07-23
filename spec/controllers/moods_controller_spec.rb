@@ -344,7 +344,7 @@ describe MoodsController, :type => :controller do
       context "with valid JS request" do
         it "located the requested @mood" do
           put :update, :id => @spec_mood.as_json["id"], :mood_rating => @spec_mood_attrs["mood_rating"], :anxiety_rating => @spec_mood_attrs["anxiety_rating"], :irritability_rating => @spec_mood_attrs["irritability_rating"], format: :js
-          expect(assigns(:mood).as_json).to eq(@spec_mood.as_json)
+          expect(assigns(:mood).as_json.except('created_at', 'updated_at')).to eq(@spec_mood.as_json.except('created_at', 'updated_at'))
         end
 
         it "updates an existing mood" do 
@@ -371,7 +371,7 @@ describe MoodsController, :type => :controller do
       context "with valid JSON attributes" do
         it "located the requested @mood" do
           put :update, :id => @spec_mood.as_json["id"], :mood_rating => @spec_mood_attrs["mood_rating"], :anxiety_rating => @spec_mood_attrs["anxiety_rating"], :irritability_rating => @spec_mood_attrs["irritability_rating"], format: :json
-          expect(assigns(:mood).as_json).to eq(@spec_mood.as_json)
+          expect(assigns(:mood).as_json.except('created_at', 'updated_at')).to eq(@spec_mood.as_json.except('created_at', 'updated_at'))
         end
 
         it "updates an existing mood" do 

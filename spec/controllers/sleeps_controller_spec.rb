@@ -343,7 +343,7 @@ describe SleepsController, :type => :controller do
       context "with valid JS request" do
         it "located the requested @sleep" do
           put :update, :id => @spec_sleep.as_json["id"], :start_time => @spec_sleep_attrs["start_time"], :finish_time => @spec_sleep_attrs["finish_time"], :quality => @spec_sleep_attrs["quality"], format: :js
-          expect(assigns(:sleep).as_json).to eq(@spec_sleep.as_json)
+          expect(assigns(:sleep).as_json.except('created_at', 'updated_at')).to eq(@spec_sleep.as_json.except('created_at', 'updated_at'))
         end
 
         it "updates an existing sleep" do 
@@ -371,7 +371,7 @@ describe SleepsController, :type => :controller do
       context "with valid JSON attributes" do
         it "located the requested @sleep" do
           put :update, :id => @spec_sleep.as_json["id"], :start_time => @spec_sleep_attrs["start_time"], :finish_time => @spec_sleep_attrs["finish_time"], :quality => @spec_sleep_attrs["quality"], format: :json
-          expect(assigns(:sleep).as_json).to eq(@spec_sleep.as_json)
+          expect(assigns(:sleep).as_json.except('created_at', 'updated_at')).to eq(@spec_sleep.as_json.except('created_at', 'updated_at'))
         end
 
         it "updates an existing sleep" do 

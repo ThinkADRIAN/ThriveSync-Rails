@@ -345,7 +345,7 @@ describe JournalsController, :type => :controller do
       context "with valid JS request" do
         it "located the requested @journal" do
           put :update, :id => @spec_journal.as_json["id"], :journal_entry => @spec_journal_attrs["journal_entry"], format: :js
-          expect(assigns(:journal).as_json).to eq(@spec_journal.as_json)
+          expect(assigns(:journal).as_json.except('created_at', 'updated_at')).to eq(@spec_journal.as_json.except('created_at', 'updated_at'))
         end
 
         it "updates an existing journal" do 
@@ -369,7 +369,7 @@ describe JournalsController, :type => :controller do
       context "with valid JSON attributes" do
         it "located the requested @journal" do
           put :update, :id => @spec_journal.as_json["id"], :journal_entry => @spec_journal_attrs["journal_entry"], format: :json
-          expect(assigns(:journal).as_json).to eq(@spec_journal.as_json)
+          expect(assigns(:journal).as_json.except('created_at', 'updated_at')).to eq(@spec_journal.as_json.except('created_at', 'updated_at'))
         end
 
         it "updates an existing journal" do 
