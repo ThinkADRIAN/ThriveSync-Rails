@@ -1,4 +1,45 @@
 class MoodsController < ApplicationController
+  resource_description do
+    short 'Mood Entries'
+    desc <<-EOS
+      == Long description
+        Mood Entries include:
+          Mood Rating
+          Anxiety Rating
+          Irritability Rating
+          Timestamp
+
+      ===Sample JSON Output:
+          {
+            "moods": [
+              {
+                "id": 2712,
+                "mood_rating": 4,
+                "anxiety_rating": 1,
+                "irritability_rating": 1,
+                "timestamp": "2014-10-27 09:59:00 -0400",
+                "created_at": "2014-10-27 05:59:41 -0400",
+                "updated_at": "2014-10-27 05:59:41 -0400",
+                "user_id": 24
+              }
+            ]
+          }
+      EOS
+    api_base_url ""
+    formats ['html', 'json']
+  end
+
+  def_param_group :moods_data do
+    param :mood_rating, Integer, :desc => "[['Severely Depressed', 1], ['Moderately Depressed', 2], ['Mildly Depressed', 3], ['Baseline',4], ['Mildly Elevated',5], ['Moderately Elevated', 6], ['Severely Elevated',7]]", :required => true
+    param :anxiety_rating, Integer, :desc => "[['None', 1], ['Mild', 2], ['Moderate', 3], ['Severe',4]]", :required => true
+    param :irritability_rating, Integer, :desc => "[['None', 1], ['Mild', 2], ['Moderate', 3], ['Severe',4]]", :required => true
+  end
+
+  def_param_group :moods_all do
+    param_group :moods_data
+    param :timestamp, :undef, :desc => "Timestamp for Mood Entry [DateTime(UTC)]", :required => false
+  end
+
   acts_as_token_authentication_handler_for User
 
   before_action :set_mood, only: [:show, :edit, :update, :destroy]
@@ -8,10 +49,11 @@ class MoodsController < ApplicationController
   after_filter :verify_authorized,  except: [:index]
   #after_filter :verify_policy_scoped, only: [:index]
 
-  respond_to :html, :js, :json, :xml
+  respond_to :html, :js, :json
   
   # GET /moods
   # GET /moods.json
+  api! "Show Mood Entries"
   def index
     @user = User.find_by_id(params[:user_id])
 
@@ -33,7 +75,7 @@ class MoodsController < ApplicationController
       format.html
       format.js
       format.json { render :json => @moods, status: 200 }
-      format.xml { render :xml => @moods, status: 200 }
+      # format.xml { render :xml => @moods, status: 200 }
     end
   end
 
@@ -46,7 +88,7 @@ class MoodsController < ApplicationController
     respond_to do |format|
       format.js
       format.json { render :json =>  @mood, status: 200 }
-      format.xml { render :xml => @mood, status: 200 }
+      # format.xml { render :xml => @mood, status: 200 }
     end
   end
 
@@ -68,6 +110,8 @@ class MoodsController < ApplicationController
   end
 
   # GET /moods/1/edit
+  api! "Edit Mood Entry"
+  param_group :moods_all
   def edit
     @user = User.find_by_id(params[:user_id])
 
@@ -84,6 +128,8 @@ class MoodsController < ApplicationController
 
   # POST /moods
   # POST /moods.json
+  api! "Create Mood Entry"
+  param_group :moods_data
   def create
     @user = User.find_by_id(params[:user_id])
 
@@ -118,6 +164,8 @@ class MoodsController < ApplicationController
 
   # PATCH/PUT /moods/1
   # PATCH/PUT /moods/1.json
+  api! "Update Mood Entry"
+  param_group :moods_all
   def update
     @user = User.find_by_id(params[:user_id])
 
@@ -164,6 +212,7 @@ class MoodsController < ApplicationController
 
   # DELETE /moods/1
   # DELETE /moods/1.json
+  api! "Delete Mood Entry"
   def destroy
     @user = User.find_by_id(params[:user_id])
 
