@@ -48,10 +48,8 @@ class Api::V1::SessionsController < Devise::SessionsController
 
   # DELETE /resource/sign_out
   api :DELETE, "/registrations", "Logout User"
-  param :user, Hash , :desc => "User", :required => true do
-    param :user_email, String, :desc => "Email", :required => true
-    param :user_token, String, :desc => "Authentication Token", :required => true
-  end
+  param :user_email, String, :desc => "Email", :required => true
+  param :user_token, String, :desc => "Authentication Token", :required => true
   def destroy
     token_was_removed = remove_current_users_token_if_json_request
 

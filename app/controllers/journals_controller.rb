@@ -31,7 +31,7 @@ class JournalsController < ApplicationController
 
   def_param_group :journals_all do
     param_group :journals_data
-    param :timestamp, DateTime, :desc => "Timestamp for Journal Entry", :required => false
+    param :timestamp, :undef, :desc => "Timestamp for Journal Entry [DateTime(UTC)]", :required => false
   end
 
   acts_as_token_authentication_handler_for User

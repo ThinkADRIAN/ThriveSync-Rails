@@ -37,7 +37,7 @@ class MoodsController < ApplicationController
 
   def_param_group :moods_all do
     param_group :moods_data
-    param :timestamp, DateTime, :desc => "Timestamp for Mood Entry", :required => false
+    param :timestamp, :undef, :desc => "Timestamp for Mood Entry [DateTime(UTC)]", :required => false
   end
 
   acts_as_token_authentication_handler_for User

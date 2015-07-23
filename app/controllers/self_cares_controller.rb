@@ -32,15 +32,15 @@ class SelfCaresController < ApplicationController
   end
 
   def_param_group :self_cares_data do
-    param :counseling, [true, false], :desc => "Counseling", :required => true
-    param :medication, [true, false], :desc => "Medication", :required => true
-    param :meditation, [true, false], :desc => "Meditation", :required => true
-    param :exercise, [true, false], :desc => "Exercise", :required => true
+    param :counseling, :undef, :desc => "Counseling [Boolean]", :required => true
+    param :medication, :undef, :desc => "Medication [Boolean]", :required => true
+    param :meditation, :undef, :desc => "Meditation [Boolean]", :required => true
+    param :exercise, :undef, :desc => "Exercise [Boolean]", :required => true
   end
 
   def_param_group :self_cares_all do
     param_group :self_cares_data
-    param :timestamp, DateTime, :desc => "Timestamp for Self Care Entry", :required => false
+    param :timestamp, :undef, :desc => "Timestamp for Self Care Entry [DateTime(UTC)]", :required => false
   end
 
   acts_as_token_authentication_handler_for User
