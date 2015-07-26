@@ -83,7 +83,7 @@
       <% (1..8).each do %>
         <br>
       <% end %>
-      <%= link_to 'Add Mood', new_mood_path, remote: true, class: "btn btn-primary btn-lg" %><br>
+      <%= link_to 'Add Mood', new_mood_path(capture_source: 'mood'), remote: true, class: "btn btn-primary btn-lg" %><br>
       <% (1..8).each do puts @capture_moods %>
         <br>
       <% end %>

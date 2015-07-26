@@ -10,6 +10,8 @@ DATE_RANGE_LAST_YEAR = (Date.today.last_year.at_beginning_of_year.in_time_zone).
 DEFAULT_CAPTURE_SCREEN = "Mood"
 DEFAULT_CAPTURE_DATE = Date.today
 MAX_MOOD_ENTRIES = 3
+MAX_SLEEP_ENTRIES = 1
+MAX_SELF_CARE_ENTRIES = 1
 MAX_JOURNAL_ENTRIES = 1
 
 # Review Chart Settings

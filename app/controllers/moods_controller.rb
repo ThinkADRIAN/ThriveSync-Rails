@@ -96,6 +96,7 @@ class MoodsController < ApplicationController
   # GET /moods/new
   def new
     @user = User.find_by_id(params[:user_id])
+    $capture_source = params[:capture_source]
 
     if @user == nil
       skip_authorization
@@ -158,7 +159,16 @@ class MoodsController < ApplicationController
 
     @mood = Mood.new(mood_params)
     @mood.user_id = current_user.id
-    @mood.timestamp = DateTime.now.in_time_zone
+    
+    if $capture_source == 'mood'
+      d = $capture_date
+      t = Time.now
+      dt = DateTime.new(d.year, d.month, d.day, t.hour, t.min, t.sec, t.zone)
+
+      @mood.update_attribute(:timestamp, dt)
+    else
+      @mood.update_attribute(:timestamp, DateTime.now.in_time_zone)
+    end
     
     respond_to do |format|
       if @mood.save
@@ -290,7 +300,7 @@ class MoodsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def mood_params
-      params.fetch(:mood, {}).permit(:mood_rating, :anxiety_rating, :irritability_rating, :timestamp, :mood_lookback_period)
+      params.fetch(:mood, {}).permit(:mood_rating, :anxiety_rating, :irritability_rating, :timestamp, :mood_lookback_period, :capture_source)
     end
 
     def track_mood_created

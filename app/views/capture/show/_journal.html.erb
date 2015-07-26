@@ -33,7 +33,7 @@
       <% (1..8).each do %>
         <br>
       <% end %>
-      <%= link_to 'Add Journal', new_journal_path, remote: true, class: "btn btn-primary btn-lg" %><br>
+      <%= link_to 'Add Journal', new_journal_path(capture_source: 'journal'), remote: true, class: "btn btn-primary btn-lg" %><br>
       <% (1..8).each do %>
         <br>
       <% end %>

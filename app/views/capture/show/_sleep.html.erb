@@ -53,7 +53,7 @@
     </div>
   <% end %>
 <% end %>
-<% if @capture_sleeps.nil? || @capture_sleeps.count < 1 %>
+<% if @capture_sleeps.nil? || @capture_sleeps.count < MAX_SLEEP_ENTRIES %>
   <div>
     <center>
       <% (1..8).each do %>
