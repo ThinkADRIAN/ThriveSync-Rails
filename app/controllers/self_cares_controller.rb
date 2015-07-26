@@ -32,10 +32,12 @@ class SelfCaresController < ApplicationController
   end
 
   def_param_group :self_cares_data do
-    param :counseling, :undef, :desc => "Counseling [Boolean]", :required => true
-    param :medication, :undef, :desc => "Medication [Boolean]", :required => true
-    param :meditation, :undef, :desc => "Meditation [Boolean]", :required => true
-    param :exercise, :undef, :desc => "Exercise [Boolean]", :required => true
+    param :self_care, Hash , :desc => "Self Care", :required => false do
+      param :counseling, :undef, :desc => "Counseling [Boolean]", :required => true
+      param :medication, :undef, :desc => "Medication [Boolean]", :required => true
+      param :meditation, :undef, :desc => "Meditation [Boolean]", :required => true
+      param :exercise, :undef, :desc => "Exercise [Boolean]", :required => true
+    end
   end
 
   def_param_group :self_cares_all do
@@ -283,7 +285,7 @@ class SelfCaresController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def self_care_params
-      params.permit(:counseling, :medication, :meditation, :exercise, :timestamp, :self_care_lookback_period)
+      params.fetch(:self_care).permit(:counseling, :medication, :meditation, :exercise, :timestamp, :self_care_lookback_period)
     end
 
     def track_self_care_created
