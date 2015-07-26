@@ -45,8 +45,8 @@ namespace :db do
         mood = Mood.create!(:mood_rating => rand(1..7),
           :anxiety_rating => rand(1..4),
           :irritability_rating => rand(1..4),
-          :user_id => test_user.id)
-        mood.timestamp = d.days.ago
+          :user_id => test_user.id,
+          :timestamp => d.days.ago)
         mood.created_at = d.days.ago
         mood.updated_at = d.days.ago
         mood.save!
@@ -73,8 +73,8 @@ namespace :db do
           :medication => [true,false].sample,
           :meditation => [true,false].sample,
           :exercise => [true,false].sample,
-          :user_id => test_user.id)
-        self_care.timestamp = d.days.ago
+          :user_id => test_user.id,
+          :timestamp => d.days.ago)
         self_care.created_at = d.days.ago
         self_care.updated_at = d.days.ago
         self_care.save!
@@ -86,8 +86,8 @@ namespace :db do
 
         if journal_entered
           journal = Journal.create!(:journal_entry => journal_entry,
-            :user_id => test_user.id)
-          journal.timestamp = d.days.ago
+            :user_id => test_user.id,
+            :timestamp => d.days.ago)
           journal.created_at = d.days.ago
           journal.updated_at = d.days.ago
           journal.save!
@@ -119,8 +119,8 @@ namespace :db do
         mood = Mood.create!(:mood_rating => rand(1..7),
           :anxiety_rating => rand(1..4),
           :irritability_rating => rand(1..4),
-          :user_id => test_user.id)
-        mood.timestamp = d.days.ago
+          :user_id => test_user.id,
+          :timestamp => d.days.ago)
         mood.created_at = d.days.ago
         mood.updated_at = d.days.ago
         mood.save!
@@ -147,8 +147,8 @@ namespace :db do
           :medication => [true,false].sample,
           :meditation => [true,false].sample,
           :exercise => [true,false].sample,
-          :user_id => test_user.id)
-        self_care.timestamp = d.days.ago
+          :user_id => test_user.id,
+          :timestamp => d.days.ago)
         self_care.created_at = d.days.ago
         self_care.updated_at = d.days.ago
         self_care.save!
@@ -160,8 +160,8 @@ namespace :db do
 
         if journal_entered
           journal = Journal.create!(:journal_entry => journal_entry,
-            :user_id => test_user.id)
-          journal.timestamp = d.days.ago
+            :user_id => test_user.id,
+            :timestamp => d.days.ago)
           journal.created_at = d.days.ago
           journal.updated_at = d.days.ago
           journal.save!
