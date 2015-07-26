@@ -255,6 +255,8 @@ class JournalsController < ApplicationController
       end
     end
 
+    $current_capture_screen = "Journal"
+
     respond_to do |format|
       format.js
     end

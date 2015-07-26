@@ -263,6 +263,8 @@ class SelfCaresController < ApplicationController
         authorize @self_cares
       end
     end
+
+    $current_capture_screen = "SelfCare"
     
     respond_to do |format|
       format.js

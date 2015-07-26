@@ -9,6 +9,10 @@ class CaptureController < ApplicationController
   def update_capture
     @user = User.find_by_id(params[:user_id])
 
+    if $current_capture_screen == nil
+      $current_capture_screen = DEFAULT_CAPTURE_SCREEN
+    end
+
     respond_to do |format|
       format.js
     end

@@ -266,6 +266,8 @@ class MoodsController < ApplicationController
         authorize @moods
       end
     end
+
+    $current_capture_screen = "Mood"
     
     respond_to do |format|
       format.js

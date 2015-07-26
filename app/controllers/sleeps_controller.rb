@@ -263,7 +263,9 @@ class SleepsController < ApplicationController
         authorize @sleeps
       end
     end
-    
+
+    $current_capture_screen = "Sleep"
+
     respond_to do |format|
       format.js
     end
