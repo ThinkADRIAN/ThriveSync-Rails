@@ -4,11 +4,11 @@
   <% user = @user%>
 <% end %>
 
-<% if @capture_date == nil %>
-  <% @capture_date = Date.today %>
+<% if $capture_date == nil %>
+  <% $capture_date = Date.today %>
 <% end %>
 
-<% @capture_journals = Journal.where(user_id: user.id, timestamp: (@capture_date.at_beginning_of_day.in_time_zone..@capture_date.end_of_day.in_time_zone)) %>
+<% @capture_journals = Journal.where(user_id: user.id, timestamp: ($capture_date.at_beginning_of_day.in_time_zone..$capture_date.end_of_day.in_time_zone)) %>
 
 <% (1..8).each do %>
   <br>

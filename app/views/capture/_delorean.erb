@@ -2,12 +2,12 @@
   <center>
   	<div class="dropdown">
       <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
-        <% if @capture_date == Date.today || @capture_date == nil %>
+        <% if $capture_date == Date.today || $capture_date == nil %>
           <%= "Today, " + Date.today.strftime("%m/%d/%Y").to_s  %>
-        <% elsif @capture_date == Date.yesterday %>
+        <% elsif $capture_date == Date.yesterday %>
           <%= "Yesterday, " + Date.yesterday.strftime("%m/%d/%Y").to_s  %>
         <% else %>
-          <%= @capture_date.strftime("%A").to_s+ ", " + @capture_date.strftime("%m/%d/%Y").to_s %>
+          <%= $capture_date.strftime("%A").to_s+ ", " + $capture_date.strftime("%m/%d/%Y").to_s %>
         <% end %>
         <span class="caret"></span>
       </button>
