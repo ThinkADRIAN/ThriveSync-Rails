@@ -4,9 +4,6 @@ class CaptureController < ApplicationController
   before_action :authenticate_user!
   before_action :set_capture_date, only: [:update_capture]
 
-  #after_filter :verify_authorized,  except: [:index]
-  #after_filter :verify_policy_scoped, only: [:index]
-
   respond_to :html, :js, :json
   
   def update_capture
