@@ -30,9 +30,11 @@ class SleepsController < ApplicationController
   end
 
   def_param_group :sleeps_data do
-    param :start_time, :undef, :desc => "Sleep Start Time [DateTime(UTC)]", :required => true
-    param :finish_time, :undef, :desc => "Sleep Finish Time [DateTime(UTC)]", :required => true
-    param :quality, :number, :desc => "[['Broken', 1], ['Light', 2], ['Normal', 3], ['Deep',4]]", :required => true
+    param :sleep, Hash , :desc => "Sleep", :required => false do
+      param :start_time, :undef, :desc => "Sleep Start Time [DateTime(UTC)]", :required => true
+      param :finish_time, :undef, :desc => "Sleep Finish Time [DateTime(UTC)]", :required => true
+      param :quality, :number, :desc => "[['Broken', 1], ['Light', 2], ['Normal', 3], ['Deep',4]]", :required => true
+    end
   end
 
   def_param_group :sleeps_all do
@@ -283,7 +285,7 @@ class SleepsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def sleep_params
-      params.permit(:start_time, :finish_time, :quality, :sleep_lookback_period)
+      params.fetch(:sleep).permit(:start_time, :finish_time, :quality, :sleep_lookback_period)
     end
 
     def track_sleep_created

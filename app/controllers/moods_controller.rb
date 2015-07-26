@@ -30,9 +30,11 @@ class MoodsController < ApplicationController
   end
 
   def_param_group :moods_data do
-    param :mood_rating, :number, :desc => "[['Severely Depressed', 1], ['Moderately Depressed', 2], ['Mildly Depressed', 3], ['Baseline',4], ['Mildly Elevated',5], ['Moderately Elevated', 6], ['Severely Elevated',7]]", :required => true
-    param :anxiety_rating, :number, :desc => "[['None', 1], ['Mild', 2], ['Moderate', 3], ['Severe',4]]", :required => true
-    param :irritability_rating, :number, :desc => "[['None', 1], ['Mild', 2], ['Moderate', 3], ['Severe',4]]", :required => true
+    param :mood, Hash , :desc => "Mood", :required => false do
+      param :mood_rating, :number, :desc => "[['Severely Depressed', 1], ['Moderately Depressed', 2], ['Mildly Depressed', 3], ['Baseline',4], ['Mildly Elevated',5], ['Moderately Elevated', 6], ['Severely Elevated',7]]", :required => true
+      param :anxiety_rating, :number, :desc => "[['None', 1], ['Mild', 2], ['Moderate', 3], ['Severe',4]]", :required => true
+      param :irritability_rating, :number, :desc => "[['None', 1], ['Mild', 2], ['Moderate', 3], ['Severe',4]]", :required => true
+    end
   end
 
   def_param_group :moods_all do
@@ -286,7 +288,7 @@ class MoodsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def mood_params
-      params.permit(:mood_rating, :anxiety_rating, :irritability_rating, :timestamp, :mood_lookback_period)
+      params.fetch(:mood).permit(:mood_rating, :anxiety_rating, :irritability_rating, :timestamp, :mood_lookback_period)
     end
 
     def track_mood_created

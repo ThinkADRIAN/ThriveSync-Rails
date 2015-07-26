@@ -26,7 +26,9 @@ class JournalsController < ApplicationController
   end
 
   def_param_group :journals_data do
-    param :journal_entry, :undef, :desc => "Journal Entry [String]", :required => true
+    param :journal, Hash , :desc => "Journal", :required => false do
+      param :journal_entry, :undef, :desc => "Journal Entry [String]", :required => true
+    end
   end
 
   def_param_group :journals_all do
@@ -274,7 +276,7 @@ class JournalsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def journal_params
-      params.permit(:journal_entry, :timestamp, :journal_lookback_period)
+      params.fetch(:journal).permit(:journal_entry, :timestamp, :journal_lookback_period)
     end
 
     def track_journal_created
