@@ -2,7 +2,7 @@
   <%= render "capture/delorean" %>
 </div>
 
-<% if $current_capture_screen == "Mood" %>
+<% if $current_capture_screen == "Mood" || $current_capture_screen == nil %>
   <div class="capture-nav">
       <%= render "capture/nav/mood" %>
   </div>

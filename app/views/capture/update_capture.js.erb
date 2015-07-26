@@ -1,5 +1,5 @@
 //$(".capture").html("<%= escape_javascript(render 'capture/index' ) %>");
-<% if $current_capture_screen == "Mood" %>
+<% if $current_capture_screen == "Mood" || $current_capture_screen == nil %>
 	$(".capture-delorean").html("<%= escape_javascript(render 'capture/delorean') %>");
 	$(".capture-nav").html("<%= escape_javascript(render 'capture/nav/mood') %>");
 	$(".capture-window").html("<%= escape_javascript(render 'capture/show/mood') %>");
