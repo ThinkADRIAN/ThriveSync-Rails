@@ -287,7 +287,7 @@ class SleepsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def sleep_params
-      params.fetch(:sleep).permit(:start_time, :finish_time, :quality, :sleep_lookback_period)
+      params.fetch(:sleep, {}).permit(:start_time, :finish_time, :quality, :sleep_lookback_period)
     end
 
     def track_sleep_created

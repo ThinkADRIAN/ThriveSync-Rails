@@ -287,7 +287,7 @@ class SelfCaresController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def self_care_params
-      params.fetch(:self_care).permit(:counseling, :medication, :meditation, :exercise, :timestamp, :self_care_lookback_period)
+      params.fetch(:self_care, {}).permit(:counseling, :medication, :meditation, :exercise, :timestamp, :self_care_lookback_period)
     end
 
     def track_self_care_created
