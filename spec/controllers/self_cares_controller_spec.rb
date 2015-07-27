@@ -284,13 +284,13 @@ describe SelfCaresController, :type => :controller do
         it "does not save the new self care" do
           @spec_invalid_self_care_attrs = FactoryGirl.attributes_for(:invalid_self_care).as_json
           expect{ 
-            xhr :post, :create, self_care: {:counseling => @spec_invalid_self_care_attrs["counseling"], :medication => @spec_invalid_self_care_attrs["medication"], :meditation => @spec_invalid_self_care_attrs["meditation"], :exercise => @spec_invalid_self_care_attrs["exercise"]}
+            xhr :post, :create, self_care: @spec_invalid_self_care_attrs
           }.to_not change(SelfCare,:count) 
         end 
 
         it "re-renders JS for new method" do 
           @spec_invalid_self_care_attrs = FactoryGirl.attributes_for(:invalid_self_care).as_json
-          xhr :post, :create, self_care: {:counseling => @spec_invalid_self_care_attrs["counseling"], :medication => @spec_invalid_self_care_attrs["medication"], :meditation => @spec_invalid_self_care_attrs["meditation"], :exercise => @spec_invalid_self_care_attrs["exercise"]}
+          xhr :post, :create, self_care: @spec_invalid_self_care_attrs
           xhr :get, :new, @params
         end 
       end
@@ -299,13 +299,13 @@ describe SelfCaresController, :type => :controller do
         it "does not save the new self care" do
           @spec_invalid_self_care_attrs = FactoryGirl.attributes_for(:invalid_self_care).as_json
           expect{ 
-            post :create, self_care: {:counseling => @spec_invalid_self_care_attrs["counseling"], :medication => @spec_invalid_self_care_attrs["medication"], :meditation => @spec_invalid_self_care_attrs["meditation"], :exercise => @spec_invalid_self_care_attrs["exercise"]}, format: :json
+            post :create, self_care: @spec_invalid_self_care_attrs, format: :json
           }.to_not change(SelfCare,:count) 
         end 
 
         it "re-renders JS for new method" do 
           @spec_invalid_self_care_attrs = FactoryGirl.attributes_for(:invalid_self_care).as_json
-          xhr :post, :create, self_care: {:counseling => @spec_invalid_self_care_attrs["counseling"], :medication => @spec_invalid_self_care_attrs["medication"], :meditation => @spec_invalid_self_care_attrs["meditation"], :exercise => @spec_invalid_self_care_attrs["exercise"]}
+          xhr :post, :create, self_care: @spec_invalid_self_care_attrs
           xhr :get, :new, @params
         end 
       end 

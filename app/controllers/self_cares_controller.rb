@@ -169,9 +169,9 @@ class SelfCaresController < ApplicationController
       t = Time.now
       dt = DateTime.new(d.year, d.month, d.day, t.hour, t.min, t.sec, t.zone)
 
-      @self_care.update_attribute(:timestamp, dt)
+      @self_care.timestamp = dt
     else
-      @self_care.update_attribute(:timestamp, DateTime.now.in_time_zone)
+      @self_care.timestamp = DateTime.now.in_time_zone
     end
     
     respond_to do |format|
