@@ -199,7 +199,7 @@ class SleepsController < ApplicationController
         track_sleep_updated
 
         flash.now[:success] = 'Sleep Entry was successfully updated.'
-        format.js
+        format.js { render status: 200 }
         format.json { render :json => @sleep, status: :created }
       else
         flash.now[:error] = 'Sleep Entry was not updated... Try again???'
@@ -263,7 +263,9 @@ class SleepsController < ApplicationController
         authorize @sleeps
       end
     end
-    
+
+    $current_capture_screen = "Sleep"
+
     respond_to do |format|
       format.js
     end
@@ -285,7 +287,7 @@ class SleepsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def sleep_params
-      params.fetch(:sleep).permit(:start_time, :finish_time, :quality, :sleep_lookback_period)
+      params.fetch(:sleep, {}).permit(:start_time, :finish_time, :quality, :sleep_lookback_period)
     end
 
     def track_sleep_created

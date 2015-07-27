@@ -255,13 +255,12 @@ describe JournalsController, :type => :controller do
       context "with valid JS request(:context)" do 
         it "creates a new journal" do 
           expect{
-            post :create, :journal_entry => @spec_journal_attrs["journal_entry"], format: :js
-
+            xhr :post, :create, :journal => @spec_journal_attrs
           }.to change(Journal,:count).by(1) 
         end
 
         it "returns a created 201 response" do 
-          post :create, :journal_entry => @spec_journal_attrs["journal_entry"], format: :js
+          xhr :post, :create, :journal => @spec_journal_attrs
           expect(response).to have_http_status(:created)
           #expect(response).to redirect_to Journal.last 
         end 
@@ -270,13 +269,12 @@ describe JournalsController, :type => :controller do
       context "with valid JSON attributes(:context)" do 
         it "creates a new journal" do 
           expect{
-            post :create, :journal_entry => @spec_journal_attrs["journal_entry"], format: :js
-
+            post :create, :journal => @spec_journal_attrs, format: :json
           }.to change(Journal,:count).by(1) 
         end
 
         it "returns a created 201 response" do 
-          post :create, :journal_entry => @spec_journal_attrs["journal_entry"], format: :js
+          post :create, :journal => @spec_journal_attrs, format: :json
           expect(response).to have_http_status(:created)
           #expect(response).to redirect_to Journal.last 
         end 
@@ -286,13 +284,13 @@ describe JournalsController, :type => :controller do
         it "does not save the new journal" do
           @spec_invalid_journal_attrs = FactoryGirl.attributes_for(:invalid_journal).as_json
           expect{ 
-            post :create, :journal_entry => ["journal_entry"], format: :js
+            xhr :post, :create, journal: @spec_invalid_journal_attrs
           }.to_not change(Journal,:count) 
         end 
 
         it "re-renders JS for new method" do 
           @spec_invalid_journal_attrs = FactoryGirl.attributes_for(:invalid_journal).as_json
-          xhr :post, :create, :journal_entry => ["journal_entry"], format: :js
+          xhr :post, :create, journal: @spec_invalid_journal_attrs
           xhr :get, :new, @params
         end 
       end
@@ -301,13 +299,13 @@ describe JournalsController, :type => :controller do
         it "does not save the new journal" do
           @spec_invalid_journal_attrs = FactoryGirl.attributes_for(:invalid_journal).as_json
           expect{ 
-            post :create, :journal_entry => ["journal_entry"], format: :json
+            post :create, journal: @spec_invalid_journal_attrs, format: :json
           }.to_not change(Journal,:count) 
         end 
 
         it "re-renders JS for new method" do 
           @spec_invalid_journal_attrs = FactoryGirl.attributes_for(:invalid_journal).as_json
-          xhr :post, :create, :journal_entry => ["journal_entry"], format: :json
+          xhr :post, :create, journal: @spec_invalid_journal_attrs, format: :json
           xhr :get, :new, @params
         end 
       end
@@ -344,49 +342,50 @@ describe JournalsController, :type => :controller do
 
       context "with valid JS request" do
         it "located the requested @journal" do
-          put :update, :id => @spec_journal.as_json["id"], :journal_entry => @spec_journal_attrs["journal_entry"], format: :js
-          expect(assigns(:journal).as_json).to eq(@spec_journal.as_json)
+          xhr :put, :update, :id => @spec_journal["id"], journal: @spec_journal_attrs
+          @spec_journal.reload
+          expect(assigns(:journal)).to eq(@spec_journal)
         end
 
         it "updates an existing journal" do 
-          put :update, :id => @spec_journal.as_json["id"], :journal_entry => @spec_updated_journal_attrs["journal_entry"], format: :js
+          xhr :put, :update, :id => @spec_journal.as_json["id"], journal: @spec_updated_journal_attrs
           @spec_journal.reload
           expect(@spec_journal.journal_entry).to eq(@spec_updated_journal_attrs["journal_entry"])
         end
 
         it "returns a updated 200 response" do 
-          put :update, :id => @spec_journal.as_json["id"], :journal_entry => @spec_updated_journal_attrs["journal_entry"], format: :js
+          xhr :put, :update, :id => @spec_journal.as_json["id"], journal: @spec_updated_journal_attrs
           expect(response).to be_success
           #expect(response).to redirect_to Journal.last 
         end 
 
         it "gives a success flash message" do
-          put :update, :id => @spec_journal.as_json["id"], :journal_entry => @spec_updated_journal_attrs["journal_entry"], format: :js
+          xhr :put, :update, :id => @spec_journal.as_json["id"], journal: @spec_updated_journal_attrs
           expect(flash[:success]).to eq("Journal Entry was successfully updated.")
         end
       end 
 
       context "with valid JSON attributes" do
         it "located the requested @journal" do
-          put :update, :id => @spec_journal.as_json["id"], :journal_entry => @spec_journal_attrs["journal_entry"], format: :json
+          put :update, :id => @spec_journal.as_json["id"], journal: {:journal_entry => @spec_updated_journal_attrs["journal_entry"]}, format: :json
+          @spec_journal.reload
           expect(assigns(:journal).as_json).to eq(@spec_journal.as_json)
         end
 
         it "updates an existing journal" do 
-          put :update, :id => @spec_journal.as_json["id"], :journal_entry => @spec_updated_journal_attrs["journal_entry"], format: :json
-
+          put :update, :id => @spec_journal.as_json["id"], journal: {:journal_entry => @spec_updated_journal_attrs["journal_entry"]}, format: :json
           @spec_journal.reload
           expect(@spec_journal.journal_entry).to eq(@spec_updated_journal_attrs["journal_entry"])
         end
 
         it "returns a created 200 response" do 
-          put :update, :id => @spec_journal.as_json["id"], :journal_entry => @spec_updated_journal_attrs["journal_entry"], format: :json
+          put :update, :id => @spec_journal.as_json["id"], journal: {:journal_entry => @spec_updated_journal_attrs["journal_entry"]}, format: :json
           expect(response).to be_success
           #expect(response).to redirect_to Journal.last 
         end 
 
         it "gives a success flash message" do
-          put :update, :id => @spec_journal.as_json["id"], :journal_entry => @spec_updated_journal_attrs["journal_entry"], format: :json
+          put :update, :id => @spec_journal.as_json["id"], journal: {:journal_entry => @spec_updated_journal_attrs["journal_entry"]}, format: :json
           expect(flash[:success]).to eq("Journal Entry was successfully updated.")
         end
       end 
@@ -477,17 +476,17 @@ describe JournalsController, :type => :controller do
       context "with JS request" do
         it "deletes the journal" do 
           expect{ 
-            delete :destroy, id: @spec_journal.as_json["id"], format: :js
+            xhr :delete, :destroy, id: @spec_journal.as_json["id"]
           }.to change(Journal,:count).by(-1) 
         end 
 
         it "re-renders JS for index method" do 
-          delete :destroy, id: @spec_journal.as_json["id"], format: :js
+          xhr :delete, :destroy, id: @spec_journal.as_json["id"]
           xhr :get, :index, @params
         end
 
         it "gives a success flash message" do 
-          delete :destroy, id: @spec_journal.as_json["id"], format: :js
+          xhr :delete, :destroy, id: @spec_journal.as_json["id"], format: :js
           expect(flash[:success]).to eq("Journal Entry was successfully deleted.")
         end
       end

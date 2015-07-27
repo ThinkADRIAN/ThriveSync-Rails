@@ -34,7 +34,7 @@ describe SleepsController, :type => :controller do
           expect(response).to be_success
         end
         
-        it "populates an array of moods" do 
+        it "populates an array of sleeps" do 
           expect(assigns(:sleeps).to_a).to eq(@spec_sleeps)
         end
         
@@ -92,7 +92,7 @@ describe SleepsController, :type => :controller do
           get :show, id: @spec_sleep.id
         end
         
-        it "assigns the requested mood to @sleep" do
+        it "assigns the requested sleep to @sleep" do
           expect(assigns(:sleep)).to eq(@spec_sleep)
         end
       end
@@ -114,7 +114,7 @@ describe SleepsController, :type => :controller do
 
         it "returns the requested sleep" do
           parsed_response = JSON.parse(response.body)
-          expect(parsed_response[:sleep]).to eq(@spec_mood)
+          expect(parsed_response[:sleep]).to eq(@spec_sleep)
         end
       end
     end
@@ -255,13 +255,12 @@ describe SleepsController, :type => :controller do
       context "with valid JS request(:context)" do 
         it "creates a new sleep" do 
           expect{
-            post :create, :start_time => @spec_sleep_attrs["start_time"], :finish_time => @spec_sleep_attrs["finish_time"], :quality => @spec_sleep_attrs["quality"], format: :js
-
+            xhr :post, :create, :sleep => @spec_sleep_attrs
           }.to change(Sleep,:count).by(1) 
         end
 
         it "returns a created 201 response" do 
-          post :create, :start_time => @spec_sleep_attrs["start_time"], :finish_time => @spec_sleep_attrs["finish_time"], :quality => @spec_sleep_attrs["quality"], format: :js
+          xhr :post, :create, :sleep => @spec_sleep_attrs
           expect(response).to have_http_status(:created)
           #expect(response).to redirect_to Sleep.last 
         end 
@@ -270,44 +269,43 @@ describe SleepsController, :type => :controller do
       context "with valid JSON attributes(:context)" do 
         it "creates a new sleep" do 
           expect{
-            post :create, :start_time => @spec_sleep_attrs["start_time"], :finish_time => @spec_sleep_attrs["finish_time"], :quality => @spec_sleep_attrs["quality"], format: :json
-
+            post :create, :sleep => @spec_sleep_attrs, format: :json
           }.to change(Sleep,:count).by(1) 
         end
 
         it "returns a created 201 response" do 
-          post :create, :start_time => @spec_sleep_attrs["start_time"], :finish_time => @spec_sleep_attrs["finish_time"], :quality => @spec_sleep_attrs["quality"], format: :json
+          post :create, :sleep => @spec_sleep_attrs, format: :json
           expect(response).to have_http_status(:created)
           #expect(response).to redirect_to SelfCare.last 
         end 
       end 
 
       context "with invalid JS request" do 
-        it "does not save the new mood" do
+        it "does not save the new sleep" do
           @spec_invalid_sleep_attrs = FactoryGirl.attributes_for(:invalid_sleep).as_json
           expect{ 
-            post :create, :start_time => @spec_invalid_sleep_attrs["start_time"], :finish_time => @spec_invalid_sleep_attrs["finish_time"], :quality => @spec_invalid_sleep_attrs["quality"], format: :js
+            xhr :post, :create, sleep: {:start_time => @spec_invalid_sleep_attrs["start_time"], :finish_time => @spec_invalid_sleep_attrs["finish_time"], :quality => @spec_invalid_sleep_attrs["quality"]}
           }.to_not change(Sleep,:count) 
         end 
 
         it "re-renders JS for new method" do 
           @spec_invalid_sleep_attrs = FactoryGirl.attributes_for(:invalid_sleep).as_json
-          xhr :post, :create, :start_time => @spec_invalid_sleep_attrs["start_time"], :finish_time => @spec_invalid_sleep_attrs["finish_time"], :quality => @spec_invalid_sleep_attrs["quality"], format: :js
+          xhr :post, :create, sleep: {:start_time => @spec_invalid_sleep_attrs["start_time"], :finish_time => @spec_invalid_sleep_attrs["finish_time"], :quality => @spec_invalid_sleep_attrs["quality"]}
           xhr :get, :new, @params
         end 
       end
 
       context "with invalid JSON attributes" do 
-        it "does not save the new mood" do
+        it "does not save the new sleep" do
           @spec_invalid_sleep_attrs = FactoryGirl.attributes_for(:invalid_sleep).as_json
           expect{ 
-            post :create, :start_time => @spec_invalid_sleep_attrs["start_time"], :finish_time => @spec_invalid_sleep_attrs["finish_time"], :quality => @spec_invalid_sleep_attrs["quality"], format: :json
+            post :create, sleep: {:start_time => @spec_invalid_sleep_attrs["start_time"], :finish_time => @spec_invalid_sleep_attrs["finish_time"], :quality => @spec_invalid_sleep_attrs["quality"]}, format: :json
           }.to_not change(Sleep,:count) 
         end 
 
         it "re-renders JS for new method" do 
           @spec_invalid_sleep_attrs = FactoryGirl.attributes_for(:invalid_sleep).as_json
-          xhr :post, :create, :start_time => @spec_invalid_sleep_attrs["start_time"], :finish_time => @spec_invalid_sleep_attrs["finish_time"], :quality => @spec_invalid_sleep_attrs["quality"], format: :json
+          xhr :post, :create, sleep: {:start_time => @spec_invalid_sleep_attrs["start_time"], :finish_time => @spec_invalid_sleep_attrs["finish_time"], :quality => @spec_invalid_sleep_attrs["quality"]}, format: :json
           xhr :get, :new, @params
         end 
       end 
@@ -342,13 +340,13 @@ describe SleepsController, :type => :controller do
 
       context "with valid JS request" do
         it "located the requested @sleep" do
-          put :update, :id => @spec_sleep.as_json["id"], :start_time => @spec_sleep_attrs["start_time"], :finish_time => @spec_sleep_attrs["finish_time"], :quality => @spec_sleep_attrs["quality"], format: :js
+          xhr :put, :update, :id => @spec_sleep.as_json["id"], sleep: @spec_sleep_attrs
+          @spec_sleep.reload
           expect(assigns(:sleep).as_json).to eq(@spec_sleep.as_json)
         end
 
         it "updates an existing sleep" do 
-          put :update, :id => @spec_sleep.as_json["id"], :start_time => @spec_updated_sleep_attrs["start_time"], :finish_time => @spec_updated_sleep_attrs["finish_time"], :quality => @spec_updated_sleep_attrs["quality"], format: :js
-
+          xhr :put, :update, :id => @spec_sleep.as_json["id"], sleep: @spec_updated_sleep_attrs
           @spec_sleep.reload
           expect(@spec_sleep.start_time).to eq(@spec_updated_sleep_attrs["start_time"])
           expect(@spec_sleep.finish_time).to eq(@spec_updated_sleep_attrs["finish_time"])
@@ -357,25 +355,25 @@ describe SleepsController, :type => :controller do
         end
 
         it "returns a updated 200 response" do 
-          put :update, :id => @spec_sleep.as_json["id"], :start_time => @spec_updated_sleep_attrs["start_time"], :finish_time => @spec_updated_sleep_attrs["finish_time"], :quality => @spec_updated_sleep_attrs["quality"], format: :js
+          xhr :put, :update, :id => @spec_sleep.as_json["id"], sleep: @spec_updated_sleep_attrs
           expect(response).to be_success
           #expect(response).to redirect_to SelfCare.last 
         end 
 
         it "gives a success flash message" do
-          put :update, :id => @spec_sleep.as_json["id"], :start_time => @spec_updated_sleep_attrs["start_time"], :finish_time => @spec_updated_sleep_attrs["finish_time"], :quality => @spec_updated_sleep_attrs["quality"], format: :js
+          xhr :put, :update, :id => @spec_sleep.as_json["id"], sleep: @spec_updated_sleep_attrs
           expect(flash[:success]).to eq("Sleep Entry was successfully updated.")
         end
       end 
 
       context "with valid JSON attributes" do
         it "located the requested @sleep" do
-          put :update, :id => @spec_sleep.as_json["id"], :start_time => @spec_sleep_attrs["start_time"], :finish_time => @spec_sleep_attrs["finish_time"], :quality => @spec_sleep_attrs["quality"], format: :json
+          put :update, :id => @spec_sleep.as_json["id"], sleep: {:start_time => @spec_sleep_attrs["start_time"], :finish_time => @spec_sleep_attrs["finish_time"], :quality => @spec_sleep_attrs["quality"]}, format: :json
           expect(assigns(:sleep).as_json).to eq(@spec_sleep.as_json)
         end
 
         it "updates an existing sleep" do 
-          put :update, :id => @spec_sleep.as_json["id"], :start_time => @spec_updated_sleep_attrs["start_time"], :finish_time => @spec_updated_sleep_attrs["finish_time"], :quality => @spec_updated_sleep_attrs["quality"], format: :json
+          put :update, :id => @spec_sleep.as_json["id"], sleep: {:start_time => @spec_updated_sleep_attrs["start_time"], :finish_time => @spec_updated_sleep_attrs["finish_time"], :quality => @spec_updated_sleep_attrs["quality"]}, format: :json
 
           @spec_sleep.reload
           expect(@spec_sleep.start_time).to eq(@spec_updated_sleep_attrs["start_time"])
@@ -385,13 +383,13 @@ describe SleepsController, :type => :controller do
         end
 
         it "returns a created 200 response" do 
-          put :update, :id => @spec_sleep.as_json["id"], :start_time => @spec_updated_sleep_attrs["start_time"], :finish_time => @spec_updated_sleep_attrs["finish_time"], :quality => @spec_updated_sleep_attrs["quality"], format: :json
+          put :update, :id => @spec_sleep.as_json["id"], sleep: {:start_time => @spec_updated_sleep_attrs["start_time"], :finish_time => @spec_updated_sleep_attrs["finish_time"], :quality => @spec_updated_sleep_attrs["quality"]}, format: :json
           expect(response).to be_success
           #expect(response).to redirect_to SelfCare.last 
         end 
 
         it "gives a success flash message" do
-          put :update, :id => @spec_sleep.as_json["id"], :start_time => @spec_updated_sleep_attrs["start_time"], :finish_time => @spec_updated_sleep_attrs["finish_time"], :quality => @spec_updated_sleep_attrs["quality"], format: :json
+          put :update, :id => @spec_sleep.as_json["id"], sleep: {:start_time => @spec_updated_sleep_attrs["start_time"], :finish_time => @spec_updated_sleep_attrs["finish_time"], :quality => @spec_updated_sleep_attrs["quality"]}, format: :json
           expect(flash[:success]).to eq("Sleep Entry was successfully updated.")
         end
       end 
@@ -400,19 +398,19 @@ describe SleepsController, :type => :controller do
         it "does not update the new sleep" do
           @spec_invalid_sleep_attrs = FactoryGirl.attributes_for(:invalid_sleep).as_json
           expect{ 
-            put :update, :id => @spec_sleep.as_json["id"], :start_time => @spec_invalid_sleep_attrs["start_time"], :finish_time => @spec_invalid_sleep_attrs["finish_time"], :quality => @spec_invalid_sleep_attrs["quality"], format: :json
+            put :update, :id => @spec_sleep.as_json["id"], sleep: {:start_time => @spec_invalid_sleep_attrs["start_time"], :finish_time => @spec_invalid_sleep_attrs["finish_time"], :quality => @spec_invalid_sleep_attrs["quality"]}, format: :json
           }.to_not change(Sleep,:count) 
         end 
 
         it "re-renders JS for edit method" do 
           @spec_invalid_sleep_attrs = FactoryGirl.attributes_for(:invalid_sleep).as_json
-          put :update, :id => @spec_sleep.as_json["id"], :start_time => @spec_invalid_sleep_attrs["start_time"], :finish_time => @spec_invalid_sleep_attrs["finish_time"], :quality => @spec_invalid_sleep_attrs["quality"], format: :json
-          xhr :get, :edit, :id => @spec_sleep.as_json["id"], :start_time => @spec_invalid_sleep_attrs["start_time"], :finish_time => @spec_invalid_sleep_attrs["finish_time"], :quality => @spec_invalid_sleep_attrs["quality"], format: :json
+          put :update, :id => @spec_sleep.as_json["id"], sleep: {:start_time => @spec_invalid_sleep_attrs["start_time"], :finish_time => @spec_invalid_sleep_attrs["finish_time"], :quality => @spec_invalid_sleep_attrs["quality"]}, format: :json
+          xhr :get, :edit, :id => @spec_sleep.as_json["id"], sleep: {:start_time => @spec_invalid_sleep_attrs["start_time"], :finish_time => @spec_invalid_sleep_attrs["finish_time"], :quality => @spec_invalid_sleep_attrs["quality"]}, format: :json
         end
 
         it "gives an error flash message" do
           @spec_invalid_sleep_attrs = FactoryGirl.attributes_for(:invalid_sleep).as_json
-          put :update, :id => @spec_sleep.as_json["id"], :start_time => @spec_invalid_sleep_attrs["start_time"], :finish_time => @spec_invalid_sleep_attrs["finish_time"], :quality => @spec_invalid_sleep_attrs["quality"], format: :json
+          put :update, :id => @spec_sleep.as_json["id"], sleep: {:start_time => @spec_invalid_sleep_attrs["start_time"], :finish_time => @spec_invalid_sleep_attrs["finish_time"], :quality => @spec_invalid_sleep_attrs["quality"]}, format: :json
           expect(flash[:error]).to eq("Sleep Entry was not updated... Try again???")
         end
       end 

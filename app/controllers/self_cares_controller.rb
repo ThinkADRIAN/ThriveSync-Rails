@@ -100,6 +100,7 @@ class SelfCaresController < ApplicationController
   # GET /self_cares/new
   def new
     @user = User.find_by_id(params[:user_id])
+    $capture_source = params[:capture_source]
 
     if @user == nil
       skip_authorization
@@ -162,7 +163,16 @@ class SelfCaresController < ApplicationController
 
     @self_care = SelfCare.new(self_care_params)
     @self_care.user_id = current_user.id
-    @self_care.timestamp =  DateTime.now.in_time_zone
+
+    if $capture_source == 'self_care'
+      d = $capture_date
+      t = Time.now
+      dt = DateTime.new(d.year, d.month, d.day, t.hour, t.min, t.sec, t.zone)
+
+      @self_care.timestamp = dt
+    else
+      @self_care.timestamp = DateTime.now.in_time_zone
+    end
     
     respond_to do |format|
       if @self_care.save
@@ -172,6 +182,7 @@ class SelfCaresController < ApplicationController
         format.js { render status: :created }
         format.json { render :json => @self_care, status: :created }
       else
+        flash.now[:error] = 'Self Care Entry was not tracked... Try again???'
         format.js   { render json: @self_care.errors, status: :unprocessable_entity }
         format.json { render json: @self_care.errors, status: :unprocessable_entity }
       end
@@ -263,6 +274,8 @@ class SelfCaresController < ApplicationController
         authorize @self_cares
       end
     end
+
+    $current_capture_screen = "SelfCare"
     
     respond_to do |format|
       format.js
@@ -285,7 +298,7 @@ class SelfCaresController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def self_care_params
-      params.fetch(:self_care).permit(:counseling, :medication, :meditation, :exercise, :timestamp, :self_care_lookback_period)
+      params.fetch(:self_care, {}).permit(:counseling, :medication, :meditation, :exercise, :timestamp, :self_care_lookback_period, :capture_source)
     end
 
     def track_self_care_created

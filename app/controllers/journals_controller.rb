@@ -91,6 +91,7 @@ class JournalsController < ApplicationController
   # GET /journals/new
   def new
     @user = User.find_by_id(params[:user_id])
+    $capture_source = params[:capture_source]
 
     if @user == nil
       skip_authorization
@@ -153,7 +154,16 @@ class JournalsController < ApplicationController
 
     @journal = Journal.new(journal_params)
     @journal.user_id = current_user.id
-    @journal.update_attribute(:timestamp, DateTime.now.in_time_zone)
+
+    if $capture_source == 'journal'
+      d = $capture_date
+      t = Time.now
+      dt = DateTime.new(d.year, d.month, d.day, t.hour, t.min, t.sec, t.zone)
+
+      @journal.timestamp = dt
+    else
+      @journal.timestamp = DateTime.now.in_time_zone
+    end
     
     respond_to do |format|
       if @journal.save
@@ -163,6 +173,7 @@ class JournalsController < ApplicationController
         format.js { render status: :created }
         format.json { render :json => @journal, status: :created }
       else
+        flash.now[:error] = 'Journal Entry was not tracked... Try again???'
         format.js   { render json: @journal.errors, status: :unprocessable_entity }
         format.json { render json: @journal.errors, status: :unprocessable_entity }
       end
@@ -189,11 +200,12 @@ class JournalsController < ApplicationController
     respond_to do |format|
       if @journal.update(journal_params)
         track_journal_updated
+
         flash.now[:success] = "Journal Entry was successfully updated."
         format.js
         format.json { render :json => @journal, status: :created }
       else
-        flash.now[:error] = 'Journal Entry was not updated... Try again???'
+        flash.now[:error] = "Journal Entry was not updated... Try again???"
         format.js   { render json: @journal.errors, status: :unprocessable_entity }
         format.json { render json: @journal.errors, status: :unprocessable_entity }
       end
@@ -255,6 +267,8 @@ class JournalsController < ApplicationController
       end
     end
 
+    $current_capture_screen = "Journal"
+
     respond_to do |format|
       format.js
     end
@@ -276,7 +290,7 @@ class JournalsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def journal_params
-      params.fetch(:journal).permit(:journal_entry, :timestamp, :journal_lookback_period)
+      params.fetch(:journal, {}).permit(:journal_entry, :timestamp, :journal_lookback_period, :capture_source)
     end
 
     def track_journal_created

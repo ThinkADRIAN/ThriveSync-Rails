@@ -14,7 +14,7 @@ FactoryGirl.define do
   	f.counseling { '' }
     f.medication { '' }
     f.meditation { '' }
-    f.exercise { ''}
+    f.exercise { '' }
     f.timestamp ''
     user
   end
