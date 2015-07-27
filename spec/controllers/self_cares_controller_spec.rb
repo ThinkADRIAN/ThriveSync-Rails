@@ -255,13 +255,12 @@ describe SelfCaresController, :type => :controller do
       context "with valid JS request(:context)" do 
         it "creates a new self care" do 
           expect{
-            post :create, :counseling => @spec_self_care_attrs["counseling"], :medication => @spec_self_care_attrs["medication"], :meditation => @spec_self_care_attrs["meditation"], :exercise => @spec_self_care_attrs["exercise"], format: :js
-
+            xhr :post, :create, :self_care => @spec_self_care_attrs
           }.to change(SelfCare,:count).by(1) 
         end
 
         it "returns a created 201 response" do 
-          post :create, :counseling => @spec_self_care_attrs["counseling"], :medication => @spec_self_care_attrs["medication"], :meditation => @spec_self_care_attrs["meditation"], :exercise => @spec_self_care_attrs["exercise"], format: :js
+         xhr :post, :create, :self_care => @spec_self_care_attrs
           expect(response).to have_http_status(:created)
           #expect(response).to redirect_to SelfCare.last 
         end 
@@ -270,13 +269,12 @@ describe SelfCaresController, :type => :controller do
       context "with valid JSON attributes(:context)" do 
         it "creates a new self care" do 
           expect{
-            post :create, :counseling => @spec_self_care_attrs["counseling"], :medication => @spec_self_care_attrs["medication"], :meditation => @spec_self_care_attrs["meditation"], :exercise => @spec_self_care_attrs["exercise"], format: :json
-
+            post :create, :self_care => @spec_self_care_attrs, format: :json
           }.to change(SelfCare,:count).by(1) 
         end
 
         it "returns a created 201 response" do 
-          post :create, :counseling => @spec_self_care_attrs["counseling"], :medication => @spec_self_care_attrs["medication"], :meditation => @spec_self_care_attrs["meditation"], :exercise => @spec_self_care_attrs["exercise"], format: :json
+          post :create, :self_care => @spec_self_care_attrs, format: :json
           expect(response).to have_http_status(:created)
           #expect(response).to redirect_to SelfCare.last 
         end 
@@ -286,13 +284,13 @@ describe SelfCaresController, :type => :controller do
         it "does not save the new self care" do
           @spec_invalid_self_care_attrs = FactoryGirl.attributes_for(:invalid_self_care).as_json
           expect{ 
-            post :create, :counseling => @spec_invalid_self_care_attrs["counseling"], :medication => @spec_invalid_self_care_attrs["medication"], :meditation => @spec_invalid_self_care_attrs["meditation"], :exercise => @spec_invalid_self_care_attrs["exercise"], format: :js
+            xhr :post, :create, self_care: {:counseling => @spec_invalid_self_care_attrs["counseling"], :medication => @spec_invalid_self_care_attrs["medication"], :meditation => @spec_invalid_self_care_attrs["meditation"], :exercise => @spec_invalid_self_care_attrs["exercise"]}
           }.to_not change(SelfCare,:count) 
         end 
 
         it "re-renders JS for new method" do 
           @spec_invalid_self_care_attrs = FactoryGirl.attributes_for(:invalid_self_care).as_json
-          xhr :post, :create, :counseling => @spec_invalid_self_care_attrs["counseling"], :medication => @spec_invalid_self_care_attrs["medication"], :meditation => @spec_invalid_self_care_attrs["meditation"], :exercise => @spec_invalid_self_care_attrs["exercise"], format: :js
+          xhr :post, :create, self_care: {:counseling => @spec_invalid_self_care_attrs["counseling"], :medication => @spec_invalid_self_care_attrs["medication"], :meditation => @spec_invalid_self_care_attrs["meditation"], :exercise => @spec_invalid_self_care_attrs["exercise"]}
           xhr :get, :new, @params
         end 
       end
@@ -301,13 +299,13 @@ describe SelfCaresController, :type => :controller do
         it "does not save the new self care" do
           @spec_invalid_self_care_attrs = FactoryGirl.attributes_for(:invalid_self_care).as_json
           expect{ 
-            post :create, :counseling => @spec_invalid_self_care_attrs["counseling"], :medication => @spec_invalid_self_care_attrs["medication"], :meditation => @spec_invalid_self_care_attrs["meditation"], :exercise => @spec_invalid_self_care_attrs["exercise"], format: :json
+            post :create, self_care: {:counseling => @spec_invalid_self_care_attrs["counseling"], :medication => @spec_invalid_self_care_attrs["medication"], :meditation => @spec_invalid_self_care_attrs["meditation"], :exercise => @spec_invalid_self_care_attrs["exercise"]}, format: :json
           }.to_not change(SelfCare,:count) 
         end 
 
         it "re-renders JS for new method" do 
           @spec_invalid_self_care_attrs = FactoryGirl.attributes_for(:invalid_self_care).as_json
-          xhr :post, :create, :counseling => @spec_invalid_self_care_attrs["counseling"], :medication => @spec_invalid_self_care_attrs["medication"], :meditation => @spec_invalid_self_care_attrs["meditation"], :exercise => @spec_invalid_self_care_attrs["exercise"], format: :json
+          xhr :post, :create, self_care: {:counseling => @spec_invalid_self_care_attrs["counseling"], :medication => @spec_invalid_self_care_attrs["medication"], :meditation => @spec_invalid_self_care_attrs["meditation"], :exercise => @spec_invalid_self_care_attrs["exercise"]}
           xhr :get, :new, @params
         end 
       end 
@@ -343,13 +341,13 @@ describe SelfCaresController, :type => :controller do
 
       context "with valid JS request" do
         it "located the requested @self_care" do
-          put :update, :id => @spec_self_care.as_json["id"], :counseling => @spec_self_care_attrs["counseling"], :medication => @spec_self_care_attrs["medication"], :meditation => @spec_self_care_attrs["meditation"], :exercise => @spec_self_care_attrs["exercise"], format: :js
+          xhr :put, :update, :id => @spec_self_care.as_json["id"], self_care: @spec_self_care_attrs
+          @spec_self_care.reload
           expect(assigns(:self_care).as_json).to eq(@spec_self_care.as_json)
         end
 
         it "updates an existing self care" do 
-          put :update, :id => @spec_self_care.as_json["id"], :counseling => @spec_updated_self_care_attrs["counseling"], :medication => @spec_updated_self_care_attrs["medication"], :meditation => @spec_updated_self_care_attrs["meditation"], :exercise => @spec_updated_self_care_attrs["exercise"], format: :js
-
+          xhr :put, :update, :id => @spec_self_care.as_json["id"], self_care: @spec_updated_self_care_attrs
           @spec_self_care.reload
           expect(@spec_self_care.counseling).to eq(@spec_updated_self_care_attrs["counseling"])
           expect(@spec_self_care.medication).to eq(@spec_updated_self_care_attrs["medication"])
@@ -358,25 +356,25 @@ describe SelfCaresController, :type => :controller do
         end
 
         it "returns a updated 200 response" do 
-          put :update, :id => @spec_self_care.as_json["id"], :counseling => @spec_updated_self_care_attrs["counseling"], :medication => @spec_updated_self_care_attrs["medication"], :meditation => @spec_updated_self_care_attrs["meditation"], :exercise => @spec_updated_self_care_attrs["exercise"], format: :js
+          xhr :put, :update, :id => @spec_self_care.as_json["id"], self_care: @spec_updated_self_care_attrs
           expect(response).to be_success
           #expect(response).to redirect_to SelfCare.last 
         end 
 
         it "gives a success flash message" do
-          put :update, :id => @spec_self_care.as_json["id"], :counseling => @spec_updated_self_care_attrs["counseling"], :medication => @spec_updated_self_care_attrs["medication"], :meditation => @spec_updated_self_care_attrs["meditation"], :exercise => @spec_updated_self_care_attrs["exercise"], format: :js
+          xhr :put, :update, :id => @spec_self_care.as_json["id"], self_care: @spec_updated_self_care_attrs
           expect(flash[:success]).to eq("Self Care Entry was successfully updated.")
         end
       end 
 
       context "with valid JSON attributes" do
         it "located the requested @self_care" do
-          put :update, :id => @spec_self_care.as_json["id"], :counseling => @spec_self_care_attrs["counseling"], :medication => @spec_self_care_attrs["medication"], :meditation => @spec_self_care_attrs["meditation"], :exercise => @spec_self_care_attrs["exercise"], format: :json
+          put :update, :id => @spec_self_care.as_json["id"], self_care: {:counseling => @spec_self_care_attrs["counseling"], :medication => @spec_self_care_attrs["medication"], :meditation => @spec_self_care_attrs["meditation"], :exercise => @spec_self_care_attrs["exercise"]}, format: :json
           expect(assigns(:self_care).as_json).to eq(@spec_self_care.as_json)
         end
 
         it "updates an existing self care" do 
-          put :update, :id => @spec_self_care.as_json["id"], :counseling => @spec_updated_self_care_attrs["counseling"], :medication => @spec_updated_self_care_attrs["medication"], :meditation => @spec_updated_self_care_attrs["meditation"], :exercise => @spec_updated_self_care_attrs["exercise"], format: :json
+          put :update, :id => @spec_self_care.as_json["id"], self_care: {:counseling => @spec_updated_self_care_attrs["counseling"], :medication => @spec_updated_self_care_attrs["medication"], :meditation => @spec_updated_self_care_attrs["meditation"], :exercise => @spec_updated_self_care_attrs["exercise"]}, format: :json
 
           @spec_self_care.reload
           expect(@spec_self_care.counseling).to eq(@spec_updated_self_care_attrs["counseling"])
@@ -386,12 +384,12 @@ describe SelfCaresController, :type => :controller do
         end
 
         it "returns a created 200 response" do 
-          put :update, :id => @spec_self_care.as_json["id"], :counseling => @spec_updated_self_care_attrs["counseling"], :medication => @spec_updated_self_care_attrs["medication"], :meditation => @spec_updated_self_care_attrs["meditation"], :exercise => @spec_updated_self_care_attrs["exercise"], format: :json
+          put :update, :id => @spec_self_care.as_json["id"], self_care: {:counseling => @spec_updated_self_care_attrs["counseling"], :medication => @spec_updated_self_care_attrs["medication"], :meditation => @spec_updated_self_care_attrs["meditation"], :exercise => @spec_updated_self_care_attrs["exercise"]}, format: :json
           #expect(response).to redirect_to SelfCare.last 
         end 
 
         it "gives a success flash message" do
-          put :update, :id => @spec_self_care.as_json["id"], :counseling => @spec_updated_self_care_attrs["counseling"], :medication => @spec_updated_self_care_attrs["medication"], :meditation => @spec_updated_self_care_attrs["meditation"], :exercise => @spec_updated_self_care_attrs["exercise"], format: :json
+          put :update, :id => @spec_self_care.as_json["id"], self_care: {:counseling => @spec_updated_self_care_attrs["counseling"], :medication => @spec_updated_self_care_attrs["medication"], :meditation => @spec_updated_self_care_attrs["meditation"], :exercise => @spec_updated_self_care_attrs["exercise"]}, format: :json
           expect(flash[:success]).to eq("Self Care Entry was successfully updated.")
         end
       end 
@@ -400,19 +398,19 @@ describe SelfCaresController, :type => :controller do
         it "does not update the new self care" do
           @spec_invalid_self_care_attrs = FactoryGirl.attributes_for(:invalid_self_care).as_json
           expect{ 
-            put :update, :id => @spec_self_care.as_json["id"], :counseling => @spec_invalid_self_care_attrs["counseling"], :medication => @spec_invalid_self_care_attrs["medication"], :meditation => @spec_invalid_self_care_attrs["meditation"], :exercise => @spec_invalid_self_care_attrs["exercise"], format: :json
+            put :update, :id => @spec_self_care.as_json["id"], self_care: {:counseling => @spec_invalid_self_care_attrs["counseling"], :medication => @spec_invalid_self_care_attrs["medication"], :meditation => @spec_invalid_self_care_attrs["meditation"], :exercise => @spec_invalid_self_care_attrs["exercise"]}, format: :json
           }.to_not change(SelfCare,:count) 
         end 
 
         it "re-renders JS for edit method" do 
           @spec_invalid_self_care_attrs = FactoryGirl.attributes_for(:invalid_self_care).as_json
-          put :update, :id => @spec_self_care.as_json["id"], :counseling => @spec_invalid_self_care_attrs["counseling"], :medication => @spec_invalid_self_care_attrs["medication"], :meditation => @spec_invalid_self_care_attrs["meditation"], :exercise => @spec_invalid_self_care_attrs["exercise"], format: :js
-          xhr :get, :edit, :id => @spec_self_care.as_json["id"], :counseling => @spec_updated_self_care_attrs["counseling"], :medication => @spec_updated_self_care_attrs["medication"], :meditation => @spec_updated_self_care_attrs["meditation"], :exercise => @spec_updated_self_care_attrs["exercise"], format: :json
+          put :update, :id => @spec_self_care.as_json["id"], self_care: {:counseling => @spec_invalid_self_care_attrs["counseling"], :medication => @spec_invalid_self_care_attrs["medication"], :meditation => @spec_invalid_self_care_attrs["meditation"], :exercise => @spec_invalid_self_care_attrs["exercise"]}, format: :js
+          xhr :get, :edit, :id => @spec_self_care.as_json["id"], self_care: {:counseling => @spec_updated_self_care_attrs["counseling"], :medication => @spec_updated_self_care_attrs["medication"], :meditation => @spec_updated_self_care_attrs["meditation"], :exercise => @spec_updated_self_care_attrs["exercise"]}, format: :json
         end
 
         it "gives an error flash message" do
           @spec_invalid_self_care_attrs = FactoryGirl.attributes_for(:invalid_self_care).as_json
-          put :update, :id => @spec_self_care.as_json["id"], :counseling => @spec_invalid_self_care_attrs["counseling"], :medication => @spec_invalid_self_care_attrs["medication"], :meditation => @spec_invalid_self_care_attrs["meditation"], :exercise => @spec_invalid_self_care_attrs["exercise"], format: :json
+          put :update, :id => @spec_self_care.as_json["id"], self_care: {:counseling => @spec_invalid_self_care_attrs["counseling"], :medication => @spec_invalid_self_care_attrs["medication"], :meditation => @spec_invalid_self_care_attrs["meditation"], :exercise => @spec_invalid_self_care_attrs["exercise"]}, format: :json
           expect(flash[:error]).to eq("Self Care Entry was not updated... Try again???")
         end
       end 
@@ -510,7 +508,7 @@ describe SelfCaresController, :type => :controller do
       end
     end
   end
-=begin
+
   describe "GET #cancel" do 
     context "with anonymous user" do
       before :each do
@@ -539,5 +537,4 @@ describe SelfCaresController, :type => :controller do
       end
     end
   end
-=end
 end
