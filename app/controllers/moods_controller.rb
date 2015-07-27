@@ -165,9 +165,9 @@ class MoodsController < ApplicationController
       t = Time.now
       dt = DateTime.new(d.year, d.month, d.day, t.hour, t.min, t.sec, t.zone)
 
-      @mood.update_attribute(:timestamp, dt)
+      @mood.timestamp = dt
     else
-      @mood.update_attribute(:timestamp, DateTime.now.in_time_zone)
+      @mood.timestamp = DateTime.now.in_time_zone
     end
     
     respond_to do |format|

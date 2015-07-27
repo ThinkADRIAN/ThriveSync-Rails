@@ -283,7 +283,6 @@ describe MoodsController, :type => :controller do
       context "with invalid JS request" do 
         it "does not save the new mood" do
           @spec_invalid_mood_attrs = FactoryGirl.attributes_for(:invalid_mood, user: @spec_user)
-          puts @spec_invalid_mood_attrs
           expect{ 
             xhr :post, :create, @spec_invalid_mood_attrs
           }.to_not change(Mood,:count)
