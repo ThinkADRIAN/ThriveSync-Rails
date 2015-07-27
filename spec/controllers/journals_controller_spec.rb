@@ -379,13 +379,13 @@ describe JournalsController, :type => :controller do
         end
 
         it "returns a created 200 response" do 
-          put :update, :id => @spec_journal.as_json["id"], :journal_entry => @spec_updated_journal_attrs["journal_entry"], format: :json
+          put :update, :id => @spec_journal.as_json["id"], journal: {:journal_entry => @spec_updated_journal_attrs["journal_entry"]}, format: :json
           expect(response).to be_success
           #expect(response).to redirect_to Journal.last 
         end 
 
         it "gives a success flash message" do
-          put :update, :id => @spec_journal.as_json["id"], :journal_entry => @spec_updated_journal_attrs["journal_entry"], format: :json
+          put :update, :id => @spec_journal.as_json["id"], journal: {:journal_entry => @spec_updated_journal_attrs["journal_entry"]}, format: :json
           expect(flash[:success]).to eq("Journal Entry was successfully updated.")
         end
       end 
@@ -486,7 +486,7 @@ describe JournalsController, :type => :controller do
         end
 
         it "gives a success flash message" do 
-          xhr :delete, :destroy, id: @spec_journal.as_json["id"]
+          xhr :delete, :destroy, id: @spec_journal.as_json["id"], format: :js
           expect(flash[:success]).to eq("Journal Entry was successfully deleted.")
         end
       end

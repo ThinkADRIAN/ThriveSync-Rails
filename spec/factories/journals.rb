@@ -7,7 +7,7 @@ FactoryGirl.define do
     user
   end 
 
-  factory :invalid_journal, class:Mood do |f| 
+  factory :invalid_journal, class:Journal do |f| 
     f.journal { ["Invalid", "Entry"] }
     f.timestamp DateTime.now
     user

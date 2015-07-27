@@ -199,11 +199,12 @@ class JournalsController < ApplicationController
     respond_to do |format|
       if @journal.update(journal_params)
         track_journal_updated
+
         flash.now[:success] = "Journal Entry was successfully updated."
         format.js
         format.json { render :json => @journal, status: :created }
       else
-        flash.now[:error] = 'Journal Entry was not updated... Try again???'
+        flash.now[:error] = "Journal Entry was not updated... Try again???"
         format.js   { render json: @journal.errors, status: :unprocessable_entity }
         format.json { render json: @journal.errors, status: :unprocessable_entity }
       end
