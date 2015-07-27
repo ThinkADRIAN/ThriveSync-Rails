@@ -208,7 +208,7 @@ class MoodsController < ApplicationController
         track_mood_updated
 
         flash.now[:success] = "Mood Entry was successfully updated."
-        format.js { render status: 200 }
+        format.js
         format.json { render :json => @mood, status: 200 }
       else
         flash.now[:error] = "Mood Entry was not updated... Try again???"
