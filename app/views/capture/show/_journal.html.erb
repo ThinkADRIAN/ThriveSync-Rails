@@ -4,14 +4,18 @@
   <% user = @user%>
 <% end %>
 
-<% @journals = Journal.where(user_id: user.id, created_at: (DateTime.now.at_beginning_of_day.utc..Time.now.utc)) %>
+<% if $capture_date == nil %>
+  <% $capture_date = Date.today %>
+<% end %>
+
+<% @capture_journals = Journal.where(user_id: user.id, timestamp: ($capture_date.at_beginning_of_day.in_time_zone..$capture_date.end_of_day.in_time_zone)) %>
 
 <% (1..8).each do %>
   <br>
 <% end %>
 <div class="scroller">
-<% if !@journals.nil? %>
-  <% @journals.each do |journal| %>
+<% if !@capture_journals.nil? %>
+  <% @capture_journals.each do |journal| %>
     <div>
       <p>
         <%= journal.journal_entry %>
@@ -23,13 +27,13 @@
     </div>
   <% end %>
 <% end %>
-<% if @journals.nil? || @journals.count < MAX_JOURNAL_ENTRIES %>
+<% if @capture_journals.nil? || @capture_journals.count < MAX_JOURNAL_ENTRIES %>
   <div>
     <center>
       <% (1..8).each do %>
         <br>
       <% end %>
-      <%= link_to 'Add Journal', new_journal_path, remote: true, class: "btn btn-primary btn-lg" %><br>
+      <%= link_to 'Add Journal', new_journal_path(capture_source: 'journal'), remote: true, class: "btn btn-primary btn-lg" %><br>
       <% (1..8).each do %>
         <br>
       <% end %>

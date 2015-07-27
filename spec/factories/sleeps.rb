@@ -12,7 +12,7 @@ FactoryGirl.define do
     user
   end 
 
-  factory :invalid_sleep, class:Mood do |f| 
+  factory :invalid_sleep, class:Sleep do |f| 
     f.start_time { 1 }
     f.finish_time { 1 }
     f.time { sleep_start_time }

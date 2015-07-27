@@ -52,6 +52,8 @@ Rails.application.routes.draw do
     get "delete"
   end
 
+  get "/update_capture" => 'capture#update_capture', as: 'update_capture'
+
   resources :users, :path => 'thrivers' do
     resources :moods
     resources :sleeps

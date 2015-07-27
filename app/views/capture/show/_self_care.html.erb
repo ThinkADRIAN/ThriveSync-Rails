@@ -4,14 +4,18 @@
   <% user = @user%>
 <% end %>
 
-<% @self_cares = SelfCare.where(user_id: user.id, created_at: (DateTime.now.at_beginning_of_day.utc..Time.now.utc)) %>
+<% if @capture_date == nil %>
+  <% @capture_date = Date.today %>
+<% end %>
+
+<% @capture_self_cares = SelfCare.where(user_id: user.id, timestamp: ($capture_date.at_beginning_of_day.in_time_zone..$capture_date.end_of_day.in_time_zone)) %>
 
 <% (1..8).each do %>
   <br>
 <% end %>
 <div class="scroller">
-<% if !@self_cares.nil? %>
-  <% @self_cares.each do |self_care| %>
+<% if !@capture_self_cares.nil? %>
+  <% @capture_self_cares.each do |self_care| %>
     <div>
       <p>
         <strong>Counseling:</strong>
@@ -55,13 +59,13 @@
     </div>
   <% end %>
 <% end %>
-<% if @self_cares.nil? || @self_cares.count < 1 %>
+<% if @capture_self_cares.nil? || @capture_self_cares.count < MAX_SELF_CARE_ENTRIES %>
   <div>
     <center>
       <% (1..8).each do %>
         <br>
       <% end %>
-      <%= link_to 'Add Self Care', new_self_care_path, remote: true, class: "btn btn-primary btn-lg" %><br>
+      <%= link_to 'Add Self Care', new_self_care_path(capture_source: 'self_care'), remote: true, class: "btn btn-primary btn-lg" %><br>
       <% (1..8).each do %>
         <br>
       <% end %>
