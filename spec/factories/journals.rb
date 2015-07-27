@@ -8,7 +8,7 @@ FactoryGirl.define do
   end 
 
   factory :invalid_journal, class:Journal do |f| 
-    f.journal { ["Invalid", "Entry"] }
+    f.journal_entry { ["Invalid", "Entry"] }
     f.timestamp DateTime.now
     user
   end

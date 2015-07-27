@@ -160,9 +160,9 @@ class JournalsController < ApplicationController
       t = Time.now
       dt = DateTime.new(d.year, d.month, d.day, t.hour, t.min, t.sec, t.zone)
 
-      @journal.update_attribute(:timestamp, dt)
+      @journal.timestamp = dt
     else
-      @journal.update_attribute(:timestamp, DateTime.now.in_time_zone)
+      @journal.timestamp = DateTime.now.in_time_zone
     end
     
     respond_to do |format|
@@ -173,6 +173,7 @@ class JournalsController < ApplicationController
         format.js { render status: :created }
         format.json { render :json => @journal, status: :created }
       else
+        flash.now[:error] = 'Journal Entry was not tracked... Try again???'
         format.js   { render json: @journal.errors, status: :unprocessable_entity }
         format.json { render json: @journal.errors, status: :unprocessable_entity }
       end

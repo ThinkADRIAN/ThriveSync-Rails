@@ -284,13 +284,13 @@ describe JournalsController, :type => :controller do
         it "does not save the new journal" do
           @spec_invalid_journal_attrs = FactoryGirl.attributes_for(:invalid_journal).as_json
           expect{ 
-            post :create, :journal_entry => ["journal_entry"], format: :js
+            xhr :post, :create, journal: @spec_invalid_journal_attrs
           }.to_not change(Journal,:count) 
         end 
 
         it "re-renders JS for new method" do 
           @spec_invalid_journal_attrs = FactoryGirl.attributes_for(:invalid_journal).as_json
-          xhr :post, :create, :journal_entry => ["journal_entry"], format: :js
+          xhr :post, :create, journal: @spec_invalid_journal_attrs
           xhr :get, :new, @params
         end 
       end
@@ -299,13 +299,13 @@ describe JournalsController, :type => :controller do
         it "does not save the new journal" do
           @spec_invalid_journal_attrs = FactoryGirl.attributes_for(:invalid_journal).as_json
           expect{ 
-            post :create, :journal_entry => ["journal_entry"], format: :json
+            post :create, journal: @spec_invalid_journal_attrs, format: :json
           }.to_not change(Journal,:count) 
         end 
 
         it "re-renders JS for new method" do 
           @spec_invalid_journal_attrs = FactoryGirl.attributes_for(:invalid_journal).as_json
-          xhr :post, :create, :journal_entry => ["journal_entry"], format: :json
+          xhr :post, :create, journal: @spec_invalid_journal_attrs, format: :json
           xhr :get, :new, @params
         end 
       end
