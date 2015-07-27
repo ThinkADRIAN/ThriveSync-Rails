@@ -199,7 +199,7 @@ class SleepsController < ApplicationController
         track_sleep_updated
 
         flash.now[:success] = 'Sleep Entry was successfully updated.'
-        format.js
+        format.js { render status: 200 }
         format.json { render :json => @sleep, status: :created }
       else
         flash.now[:error] = 'Sleep Entry was not updated... Try again???'

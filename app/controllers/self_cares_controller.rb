@@ -182,6 +182,7 @@ class SelfCaresController < ApplicationController
         format.js { render status: :created }
         format.json { render :json => @self_care, status: :created }
       else
+        flash.now[:error] = 'Self Care Entry was not tracked... Try again???'
         format.js   { render json: @self_care.errors, status: :unprocessable_entity }
         format.json { render json: @self_care.errors, status: :unprocessable_entity }
       end
