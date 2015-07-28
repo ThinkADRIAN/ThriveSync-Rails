@@ -49,7 +49,10 @@
       <% (1..7).each do %>
         <br>
       <% end %>
-      <center><%= sleep.created_at.strftime("%I:%M %p") %></center>
+      <center>
+        <%= sleep.created_at.strftime("%I:%M %p") %><br>
+        <%= link_to 'Edit', edit_sleep_path(id: sleep.id), remote: true, class: "btn btn-sm" %><br>
+      </center>
     </div>
   <% end %>
 <% end %>

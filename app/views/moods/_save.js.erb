@@ -12,5 +12,9 @@ $("ul.errors").html("");
   $("#mood-modal").modal("hide");
   
   $(".mood-chart").html("<%= escape_javascript(render 'shared/chart_mood') %>");
+
+
+  $(".capture-delorean").html("<%= escape_javascript(render 'capture/delorean') %>");
+  $(".capture-nav").html("<%= escape_javascript(render 'capture/nav/mood') %>");
   $(".capture-window").html("<%= escape_javascript(render 'capture/show/mood') %>");
 <% end %>
