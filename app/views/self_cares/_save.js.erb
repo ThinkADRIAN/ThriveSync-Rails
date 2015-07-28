@@ -12,5 +12,8 @@ $("ul.errors").html("");
   $("#self_care-modal").modal("hide");
 
   $(".shared-index").html("<%= escape_javascript(render 'shared/index') %>");
-  $(".capture-window").html("<%= escape_javascript(render 'capture/show/self_care') %>");
+
+  $(".capture-delorean").html("<%= escape_javascript(render 'capture/delorean') %>");
+  $(".capture-nav").html("<%= escape_javascript(render 'capture/nav/self_care') %>");
+  $(".capture-window").html("<%= escape_javascript(render 'capture/show/self_care' ) %>");
 <% end %>
