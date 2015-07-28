@@ -1,16 +1,22 @@
-<% flash.each do |type, message| %>
-  $('#flash_messages').html("<%= escape_javascript(render :partial => 'shared/flash_notices' , :locals => { :flash => flash }) %>" ).slideDown(500).delay(3000).slideUp(500)
-<% end %>
+<% if params[:modal_enabled] == 'true' %>
+  <% flash.each do |type, message| %>
+    $('#flash_messages').html("<%= escape_javascript(render :partial => 'shared/flash_notices' , :locals => { :flash => flash }) %>" ).slideDown(500).delay(3000).slideUp(500)
+  <% end %>
 
-$("ul.errors").html("");
-<% if @journal.errors.any? %>
-  <% @journal.errors.full_messages.each do |message| %>
-    $("ul.errors").append($("<li />").html("<%= message.html_safe %>"));
+  $("ul.errors").html("");
+  <% if @journal.errors.any? %>
+    <% @journal.errors.full_messages.each do |message| %>
+      $("ul.errors").append($("<li />").html("<%= message.html_safe %>"));
+    <% end %>
+  <% else %>
+    $(".journal-index").html("<%= escape_javascript(render 'index') %>");
+    $("#journal-modal").modal("hide");
+
+    $(".shared-index").html("<%= escape_javascript(render 'shared/index') %>");
+    $(".capture-window").html("<%= escape_javascript(render 'capture/show/journal') %>");
   <% end %>
 <% else %>
-  $(".journal-index").html("<%= escape_javascript(render 'index') %>");
-  $("#journal-modal").modal("hide");
-
-  $(".shared-index").html("<%= escape_javascript(render 'shared/index') %>");
+  $(".capture-delorean").html("<%= escape_javascript(render 'capture/delorean') %>");
+  $(".capture-nav").html("<%= escape_javascript(render 'capture/nav/journal') %>");
   $(".capture-window").html("<%= escape_javascript(render 'capture/show/journal') %>");
 <% end %>

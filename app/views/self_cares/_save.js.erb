@@ -1,16 +1,22 @@
-<% flash.each do |type, message| %>
-  $('#flash_messages').html("<%= escape_javascript(render :partial => 'shared/flash_notices' , :locals => { :flash => flash }) %>" ).slideDown(500).delay(3000).slideUp(500)
-<% end %>
+<% if params[:modal_enabled] == 'true' %>
+  <% flash.each do |type, message| %>
+    $('#flash_messages').html("<%= escape_javascript(render :partial => 'shared/flash_notices' , :locals => { :flash => flash }) %>" ).slideDown(500).delay(3000).slideUp(500)
+  <% end %>
 
-$("ul.errors").html("");
-<% if @self_care.errors.any? %>
-  <% @self_care.errors.full_messages.each do |message| %>
-    $("ul.errors").append($("<li />").html("<%= message.html_safe %>"));
+  $("ul.errors").html("");
+  <% if @self_care.errors.any? %>
+    <% @self_care.errors.full_messages.each do |message| %>
+      $("ul.errors").append($("<li />").html("<%= message.html_safe %>"));
+    <% end %>
+  <% else %>
+    $(".self_care-index").html("<%= escape_javascript(render 'index') %>");
+    $("#self_care-modal").modal("hide");
+
+    $(".shared-index").html("<%= escape_javascript(render 'shared/index') %>");
+    $(".capture-window").html("<%= escape_javascript(render 'capture/show/self_care') %>");
   <% end %>
 <% else %>
-  $(".self_care-index").html("<%= escape_javascript(render 'index') %>");
-  $("#self_care-modal").modal("hide");
-
-  $(".shared-index").html("<%= escape_javascript(render 'shared/index') %>");
-  $(".capture-window").html("<%= escape_javascript(render 'capture/show/self_care') %>");
+  $(".capture-delorean").html("<%= escape_javascript(render 'capture/delorean') %>");
+  $(".capture-nav").html("<%= escape_javascript(render 'capture/nav/self_care') %>");
+  $(".capture-window").html("<%= escape_javascript(render 'capture/show/self_care' ) %>");
 <% end %>

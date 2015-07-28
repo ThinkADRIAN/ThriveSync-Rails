@@ -23,7 +23,10 @@
       <% (1..7).each do %>
         <br>
       <% end %>
-      <center><%= journal.timestamp.strftime("%I:%M %p") %></center>
+      <center>
+        <%= journal.timestamp.strftime("%I:%M %p") %> <br>
+        <%= link_to 'Edit', edit_journal_path(id: journal.id), remote: true, class: "btn btn-sm" %><br>
+      </center>
     </div>
   <% end %>
 <% end %>

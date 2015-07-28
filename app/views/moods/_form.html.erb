@@ -107,10 +107,13 @@
   <br>
 
   <div class="modal-footer">
-    <%= f.submit class: "btn btn-primary" %>
+    
+      <%= f.submit class: "btn btn-primary", modal_enabled: true %>
     <% if params[:modal_enabled] != 'true' %>
+      <%= f.submit class: "btn btn-primary" %>
       <%= link_to 'Cancel', moods_cancel_path, remote: true, class: "btn btn-default" %>
     <% else %>
+      <%= f.submit class: "btn btn-primary", modal_enabled: true %>
       <%= link_to "Cancel", "#", class: "btn btn-default", data: {dismiss: "modal"} %>
     <% end %>
   </div>

@@ -73,7 +73,10 @@
       <% (1..7).each do %>
         <br>
       <% end %>
-      <center><%= mood.timestamp.strftime("%I:%M %p") %></center>
+      <center>
+        <%= mood.timestamp.strftime("%I:%M %p") %><br>
+        <%= link_to 'Edit', edit_mood_path(id: mood.id), remote: true, class: "btn btn-sm" %><br>
+      </center>
     </div>
   <% end %>
 <% end %>
