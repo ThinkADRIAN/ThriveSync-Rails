@@ -23,7 +23,7 @@ class ScorecardsController < ApplicationController
       @scorecards = Scorecard.where(user_id: @user.id)
     end
 
-    current_user.scorecard.update_goals
+    current_user.scorecard.refresh_scorecard
 
     respond_to do |format|
       format.html
