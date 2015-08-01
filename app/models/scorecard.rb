@@ -452,7 +452,7 @@ class Scorecard < ActiveRecord::Base
   end
 
   def update_streak_counts
-    key_data_types = ['mood', 'sleep', 'self_care', 'journal']
+    key_data_types = ['moods', 'sleeps', 'self_cares', 'journals']
 
     key_data_types.each do |key_data_type|
       if !self.checkin_yesterday?(key_data_type)
@@ -494,7 +494,7 @@ class Scorecard < ActiveRecord::Base
     self.update_streak_counts
     self.update_goals
 
-    key_data_types = ['mood', 'sleep', 'self_care', 'journal']
+    key_data_types = ['moods', 'sleeps', 'self_cares', 'journals']
 
     key_data_types.each do |key_data_type|
       score = self.calculate_score(key_data_type)
