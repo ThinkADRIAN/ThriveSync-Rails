@@ -52,7 +52,8 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
 # gem 'debugger', group: [:development, :test]
 
  # Authentication
- gem 'devise'
+ gem 'devise',           '>= 2.0.0'
+ gem 'devise_invitable', '~> 1.3.4'
  gem 'omniauth'
  gem 'omniauth-twitter'
  gem 'omniauth-facebook'

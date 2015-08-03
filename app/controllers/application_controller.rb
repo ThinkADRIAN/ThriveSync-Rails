@@ -30,6 +30,11 @@ class ApplicationController < ActionController::Base
       end
 		end
 
+  before_filter :configure_permitted_parameters, if: :devise_controller?
+    def configure_permitted_parameters
+      devise_parameter_sanitizer.for(:accept_invitation).concat [:first_name, :last_name]
+    end
+    
   before_filter :record_user_activity
 
 	alias_method :current_user, :current_user # Could be :current_member or :logged_in_user
@@ -91,6 +96,10 @@ class ApplicationController < ActionController::Base
   		redirect_to root_url
       false
     end
+  end
+
+  def authenticate_inviter!
+    #authenticate_user!(:force => true)
   end
   
   private
