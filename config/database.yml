@@ -29,7 +29,7 @@ development:
   encoding: unicode
   database: thrivesync_development
   pool: 5
-  username: adrianbrucecunanan
+  username: elainematthias
   password:
 
 test:
@@ -37,5 +37,5 @@ test:
   encoding: unicode
   database: thrivesync_test
   pool: 5
-  username: adrianbrucecunanan
+  username: elainematthias
   password:

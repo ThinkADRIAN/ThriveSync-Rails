@@ -1,0 +1,9 @@
+.wrapper {
+max-width: 600px;
+margin: 0 auto;
+background: rgba(55,179,73,.75);
+border-radius: 25%;}
+
+h2 {
+	color: red;
+}
