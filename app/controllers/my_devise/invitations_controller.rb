@@ -1,4 +1,5 @@
 class MyDevise::InvitationsController < Devise::InvitationsController
+  skip_before_filter :authenticate_user!
   # GET /resource/invitation/new
   def new
     super

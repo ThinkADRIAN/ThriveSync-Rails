@@ -36,7 +36,7 @@ class User < ActiveRecord::Base
   # User is free account, Client is unlocked when coupled with a Pro account,
   # Admin will administer an organizational unit, SuperUser is for internal use
 
-  ROLES = %w[user client pro admin superuser banned]
+  ROLES = %w[user client pro admin superuser supporter]
 
   TEMP_EMAIL_PREFIX = 'change@me'
   TEMP_EMAIL_REGEX = /\Achange@me/

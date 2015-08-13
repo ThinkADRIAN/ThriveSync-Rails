@@ -1,5 +1,5 @@
 <div class="col-sm-12">
-  <% @users = User.where(:email == !nil).sort_by { |r| r.last_name.downcase }
+  <% @users = User.where.not(:last_name => nil).sort_by { |r| r.last_name.downcase }
   if !@users.empty? %>
     <div class="panel panel-primary">
       <div class="panel-heading">
