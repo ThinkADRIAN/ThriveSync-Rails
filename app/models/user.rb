@@ -1,4 +1,6 @@
 class User < ActiveRecord::Base
+  acts_as_messageable
+
   include Amistad::FriendModel
 
   searchable do
