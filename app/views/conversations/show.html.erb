@@ -1,0 +1,15 @@
+<div class="panel panel-default">
+  <div class="panel-heading"><%= @conversation.subject %></div>
+
+  <div class="panel-body">
+    <div class="messages">
+      <% @conversation.receipts_for(current_user).each do |receipt| %>
+        <% message = receipt.message %>
+
+        <%= message.sender.name %> 
+        (<%= I18n.l message.created_at, format: :long_am_pm %>):
+        <%= message.body %>
+      <% end %>
+    </div>
+  </div>
+</div>
