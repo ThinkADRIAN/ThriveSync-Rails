@@ -86,6 +86,7 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
  gem 'less-rails'
  gem 'font-awesome-rails'
  gem 'will_paginate'
+ gem 'chosen-rails'
 
  # Interface
  gem 'jquery-ui-rails'

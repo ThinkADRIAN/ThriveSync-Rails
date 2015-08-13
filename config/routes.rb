@@ -55,6 +55,7 @@ Rails.application.routes.draw do
   get "/update_capture" => 'capture#update_capture', as: 'update_capture'
 
   resources :conversations, only: [:index, :show, :destroy]
+  resources :messages, only: [:new, :create]
 
   resources :users, :path => 'thrivers' do
     resources :moods
