@@ -191,6 +191,21 @@ class User < ActiveRecord::Base
     @review.save
   end
 
+  #Returning any kind of identification you want for the model
+  def name
+    return self[:first_name]
+  end
+
+  #Returning the email address of the model if an email should be sent for this object (Message or Notification).
+  #If no mail has to be sent, return nil.
+  def mailboxer_email(object)
+    #Check if an email should be sent for that object
+    #if true
+    return self[:email]
+    #if false
+    #return nil
+  end
+
   def identify_user_for_analytics
     # Identify User for Segment.io Analytics
     Analytics.identify(
