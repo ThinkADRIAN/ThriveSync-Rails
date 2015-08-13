@@ -94,6 +94,9 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
  # Search
  gem 'sunspot_rails'
 
+ # Messaging
+ gem 'mailboxer'
+
  # Analytics
  gem 'analytics-ruby', '~> 2.0.0', :require => 'segment/analytics'
 
