@@ -1,9 +1,26 @@
-<h2>Sign Up</h2>
 
-<%= render "devise/shared/omniauth_buttons" %>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= devise_error_messages! %>
+<div class="wrapper">
+  <div class="row">
+    <h2 class="title">Sign Up</h2>
+  </div><!--close row-->
+
+  <div class="row">
+    <p class="text-muted">Please create a free account.</p>
+  </div>  <!--close row-->
+  
+  <div class="row oauth">
+    <%= render "devise/shared/omniauth_buttons" %>
+  </div>
+
+  <div class="row">
+    <p class="option">or</p>
+  </div>  <!--close row-->
+
+<!-- html {class: 'form-group'}-->
+
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name))  do |f| %>
+   <%= devise_error_messages! %>
   <br>
   <div class="form-group"><%= f.label :first_name %><br />
   <%= f.text_field :first_name, autofocus: true %></div>
@@ -24,3 +41,5 @@
 <% end %>
 
 <%= render "devise/shared/links" %>
+</div><!--close container-->
+

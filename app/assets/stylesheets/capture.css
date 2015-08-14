@@ -1,9 +1,11 @@
-.wrapper {
-max-width: 600px;
-margin: 0 auto;
-background: rgba(55,179,73,.75);
-border-radius: 25%;}
+.wrapper{width: 400px; margin: 0 auto;}
+.wrapper .row:first-child {border-bottom: 1px solid #D3D3D3; padding-bottom: 5px; margin-bottom: 15px;}
+.text-muted {margin-bottom: 50px;}
+.oauth {height: 100px; outline: 1px solid black; margin-bottom: 25px;}
+.option{text-align: center; font-size: 17px;}
+.form-group { margin-left: 1%;}
+input {margin-bottom: 25px; width: 100%;}
 
-h2 {
-	color: red;
-}
+
+
+
