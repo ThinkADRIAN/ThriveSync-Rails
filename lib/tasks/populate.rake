@@ -20,7 +20,7 @@ namespace :db do
       :password => "Tiavspw!")
     admin_user.roles = ["superuser"]
     admin_user.skip_confirmation!
-    admin_user.create
+    admin_user.save!
 
     # Create test user pro accounts
     3.times do |n|
@@ -35,7 +35,7 @@ namespace :db do
         :password_confirmation => password)
       test_user.roles = ["pro"]
       test_user.skip_confirmation!
-      test_user.create
+      test_user.save!
 
       # Create moods for test user
       100.times do |d|
@@ -109,7 +109,7 @@ namespace :db do
         :password_confirmation => password)
       test_user.roles = ["user"]
       test_user.skip_confirmation!
-      test_user.create
+      test_user.save!
 
       # Create moods for test user
       100.times do |d|
