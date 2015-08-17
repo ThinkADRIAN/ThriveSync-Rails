@@ -1,11 +1,46 @@
-.wrapper{width: 400px; margin: 0 auto;}
-.wrapper .row:first-child {border-bottom: 1px solid #D3D3D3; padding-bottom: 5px; margin-bottom: 15px;}
-.text-muted {margin-bottom: 50px;}
-.oauth {height: 100px; outline: 1px solid black; margin-bottom: 25px;}
-.option{text-align: center; font-size: 17px;}
+.wrapper{width: 400px; margin: 0 auto;margin-bottom: 50px;}
 .form-group { margin-left: 1%;}
 input {margin-bottom: 25px; width: 100%;}
+.type-color {color: rgb(39,174,96);}
 
+/* Adjusting the alignment for the navbar items */
+.header-3 .navbar .nav > li > a {padding: 24px 0 21px;}
 
+/*****************************
+OAuth Buttons
+*****************************/
 
+.display {display: block; width: 100%; margin-top: 10px;}
+.btn {width: 100%;}
+.ggl-oauth {background-color: rgb(220,76,52); border: rgb(220,76,52);}
+.ggl-oauth:hover {background-color: rgb(188,60,44);}
 
+/*****************************
+Text Strike Through
+*****************************/
+
+.strike {display:block;text-align: center;overflow: hidden;white-space:nowrap;}
+.strike > span {position:relative;display:inline-block;}
+.strike > span:before, 
+.strike > span:after {
+	content:""; 
+	position:absolute;
+	top:40%;
+	width: 9999px;
+	height: 1px;
+	background: rgb(192,192,192);
+}
+
+.strike > span:before {
+	right: 100%;
+	margin-right: 15px;
+}
+
+.strike > span:after {
+	left: 100%;
+	margin-left: 15px;
+}
+
+.strike > p {
+	font-size: 16px;
+}
