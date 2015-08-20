@@ -1,6 +1,6 @@
 <div class="wrapper">
   <div class="row">
-		<h2 class="title">Sign Up</h2>
+		<h2 class="title type-color">Sign Up</h2>
 	</div><!--close row-->
 
   <div class="row">
@@ -9,11 +9,11 @@
 	
 	<div class="row oauth">
 		<%= render "devise/shared/omniauth_buttons" %>
-	</div>
+	</div> <!--close row-->
 
-	<div class="row">
-		<p class="option">or</p>
-	</div>	<!--close row-->
+  <div class="row strike">
+    <span><p>or</p></span>
+  </div>  <!--close row-->
 
 <!-- html {class: 'form-group'}-->
 
@@ -33,4 +33,4 @@
 <% end %>
 
 <%= render "devise/shared/links" %>
-</div><!--close container-->
+</div><!--close wrapper-->
