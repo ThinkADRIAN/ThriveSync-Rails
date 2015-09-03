@@ -14,7 +14,7 @@ namespace :db do
     Rake::Task['db:reset'].invoke
 
     # Create admin_user account
-    admin_user = User.create!(:email => "admin@thrivesync.com",
+    admin_user = User.new(:email => "admin@thrivesync.com",
       :first_name => "ThriveSync",
       :last_name => "Administrator",
       :password => "Tiavspw!")
@@ -23,12 +23,12 @@ namespace :db do
     admin_user.save!
 
     # Create test user pro accounts
-    10.times do |n|
+    3.times do |n|
       first_name = Faker::Name.first_name
       last_name = Faker::Name.last_name + " (Pro)"
       email = "test-#{n+1}@thrivesync.com"
       password = "Password1234"
-      test_user = User.create!(:first_name => first_name,
+      test_user = User.new(:first_name => first_name,
         :last_name => last_name,
         :email => email,
         :password => password,
@@ -97,12 +97,12 @@ namespace :db do
     end
 
     # Create test user accounts
-    10.times do |n|
+    8.times do |n|
       first_name = Faker::Name.first_name
       last_name = Faker::Name.last_name + " (User)"
       email = "test-#{n+11}@thrivesync.com"
       password = "Password1234"
-      test_user = User.create!(:first_name => first_name,
+      test_user = User.new(:first_name => first_name,
         :last_name => last_name,
         :email => email,
         :password => password,
