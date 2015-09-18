@@ -18,8 +18,10 @@ namespace :db do
       :first_name => "ThriveSync",
       :last_name => "Administrator",
       :password => "Tiavspw!")
-    admin_user.roles = ["superuser"]
     admin_user.skip_confirmation!
+    admin_user.save!
+
+    admin_user.roles = ["superuser"]
     admin_user.save!
 
     # Create test user pro accounts
@@ -33,67 +35,11 @@ namespace :db do
         :email => email,
         :password => password,
         :password_confirmation => password)
-      test_user.roles = ["pro"]
       test_user.skip_confirmation!
       test_user.save!
 
-      # Create moods for test user
-      100.times do |d|
-
-        now = Time.now
-
-        mood = Mood.create!(:mood_rating => rand(1..7),
-          :anxiety_rating => rand(1..4),
-          :irritability_rating => rand(1..4),
-          :user_id => test_user.id,
-          :timestamp => d.days.ago)
-        mood.created_at = d.days.ago
-        mood.updated_at = d.days.ago
-        mood.save!
-
-        test_user.scorecard.update_scorecard('moods')
-
-        sleep_start_time = Faker::Time.between((d+1).days.ago, (d+1).days.ago, :evening)#rand(now-d.days.ago)
-        sleep_finish_time = sleep_start_time + rand(1..10).hours
-
-        sleep = Sleep.create!(:start_time => sleep_start_time.change(:sec => 0),
-          :finish_time => sleep_finish_time.change(:sec => 0),
-          :time => (sleep_finish_time.to_i - sleep_start_time.to_i) / 3600,
-          :quality => rand(1..4),
-          :user_id => test_user.id)
-        sleep.created_at = d.days.ago
-        sleep.updated_at = d.days.ago
-        sleep.save!
-
-        test_user.scorecard.update_scorecard('sleeps')
-
-        random_bool = [true, false].sample
-
-        self_care = SelfCare.create!(:counseling => [true, false].sample,
-          :medication => [true,false].sample,
-          :meditation => [true,false].sample,
-          :exercise => [true,false].sample,
-          :user_id => test_user.id,
-          :timestamp => d.days.ago)
-        self_care.created_at = d.days.ago
-        self_care.updated_at = d.days.ago
-        self_care.save!
-
-        test_user.scorecard.update_scorecard('self_cares')
-
-        journal_entry = Faker::Lorem.paragraph(sentence_count = rand(1..38))
-        journal_entered = [true,false].sample
-
-        if journal_entered
-          journal = Journal.create!(:journal_entry => journal_entry,
-            :user_id => test_user.id,
-            :timestamp => d.days.ago)
-          journal.created_at = d.days.ago
-          journal.updated_at = d.days.ago
-          journal.save!
-          test_user.scorecard.update_scorecard('journals')
-        end
-      end
+      test_user.roles = ["pro"]
+      test_user.save!
     end
 
     # Create test user accounts
@@ -107,8 +53,10 @@ namespace :db do
         :email => email,
         :password => password,
         :password_confirmation => password)
-      test_user.roles = ["user"]
       test_user.skip_confirmation!
+      test_user.save!
+
+      test_user.roles = ["user"]
       test_user.save!
 
       # Create moods for test user
