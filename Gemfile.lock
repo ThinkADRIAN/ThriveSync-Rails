@@ -41,7 +41,15 @@ GEM
     amistad (0.10.2)
     analytics-ruby (2.0.12)
     arel (5.0.1.20140414130214)
+    autoprefixer-rails (6.0.3)
+      execjs
+      json
     bcrypt (3.1.10)
+    bootstrap-material-design (0.2.2)
+      bootstrap-sass (~> 3.0)
+    bootstrap-sass (3.3.5)
+      autoprefixer-rails (>= 5.0.0.1)
+      sass (>= 3.2.19)
     builder (3.2.2)
     cancancan (1.11.0)
     capybara (2.4.4)
@@ -338,6 +346,7 @@ DEPENDENCIES
   amistad
   analytics-ruby (~> 2.0.0)
   apipie-rails!
+  bootstrap-material-design
   cancancan (~> 1.10)
   capybara
   chartkick

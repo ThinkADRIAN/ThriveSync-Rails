@@ -27,3 +27,4 @@
 //= require startup_framework
 //= require slick
 //= require messages
+//= require bootstrap-material-design
