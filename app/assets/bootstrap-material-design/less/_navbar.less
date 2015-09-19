@@ -1,5 +1,5 @@
 .navbar {
-  background-color: @primary;
+  background-color: @navbar-color;
   border: @zero;
   border-radius: @zero;
 
@@ -166,7 +166,7 @@
     }
   }
 
-  .generic-variations(~".navbar", @primary, {
+  .generic-variations(~".navbar", @navbar-color, {
     background-color: @material-color;
     color: @material-text-color;
     // deeply defined to override welljumbo class without !impotant need
