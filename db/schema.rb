@@ -27,8 +27,8 @@ ActiveRecord::Schema.define(version: 20150813161751) do
 
   create_table "identities", force: true do |t|
     t.integer  "user_id"
-    t.string   "provider",   limit: nil
-    t.string   "uid",        limit: nil
+    t.string   "provider"
+    t.string   "uid"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -41,6 +41,7 @@ ActiveRecord::Schema.define(version: 20150813161751) do
     t.datetime "updated_at"
     t.integer  "user_id"
     t.datetime "timestamp"
+    t.string   "parse_object_id"
   end
 
   create_table "mailboxer_conversation_opt_outs", force: true do |t|
@@ -104,19 +105,20 @@ ActiveRecord::Schema.define(version: 20150813161751) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "user_id"
+    t.string   "parse_object_id"
   end
 
   create_table "relationships", force: true do |t|
     t.integer  "user_id"
     t.integer  "relation_id"
-    t.string   "status",      limit: nil
+    t.string   "status"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "reminders", force: true do |t|
     t.integer  "user_id"
-    t.string   "message",           limit: nil
+    t.string   "message"
     t.time     "alert_time"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -202,6 +204,7 @@ ActiveRecord::Schema.define(version: 20150813161751) do
     t.datetime "updated_at"
     t.integer  "user_id"
     t.datetime "timestamp"
+    t.string   "parse_object_id"
   end
 
   create_table "sleeps", force: true do |t|
@@ -212,47 +215,37 @@ ActiveRecord::Schema.define(version: 20150813161751) do
     t.datetime "updated_at"
     t.integer  "user_id"
     t.integer  "time"
+    t.string   "parse_object_id"
   end
 
   create_table "users", force: true do |t|
-    t.string   "email",                  limit: nil, default: "",                           null: false
-    t.string   "encrypted_password",     limit: nil, default: ""
-    t.string   "reset_password_token",   limit: nil
+    t.string   "email",                  default: "",                           null: false
+    t.string   "encrypted_password",     default: "",                           null: false
+    t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",                      default: 0,                            null: false
+    t.integer  "sign_in_count",          default: 0,                            null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.inet     "current_sign_in_ip"
     t.inet     "last_sign_in_ip"
-    t.string   "confirmation_token",     limit: nil
+    t.string   "confirmation_token"
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
-    t.string   "unconfirmed_email",      limit: nil
+    t.string   "unconfirmed_email"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "roles_mask"
-    t.string   "first_name",             limit: nil
-    t.string   "last_name",              limit: nil
-    t.integer  "clients",                            default: [],                                        array: true
-    t.string   "authentication_token",   limit: nil
+    t.string   "first_name"
+    t.string   "last_name"
+    t.integer  "clients",                default: [],                                        array: true
+    t.string   "authentication_token"
     t.datetime "last_active_at"
-    t.string   "timezone",               limit: nil, default: "Eastern Time (US & Canada)"
-    t.string   "invitation_token",       limit: nil
-    t.datetime "invitation_created_at"
-    t.datetime "invitation_sent_at"
-    t.datetime "invitation_accepted_at"
-    t.integer  "invitation_limit"
-    t.integer  "invited_by_id"
-    t.string   "invited_by_type",        limit: nil
-    t.integer  "invitations_count",                  default: 0
+    t.string   "timezone",               default: "Eastern Time (US & Canada)"
   end
 
   add_index "users", ["authentication_token"], name: "index_users_on_authentication_token", using: :btree
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
-  add_index "users", ["invitation_token"], name: "index_users_on_invitation_token", unique: true, using: :btree
-  add_index "users", ["invitations_count"], name: "index_users_on_invitations_count", using: :btree
-  add_index "users", ["invited_by_id"], name: "index_users_on_invited_by_id", using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
   add_foreign_key "mailboxer_conversation_opt_outs", "mailboxer_conversations", name: "mb_opt_outs_on_conversations_id", column: "conversation_id"
