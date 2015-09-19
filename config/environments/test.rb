@@ -40,4 +40,8 @@ Rails.application.configure do
   # Mandrill Settings
   # ActionMailer Config
   config.action_mailer.default_url_options = { :host => 'thrivestreams.com' }
+
+  # Mailboxer Dependency Issue
+  # https://github.com/mailboxer/mailboxer/issues/268
+  config.active_record.maintain_test_schema = false
 end
