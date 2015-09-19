@@ -17,3 +17,18 @@ module MessagesHelper
 	  end
   end
 end
+
+# Send to Clients
+=begin
+  	@users = User.where(:email == !nil).sort_by { |r| r.last_name.downcase }
+  	
+  	if !@users.empty?
+	    s = ''
+	    @users.each do |user|
+	    	if current_user.clients.include? user.id
+	      	s << "<option value='#{user.id}'>#{user.name}</option>"
+	      end
+	    end
+	    s.html_safe
+	  end
+=end
