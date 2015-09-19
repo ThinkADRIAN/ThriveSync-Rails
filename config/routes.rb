@@ -54,7 +54,7 @@ Rails.application.routes.draw do
 
   get "/update_capture" => 'capture#update_capture', as: 'update_capture'
 
-  resources :conversations, only: [:index, :show, :destroy] do
+  resources :conversations, :path => 'cards_stack', only: [:index, :show, :destroy] do
     member do
       post :reply
       post :restore
@@ -64,7 +64,7 @@ Rails.application.routes.draw do
       delete :empty_trash
     end
   end
-  resources :messages, only: [:new, :create]
+  resources :messages, :path => 'cards', only: [:new, :create]
 
   resources :users, :path => 'thrivers' do
     resources :moods
