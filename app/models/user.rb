@@ -1,6 +1,4 @@
 class User < ActiveRecord::Base
-  include Amistad::FriendModel
-
   searchable do
     string :email
   end
