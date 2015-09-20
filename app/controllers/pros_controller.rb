@@ -1,4 +1,6 @@
 class ProsController < ApplicationController
+	before_filter :authenticate_user!
+	
 	def index
     @friends = current_user.friends
     @pending_friends = current_user.pending_friends
