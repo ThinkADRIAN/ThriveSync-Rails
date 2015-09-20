@@ -72,7 +72,8 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
  gem 'mandrill-api'
 
  # Friendships
- gem 'amistad'
+ # gem 'amistad'
+ gem 'has_friendship'
 
  # Data Generator
  gem 'faker'
