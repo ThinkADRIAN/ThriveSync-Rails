@@ -1,22 +1,31 @@
-<p><%= link_to 'Start conversation', new_message_path, class: 'btn btn-lg btn-primary' %></p>
+<p><%= link_to 'Send Card', new_message_path, class: 'btn btn-lg btn-primary' %></p>
 
-<div class="row">
-  <div class="col-sm-3">
-    <ul class="nav nav-pills nav-stacked">
-      <%= mailbox_section 'inbox', @box %>
-      <%= mailbox_section 'sent', @box %>
-      <%= mailbox_section 'trash', @box %>
-    </ul>
-  </div>
-
-  <div class="col-sm-9">
-    <% if @box == 'trash' %>
-      <p><%= link_to 'Empty trash', empty_trash_conversations_path, class: 'btn btn-danger', method: :delete,
-                     data: {confirm: 'Are you sure?'} %></p>
-    <% end %>
-    <ul class="list-group">
-      <%= render partial: 'conversations/conversation', collection: @conversations %>
-    </ul>
-    <%= will_paginate %>
-  </div>
+<div class="container">
+  <% @conversations.each_slice(3) do |conversations| %>
+    <div class="row">
+      <% conversations.each do |conversation| %>
+        <div class="col-md-4">
+          <div class="card">
+            <div class="card-height-indicator"></div>
+              <div class="card-content">
+                <div class="card-body">
+                  <center>
+                    <h3><%= conversation.last_message.body %></h3>
+                  </center>
+                </div>
+                <footer class="card-footer">
+                  <center>
+                    <p>
+                      <%= conversation.last_message.sender.name %>
+                      <br>
+                      <small><span class="text-muted"><%= conversation.last_message.created_at.strftime("%B %-d, %Y") %></span></small>
+                    </p>
+                  </center>
+                </footer>
+              </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
 </div>
