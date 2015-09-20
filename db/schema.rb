@@ -11,10 +11,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150813161751) do
+ActiveRecord::Schema.define(version: 20150920153233) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "cards", force: true do |t|
+    t.string   "message"
+    t.string   "category"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "friendships", force: true do |t|
     t.integer "friendable_id"
@@ -106,6 +113,13 @@ ActiveRecord::Schema.define(version: 20150813161751) do
     t.datetime "updated_at"
     t.integer  "user_id"
     t.string   "parse_object_id"
+  end
+
+  create_table "pre_defined_cards", force: true do |t|
+    t.string   "text"
+    t.string   "category"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "relationships", force: true do |t|

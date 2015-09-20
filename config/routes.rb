@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
-  
   apipie
+  
+  resources :pre_defined_cards
+
   resources :reviews
 
   resources :rewards
