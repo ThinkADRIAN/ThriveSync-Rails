@@ -12,13 +12,13 @@
           <%= submit_tag "Search", :name => nil %>
       <% end %>
       <% for user in @connections %>
-        <% if current_user.friend_with? user %>
+        <% #if current_user.friend_with? user %>
           <% #link_to "Disconnect", connection_path(user), :method => "delete" %>
-        <% elsif current_user.invited? user %>
+        <% #elsif current_user.invited? user %>
           <% #link_to "Cancel Request", connection_path(user), :method => "delete" %>
-        <% elsif user.invited? current_user %>
+        <% #elsif user.invited? current_user %>
           <% #link_to "Confirm Connection", connection_path(user), :method => "put" %>
-        <% elsif user.is? :pro %>
+        <% if user.is? :pro %>
           <div class="col-md-4">
             <h3><%= user.first_name + " " + user.last_name%></h3>
             <p><%= user.email %></p>
