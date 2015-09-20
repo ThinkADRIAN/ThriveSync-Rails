@@ -2,6 +2,9 @@ class MessagesController < ApplicationController
   before_action :authenticate_user!
 
   def new
+  	c = PreDefinedCard.all
+	random_ids = c.ids.sort_by { rand }.slice(0, 3)
+	@random_cards = PreDefinedCard.where(:id => random_ids)
   end
 
   def create
