@@ -7,22 +7,22 @@
         <div class="col-md-4">
           <div class="card">
             <div class="card-height-indicator"></div>
-              <div class="card-content">
-                <div class="card-body">
-                  <center>
-                    <h3><%= conversation.last_message.body %></h3>
-                  </center>
-                </div>
-                <footer class="card-footer">
-                  <center>
-                    <p>
-                      <%= conversation.last_message.sender.name %>
-                      <br>
-                      <small><span class="text-muted"><%= conversation.last_message.created_at.strftime("%B %-d, %Y") %></span></small>
-                    </p>
-                  </center>
-                </footer>
+            <div class="card-content">
+              <div class="card-body">
+                <center>
+                  <h3><%= conversation.last_message.body %></h3>
+                </center>
               </div>
+              <footer class="card-footer">
+                <center>
+                  <p>
+                    <%= conversation.last_message.sender.name %>
+                    <br>
+                    <small><span class="text-muted"><%= conversation.last_message.created_at.strftime("%B %-d, %Y") %></span></small>
+                  </p>
+                </center>
+              </footer>
+            </div>
           </div>
         </div>
       <% end %>
