@@ -24,13 +24,13 @@
         <% end %>
       </div>
     </div>
-  <% elsif !@unconfirmed_friends.empty? %>
+  <% elsif !@requested_friends.empty? %>
     <div class="panel panel-info">
       <div class="panel-heading">
         <h3 class="panel-title">Requests for Connection</h3>
       </div>
       <div class="panel-body">
-        <% for user in @unconfirmed_friends %>
+        <% for user in @requested_friends %>
           <div class="col-md-4">  
               <h3><%= user.first_name + " " + user.last_name%></h3>
               <p><%= user.email %></p>
@@ -53,7 +53,7 @@
       <h3 class="panel-title">Connections</h3>
     </div>
     <div class="panel-body">
-    <% if !@confirmed_friends.empty?#if @friends != nil %>
+    <% if !@friends.empty?#if @friends != nil %>
       <% for user in @friends %>
         <div class="col-md-4">
           <h3><%= user.first_name + " " + user.last_name %></h3>
