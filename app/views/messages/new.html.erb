@@ -7,7 +7,7 @@
     <% @random_cards.shuffle.each do |card| %>
       <%= form_tag messages_path, method: :post do %>
         <div class="col-md-4">
-          <div class="card">
+          <div class="card shadow-z-1">
             <div class="card-height-indicator"></div>
             <div class="card-content">
               <div class="card-body">
@@ -36,7 +36,7 @@
   <div class="row">
     <%= form_tag messages_path, method: :post do %>
       <div class="col-md-4">
-          <div class="card">
+          <div class="card shadow-z-1">
             <div class="card-height-indicator"></div>
             <div class="card-content">
               <div class="card-body">
