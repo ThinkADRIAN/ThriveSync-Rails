@@ -8,6 +8,8 @@ class User < ActiveRecord::Base
   has_many :self_cares
   has_many :journals
 
+  has_friendship
+
   has_many :reminders
 
   has_one :scorecard, dependent: :destroy
