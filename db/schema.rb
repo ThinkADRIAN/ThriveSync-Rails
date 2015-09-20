@@ -11,19 +11,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150712053907) do
+ActiveRecord::Schema.define(version: 20150920201725) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "friendships", force: true do |t|
-    t.integer "friendable_id"
-    t.integer "friend_id"
-    t.integer "blocker_id"
-    t.boolean "pending",       default: true
+  create_table "cards", force: true do |t|
+    t.string   "message"
+    t.string   "category"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
-  add_index "friendships", ["friendable_id", "friend_id"], name: "index_friendships_on_friendable_id_and_friend_id", unique: true, using: :btree
+  create_table "friendships", force: true do |t|
+    t.integer  "friendable_id"
+    t.string   "friendable_type"
+    t.integer  "friend_id"
+    t.string   "status"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "identities", force: true do |t|
     t.integer  "user_id"
@@ -41,7 +48,61 @@ ActiveRecord::Schema.define(version: 20150712053907) do
     t.datetime "updated_at"
     t.integer  "user_id"
     t.datetime "timestamp"
+    t.string   "parse_object_id"
   end
+
+  create_table "mailboxer_conversation_opt_outs", force: true do |t|
+    t.integer "unsubscriber_id"
+    t.string  "unsubscriber_type"
+    t.integer "conversation_id"
+  end
+
+  add_index "mailboxer_conversation_opt_outs", ["conversation_id"], name: "index_mailboxer_conversation_opt_outs_on_conversation_id", using: :btree
+  add_index "mailboxer_conversation_opt_outs", ["unsubscriber_id", "unsubscriber_type"], name: "index_mailboxer_conversation_opt_outs_on_unsubscriber_id_type", using: :btree
+
+  create_table "mailboxer_conversations", force: true do |t|
+    t.string   "subject",    default: ""
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
+
+  create_table "mailboxer_notifications", force: true do |t|
+    t.string   "type"
+    t.text     "body"
+    t.string   "subject",              default: ""
+    t.integer  "sender_id"
+    t.string   "sender_type"
+    t.integer  "conversation_id"
+    t.boolean  "draft",                default: false
+    t.string   "notification_code"
+    t.integer  "notified_object_id"
+    t.string   "notified_object_type"
+    t.string   "attachment"
+    t.datetime "updated_at",                           null: false
+    t.datetime "created_at",                           null: false
+    t.boolean  "global",               default: false
+    t.datetime "expires"
+  end
+
+  add_index "mailboxer_notifications", ["conversation_id"], name: "index_mailboxer_notifications_on_conversation_id", using: :btree
+  add_index "mailboxer_notifications", ["notified_object_id", "notified_object_type"], name: "index_mailboxer_notifications_on_notified_object_id_and_type", using: :btree
+  add_index "mailboxer_notifications", ["sender_id", "sender_type"], name: "index_mailboxer_notifications_on_sender_id_and_sender_type", using: :btree
+  add_index "mailboxer_notifications", ["type"], name: "index_mailboxer_notifications_on_type", using: :btree
+
+  create_table "mailboxer_receipts", force: true do |t|
+    t.integer  "receiver_id"
+    t.string   "receiver_type"
+    t.integer  "notification_id",                            null: false
+    t.boolean  "is_read",                    default: false
+    t.boolean  "trashed",                    default: false
+    t.boolean  "deleted",                    default: false
+    t.string   "mailbox_type",    limit: 25
+    t.datetime "created_at",                                 null: false
+    t.datetime "updated_at",                                 null: false
+  end
+
+  add_index "mailboxer_receipts", ["notification_id"], name: "index_mailboxer_receipts_on_notification_id", using: :btree
+  add_index "mailboxer_receipts", ["receiver_id", "receiver_type"], name: "index_mailboxer_receipts_on_receiver_id_and_receiver_type", using: :btree
 
   create_table "moods", force: true do |t|
     t.integer  "mood_rating"
@@ -51,6 +112,14 @@ ActiveRecord::Schema.define(version: 20150712053907) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "user_id"
+    t.string   "parse_object_id"
+  end
+
+  create_table "pre_defined_cards", force: true do |t|
+    t.string   "text"
+    t.string   "category"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "relationships", force: true do |t|
@@ -149,6 +218,7 @@ ActiveRecord::Schema.define(version: 20150712053907) do
     t.datetime "updated_at"
     t.integer  "user_id"
     t.datetime "timestamp"
+    t.string   "parse_object_id"
   end
 
   create_table "sleeps", force: true do |t|
@@ -159,6 +229,7 @@ ActiveRecord::Schema.define(version: 20150712053907) do
     t.datetime "updated_at"
     t.integer  "user_id"
     t.integer  "time"
+    t.string   "parse_object_id"
   end
 
   create_table "users", force: true do |t|
