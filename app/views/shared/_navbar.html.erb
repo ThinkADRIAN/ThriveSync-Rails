@@ -55,43 +55,48 @@
                   </li>
                 <% end %>
 
-                <% if user_signed_in? && (current_user.is? :user) %>
-                  <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Trackers<b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                      <li><a href="<%= moods_path %>">Mood</a></li>
-                      <li><a href="<%= sleeps_path %>">Sleep</a></li>
-                      <li><a href="<%= self_cares_path %>">Self Care</a></li>
-                      <li><a href="<%= journals_path %>">Journal</a></li>
-                    </ul>
-                  </li>
-                <% end %>
-            
-                <% if user_signed_in?%>
-                  <li><%= link_to 'Cards', conversations_path %></li>
-                  <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Account<b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                      <li><a href="<%= connections_path(current_user) %>">Connect</a></li>
-                      <li><a href="<%= edit_user_registration_path %>">Profile</a></li>
-                      <% if user_signed_in? && ((current_user.is? :user) || (current_user.is? :client)) %>
-                        <li><a href="<%= scorecards_path %>">Scorecard</a></li>
-                        <li><a href="<%= reminders_path %>">Reminders</a></li>
-                      <% end %>
-                      <li><%= link_to "Logout", destroy_user_session_path, method: :delete %></li>
-                    </ul>
-                  </li>
-                <% else %>
-                
-                  <li><a href="<%= new_user_registration_path %>">Sign Up</a></li>
-                  <li><a href="<%= new_user_session_path %>">Login</a></li>
-                <% end %>
-              </ul>
-      
-              <% if user_signed_in? %>
+              <% if user_signed_in? && (current_user.is? :user) %>
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Trackers<b class="caret"></b></a>
+                  <ul class="dropdown-menu">
+                    <li><a href="<%= moods_path %>">Mood</a></li>
+                    <li><a href="<%= sleeps_path %>">Sleep</a></li>
+                    <li><a href="<%= self_cares_path %>">Self Care</a></li>
+                    <li><a href="<%= journals_path %>">Journal</a></li>
+                  </ul>
+                </li>
+              <% end %>
+
+              <% if user_signed_in? && ((current_user.is? :user) || (current_user.is? :client)) %>
+                <li><%= link_to 'Cards', conversations_path %></li>
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Connect<b class="caret"></b></a>
+                  <ul class="dropdown-menu">
+                      <li><a href="<%= connections_path(current_user) %>">Provider</a></li>
+                      <li><a href="<%= new_user_invitation_path %>">Supporter</a></li>
+                  </ul>
+                </li>
+              <% end %>
+          
+              <% if user_signed_in?%>
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Account<b class="caret"></b></a>
+                  <ul class="dropdown-menu">
+                    <li><a href="<%= edit_user_registration_path %>">Profile</a></li>
+                    <% if user_signed_in? && ((current_user.is? :user) || (current_user.is? :client)) %>
+                      <li><a href="<%= scorecards_path %>">Scorecard</a></li>
+                      <li><a href="<%= reminders_path %>">Reminders</a></li>
+                    <% end %>
+                    <li><%= link_to "Logout", destroy_user_session_path, method: :delete %></li>
+                  </ul>
+                </li>
                 <div class="navbar-text pull-left">
                     Logged in as <strong><%= current_user.first_name + " " + current_user.last_name %></strong>. 
                 </div>
+                
+              <% else %>
+                <li><a href="<%= new_user_registration_path %>">Sign Up</a></li>
+                <li><a href="<%= new_user_session_path %>">Login</a></li>
               <% end %>
             </div>
           </nav><!--/.nav-collapse -->

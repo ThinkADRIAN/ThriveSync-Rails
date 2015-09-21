@@ -1,3 +1,6 @@
+# Devise
+INVITATION_LIMIT = 5
+
 # Date Ranges
 DATE_RANGE_THIS_WEEK = (Date.today.beginning_of_week(:sunday).in_time_zone)..((Date.today.beginning_of_week(:sunday)+6).in_time_zone.end_of_day)
 DATE_RANGE_THIS_MONTH = (Date.today.at_beginning_of_month.in_time_zone)..((Date.today.at_end_of_month).in_time_zone.end_of_day)

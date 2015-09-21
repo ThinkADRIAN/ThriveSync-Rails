@@ -3,9 +3,8 @@ class FriendshipsController < ApplicationController
 
   def index
     @friends = current_user.friends
-    @pending_friends = current_user.pending_invited_by
-    @unconfirmed_friends = current_user.pending_invited
-    @confirmed_friends = @friends - ( @pending_friends | @unconfirmed_friends)
+    @pending_friends = current_user.pending_friends
+    @requested_friends = current_user.requested_friends
     @users = User.where.not(id: current_user.id)
   end
 
@@ -22,7 +21,7 @@ class FriendshipsController < ApplicationController
   def create
     invitee = User.find_by_id(params[:user_id])
     if ((current_user.is? :pro) || (invitee.is? :pro))
-	    if current_user.invite invitee
+	    if current_user.friend_request(invitee)
 	      redirect_to new_connection_path, :notice => "Successfully sent connection request!"
 	    else
 	      redirect_to new_connection_path, :notice => "Sorry! You can't invite that user!"
@@ -34,7 +33,7 @@ class FriendshipsController < ApplicationController
 
   def update
     inviter = User.find_by_id(params[:id])
-    if (current_user.approve inviter)
+    if (current_user.accept_request(inviter))
     	
     	# Add user to Pros client list
     	if current_user.is? :pro
@@ -52,16 +51,16 @@ class FriendshipsController < ApplicationController
   end
 
   def requests
-    @pending_requests = current_user.pending_invited_by
+    @pending_requests = current_user.requested_friends
   end
 
   def invites
-    @pending_invites = current_user.pending_invited
+    @pending_invites = current_user.pending_friends
   end
 
   def destroy
     user = User.find_by_id(params[:id])
-    if current_user.remove_friendship user
+    if current_user.remove_friend(user)
 
     	# Remote user to Pros client list
     	if current_user.is? :pro

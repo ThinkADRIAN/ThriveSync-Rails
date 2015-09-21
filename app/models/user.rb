@@ -1,8 +1,6 @@
 class User < ActiveRecord::Base
   acts_as_messageable
 
-  include Amistad::FriendModel
-
   searchable do
     string :email
   end
@@ -11,6 +9,8 @@ class User < ActiveRecord::Base
   has_many :sleeps
   has_many :self_cares
   has_many :journals
+
+  has_friendship
 
   has_many :reminders
 
@@ -24,6 +24,8 @@ class User < ActiveRecord::Base
   has_many :inverse_relationships, :class_name => "Relationship", :foreign_key => "relation_id"
   has_many :inverse_relations, :through => :inverse_relationships, :source => :user
 
+  has_many :invitations, :class_name => self.to_s, :as => :invited_by
+
   before_create :set_default_role
   after_create :create_scorecard
   after_create :create_reward
@@ -36,7 +38,7 @@ class User < ActiveRecord::Base
   # User is free account, Client is unlocked when coupled with a Pro account,
   # Admin will administer an organizational unit, SuperUser is for internal use
 
-  ROLES = %w[user client pro admin superuser banned]
+  ROLES = %w[user client pro admin superuser supporter]
 
   TEMP_EMAIL_PREFIX = 'change@me'
   TEMP_EMAIL_REGEX = /\Achange@me/
@@ -45,8 +47,8 @@ class User < ActiveRecord::Base
 
   # Include default devise modules. Others available are:
   # :lockable, :timeoutable
-  devise :database_authenticatable, :registerable,
-    :recoverable, :rememberable, :trackable, :validatable, :omniauthable, :confirmable 
+  devise :invitable, :database_authenticatable, :registerable,
+    :recoverable, :rememberable, :trackable, :validatable, :omniauthable, :confirmable
 
   validates_presence_of :first_name, :last_name
 
