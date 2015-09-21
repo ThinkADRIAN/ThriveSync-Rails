@@ -27,6 +27,9 @@ class MyDevise::InvitationsController < Devise::InvitationsController
       # Add Supporter Role to user
       current_user.roles_mask = 33 #User and Supporter
       current_user.save!
+      # Create Supporter Relationship
+      current_user.friend_request(inviter)
+      inviter.accept_request(current_user)
     end
   end
 
