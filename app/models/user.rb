@@ -1,6 +1,4 @@
 class User < ActiveRecord::Base
-  include Amistad::FriendModel
-
   searchable do
     string :email
   end
@@ -9,6 +7,8 @@ class User < ActiveRecord::Base
   has_many :sleeps
   has_many :self_cares
   has_many :journals
+
+  has_friendship
 
   has_many :reminders
 
