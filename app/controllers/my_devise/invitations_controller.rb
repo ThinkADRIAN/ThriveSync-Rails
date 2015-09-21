@@ -24,6 +24,9 @@ class MyDevise::InvitationsController < Devise::InvitationsController
       inviter = current_user.invited_by
       inviter.supporters += [current_user.id.to_i]
       inviter.save!
+      # Add Supporter Role to user
+      current_user.roles_mask = 33 #User and Supporter
+      current_user.save!
     end
   end
 
