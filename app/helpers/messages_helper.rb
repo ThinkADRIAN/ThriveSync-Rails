@@ -1,12 +1,11 @@
 module MessagesHelper
   def recipients_options
-  	@friends = current_user.friends
-    @pending_friends = current_user.pending_invited_by
-    @unconfirmed_friends = current_user.pending_invited
-    @confirmed_friends = @friends - ( @pending_friends | @unconfirmed_friends)
+    @friends = current_user.friends
+    @pending_friends = current_user.pending_friends
+    @requested_friends = current_user.requested_friends
     @users = User.where.not(id: current_user.id)
   	
-  	if !@confirmed_friends.empty?
+  	if !@friends.empty?
   		for user in @friends
   			if current_user.friend_with? user
           s = ''
