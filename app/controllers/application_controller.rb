@@ -99,7 +99,7 @@ class ApplicationController < ActionController::Base
   end
 
   def authenticate_inviter!
-    #authenticate_user!(:force => true)
+    authenticate_user!(:force => true)
   end
   
   private
