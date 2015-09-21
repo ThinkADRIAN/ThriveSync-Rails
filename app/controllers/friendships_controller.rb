@@ -62,7 +62,7 @@ class FriendshipsController < ApplicationController
     user = User.find_by_id(params[:id])
     if current_user.remove_friend(user)
 
-    	# Remote user to Pros client list
+    	# Remove user from Pros clients list
     	if current_user.is? :pro
     		current_user.clients -= [user.id.to_i]
     		current_user.save!
@@ -70,6 +70,15 @@ class FriendshipsController < ApplicationController
     		user.clients -= [current_user.id.to_i]
     		user.save!
     	end
+
+      # Remove user from Thrivers supporters list
+      if current_user.is? :supporter
+        user.supporters -= [current_user.id.to_i]
+        user.save!
+      elsif user.is? :supporter
+        current_user.supporters -= [user.id.to_i]
+        current_user.save!
+      end
       redirect_to connections_path, :notice => "Successfully removed connection!"
     else
       redirect_to connections_path, :notice => "Sorry, couldn't remove connection!"
