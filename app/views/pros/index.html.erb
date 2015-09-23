@@ -1,7 +1,7 @@
 <div class="col-sm-12">
   <%
-  if @users != nil
-    @users.sort_by { |r| r.last_name.downcase }
+  if @clients != nil
+    @clients.sort_by { |r| r.last_name.downcase }
   end
   %>
 
@@ -10,16 +10,16 @@
       <h3 class="panel-title">Clients List</h3>
     </div>
     <div class="panel-body">
-    <% if !@users.blank? %>
-      <% @users.each do |user| %>
-        <% if current_user.clients.include? user.id %>
+    <% if !@clients.blank? %>
+      <% @clients.each do |client| %>
+        <% if current_user.clients.include? client.id %>
           <div class="col-md-4">
-              <h3><%= user.first_name + " " + user.last_name %></h3>
-              <p><%= user.email %></p>
+              <h3><%= client.first_name + " " + client.last_name %></h3>
+              <p><%= client.email %></p>
           </div>
           <div class="col-md-8">
             <h3></h3>
-            <%= link_to 'Show Details', user, class: "btn-primary btn-xs" %>
+            <%= link_to 'Show Details', client, class: "btn-primary btn-xs" %>
           </div>
           <div class="col-md-12">
             <hr>

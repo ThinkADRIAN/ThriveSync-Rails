@@ -5,6 +5,10 @@ class ProsController < ApplicationController
     @friends = current_user.friends
     @pending_friends = current_user.pending_friends
     @requested_friends = current_user.requested_friends
-    @users = User.where.not(id: current_user.id)
+    
+    @clients = []
+    current_user.clients.each do |client_id|
+      @clients += User.where(id: client_id)
+    end
   end
 end
