@@ -32,6 +32,7 @@ Rails.application.routes.draw do
 
   resources :supporters, only: [:index] do
     get "list_thrivers", :on => :collection
+    post '/invite' => 'supporters#invite', :on => :collection
   end
 
   match 'moods/cancel' => 'moods#cancel', :via => :get

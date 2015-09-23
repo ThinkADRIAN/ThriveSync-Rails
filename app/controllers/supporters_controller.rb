@@ -31,6 +31,14 @@ class SupportersController < ApplicationController
     end
   end
 
+  def invite
+    User.invite!({:email => params[:email]}, current_user)
+
+    respond_to do |format|
+      format.json { head :ok }
+    end
+  end
+
   def list_thrivers
     thrivers = User.where.not(id: current_user.id)
     @supported_thrivers = []
