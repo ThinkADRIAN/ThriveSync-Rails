@@ -16,7 +16,7 @@
               <footer class="card-footer">
                 <center>
                   <p>
-                    <%= conversation.last_message.sender.name %>
+                    <%= conversation.last_message.sender.first_name + " " + conversation.last_message.sender.last_name %>
                     <br>
                     <small><span class="text-muted"><%= conversation.last_message.created_at.strftime("%B %-d, %Y") %></span></small>
                   </p>

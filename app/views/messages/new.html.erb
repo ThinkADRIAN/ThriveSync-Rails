@@ -1,4 +1,4 @@
-<center><h2>Send Support to a Thriver</h2></center>
+<center><h2>Send Support to a <%= @thriver.first_name %> <%= @thriver.last_name %></h2></center>
 
 <br>
 
@@ -18,13 +18,15 @@
                   <center><h3><%= card.text %></h3></center>
                   <%= hidden_field_tag 'message[body]', card.text, class: 'form-control', required: true %>
                 </div>
+                <div class="form-group">
+                  <%= hidden_field_tag 'recipients', @thriver.id, class: 'form-control', required: true %>
+                </div>
+                <div class="form-group">
+                  <%= hidden_field_tag 'thriver_id', @thriver.id, class: 'form-control', required: true %>
+                </div>
               </div>
               <footer class="card-footer">
-                <div class="form-group">
-                  <%= label_tag 'recipients', 'Choose recipients' %>
-                  <%= select_tag 'recipients', recipients_options, multiple: true, class: 'form-control chosen-it' %>
-                </div>
-                <%= submit_tag 'Send', class: 'btn btn-flat btn-primary' %>
+                <center><%= submit_tag 'Send', class: 'btn btn-flat btn-primary' %></center>
               </footer>
             </div>
           </div>
@@ -48,15 +50,17 @@
                 <div class="form-group">
                   <%#= label_tag 'message[body]', 'Message' %>
                   <center><h3>Custom Message</h3></center>
-                  <%= text_area_tag 'message[body]', nil, cols: 3, class: 'form-control', required: true %>
+                  <center><%= text_area_tag 'message[body]', nil, cols: 3, class: 'form-control', required: true %></center>
+                </div>
+                <div class="form-group">
+                  <%= hidden_field_tag 'recipients', @thriver.id, class: 'form-control', required: true %>
+                </div>
+                <div class="form-group">
+                  <%= hidden_field_tag 'thriver_id', @thriver.id, class: 'form-control', required: true %>
                 </div>
               </div>
               <footer class="card-footer">
-                <div class="form-group">
-                  <%= label_tag 'recipients', 'Choose recipients' %>
-                  <%= select_tag 'recipients', recipients_options, multiple: true, class: 'form-control chosen-it' %>
-                </div>
-                <%= submit_tag 'Send', class: 'btn btn-flat btn-primary' %>
+                <center><%= submit_tag 'Send', class: 'btn btn-flat btn-primary' %></center>
               </footer>
             </div>
             </div>
