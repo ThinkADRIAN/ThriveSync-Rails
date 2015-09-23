@@ -34,8 +34,9 @@
         <% end %>
       </div>
     </div>
-  <% elsif !@requested_friends.empty? %>
-    <div class="panel panel-info">
+  <% end %>
+  <% if !@requested_friends.empty? %>
+    <div class="panel panel-warning">
       <div class="panel-heading">
         <% if current_user.is? :user %>
           <h3 class="panel-title">Requests for Connection from Provider</h3>
