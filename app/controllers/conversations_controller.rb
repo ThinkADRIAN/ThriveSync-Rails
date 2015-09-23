@@ -31,7 +31,7 @@ class ConversationsController < ApplicationController
     end
 
     respond_to do |format|
-      format.html { redirect_to supporters_path }
+      format.html
       format.json { render :json => @cards, status: 200 }
     end 
   end
