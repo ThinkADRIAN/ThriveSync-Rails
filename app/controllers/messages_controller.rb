@@ -12,7 +12,7 @@ class MessagesController < ApplicationController
     recipients = User.where(id: @thriver.id)
     conversation = current_user.send_message(recipients, params[:message][:body], params[:message][:subject]).conversation
     flash[:success] = "Message has been sent!"
-    redirect_to conversations_path#conversation_path(conversation)
+    redirect_to supporters_path
   end
 
   private
