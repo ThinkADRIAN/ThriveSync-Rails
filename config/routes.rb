@@ -80,6 +80,7 @@ Rails.application.routes.draw do
   resources :connections, :controller => 'friendships', :except => [:show, :edit] do
     get "requests", :on => :collection
     get "invites", :on => :collection
+    get "supporters", :on => :collection
   end
 
   require 'api_constraints'
