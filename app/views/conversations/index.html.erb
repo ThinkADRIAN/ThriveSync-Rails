@@ -1,4 +1,5 @@
 <div class="container">
+  <%= will_paginate %>
   <% @conversations.each_slice(3) do |conversations| %>
     <div class="row">
       <% conversations.each do |conversation| %>
@@ -26,4 +27,5 @@
       <% end %>
     </div>
   <% end %>
+  <%= will_paginate %>
 </div>
