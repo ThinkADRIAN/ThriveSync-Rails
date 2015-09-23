@@ -20,8 +20,14 @@ class SupportersController < ApplicationController
       end
     end
 
+    @supporters = []
+    current_user.supporters.each do |supporter_id|
+      @supporters << User.where(id: supporter_id)
+    end
+
     respond_to do |format|
       format.html
+      format.json { render :json => @supporters, status: 200 }
     end
   end
 
