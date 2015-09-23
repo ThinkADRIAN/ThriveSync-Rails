@@ -28,7 +28,7 @@ Rails.application.routes.draw do
 
   get 'superusers/index'
 
-  get 'pros/index'
+  resources :pros, only: [:index]
 
   match 'moods/cancel' => 'moods#cancel', :via => :get
 

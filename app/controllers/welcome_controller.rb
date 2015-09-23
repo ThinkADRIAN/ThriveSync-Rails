@@ -9,7 +9,7 @@ class WelcomeController < ApplicationController
       elsif user_signed_in? && (current_user.is? :admin)
         render "/admins/index.html",:layout => "application"
       elsif user_signed_in? && (current_user.is? :pro)
-        render "/pros/index.html", :layout => "application"
+        redirect_to pros_path, :layout => "application"
       elsif user_signed_in? && (current_user.is? :client)
         render "/clients/index.html", :layout => "application"
       elsif user_signed_in? && (current_user.is? :user)
