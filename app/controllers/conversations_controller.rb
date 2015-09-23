@@ -18,7 +18,7 @@ class ConversationsController < ApplicationController
       @conversations = @mailbox.trash
     end
 
-    @conversations = @conversations.paginate(page: params[:page], per_page: 10)
+    @conversations = @conversations.paginate(page: params[:page], per_page: 9)
 
     @cards = []
     @conversations.each do |conversation|
