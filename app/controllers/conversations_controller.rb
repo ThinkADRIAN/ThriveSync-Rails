@@ -1,4 +1,6 @@
 class ConversationsController < ApplicationController
+  acts_as_token_authentication_handler_for User
+
   before_action :authenticate_user!
   before_action :get_mailbox
   before_action :get_conversation, except: [:index, :empty_trash]
@@ -17,6 +19,21 @@ class ConversationsController < ApplicationController
     end
 
     @conversations = @conversations.paginate(page: params[:page], per_page: 10)
+
+    @cards = []
+    @conversations.each do |conversation|
+      @cards << {
+        :category => conversation.last_message.subject, 
+        :message => conversation.last_message.body,
+        :sender_first_name => conversation.last_message.sender.first_name,
+        :sender_last_name => conversation.last_message.sender.last_name
+      }
+    end
+
+    respond_to do |format|
+      format.html { redirect_to supporters_path }
+      format.json { render :json => @cards, status: 200 }
+    end 
   end
 
   def destroy
