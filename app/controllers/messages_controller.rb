@@ -1,6 +1,10 @@
 class MessagesController < ApplicationController
+  acts_as_token_authentication_handler_for User
+
   before_action :authenticate_user!
   before_action :set_thriver, only: [:new, :create]
+
+  respond_to :html, :json
 
   def new
   	c = PreDefinedCard.all
@@ -12,7 +16,11 @@ class MessagesController < ApplicationController
     recipients = User.where(id: @thriver.id)
     conversation = current_user.send_message(recipients, params[:message][:body], params[:message][:subject]).conversation
     flash[:success] = "Message has been sent!"
-    redirect_to supporters_path
+
+    respond_to do |format|
+      format.html { redirect_to supporters_path }
+      format.json { head :ok }
+    end 
   end
 
   private
