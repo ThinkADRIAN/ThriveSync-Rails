@@ -30,7 +30,9 @@ Rails.application.routes.draw do
 
   resources :pros, only: [:index]
 
-  resources :supporters, only: [:index]
+  resources :supporters, only: [:index] do
+    get "thrivers", :on => :collection
+  end
 
   match 'moods/cancel' => 'moods#cancel', :via => :get
 
