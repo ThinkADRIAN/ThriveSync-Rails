@@ -23,6 +23,16 @@ class MessagesController < ApplicationController
     end 
   end
 
+  def random_draw
+    c = PreDefinedCard.all
+    random_ids = c.ids.sort_by { rand }.slice(0, 3)
+    @random_cards = PreDefinedCard.where(:id => random_ids)
+
+    respond_to do |format|
+      format.json { render :json => @random_cards, status: 200}
+    end 
+  end
+
   private
 
   def set_thriver

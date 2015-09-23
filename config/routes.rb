@@ -70,7 +70,10 @@ Rails.application.routes.draw do
       delete :empty_trash
     end
   end
-  resources :messages, :path => 'cards', only: [:new, :create]
+
+  resources :messages, :path => 'cards', only: [:new, :create] do
+    get "random_draw", :on => :collection
+  end
 
   resources :users, :path => 'thrivers' do
     resources :moods
