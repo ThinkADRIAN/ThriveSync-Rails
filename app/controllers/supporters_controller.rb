@@ -25,7 +25,7 @@ class SupportersController < ApplicationController
     end
   end
 
-  def thrivers
+  def list_thrivers
     thrivers = User.where.not(id: current_user.id)
     @supported_thrivers = []
     thrivers.each do |thriver|
