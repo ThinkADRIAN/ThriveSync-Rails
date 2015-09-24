@@ -2,23 +2,32 @@
   <% # link_to 'Back to Connections', friends_path(current_user), class: "btn btn-primary" %>
   <div class="panel panel-default">
     <div class="panel-heading">
-      <h3 class="panel-title">Connect with a Mental Health Professional</h3>
+      <% if current_user.is? :user %>
+        <h3 class="panel-title">Connect with a Mental Health Professional</h3>
+      <% elsif current_user.is? :pro %>
+        <h3 class="panel-title">Connect with a Patient</h3>
+      <% end %>
     </div>
     <div class="panel-body">
-      <p>To connect to your data, search by your Mental Health Professional's email address:</p>
+      <% if current_user.is? :user %>
+        <p>To connect to your data, search by your Mental Health Professional's email address:</p>
+      <% elsif current_user.is? :pro %>
+        <p>To connect to your data, search by your Patient's email address:</p>
+      <% end %>
+      
       <%= form_tag new_connection_path, :method => :get do %>
         <p>
           <%= text_field_tag :search, params[:search] %>
           <%= submit_tag "Search", :name => nil %>
       <% end %>
       <% for user in @connections %>
-        <% if current_user.friend_with? user %>
+        <% #if current_user.friend_with? user %>
           <% #link_to "Disconnect", connection_path(user), :method => "delete" %>
-        <% elsif current_user.invited? user %>
+        <% #elsif current_user.invited? user %>
           <% #link_to "Cancel Request", connection_path(user), :method => "delete" %>
-        <% elsif user.invited? current_user %>
+        <% #elsif user.invited? current_user %>
           <% #link_to "Confirm Connection", connection_path(user), :method => "put" %>
-        <% elsif user.is? :pro %>
+        <% if ((current_user.is? :user) && (user.is? :pro)) || ((current_user.is? :pro) && (user.is? :user)) %>
           <div class="col-md-4">
             <h3><%= user.first_name + " " + user.last_name%></h3>
             <p><%= user.email %></p>
