@@ -7,9 +7,30 @@ class FriendshipsController < ApplicationController
     @requested_friends = current_user.requested_friends
     @users = User.where.not(id: current_user.id)
 
+    @patients = []
+    current_user.clients.each do |patient_id|
+      @patients << User.find_by_id(patient_id)
+    end
+
+    @pending_patients = []
+    @pending_friends.each do |pending_friend|
+      if pending_friend.is? :user
+        @pending_patients << pending_friend
+      end
+    end
+
+    @requested_patients = []
+    @requested_friends.each do |requested_friend|
+      if requested_friend.is? :user
+        @requested_patients << requested_friend
+      end
+    end
+
     @providers = []
-    current_user.supporters.each do |provider_id|
-      @providers << User.find_by_id(provider_id)
+    @friends.each do |friend|
+      if friend.is? :pro
+        @providers << friend
+      end
     end
 
     @pending_providers = []
@@ -22,7 +43,7 @@ class FriendshipsController < ApplicationController
     @requested_providers = []
     @requested_friends.each do |requested_friend|
       if requested_friend.is? :pro
-        @pending_providers << requested_friend
+        @requested_providers << requested_friend
       end
     end
   end
