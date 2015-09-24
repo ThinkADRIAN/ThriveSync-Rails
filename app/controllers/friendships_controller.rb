@@ -1,4 +1,5 @@
 class FriendshipsController < ApplicationController
+  acts_as_token_authentication_handler_for User
 	before_filter :authenticate_user!
 
   def index
@@ -151,10 +152,12 @@ class FriendshipsController < ApplicationController
 
       respond_to do |format|
         format.html { redirect_to :back, :notice => "Successfully removed connection!" }
+        format.json { render :json  => { status: "Successfully removed connection!" }}
       end
     else
       respond_to do |format|
         format.html { redirect_to :back, :notice => "Sorry, couldn't remove connection!" }
+        format.json { render :json  => { status: "Sorry, couldn't remove connection!" }}
       end
     end
   end
