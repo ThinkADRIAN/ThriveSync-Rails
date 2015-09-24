@@ -6,6 +6,25 @@ class FriendshipsController < ApplicationController
     @pending_friends = current_user.pending_friends
     @requested_friends = current_user.requested_friends
     @users = User.where.not(id: current_user.id)
+
+    @providers = []
+    current_user.supporters.each do |provider_id|
+      @providers << User.find_by_id(provider_id)
+    end
+
+    @pending_providers = []
+    @pending_friends.each do |pending_friend|
+      if pending_friend.is? :pro
+        @pending_providers << pending_friend
+      end
+    end
+
+    @requested_providers = []
+    @requested_friends.each do |requested_friend|
+      if requested_friend.is? :pro
+        @pending_providers << requested_friend
+      end
+    end
   end
 
   def supporters
@@ -29,7 +48,7 @@ class FriendshipsController < ApplicationController
     @requested_supporters = []
     @requested_friends.each do |requested_friend|
       if !requested_friend.is? :pro
-        @pending_supporters << requested_friend
+        @requested_supporters << requested_friend
       end
     end
   end

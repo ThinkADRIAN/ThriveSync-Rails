@@ -5,6 +5,33 @@
   <hr>
 </div>
 <div class="col-md-12">
+  <% if !@requested_supporters.empty? %>
+    <div class="panel panel-warning">
+      <div class="panel-heading">
+        <% if current_user.is? :supporter %>
+          <h3 class="panel-title">Requests for Connection from Peer</h3>
+        <% end %>
+      </div>
+      <div class="panel-body">
+        <% for user in @requested_supporters %>
+          <% if (user.is? :pro) || (user.is? :user)  %>
+            <div class="col-md-4">  
+                <h3><%= user.first_name + " " + user.last_name%></h3>
+                <p><%= user.email %></p>
+            </div>
+            <div class="col-md-8">
+              <h3></h3>
+              <%= link_to "Accept", connection_path(user), :method => "put", class: "btn-primary btn-xs" %>
+              <%= link_to "Reject", connection_path(user), :method => "delete", data: { confirm: "Are you sure you want to reject this connection?" }, class: "btn-danger btn-xs" %>
+            </div>
+            <div class="col-md-12">
+              <hr>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
   <div class="panel panel-default">
     <div class="panel-heading">
       <% if current_user.is? :user %>
