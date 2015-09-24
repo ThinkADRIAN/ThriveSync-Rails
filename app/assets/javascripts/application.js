@@ -21,7 +21,10 @@
 //= require jquery-ui/slider
 //= require jquery_ujs
 //= require jquery.slick
+//= require chosen-jquery
 //= require bootstrap.min.js
 //= require flatui
 //= require startup_framework
 //= require slick
+//= require messages
+//= require bootstrap-material-design

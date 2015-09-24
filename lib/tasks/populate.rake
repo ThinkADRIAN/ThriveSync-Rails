@@ -137,8 +137,8 @@ namespace :db do
 
     inviter.each do |i|
       a = invitee.sample
-      i.invite a
-      a.approve i
+      i.friend_request(a)
+      a.accept_request(i)
       i.clients += [a.id.to_i]
       i.save!
     end

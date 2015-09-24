@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 ruby '2.0.0'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.1.6'
+gem 'rails', '4.1.8'
 # Use sqlite3 as the database for Active Record
 #gem 'sqlite3'
 
@@ -52,7 +52,8 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
 # gem 'debugger', group: [:development, :test]
 
  # Authentication
- gem 'devise'
+ gem 'devise',           '>= 2.0.0'
+ gem 'devise_invitable', '~> 1.3.4'
  gem 'omniauth'
  gem 'omniauth-twitter'
  gem 'omniauth-facebook'
@@ -72,7 +73,8 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
  gem 'mandrill-api'
 
  # Friendships
- gem 'amistad'
+ # gem 'amistad'
+ gem 'has_friendship'
 
  # Data Generator
  gem 'faker'
@@ -85,6 +87,9 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
  gem 'less-rails-bootstrap'
  gem 'less-rails'
  gem 'font-awesome-rails'
+ gem 'will_paginate'
+ gem 'chosen-rails'
+ gem 'bootstrap-material-design'
 
  # Interface
  gem 'jquery-ui-rails'
@@ -93,6 +98,9 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
  
  # Search
  gem 'sunspot_rails'
+
+ # Messaging
+ gem 'mailboxer'
 
  # Analytics
  gem 'analytics-ruby', '~> 2.0.0', :require => 'segment/analytics'

@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
-  
   apipie
+  
+  resources :pre_defined_cards
+
   resources :reviews
 
   resources :rewards
@@ -10,7 +12,7 @@ Rails.application.routes.draw do
   resources :scorecards, only: [:index, :edit, :update]
   
   devise_for :users, :path => '', :path_names => {:sign_in => 'login', :sign_out => 'logout'}, :controllers => {:registrations => 'my_devise/registrations',
-    :omniauth_callbacks => "omniauth_callbacks", :sessions => 'users/sessions', :passwords => 'users/passwords'}
+    :omniauth_callbacks => "omniauth_callbacks", :sessions => 'users/sessions', :passwords => 'users/passwords', :invitations => 'my_devise/invitations'}
   match '/users/:id/finish_signup' => 'users#finish_signup', via: [:get, :patch], :as => :finish_signup
 
   # Auto-created by Devise
@@ -26,7 +28,12 @@ Rails.application.routes.draw do
 
   get 'superusers/index'
 
-  get 'pros/index'
+  resources :pros, only: [:index]
+
+  resources :supporters, only: [:index] do
+    get "list_thrivers", :on => :collection
+    post '/invite' => 'supporters#invite', :on => :collection
+  end
 
   match 'moods/cancel' => 'moods#cancel', :via => :get
 
@@ -54,6 +61,21 @@ Rails.application.routes.draw do
 
   get "/update_capture" => 'capture#update_capture', as: 'update_capture'
 
+  resources :conversations, :path => 'cards_stack', only: [:index, :show, :destroy] do
+    member do
+      post :reply
+      post :restore
+      post :mark_as_read
+    end
+    collection do
+      delete :empty_trash
+    end
+  end
+
+  resources :messages, :path => 'cards', only: [:new, :create] do
+    get "random_draw", :on => :collection
+  end
+
   resources :users, :path => 'thrivers' do
     resources :moods
     resources :sleeps
@@ -64,6 +86,7 @@ Rails.application.routes.draw do
   resources :connections, :controller => 'friendships', :except => [:show, :edit] do
     get "requests", :on => :collection
     get "invites", :on => :collection
+    get "supporters", :on => :collection
   end
 
   require 'api_constraints'

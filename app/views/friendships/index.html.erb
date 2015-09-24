@@ -1,16 +1,56 @@
 <div class="col-md-12">
-  <%= link_to 'Add a new Connection', new_connection_path, class: "btn btn-primary" %>
+  <% if (current_user.is? :user) || (current_user.is? :client) %>
+    <%= link_to 'Add New Provider Connection', new_connection_path, class: "btn btn-primary" %>
+  <% elsif current_user.is? :pro %>
+    <%= link_to 'Add New Patient Connection', new_connection_path, class: "btn btn-primary" %>
+  <% end %>
   <hr>
 </div>
 <div class="col-md-12">
   <% if !@pending_friends.empty? %>
     <div class="panel panel-info">
       <div class="panel-heading">
-        <h3 class="panel-title">Pending Connections</h3>
+        <% if current_user.is? :user %>
+          <h3 class="panel-title">Pending Provider Connections</h3>
+          <% pending_connections = @pending_providers %>
+        <% elsif current_user.is? :pro %>
+          <h3 class="panel-title">Pending Patient Connections</h3>
+          <% pending_connections = @pending_patients %>
+        <% end %>
       </div>
       <div class="panel-body">
-        <% for user in @users %>
-          <% if (user.invited? current_user) && (!current_user.friend_with? user)%>
+        <% for user in pending_connections %>
+          <% if (user.is? :pro) || (user.is? :user) %>
+            <div class="col-md-4">  
+                <h3><%= user.first_name + " " + user.last_name%></h3>
+                <p><%= user.email %></p>
+            </div>
+            <div class="col-md-8">
+              <h3></h3>
+              <%= link_to "Cancel", connection_path(user), :method => "delete", data: { confirm: "Are you sure you want to cancel this request for connection?" }, class: "btn-danger btn-xs" %>
+            </div>
+            <div class="col-md-12">
+              <hr>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+  <% if !@requested_friends.empty? %>
+    <div class="panel panel-warning">
+      <div class="panel-heading">
+        <% if current_user.is? :user %>
+          <h3 class="panel-title">Requests for Connection from Provider</h3>
+          <% requested_connections = @requested_providers %>
+        <% elsif current_user.is? :pro %>
+          <h3 class="panel-title">Requests for Connection from Patient</h3>
+          <% requested_connections = @requested_patients %>
+        <% end %>
+      </div>
+      <div class="panel-body">
+        <% for user in requested_connections %>
+          <% if (user.is? :pro) || (user.is? :user)  %>
             <div class="col-md-4">  
                 <h3><%= user.first_name + " " + user.last_name%></h3>
                 <p><%= user.email %></p>
@@ -23,7 +63,7 @@
             <div class="col-md-12">
               <hr>
             </div>
-          <% end%>
+          <% end %>
         <% end %>
       </div>
     </div>
@@ -31,12 +71,18 @@
 
   <div class="panel panel-default">
     <div class="panel-heading">
-      <h3 class="panel-title">Connections</h3>
+      <% if current_user.is? :user %>
+          <h3 class="panel-title">Provider Connections</h3>
+          <% connections = @providers %>
+        <% elsif current_user.is? :pro %>
+          <h3 class="panel-title">Patient Connections</h3>
+          <% connections = @patients %>
+        <% end %>
     </div>
     <div class="panel-body">
-    <% if !@confirmed_friends.empty?#if @friends != nil %>
-      <% for user in @friends %>
-        <% if current_user.friend_with? user %>
+    <% if !@friends.empty?#if @friends != nil %>
+      <% for user in connections %>
+        <% if ((user.is? :pro) && (user.clients.include? current_user.id)) || ((user.is? :user) && (current_user.clients.include? user.id))  %>
           <div class="col-md-4">
             <h3><%= user.first_name + " " + user.last_name %></h3>
             <p><%= user.email %></p>
@@ -51,10 +97,8 @@
         <% end %>
       <% end %>
     <% else %>
-      <div class="col-md-4">
+      <div>
         <h3>No connections available</h3>
-      </div>
-      <div class="col-md-8">
       </div>
     <% end %>
   </div>
