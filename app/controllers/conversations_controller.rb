@@ -26,7 +26,8 @@ class ConversationsController < ApplicationController
         :category => conversation.last_message.subject, 
         :message => conversation.last_message.body,
         :sender_first_name => conversation.last_message.sender.first_name,
-        :sender_last_name => conversation.last_message.sender.last_name
+        :sender_last_name => conversation.last_message.sender.last_name,
+        :sent_time => conversation.last_message.created_at
       }
     end
 
