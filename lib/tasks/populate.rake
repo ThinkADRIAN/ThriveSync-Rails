@@ -11,7 +11,7 @@ namespace :db do
   task :populate => :environment do
     require 'faker'
 
-    Rake::Task['db:reset'].invoke
+    #Rake::Task['db:reset'].invoke
 
     # Create admin_user account
     admin_user = User.new(:email => "admin@thrivesync.com",
