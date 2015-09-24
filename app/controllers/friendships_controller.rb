@@ -35,7 +35,10 @@ class FriendshipsController < ApplicationController
 
     @supporters = []
     current_user.supporters.each do |supporter_id|
-      @supporters << User.find_by_id(supporter_id)
+      candidate = User.find_by_id(supporter_id)
+      if @friends.include? candidate
+        @supporters << User.find_by_id(supporter_id)
+      end
     end
 
     @pending_supporters = []
