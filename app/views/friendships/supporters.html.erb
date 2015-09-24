@@ -5,33 +5,6 @@
   <hr>
 </div>
 <div class="col-md-12">
-  <% if !@pending_friends.empty? %>
-    <div class="panel panel-info">
-      <div class="panel-heading">
-        <% if current_user.is? :user %>
-          <h3 class="panel-title">Pending Supporter Connections</h3>
-        <% end %>
-      </div>
-      <div class="panel-body">
-        <% for user in @pending_friends %>
-          <% if (user.is? :supporter) %>
-            <div class="col-md-4">  
-                <h3><%= user.first_name + " " + user.last_name%></h3>
-                <p><%= user.email %></p>
-            </div>
-            <div class="col-md-8">
-              <h3></h3>
-              <%= link_to "Cancel", connection_path(user), :method => "delete", data: { confirm: "Are you sure you want to cancel this request for connection?" }, class: "btn-danger btn-xs" %>
-            </div>
-            <div class="col-md-12">
-              <hr>
-            </div>
-          <% end %>
-        <% end %>
-      </div>
-    </div>
-  <% end %>
-
   <div class="panel panel-default">
     <div class="panel-heading">
       <% if current_user.is? :user %>
@@ -39,21 +12,19 @@
         <% end %>
     </div>
     <div class="panel-body">
-    <% if !@friends.empty?#if @friends != nil %>
-      <% for user in @friends %>
-        <% if user.is? :supporter %>
-          <div class="col-md-4">
-            <h3><%= user.first_name + " " + user.last_name %></h3>
-            <p><%= user.email %></p>
-          </div>
-          <div class="col-md-8">
-            <h3></h3>
-            <%= link_to "Disconnect", connection_path(user), :method => "delete", data: { confirm: "Are you sure you want to disconnect this connection?" }, class: "btn-danger btn-xs" %>
-          </div>
-          <div class="col-md-12">
-            <hr>
-          </div>
-        <% end %>
+    <% if !@supporters.empty? %>
+      <% @supporters.each do |user| %>
+        <div class="col-md-4">
+          <h3><%= user.first_name + " " + user.last_name %></h3>
+          <p><%= user.email %></p>
+        </div>
+        <div class="col-md-8">
+          <h3></h3>
+          <%= link_to "Disconnect", connection_path(user), :method => "delete", data: { confirm: "Are you sure you want to disconnect this connection?" }, class: "btn-danger btn-xs" %>
+        </div>
+        <div class="col-md-12">
+          <hr>
+        </div>
       <% end %>
     <% else %>
       <div>

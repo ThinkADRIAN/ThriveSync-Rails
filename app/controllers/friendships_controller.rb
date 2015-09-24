@@ -13,6 +13,25 @@ class FriendshipsController < ApplicationController
     @pending_friends = current_user.pending_friends
     @requested_friends = current_user.requested_friends
     @users = User.where.not(id: current_user.id)
+
+    @supporters = []
+    current_user.supporters.each do |supporter_id|
+      @supporters << User.find_by_id(supporter_id)
+    end
+
+    @pending_supporters = []
+    @pending_friends.each do |pending_friend|
+      if !pending_friend.is? :pro
+        @pending_supporters << pending_friend
+      end
+    end
+
+    @requested_supporters = []
+    @requested_friends.each do |requested_friend|
+      if !requested_friend.is? :pro
+        @pending_supporters << requested_friend
+      end
+    end
   end
 
   def new
@@ -86,9 +105,14 @@ class FriendshipsController < ApplicationController
         current_user.supporters -= [user.id.to_i]
         current_user.save!
       end
-      redirect_to connections_path, :notice => "Successfully removed connection!"
+
+      respond_to do |format|
+        format.html { redirect_to :back, :notice => "Successfully removed connection!" }
+      end
     else
-      redirect_to connections_path, :notice => "Sorry, couldn't remove connection!"
+      respond_to do |format|
+        format.html { redirect_to :back, :notice => "Sorry, couldn't remove connection!" }
+      end
     end
   end
 end
