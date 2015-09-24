@@ -48,7 +48,7 @@ class FriendshipsController < ApplicationController
     invitee = User.find_by_id(params[:user_id])
     if ((current_user.is? :pro) || (invitee.is? :pro))
 	    if current_user.friend_request(invitee)
-	      redirect_to new_connection_path, :notice => "Successfully sent connection request!"
+	      redirect_to connections_path, :notice => "Successfully sent connection request!"
 	    else
 	      redirect_to new_connection_path, :notice => "Sorry! You can't invite that user!"
 	    end
