@@ -92,9 +92,9 @@ class FriendshipsController < ApplicationController
     		inviter.save!
     	end
     		
-      redirect_to connections_path, :notice => "Successfully confirmed connection!"
+      redirect_to :back, :notice => "Successfully confirmed connection!"
     else
-      redirect_to connections_path, :notice => "Sorry! Could not confirm connection!"
+      redirect_to :back, :notice => "Sorry! Could not confirm connection!"
     end
   end
 
