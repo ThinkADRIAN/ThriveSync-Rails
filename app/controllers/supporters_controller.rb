@@ -32,10 +32,36 @@ class SupportersController < ApplicationController
   end
 
   def invite
-    User.invite!({:email => params[:email]}, current_user)
+    invitee = User.find_by_email(params[:email])
 
-    respond_to do |format|
-      format.json { head :ok }
+    # Handle if invitee account already exists and is not already an existing supporter
+    if invitee != nil && !(invitee.is? :pro) && !(current_user.supporters.include? invitee.id.to_i)
+      current_user.supporters += [invitee.id.to_i]
+      current_user.save!
+      current_user.friend_request(invitee)
+      invitee.roles += ["supporter"]
+      invitee.save!
+
+      respond_to do |format|
+        format.json { render :json  => { status: "Supporter Invitation Successful Sent" }}
+      end
+    # Handle if invitee account already exists and is already an existing supporter
+    elsif invitee != nil && !(invitee.is? :pro) && (current_user.supporters.include? invitee.id.to_i)
+      respond_to do |format|
+        format.json { render :json => { :error => "This email is associated to an existing supporter." }}
+      end
+    # Handle if invitee account is a pro
+    elsif invitee != nil && (invitee.is? :pro)
+      respond_to do |format|
+        format.json { render :json => { :error => "Mental Health Providers cannot be invited as a peer supporter." }}
+      end
+    # Default invitation for new users
+    else
+      User.invite!({:email => params[:email]}, current_user)
+
+      respond_to do |format|
+        format.json { head :ok }
+      end
     end
   end
 
