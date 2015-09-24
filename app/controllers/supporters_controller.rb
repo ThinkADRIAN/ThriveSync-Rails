@@ -15,8 +15,24 @@ class SupportersController < ApplicationController
     thrivers.each do |thriver|
       thriver.supporters.each do |thriver_id|
         if thriver_id == current_user.id
-          @supported_thrivers << thriver
+          if @friends.include? thriver
+            @supported_thrivers << thriver
+          end
         end
+      end
+    end
+
+    @pending_thrivers = []
+    @pending_friends.each do |pending_friend|
+      if !pending_friend.is? :pro
+        @pending_thrivers << pending_friend
+      end
+    end
+
+    @requested_thrivers = []
+    @requested_friends.each do |requested_friend|
+      if !requested_friend.is? :pro
+        @requested_thrivers << requested_friend
       end
     end
 
