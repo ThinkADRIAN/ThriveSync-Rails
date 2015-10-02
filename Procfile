@@ -1,2 +1,2 @@
 # Procfile
-web: bundle exec rails s
+web: bundle exec rails s -p $PORT
