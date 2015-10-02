@@ -92,6 +92,4 @@ Rails.application.configure do
     :domain =>         'heroku.com',
     :authentication => :plain
   }
-
-  config.assets.precompile += ['bootstrap-material-design/*']
 end
