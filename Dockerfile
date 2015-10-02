@@ -1,2 +1,2 @@
 # Dockerfile
-FROM quay.io/aptible/autobuild
+FROM quay.io/aptible/webapp-essential
