@@ -1,11 +1,7 @@
 class User < ActiveRecord::Base
   acts_as_messageable
 
-  searchable do
-    string :email
-  end
-
-	has_many :moods
+  has_many :moods
   has_many :sleeps
   has_many :self_cares
   has_many :journals
