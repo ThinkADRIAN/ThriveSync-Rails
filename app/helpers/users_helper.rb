@@ -46,7 +46,7 @@ module UsersHelper
 
     # Create arrays for "dirty" data
     @unsaved_mood_ids = []
-    @unsaved_sleeps_ids = []
+    @unsaved_sleep_ids = []
     @unsaved_self_care_ids = []
     @unsaved_journal_ids = []
   end
@@ -364,7 +364,7 @@ module UsersHelper
       p dirty_data
       puts "----------------------------------------\n"
     else
-      puts data_type + " Data: All Data successfully migrated!\n"
+      puts data_type + " Data: All data successfully migrated!\n"
     end
   end
 
