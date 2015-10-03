@@ -30,9 +30,11 @@ class SleepsController < ApplicationController
   end
 
   def_param_group :sleeps_data do
-    param :start_time, :undef, :desc => "Sleep Start Time [DateTime(UTC)]", :required => true
-    param :finish_time, :undef, :desc => "Sleep Finish Time", :required => true
-    param :quality, Integer, :desc => "[['Broken', 1], ['Light', 2], ['Normal', 3], ['Deep',4]]", :required => true
+    param :sleep, Hash , :desc => "Sleep", :required => false do
+      param :start_time, :undef, :desc => "Sleep Start Time [DateTime(UTC)]", :required => true
+      param :finish_time, :undef, :desc => "Sleep Finish Time [DateTime(UTC)]", :required => true
+      param :quality, :number, :desc => "[['Broken', 1], ['Light', 2], ['Normal', 3], ['Deep',4]]", :required => true
+    end
   end
 
   def_param_group :sleeps_all do
@@ -85,7 +87,7 @@ class SleepsController < ApplicationController
     authorize! :read, Sleep
 
     respond_to do |format|
-      format.js
+      format.js { render :nothing => true }
       format.json { render :json =>  @sleep, status: 200 }
       format.xml { render :xml => @sleep, status: 200 }
     end
@@ -106,6 +108,12 @@ class SleepsController < ApplicationController
     end
 
     @sleep= Sleep.new
+
+    respond_to do |format|
+      format.html { render :nothing => true }
+      format.js
+      format.json { render :json =>  @sleep, status: 200 }
+    end
   end
 
   # GET /sleeps/1/edit
@@ -122,6 +130,12 @@ class SleepsController < ApplicationController
       else
         authorize @sleeps
       end
+    end
+
+    respond_to do |format|
+      format.html { render :nothing => true }
+      format.js
+      format.json { render :json =>  @sleep, status: 200 }
     end
   end
 
@@ -151,9 +165,10 @@ class SleepsController < ApplicationController
         track_sleep_created
         current_user.scorecard.update_scorecard('sleeps')
         flash.now[:success] = 'Sleep Entry was successfully tracked.'
-        format.js 
+        format.js { render status: :created }
         format.json { render :json => @sleep, status: :created }
       else
+        flash.now[:error] = 'Sleep Entry was not tracked... Try again???'
         format.js { render json: @sleep.errors, status: :unprocessable_entity }
         format.json { render json: @sleep.errors, status: :unprocessable_entity }
       end
@@ -184,7 +199,7 @@ class SleepsController < ApplicationController
         track_sleep_updated
 
         flash.now[:success] = 'Sleep Entry was successfully updated.'
-        format.js
+        format.js { render status: 200 }
         format.json { render :json => @sleep, status: :created }
       else
         flash.now[:error] = 'Sleep Entry was not updated... Try again???'
@@ -230,7 +245,7 @@ class SleepsController < ApplicationController
     track_sleep_deleted
 
     respond_to do |format|
-      flash.now[:success] = 'Sleep Entry was successfully removed.'
+      flash.now[:success] = 'Sleep Entry was successfully deleted.'
       format.js
       format.json { head :no_content }
     end
@@ -248,7 +263,9 @@ class SleepsController < ApplicationController
         authorize @sleeps
       end
     end
-    
+
+    $current_capture_screen = "Sleep"
+
     respond_to do |format|
       format.js
     end

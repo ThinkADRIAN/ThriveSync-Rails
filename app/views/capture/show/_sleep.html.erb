@@ -4,14 +4,18 @@
   <% user = @user%>
 <% end %>
 
-<% @sleeps = Sleep.where(user_id: user.id, created_at: (DateTime.now.at_beginning_of_day.utc..Time.now.utc)) %>
+<% if $capture_date == nil %>
+  <% $capture_date = Date.today %>
+<% end %>
+
+<% @capture_sleeps = Sleep.where(user_id: user.id, finish_time: ($capture_date.at_beginning_of_day.in_time_zone..$capture_date.end_of_day.in_time_zone)) %>
 
 <% (1..8).each do %>
   <br>
 <% end %>
 <div class="scroller">
-<% if !@sleeps.nil? %>
-  <% @sleeps.each do |sleep| %>
+<% if !@capture_sleeps.nil? %>
+  <% @capture_sleeps.each do |sleep| %>
     <div>
       <p>
         <strong>Sleep Start Time:</strong>
@@ -45,11 +49,14 @@
       <% (1..7).each do %>
         <br>
       <% end %>
-      <center><%= sleep.created_at.strftime("%I:%M %p") %></center>
+      <center>
+        <%= sleep.created_at.strftime("%I:%M %p") %><br>
+        <%= link_to 'Edit', edit_sleep_path(id: sleep.id), remote: true, class: "btn btn-sm" %><br>
+      </center>
     </div>
   <% end %>
 <% end %>
-<% if @sleeps.nil? || @sleeps.count < 1 %>
+<% if @capture_sleeps.nil? || @capture_sleeps.count < MAX_SLEEP_ENTRIES %>
   <div>
     <center>
       <% (1..8).each do %>

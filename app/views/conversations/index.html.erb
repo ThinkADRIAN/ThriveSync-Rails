@@ -1,0 +1,31 @@
+<div class="container">
+  <%= will_paginate %>
+  <% @conversations.each_slice(3) do |conversations| %>
+    <div class="row">
+      <% conversations.each do |conversation| %>
+        <div class="col-md-4">
+          <div class="card shadow-z-1">
+            <div class="card-height-indicator"></div>
+            <div class="card-content">
+              <div class="card-body">
+                <center>
+                  <h3><%= conversation.last_message.body %></h3>
+                </center>
+              </div>
+              <footer class="card-footer">
+                <center>
+                  <p>
+                    <%= conversation.last_message.sender.first_name + " " + conversation.last_message.sender.last_name %>
+                    <br>
+                    <small><span class="text-muted"><%= conversation.last_message.created_at.strftime("%B %-d, %Y") %></span></small>
+                  </p>
+                </center>
+              </footer>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+  <%= will_paginate %>
+</div>

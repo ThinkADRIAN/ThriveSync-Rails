@@ -52,6 +52,19 @@ class Scorecard < ActiveRecord::Base
     self.save
   end
 
+  def should_start_new_streak?(data_type)
+    todays_date = DateTime.now.in_time_zone.to_date
+
+    if (data_type == 'mood' && self.mood_checkin_count == 0) ||
+      (data_type == 'sleep' && self.sleep_checkin_count == 0) ||
+      (data_type == 'self_care' && self.self_care_checkin_count == 0) ||
+      (data_type == 'journal' && self.journal_checkin_count == 0)
+      return true
+    else
+      return false
+    end
+  end
+
   def checkin_yesterday?(data_type)
     todays_date = DateTime.yesterday.in_time_zone.to_date
     if data_type == 'moods'
@@ -438,10 +451,20 @@ class Scorecard < ActiveRecord::Base
     self.set_checkins_to_reach_goal
   end
 
-  def update_scorecard(data_type)
-    self.increment_checkin_count(data_type)
+  def update_streak_counts
+    key_data_types = ['moods', 'sleeps', 'self_cares', 'journals']
 
-    if self.checkin_yesterday?(data_type)
+    key_data_types.each do |key_data_type|
+      if !self.checkin_yesterday?(key_data_type)
+        self.reset_streak_count(key_data_type)
+      end
+    end
+
+    update_main_streak_count
+  end
+
+  def update_scorecard(data_type)
+    if self.should_start_new_streak?(data_type) || self.checkin_yesterday?(data_type)
       self.increment_streak_count(data_type)
     else
       self.reset_streak_count(data_type)
@@ -458,17 +481,26 @@ class Scorecard < ActiveRecord::Base
       end
     end
 
+    self.increment_checkin_count(data_type)
     self.set_last_checkin_date(data_type, DateTime.now.in_time_zone)
 
     self.calculate_days_since_signup
     self.set_level_multiplier(data_type)
-    self.refresh_scorecard(data_type)
+    self.refresh_scorecard
     self.save
   end
 
-  def refresh_scorecard(data_type)
-    score = self.calculate_score(data_type)
-    self.update_score(data_type, score)
+  def refresh_scorecard
+    self.update_streak_counts
+    self.update_goals
+
+    key_data_types = ['moods', 'sleeps', 'self_cares', 'journals']
+
+    key_data_types.each do |key_data_type|
+      score = self.calculate_score(key_data_type)
+      self.update_score(key_data_type, score)
+    end
+
     self.set_total_score
     self.save
   end

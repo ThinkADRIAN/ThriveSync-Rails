@@ -32,10 +32,12 @@ class SelfCaresController < ApplicationController
   end
 
   def_param_group :self_cares_data do
-    param :counseling, :undef, :desc => "Counseling [Boolean]", :required => true
-    param :medication, :undef, :desc => "Medication [Boolean]", :required => true
-    param :meditation, :undef, :desc => "Meditation [Boolean]", :required => true
-    param :exercise, :undef, :desc => "Exercise [Boolean]", :required => true
+    param :self_care, Hash , :desc => "Self Care", :required => false do
+      param :counseling, :undef, :desc => "Counseling [Boolean]", :required => true
+      param :medication, :undef, :desc => "Medication [Boolean]", :required => true
+      param :meditation, :undef, :desc => "Meditation [Boolean]", :required => true
+      param :exercise, :undef, :desc => "Exercise [Boolean]", :required => true
+    end
   end
 
   def_param_group :self_cares_all do
@@ -89,7 +91,7 @@ class SelfCaresController < ApplicationController
     authorize! :read, SelfCare
     
     respond_to do |format|
-      format.js
+      format.js { render :nothing => true }
       format.json { render :json =>  @self_care, status: 200 }
       format.xml { render :xml => @self_care, status: 200 }
     end
@@ -98,6 +100,7 @@ class SelfCaresController < ApplicationController
   # GET /self_cares/new
   def new
     @user = User.find_by_id(params[:user_id])
+    $capture_source = params[:capture_source]
 
     if @user == nil
       skip_authorization
@@ -110,6 +113,12 @@ class SelfCaresController < ApplicationController
     end
 
     @self_care= SelfCare.new
+
+    respond_to do |format|
+      format.html { render :nothing => true }
+      format.js
+      format.json { render :json =>  @self_care, status: 200 }
+    end
   end
 
   # GET /self_cares/1/edit
@@ -126,6 +135,12 @@ class SelfCaresController < ApplicationController
       else
         authorize @self_cares
       end
+    end
+
+    respond_to do |format|
+      format.html { render :nothing => true }
+      format.js
+      format.json { render :json =>  @self_care, status: 200 }
     end
   end
 
@@ -148,16 +163,26 @@ class SelfCaresController < ApplicationController
 
     @self_care = SelfCare.new(self_care_params)
     @self_care.user_id = current_user.id
-    @self_care.update_attribute(:timestamp, DateTime.now.in_time_zone)
+
+    if $capture_source == 'self_care'
+      d = $capture_date
+      t = Time.now
+      dt = DateTime.new(d.year, d.month, d.day, t.hour, t.min, t.sec, t.zone)
+
+      @self_care.timestamp = dt
+    else
+      @self_care.timestamp = DateTime.now.in_time_zone
+    end
     
     respond_to do |format|
       if @self_care.save
         track_self_care_created
         current_user.scorecard.update_scorecard('self_cares')
         flash.now[:success] = "Self Entry was successfully tracked."
-        format.js
+        format.js { render status: :created }
         format.json { render :json => @self_care, status: :created }
       else
+        flash.now[:error] = 'Self Care Entry was not tracked... Try again???'
         format.js   { render json: @self_care.errors, status: :unprocessable_entity }
         format.json { render json: @self_care.errors, status: :unprocessable_entity }
       end
@@ -185,7 +210,7 @@ class SelfCaresController < ApplicationController
       if @self_care.update(self_care_params)
         track_self_care_updated
         flash.now[:success] = "Self Care Entry was successfully updated."
-        format.js
+        format.js { render status: 200 }
         format.json { render :json => @self_care, status: :created }
       else
         flash.now[:error] = 'Self Care Entry was not updated... Try again???'
@@ -231,7 +256,7 @@ class SelfCaresController < ApplicationController
     track_self_care_deleted
     
     respond_to do |format|
-      flash.now[:success] = "Self Care Entry was successfully removed."
+      flash.now[:success] = "Self Care Entry was successfully deleted."
       format.js 
       format.json { head :no_content }
     end
@@ -249,6 +274,8 @@ class SelfCaresController < ApplicationController
         authorize @self_cares
       end
     end
+
+    $current_capture_screen = "SelfCare"
     
     respond_to do |format|
       format.js
@@ -271,7 +298,7 @@ class SelfCaresController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def self_care_params
-      params.fetch(:self_care, {}).permit(:counseling, :medication, :meditation, :exercise, :timestamp, :self_care_lookback_period)
+      params.fetch(:self_care, {}).permit(:counseling, :medication, :meditation, :exercise, :timestamp, :self_care_lookback_period, :capture_source)
     end
 
     def track_self_care_created

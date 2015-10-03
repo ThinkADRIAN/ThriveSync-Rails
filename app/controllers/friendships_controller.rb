@@ -1,29 +1,93 @@
 class FriendshipsController < ApplicationController
+  acts_as_token_authentication_handler_for User
 	before_filter :authenticate_user!
 
   def index
     @friends = current_user.friends
-    @pending_friends = current_user.pending_invited_by
-    @unconfirmed_friends = current_user.pending_invited
-    @confirmed_friends = @friends - ( @pending_friends | @unconfirmed_friends)
+    @pending_friends = current_user.pending_friends
+    @requested_friends = current_user.requested_friends
     @users = User.where.not(id: current_user.id)
+
+    @patients = []
+    current_user.clients.each do |patient_id|
+      @patients << User.find_by_id(patient_id)
+    end
+
+    @pending_patients = []
+    @pending_friends.each do |pending_friend|
+      if pending_friend.is? :user
+        @pending_patients << pending_friend
+      end
+    end
+
+    @requested_patients = []
+    @requested_friends.each do |requested_friend|
+      if requested_friend.is? :user
+        @requested_patients << requested_friend
+      end
+    end
+
+    @providers = []
+    @friends.each do |friend|
+      if friend.is? :pro
+        @providers << friend
+      end
+    end
+
+    @pending_providers = []
+    @pending_friends.each do |pending_friend|
+      if pending_friend.is? :pro
+        @pending_providers << pending_friend
+      end
+    end
+
+    @requested_providers = []
+    @requested_friends.each do |requested_friend|
+      if requested_friend.is? :pro
+        @requested_providers << requested_friend
+      end
+    end
+  end
+
+  def supporters
+    @friends = current_user.friends
+    @pending_friends = current_user.pending_friends
+    @requested_friends = current_user.requested_friends
+    @users = User.where.not(id: current_user.id)
+
+    @supporters = []
+    current_user.supporters.each do |supporter_id|
+      candidate = User.find_by_id(supporter_id)
+      if @friends.include? candidate
+        @supporters << User.find_by_id(supporter_id)
+      end
+    end
+
+    @pending_supporters = []
+    @pending_friends.each do |pending_friend|
+      if !pending_friend.is? :pro
+        @pending_supporters << pending_friend
+      end
+    end
+
+    @requested_supporters = []
+    @requested_friends.each do |requested_friend|
+      if !requested_friend.is? :pro
+        @requested_supporters << requested_friend
+      end
+    end
   end
 
   def new
     @users = User.where.not(id: current_user.id)
-
-    @search = User.search do
-      with(:email, params[:search])
-    end
-
-    @connections = @search.results
+    @connections = User.where(email: params[:search]).to_a
   end
 
   def create
     invitee = User.find_by_id(params[:user_id])
     if ((current_user.is? :pro) || (invitee.is? :pro))
-	    if current_user.invite invitee
-	      redirect_to new_connection_path, :notice => "Successfully sent connection request!"
+	    if current_user.friend_request(invitee)
+	      redirect_to connections_path, :notice => "Successfully sent connection request!"
 	    else
 	      redirect_to new_connection_path, :notice => "Sorry! You can't invite that user!"
 	    end
@@ -34,7 +98,7 @@ class FriendshipsController < ApplicationController
 
   def update
     inviter = User.find_by_id(params[:id])
-    if (current_user.approve inviter)
+    if (current_user.accept_request(inviter))
     	
     	# Add user to Pros client list
     	if current_user.is? :pro
@@ -45,25 +109,25 @@ class FriendshipsController < ApplicationController
     		inviter.save!
     	end
     		
-      redirect_to connections_path, :notice => "Successfully confirmed connection!"
+      redirect_to :back, :notice => "Successfully confirmed connection!"
     else
-      redirect_to connections_path, :notice => "Sorry! Could not confirm connection!"
+      redirect_to :back, :notice => "Sorry! Could not confirm connection!"
     end
   end
 
   def requests
-    @pending_requests = current_user.pending_invited_by
+    @pending_requests = current_user.requested_friends
   end
 
   def invites
-    @pending_invites = current_user.pending_invited
+    @pending_invites = current_user.pending_friends
   end
 
   def destroy
     user = User.find_by_id(params[:id])
-    if current_user.remove_friendship user
+    if current_user.remove_friend(user)
 
-    	# Remote user to Pros client list
+    	# Remove user from Pros clients list
     	if current_user.is? :pro
     		current_user.clients -= [user.id.to_i]
     		current_user.save!
@@ -71,9 +135,25 @@ class FriendshipsController < ApplicationController
     		user.clients -= [current_user.id.to_i]
     		user.save!
     	end
-      redirect_to connections_path, :notice => "Successfully removed connection!"
+
+      # Remove user from Thrivers supporters list
+      if current_user.is? :supporter
+        user.supporters -= [current_user.id.to_i]
+        user.save!
+      elsif user.is? :supporter
+        current_user.supporters -= [user.id.to_i]
+        current_user.save!
+      end
+
+      respond_to do |format|
+        format.html { redirect_to :back, :notice => "Successfully removed connection!" }
+        format.json { render :json  => { status: "Successfully removed connection!" }}
+      end
     else
-      redirect_to connections_path, :notice => "Sorry, couldn't remove connection!"
+      respond_to do |format|
+        format.html { redirect_to :back, :notice => "Sorry, couldn't remove connection!" }
+        format.json { render :json  => { status: "Sorry, couldn't remove connection!" }}
+      end
     end
   end
 end

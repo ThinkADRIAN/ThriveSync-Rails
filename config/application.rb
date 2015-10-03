@@ -24,5 +24,21 @@ module ThriveSync
     #require 'Date'
     #require 'Time'
     config.time_zone = 'Eastern Time (US & Canada)'
+
+    config.generators do |g| 
+      g.test_framework :rspec, 
+        :fixtures => true, 
+        :view_specs => true, 
+        :helper_specs => true, 
+        :routing_specs => true, 
+        :controller_specs => true, 
+        :request_specs => true 
+      g.fixture_replacement :factory_girl, :dir => "spec/factories" 
+    end
+
+    config.assets.enabled = true
+    config.assets.paths << Rails.root.join('app', 'assets', 'bootstrap-material-design', 'dist', 'css')    
+    config.assets.paths << Rails.root.join('app', 'assets', 'bootstrap-material-design', 'dist', 'js')    
+    config.assets.paths << Rails.root.join('app', 'assets', 'bootstrap-material-design', 'dist', 'fonts')
   end
 end
