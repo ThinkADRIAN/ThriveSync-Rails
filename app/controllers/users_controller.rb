@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  include UsersHelper
+  include ParseHelper
 
   before_action :set_user, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!
