@@ -80,12 +80,7 @@ class FriendshipsController < ApplicationController
 
   def new
     @users = User.where.not(id: current_user.id)
-
-    @search = User.search do
-      with(:email, params[:search])
-    end
-
-    @connections = @search.results
+    @connections = User.where(email: params[:search]).to_a
   end
 
   def create
