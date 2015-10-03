@@ -1,6 +1,6 @@
 module UsersHelper
-  def login_to_parse
-    @parse_user = Parse::User.authenticate("adrian@adriancunanan.com", "ABCvsp0138THR")
+  def login_to_parse(parse_email, parse_password)
+    @parse_user = Parse::User.authenticate(parse_email, parse_password)
   end
 
   def get_data_count(parse_data_type)
@@ -138,9 +138,7 @@ module UsersHelper
       end
 
       @key_data = @parse_moods.detect {|parse_mood| parse_mood["objectId"].include? object_id }
-
-      time = @key_data["timeStamp"].to_datetime.to_s
-      time = Time.parse(time).utc
+    
     elsif data_type == "SelfCare"
       self_care_pointer = Parse::Pointer.new({
         "className" => "SelfCare",
@@ -156,9 +154,7 @@ module UsersHelper
       end
 
       @key_data = @parse_self_cares.detect {|parse_self_care| parse_self_care["objectId"] == object_id }
-
-      time = @key_data["updatedAt"].to_datetime.to_s
-      time = Time.parse(time).utc
+    
     elsif data_type == "Journal"
       journal_pointer = Parse::Pointer.new({
         "className" => "Journal",
@@ -174,10 +170,11 @@ module UsersHelper
       end
 
       @key_data = @parse_journals.detect {|parse_journal| parse_journal["objectId"] == object_id }
-
-      time = @key_data["updatedAt"].to_datetime.to_s
-      time = Time.parse(time).utc
+    
     end
+
+    time = @key_data["updatedAt"].to_datetime.to_s
+    time = Time.parse(time).utc
 
     if @user_data == nil || time == nil
       return nil
@@ -190,18 +187,22 @@ module UsersHelper
   def transform_and_load_parse_data(data_type, user_id)
     if data_type == "Mood"
       @parse_moods.each do |parse_mood|
+        
+        find_timestamp("Mood", parse_mood["objectId"])
+        if @timestamp != nil
+          mood_timestamp = @timestamp
+        else
+          mood_timestamp = parse_mood["createdAt"]
+        end
+
         if !duplicate_entry_exists?(data_type, parse_mood["objectId"])
-          mood = Mood.create!(
+          mood = Mood.new(
             :mood_rating => (parse_mood["moodRating"] + 1),
             :anxiety_rating => (parse_mood["anxietyRating"] + 1),
             :irritability_rating => (parse_mood["irritabilityRating"] + 1),
-            :user_id => user_id
+            :user_id => user_id,
+            :timestamp => mood_timestamp
           )
-
-          find_timestamp("Mood", parse_mood["objectId"])
-          next if @timestamp == nil
-          mood.timestamp = @timestamp
-
           mood.created_at = parse_mood["createdAt"]
           mood.updated_at = parse_mood["updatedAt"]
           mood.parse_object_id = parse_mood["objectId"]
@@ -212,11 +213,7 @@ module UsersHelper
             mood.mood_rating = (parse_mood["moodRating"] + 1)
             mood.anxiety_rating = (parse_mood["anxietyRating"] + 1)
             mood.irritability_rating = (parse_mood["irritabilityRating"] + 1)
-
-            find_timestamp("Mood", parse_mood["objectId"])
-            next if @timestamp == nil
-            mood.timestamp = @timestamp
-
+            mood.timestamp = mood_timestamp
             mood.created_at = parse_mood["createdAt"]
             mood.updated_at = parse_mood["updatedAt"]
             mood.parse_object_id = parse_mood["objectId"]
@@ -228,14 +225,13 @@ module UsersHelper
     elsif data_type == "Sleep"  
       @parse_sleeps.each do |parse_sleep|
         if !duplicate_entry_exists?(data_type, parse_sleep["objectId"])
-          sleep = Sleep.create!(
+          sleep = Sleep.new(
             :start_time => parse_sleep["startTime"],
             :finish_time => parse_sleep["finishTime"],
             :time => (parse_sleep["finishTime"].to_i - parse_sleep["startTime"].to_i) / 3600,
             :quality => (parse_sleep["quality"] + 1),
             :user_id => user_id
           )
-
           sleep.created_at = parse_sleep["createdAt"]
           sleep.updated_at = parse_sleep["updatedAt"]
           sleep.parse_object_id = parse_sleep["objectId"]
@@ -243,12 +239,10 @@ module UsersHelper
         else
           if duplicate_entry_updated?(data_type, parse_sleep["objectId"], parse_sleep)
             sleep = Sleep.where(parse_object_id: parse_sleep["objectId"]).first
-
             sleep.start_time = parse_sleep["startTime"]
             sleep.finish_time = parse_sleep["finishTime"]
             sleep.time = (parse_sleep["finishTime"].to_i - parse_sleep["startTime"].to_i) / 3600
             sleep.quality = (parse_sleep["quality"] + 1)
-
             sleep.created_at = parse_sleep["createdAt"]
             sleep.updated_at = parse_sleep["updatedAt"]
             sleep.parse_object_id = parse_sleep["objectId"]
@@ -259,19 +253,23 @@ module UsersHelper
 
     elsif data_type == "SelfCare"
       @parse_self_cares.each do |parse_self_care|
+        
+        find_timestamp("SelfCare", parse_self_care["objectId"])
+        if @timestamp != nil
+          self_care_timestamp = @timestamp
+        else
+          self_care_timestamp = parse_self_care["createdAt"]
+        end
+        
         if !duplicate_entry_exists?(data_type, parse_self_care["objectId"])
-          self_care = SelfCare.create!(
+          self_care = SelfCare.new(
             :counseling => parse_self_care["counseling"],
             :medication => parse_self_care["medication"],
             :meditation => parse_self_care["meditation"],
             :exercise => parse_self_care["exercise"],
-            :user_id => user_id
+            :user_id => user_id,
+            :timestamp => self_care_timestamp
           )
-
-          find_timestamp("SelfCare", parse_self_care["objectId"])
-          next if @timestamp == nil
-          self_care.timestamp = @timestamp
-
           self_care.created_at = parse_self_care["createdAt"]
           self_care.updated_at = parse_self_care["updatedAt"]
           self_care.parse_object_id = parse_self_care["objectId"]
@@ -279,16 +277,11 @@ module UsersHelper
         else
           if duplicate_entry_updated?(data_type, parse_self_care["objectId"], parse_self_care)
             self_care = SelfCare.where(parse_object_id: parse_self_care["objectId"]).first
-
             self_care.counseling = parse_self_care["counseling"]
             self_care.medication = parse_self_care["medication"]
             self_care.meditation = parse_self_care["meditation"]
             self_care.exercise = parse_self_care["exercise"]
-
-            find_timestamp("SelfCare", parse_self_care["objectId"])
-            next if @timestamp == nil
-            self_care.timestamp = @timestamp
-
+            self_care.timestamp = self_care_timestamp
             self_care.created_at = parse_self_care["createdAt"]
             self_care.updated_at = parse_self_care["updatedAt"]
             self_care.parse_object_id = parse_self_care["objectId"]
@@ -299,14 +292,20 @@ module UsersHelper
 
     elsif data_type == "Journal"
       @parse_journals.each do |parse_journal|
+
+        find_timestamp("Journal", parse_journal["objectId"])
+        if @timestamp != nil
+          journal_timestamp = @timestamp
+        else
+          journal_timestamp = parse_self_care["createdAt"]
+        end
+
         if !duplicate_entry_exists?(data_type, parse_journal["objectId"])
-          journal = Journal.create!(
+          journal = Journal.new(
             :journal_entry => parse_journal["journalEntry"],
-            :user_id => user_id
+            :user_id => user_id,
+            :timestamp => journal_timestamp
           )
-          find_timestamp("Journal", parse_journal["objectId"])
-          next if @timestamp == nil
-          journal.timestamp = @timestamp
           journal.created_at = parse_journal["createdAt"]
           journal.updated_at = parse_journal["updatedAt"]
           journal.parse_object_id = parse_journal["objectId"]
@@ -314,13 +313,8 @@ module UsersHelper
         else
           if duplicate_entry_updated?(data_type, parse_journal["objectId"], parse_journal)
             journal = Journal.where(parse_object_id: parse_journal["objectId"]).first
-
             journal.journal_entry = parse_journal["journalEntry"]
-
-            find_timestamp("Journal", parse_journal["objectId"])
-            next if @timestamp == nil
-            journal.timestamp = @timestamp
-
+            journal.timestamp = journal_timestamp
             journal.created_at = parse_journal["createdAt"]
             journal.updated_at = parse_journal["updatedAt"]
             journal.parse_object_id = parse_journal["objectId"]
@@ -331,9 +325,9 @@ module UsersHelper
     end
   end
 
-  def etl_for_parse(user_id)
+  def etl_for_parse(user_id, user_email, user_password)
     initialize_parse_instance_variables
-    login_to_parse
+    login_to_parse(user_email, user_password)
     if @parse_user != nil
       get_data_count("UserData")
       get_data_count("Mood")
