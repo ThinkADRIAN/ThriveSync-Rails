@@ -98,6 +98,8 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
  
  # Search
  gem 'sunspot_rails'
+ gem 'elasticsearch-model'
+ gem 'elasticsearch-rails'
 
  # Messaging
  gem 'mailboxer'
