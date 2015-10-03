@@ -1,9 +1,10 @@
+require 'elasticsearch/model'
+
 class User < ActiveRecord::Base
   acts_as_messageable
 
-  searchable do
-    string :email
-  end
+  include Elasticsearch::Model
+  include Elasticsearch::Model::Callbacks
 
 	has_many :moods
   has_many :sleeps
@@ -231,3 +232,4 @@ class User < ActiveRecord::Base
     )
   end
 end
+User.import # for auto sync model with elastic search
