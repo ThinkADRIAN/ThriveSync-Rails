@@ -35,5 +35,10 @@ module ThriveSync
         :request_specs => true 
       g.fixture_replacement :factory_girl, :dir => "spec/factories" 
     end
+
+    config.assets.enabled = true
+
+    config.assets.paths << Rails.root.join('app', 'assets', 'startup-framework')
+    config.assets.paths << Rails.root.join('app', 'assets', 'bootstrap-material-design')
   end
 end
