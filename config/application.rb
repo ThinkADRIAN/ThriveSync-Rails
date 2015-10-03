@@ -37,8 +37,8 @@ module ThriveSync
     end
 
     config.assets.enabled = true
-
-    config.assets.paths << Rails.root.join('app', 'assets', 'startup-framework')
-    config.assets.paths << Rails.root.join('app', 'assets', 'bootstrap-material-design')
+    config.assets.paths << Rails.root.join('app', 'assets', 'bootstrap-material-design', 'dist', 'css')    
+    config.assets.paths << Rails.root.join('app', 'assets', 'bootstrap-material-design', 'dist', 'js')    
+    config.assets.paths << Rails.root.join('app', 'assets', 'bootstrap-material-design', 'dist', 'fonts')
   end
 end
