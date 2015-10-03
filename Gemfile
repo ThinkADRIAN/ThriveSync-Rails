@@ -94,10 +94,6 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
  gem 'jquery-ui-rails'
  gem 'jquery-slick-rails'
  gem 'touchpunch-rails'
- 
- # Search
- gem 'elasticsearch-model'
- gem 'elasticsearch-rails'
 
  # Messaging
  gem 'mailboxer'
