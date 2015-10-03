@@ -43,6 +43,12 @@ module UsersHelper
     @parse_sleeps = []
     @parse_self_cares = []
     @parse_journals = []
+
+    # Create arrays for "dirty" data
+    @unsaved_mood_ids = []
+    @unsaved_sleeps_ids = []
+    @unsaved_self_care_ids = []
+    @unsaved_journal_ids = []
   end
 
   def extract_parse_data(parse_data_type, user_id, last_object_limit, key_data_count)
@@ -206,7 +212,9 @@ module UsersHelper
           mood.created_at = parse_mood["createdAt"]
           mood.updated_at = parse_mood["updatedAt"]
           mood.parse_object_id = parse_mood["objectId"]
-          mood.save!
+          if !mood.save!
+            @unsaved_mood_ids << parse_mood["objectId"]
+          end
         else
           if duplicate_entry_updated?(data_type, parse_mood["objectId"], parse_mood)
             mood = Mood.where(parse_object_id: parse_mood["objectId"]).first
@@ -217,7 +225,9 @@ module UsersHelper
             mood.created_at = parse_mood["createdAt"]
             mood.updated_at = parse_mood["updatedAt"]
             mood.parse_object_id = parse_mood["objectId"]
-            mood.save!
+            if !mood.save!
+              @unsaved_mood_ids << parse_mood["objectId"]
+            end
           end
         end
       end
@@ -235,7 +245,9 @@ module UsersHelper
           sleep.created_at = parse_sleep["createdAt"]
           sleep.updated_at = parse_sleep["updatedAt"]
           sleep.parse_object_id = parse_sleep["objectId"]
-          sleep.save!
+          if !sleep.save!
+            @unsaved_sleep_ids << parse_sleep["objectId"]
+          end
         else
           if duplicate_entry_updated?(data_type, parse_sleep["objectId"], parse_sleep)
             sleep = Sleep.where(parse_object_id: parse_sleep["objectId"]).first
@@ -246,7 +258,9 @@ module UsersHelper
             sleep.created_at = parse_sleep["createdAt"]
             sleep.updated_at = parse_sleep["updatedAt"]
             sleep.parse_object_id = parse_sleep["objectId"]
-            sleep.save!
+            if !sleep.save!
+              @unsaved_sleep_ids << parse_sleep["objectId"]
+            end
           end
         end
       end
@@ -273,7 +287,9 @@ module UsersHelper
           self_care.created_at = parse_self_care["createdAt"]
           self_care.updated_at = parse_self_care["updatedAt"]
           self_care.parse_object_id = parse_self_care["objectId"]
-          self_care.save!
+          if !self_care.save!
+            @unsaved_self_care_ids << parse_self_care["objectId"]
+          end
         else
           if duplicate_entry_updated?(data_type, parse_self_care["objectId"], parse_self_care)
             self_care = SelfCare.where(parse_object_id: parse_self_care["objectId"]).first
@@ -285,7 +301,9 @@ module UsersHelper
             self_care.created_at = parse_self_care["createdAt"]
             self_care.updated_at = parse_self_care["updatedAt"]
             self_care.parse_object_id = parse_self_care["objectId"]
-            self_care.save!
+            if !self_care.save!
+              @unsaved_self_care_ids << parse_self_care["objectId"]
+            end
           end
         end
       end
@@ -309,7 +327,9 @@ module UsersHelper
           journal.created_at = parse_journal["createdAt"]
           journal.updated_at = parse_journal["updatedAt"]
           journal.parse_object_id = parse_journal["objectId"]
-          journal.save!
+          if !journal.save!
+            @unsaved_journal_ids << parse_journal["objectId"]
+          end
         else
           if duplicate_entry_updated?(data_type, parse_journal["objectId"], parse_journal)
             journal = Journal.where(parse_object_id: parse_journal["objectId"]).first
@@ -318,10 +338,33 @@ module UsersHelper
             journal.created_at = parse_journal["createdAt"]
             journal.updated_at = parse_journal["updatedAt"]
             journal.parse_object_id = parse_journal["objectId"]
-            journal.save!
+            if !journal.save!
+              @unsaved_journal_ids << parse_journal["objectId"]
+            end
           end
         end
       end
+    end
+  end
+
+  def output_data_migration_results(data_type)
+    if data_type == "Mood"
+      dirty_data = @unsaved_mood_ids
+    elsif data_type == "Sleep"
+      dirty_data = @unsaved_sleep_ids
+    elsif data_type == "SelfCare"
+      dirty_data = @unsaved_self_care_ids
+    elsif data_type == "Journal"
+      dirty_data = @unsaved_journal_ids
+    end
+
+    if dirty_data != []
+      puts data_type + " Data: These Parse IDs are dirty.  Check them and re-run ETL...\n"
+      puts "----------------------------------------\n"
+      p dirty_data
+      puts "----------------------------------------\n"
+    else
+      puts data_type + " Data: All Data successfully migrated!\n"
     end
   end
 
@@ -345,6 +388,11 @@ module UsersHelper
       transform_and_load_parse_data("Sleep", user_id)
       transform_and_load_parse_data("SelfCare", user_id)
       transform_and_load_parse_data("Journal", user_id)
+
+      output_data_migration_results("Mood")
+      output_data_migration_results("Sleep")
+      output_data_migration_results("SelfCare")
+      output_data_migration_results("Journal")
     end
   end
 
