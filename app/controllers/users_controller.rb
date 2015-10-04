@@ -64,8 +64,17 @@ class UsersController < ApplicationController
     end
   end
 
-  def migrate_from_parse
+  def migrate_from_thrivetracker
     etl_for_parse(current_user.id, params[:email], params[:password])
+    respond_to do |format|
+      format.html { redirect_to root_url }
+      format.json { head :no_content }
+    end
+  end
+
+  def request_password_reset_from_thrivetracker
+    resp = Parse::User.reset_password(current_user.email)
+    puts resp
     respond_to do |format|
       format.html { redirect_to root_url }
       format.json { head :no_content }
