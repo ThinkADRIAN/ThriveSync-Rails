@@ -33,7 +33,8 @@ module ParseHelper
     if user != nil
       return user["lastRailsMigrationDate"]
     else
-      return "Parse User does not exists."
+      puts "Notice: Parse User does not exists."
+      return nil
     end
   end
 
