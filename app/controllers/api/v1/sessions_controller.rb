@@ -61,8 +61,6 @@ class Api::V1::SessionsController < Devise::SessionsController
 
           etl_for_parse(@new_rails_user.id, user_email, user_password)
 
-          set_last_migration_date(user_email)
-
           # Sign In with New Rails User
           # Code originally from rails_authenticate method edited for this use case.
           sign_in(resource_name, @new_rails_user)
