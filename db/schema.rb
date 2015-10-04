@@ -41,6 +41,7 @@ ActiveRecord::Schema.define(version: 20150921170929) do
     t.datetime "updated_at"
     t.integer  "user_id"
     t.datetime "timestamp"
+    t.string   "parse_object_id"
   end
 
   create_table "mailboxer_conversation_opt_outs", force: true do |t|
@@ -104,6 +105,7 @@ ActiveRecord::Schema.define(version: 20150921170929) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "user_id"
+    t.string   "parse_object_id"
   end
 
   create_table "pre_defined_cards", force: true do |t|
@@ -209,6 +211,7 @@ ActiveRecord::Schema.define(version: 20150921170929) do
     t.datetime "updated_at"
     t.integer  "user_id"
     t.datetime "timestamp"
+    t.string   "parse_object_id"
   end
 
   create_table "sleeps", force: true do |t|
@@ -219,6 +222,7 @@ ActiveRecord::Schema.define(version: 20150921170929) do
     t.datetime "updated_at"
     t.integer  "user_id"
     t.integer  "time"
+    t.string   "parse_object_id"
   end
 
   create_table "users", force: true do |t|

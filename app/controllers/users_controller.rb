@@ -1,4 +1,8 @@
 class UsersController < ApplicationController
+  include ParseHelper
+
+  acts_as_token_authentication_handler_for User
+
   before_action :set_user, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!
 
@@ -54,6 +58,14 @@ class UsersController < ApplicationController
   def destroy
     # authorize! :delete, @user
     @user.destroy
+    respond_to do |format|
+      format.html { redirect_to root_url }
+      format.json { head :no_content }
+    end
+  end
+
+  def migrate_from_parse
+    etl_for_parse(current_user.id, params[:email], params[:password])
     respond_to do |format|
       format.html { redirect_to root_url }
       format.json { head :no_content }

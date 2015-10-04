@@ -21,6 +21,8 @@ class Api::V1::RegistrationsController < Devise::RegistrationsController
     formats ['html', 'json']
   end
 
+  include ParseHelper
+
   prepend_before_filter :require_no_authentication, only: [ :new, :create, :edit, :update, :cancel ]
   prepend_before_filter :authenticate_scope!, only: [:destroy]
   acts_as_token_authentication_handler_for User, fallback_to_devise: false
@@ -44,27 +46,19 @@ class Api::V1::RegistrationsController < Devise::RegistrationsController
     param :email, String, :desc => "Email", :required => true
     param :password, String, :desc => "Password", :required => true
   end
+
   def create
-    build_resource(sign_up_params)
+    user_first_name = params[:user][:first_name]
+    user_last_name = params[:user][:last_name]
+    user_email = params[:user][:email]
+    user_password = params[:user][:password]
 
-    resource.save
-
-    yield resource if block_given?
-    if resource.persisted?
-      if resource.active_for_authentication?
-        set_flash_message :notice, :signed_up if is_flashing_format?
-        sign_up(resource_name, resource)
-        respond_with resource, location: after_sign_up_path_for(resource)
-      else
-        set_flash_message :notice, :"signed_up_but_#{resource.inactive_message}" if is_flashing_format?
-        expire_data_after_sign_in!
-        respond_with resource, location: after_inactive_sign_up_path_for(resource)
-      end
-    else
-      clean_up_passwords resource
-      set_minimum_password_length
-      respond_with resource
+    # Check if Parse User exists
+    if parse_user_exists?(user_email)
+      login_to_parse(user_email, user_password)
     end
+    
+    devise_create_new_rails_user 
 	end
 
 	api :PUT, "/registrations", "Update User"
@@ -139,6 +133,30 @@ class Api::V1::RegistrationsController < Devise::RegistrationsController
     self.identify_user_for_analytics
     self.track_user_update
     signed_in_root_path(resource)
+  end
+
+  # Code for Devise Create Action aka "Create New Rails User"
+  def devise_create_new_rails_user
+    build_resource(sign_up_params)
+
+    resource.save
+
+    yield resource if block_given?
+    if resource.persisted?
+      if resource.active_for_authentication?
+        set_flash_message :notice, :signed_up if is_flashing_format?
+        sign_up(resource_name, resource)
+        respond_with resource, location: after_sign_up_path_for(resource)
+      else
+        set_flash_message :notice, :"signed_up_but_#{resource.inactive_message}" if is_flashing_format?
+        expire_data_after_sign_in!
+        respond_with resource, location: after_inactive_sign_up_path_for(resource)
+      end
+    else
+      clean_up_passwords resource
+      set_minimum_password_length
+      respond_with resource
+    end
   end
 
   def identify_user_for_analytics
