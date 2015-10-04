@@ -77,7 +77,7 @@ Rails.application.routes.draw do
   end
 
   resources :users, :path => 'thrivers' do
-    get "migrate_from_parse"
+    post "migrate_from_parse", :on => :collection
     resources :moods
     resources :sleeps
     resources :self_cares
