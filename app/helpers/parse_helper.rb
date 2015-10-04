@@ -38,6 +38,15 @@ module ParseHelper
     end
   end
 
+  def set_last_migration_date(parse_email)
+    date_time = DateTime.now
+    parse_date = Parse::Date.new(date_time)
+    
+    user = retrieve_parse_user(parse_email)
+    user["lastRailsMigrationDate"] = parse_date
+    user.save
+  end
+
   def get_data_count(parse_data_type)
     if parse_data_type == "UserData"
       @parse_user_data_count = Parse::Query.new("UserData").tap do |q|
