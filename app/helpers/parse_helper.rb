@@ -1,6 +1,40 @@
 module ParseHelper
+  # Successful Login returns User Object
+  # Failed login returns:
+  # "Status: 404 Parse::ParseProtocolError: 101: invalid login parameters"
   def login_to_parse(parse_email, parse_password)
     @parse_user = Parse::User.authenticate(parse_email, parse_password)
+  end
+
+  def retrieve_parse_user(parse_email)
+    user = Parse::Query.new("_User").eq("username", parse_email).get.first
+  end
+
+  def parse_user_exists?(parse_email)
+    user = retrieve_parse_user(parse_email)
+    if user != nil
+      return true
+    else
+      return false
+    end
+  end
+
+  def rails_user_exists?(email)
+    rails_user = User.where(email: email).first
+    if rails_user != nil
+      return true
+    else
+      return false
+    end
+  end
+
+  def get_last_migration_date(parse_email)
+    user = retrieve_parse_user(parse_email)
+    if user != nil
+      return user["lastRailsMigrationDate"]
+    else
+      return "Parse User does not exists."
+    end
   end
 
   def get_data_count(parse_data_type)
