@@ -101,6 +101,9 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
  # Analytics
  gem 'analytics-ruby', '~> 2.0.0', :require => 'segment/analytics'
 
+ # Parse Platform Client
+ gem 'parse-ruby-client'
+
  # Testing
  group :development, :test do 
   gem 'rspec-rails'
