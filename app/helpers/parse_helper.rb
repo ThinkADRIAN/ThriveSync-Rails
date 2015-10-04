@@ -236,7 +236,7 @@ module ParseHelper
           mood_timestamp = parse_mood["createdAt"]
         end
 
-        if !duplicate_entry_exists?(data_type, parse_mood["objectId"])
+        if !duplicate_entry_exists?(data_type, parse_mood["objectId"], user_id)
           mood = Mood.new(
             :mood_rating => (parse_mood["moodRating"] + 1),
             :anxiety_rating => (parse_mood["anxietyRating"] + 1),
@@ -251,8 +251,8 @@ module ParseHelper
             @unsaved_mood_ids << parse_mood["objectId"]
           end
         else
-          if duplicate_entry_updated?(data_type, parse_mood["objectId"], parse_mood)
-            mood = Mood.where(parse_object_id: parse_mood["objectId"]).first
+          if duplicate_entry_updated?(data_type, parse_mood["objectId"], parse_mood, user_id)
+            mood = Mood.where(parse_object_id: parse_mood["objectId"]).where(user_id: user_id).first
             mood.mood_rating = (parse_mood["moodRating"] + 1)
             mood.anxiety_rating = (parse_mood["anxietyRating"] + 1)
             mood.irritability_rating = (parse_mood["irritabilityRating"] + 1)
@@ -269,7 +269,7 @@ module ParseHelper
 
     elsif data_type == "Sleep"  
       @parse_sleeps.each do |parse_sleep|
-        if !duplicate_entry_exists?(data_type, parse_sleep["objectId"])
+        if !duplicate_entry_exists?(data_type, parse_sleep["objectId"], user_id)
           sleep = Sleep.new(
             :start_time => parse_sleep["startTime"],
             :finish_time => parse_sleep["finishTime"],
@@ -284,8 +284,8 @@ module ParseHelper
             @unsaved_sleep_ids << parse_sleep["objectId"]
           end
         else
-          if duplicate_entry_updated?(data_type, parse_sleep["objectId"], parse_sleep)
-            sleep = Sleep.where(parse_object_id: parse_sleep["objectId"]).first
+          if duplicate_entry_updated?(data_type, parse_sleep["objectId"], parse_sleep, user_id)
+            sleep = Sleep.where(parse_object_id: parse_sleep["objectId"]).where(user_id: user_id).first
             sleep.start_time = parse_sleep["startTime"]
             sleep.finish_time = parse_sleep["finishTime"]
             sleep.time = (parse_sleep["finishTime"].to_i - parse_sleep["startTime"].to_i) / 3600
@@ -310,7 +310,7 @@ module ParseHelper
           self_care_timestamp = parse_self_care["createdAt"]
         end
         
-        if !duplicate_entry_exists?(data_type, parse_self_care["objectId"])
+        if !duplicate_entry_exists?(data_type, parse_self_care["objectId"], user_id)
           self_care = SelfCare.new(
             :counseling => parse_self_care["counseling"],
             :medication => parse_self_care["medication"],
@@ -326,8 +326,8 @@ module ParseHelper
             @unsaved_self_care_ids << parse_self_care["objectId"]
           end
         else
-          if duplicate_entry_updated?(data_type, parse_self_care["objectId"], parse_self_care)
-            self_care = SelfCare.where(parse_object_id: parse_self_care["objectId"]).first
+          if duplicate_entry_updated?(data_type, parse_self_care["objectId"], parse_self_care, user_id)
+            self_care = SelfCare.where(parse_object_id: parse_self_care["objectId"]).where(user_id: user_id).first
             self_care.counseling = parse_self_care["counseling"]
             self_care.medication = parse_self_care["medication"]
             self_care.meditation = parse_self_care["meditation"]
@@ -353,7 +353,7 @@ module ParseHelper
           journal_timestamp = parse_self_care["createdAt"]
         end
 
-        if !duplicate_entry_exists?(data_type, parse_journal["objectId"])
+        if !duplicate_entry_exists?(data_type, parse_journal["objectId"], user_id)
           journal = Journal.new(
             :journal_entry => parse_journal["journalEntry"],
             :user_id => user_id,
@@ -366,8 +366,8 @@ module ParseHelper
             @unsaved_journal_ids << parse_journal["objectId"]
           end
         else
-          if duplicate_entry_updated?(data_type, parse_journal["objectId"], parse_journal)
-            journal = Journal.where(parse_object_id: parse_journal["objectId"]).first
+          if duplicate_entry_updated?(data_type, parse_journal["objectId"], parse_journal, user_id)
+            journal = Journal.where(parse_object_id: parse_journal["objectId"]).where(user_id: user_id).first
             journal.journal_entry = parse_journal["journalEntry"]
             journal.timestamp = journal_timestamp
             journal.created_at = parse_journal["createdAt"]
@@ -431,15 +431,15 @@ module ParseHelper
     end
   end
 
-  def duplicate_entry_exists?(data_type, parse_object_id)
+  def duplicate_entry_exists?(data_type, parse_object_id, user_id)
     if data_type == "Mood"
-      duplicate_entry = Mood.where(parse_object_id: parse_object_id).first
+      duplicate_entry = Mood.where(parse_object_id: parse_object_id).where(user_id: user_id).first
     elsif data_type == "Sleep"
-      duplicate_entry = Sleep.where(parse_object_id: parse_object_id).first
+      duplicate_entry = Sleep.where(parse_object_id: parse_object_id).where(user_id: user_id).first
     elsif data_type == "SelfCare"
-      duplicate_entry = SelfCare.where(parse_object_id: parse_object_id).first
+      duplicate_entry = SelfCare.where(parse_object_id: parse_object_id).where(user_id: user_id).first
     elsif data_type == "Journal"
-      duplicate_entry = Journal.where(parse_object_id: parse_object_id).first
+      duplicate_entry = Journal.where(parse_object_id: parse_object_id).where(user_id: user_id).first
     end
 
     if duplicate_entry == nil
@@ -449,15 +449,15 @@ module ParseHelper
     end
   end
 
-  def duplicate_entry_updated?(data_type, parse_object_id, parse_data_entry)
+  def duplicate_entry_updated?(data_type, parse_object_id, parse_data_entry, user_id)
     if data_type == "Mood"
-      duplicate_entry = Mood.where(parse_object_id: parse_object_id).first
+      duplicate_entry = Mood.where(parse_object_id: parse_object_id).where(user_id: user_id).first
     elsif data_type == "Sleep"
-      duplicate_entry = Sleep.where(parse_object_id: parse_object_id).first
+      duplicate_entry = Sleep.where(parse_object_id: parse_object_id).where(user_id: user_id).first
     elsif data_type == "SelfCare"
-      duplicate_entry = SelfCare.where(parse_object_id: parse_object_id).first
+      duplicate_entry = SelfCare.where(parse_object_id: parse_object_id).where(user_id: user_id).first
     elsif data_type == "Journal"
-      duplicate_entry = Journal.where(parse_object_id: parse_object_id).first
+      duplicate_entry = Journal.where(parse_object_id: parse_object_id).where(user_id: user_id).first
     end
 
     if duplicate_entry.updated_at < parse_data_entry["updatedAt"]
