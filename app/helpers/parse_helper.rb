@@ -4,6 +4,9 @@ module ParseHelper
   # "Status: 404 Parse::ParseProtocolError: 101: invalid login parameters"
   def login_to_parse(parse_email, parse_password)
     @parse_user = Parse::User.authenticate(parse_email, parse_password)
+    
+    rescue Parse::ParseProtocolError
+      puts "Status: 404 Parse::ParseProtocolError: 101: invalid login parameters"
   end
 
   def retrieve_parse_user(parse_email)
