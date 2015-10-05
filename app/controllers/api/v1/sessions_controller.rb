@@ -51,22 +51,27 @@ class Api::V1::SessionsController < Devise::SessionsController
       else
         login_to_parse(user_email, user_password)
 
-        if rails_user_exists?(user_email)
-          rails_authenticate
+        # Check If Parse Login Successful
+        if @parse_user != nil
+          if rails_user_exists?(user_email)
+            rails_authenticate
+          else
+            user_first_name = @parse_user["firstName"]
+            user_last_name = @parse_user["lastName"]
+
+            create_new_rails_user(user_first_name, user_last_name, user_email, user_password)
+
+            etl_for_parse(@new_rails_user.id, user_email, user_password)
+
+            # Sign In with New Rails User
+            # Code originally from rails_authenticate method edited for this use case.
+            sign_in(resource_name, @new_rails_user)
+
+            yield @new_rails_user if block_given?
+            respond_with @new_rails_user, location: after_sign_in_path_for(@new_rails_user)
+          end
         else
-          user_first_name = @parse_user["firstName"]
-          user_last_name = @parse_user["lastName"]
-
-          create_new_rails_user(user_first_name, user_last_name, user_email, user_password)
-
-          etl_for_parse(@new_rails_user.id, user_email, user_password)
-
-          # Sign In with New Rails User
-          # Code originally from rails_authenticate method edited for this use case.
-          sign_in(resource_name, @new_rails_user)
-
-          yield @new_rails_user if block_given?
-          respond_with @new_rails_user, location: after_sign_in_path_for(@new_rails_user)
+          render :status=>401, :json=>{:message => "Parse::ParseProtocolError: 101: invalid login parameters" }
         end
       end
     # Parse User does not exists

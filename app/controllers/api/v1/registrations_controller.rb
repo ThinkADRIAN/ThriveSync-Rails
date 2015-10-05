@@ -56,9 +56,15 @@ class Api::V1::RegistrationsController < Devise::RegistrationsController
     # Check if Parse User exists
     if parse_user_exists?(user_email)
       login_to_parse(user_email, user_password)
+
+      if @parse_user != nil
+        devise_create_new_rails_user
+      else
+        render :status=>401, :json=>{:message => "Parse::ParseProtocolError: 101: invalid login parameters" }
+      end
+    else
+      devise_create_new_rails_user
     end
-    
-    devise_create_new_rails_user 
 	end
 
 	api :PUT, "/registrations", "Update User"
