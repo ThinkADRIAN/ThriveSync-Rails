@@ -40,5 +40,7 @@ module ThriveSync
     config.assets.paths << Rails.root.join('app', 'assets', 'bootstrap-material-design', 'dist', 'css')    
     config.assets.paths << Rails.root.join('app', 'assets', 'bootstrap-material-design', 'dist', 'js')    
     config.assets.paths << Rails.root.join('app', 'assets', 'bootstrap-material-design', 'dist', 'fonts')
+
+    config.force_ssl = false
   end
 end
