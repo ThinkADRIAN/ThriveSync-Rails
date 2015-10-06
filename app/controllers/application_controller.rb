@@ -128,11 +128,13 @@ class ApplicationController < ActionController::Base
 
   def track_user_logout
     # Track User Logout for Segment.io Analytics
-    Analytics.track(
-      user_id: current_user.id,
-      event: 'Logged Out',
-      properties: {
-      }
-    )
+    if current_user != nil
+      Analytics.track(
+        user_id: current_user.id,
+        event: 'Logged Out',
+        properties: {
+        }
+      )
+    end
   end
 end
