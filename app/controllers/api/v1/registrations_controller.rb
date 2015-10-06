@@ -170,9 +170,6 @@ class Api::V1::RegistrationsController < Devise::RegistrationsController
     Analytics.identify(
       user_id: resource.id,
       traits: {
-        first_name: resource.first_name,
-        last_name: resource.last_name,
-        email: resource.email,
         created_at: resource.created_at
       }
     )

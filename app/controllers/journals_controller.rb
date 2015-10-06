@@ -300,7 +300,6 @@ class JournalsController < ApplicationController
         event: 'Created Journal Entry',
         properties: {
           journal_id: @journal.id,
-          journal_entry: @journal.journal_entry,
           timestamp: @journal.timestamp
         }
       )
@@ -313,7 +312,6 @@ class JournalsController < ApplicationController
         event: 'Updated Journal Entry',
         properties: {
           journal_id: @journal.id,
-          journal_entry: @journal.journal_entry,
           timestamp: @journal.timestamp
         }
       )
