@@ -89,8 +89,10 @@ class MyDevise::RegistrationsController < Devise::RegistrationsController
 
   # The path used after update.
   def after_update_path_for(resource)
-    self.identify_user_for_analytics
-    self.track_user_update
+    if resource != nil
+      self.identify_user_for_analytics
+      self.track_user_update
+    end
     signed_in_root_path(resource)
   end
 
@@ -99,9 +101,6 @@ class MyDevise::RegistrationsController < Devise::RegistrationsController
     Analytics.identify(
       user_id: resource.id,
       traits: {
-        first_name: resource.first_name,
-        last_name: resource.last_name,
-        email: resource.email,
         created_at: resource.created_at
       }
     )
