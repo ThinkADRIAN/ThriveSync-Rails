@@ -444,13 +444,13 @@ module ParseHelper
 
   def duplicate_entry_exists?(data_type, parse_object_id, user_id)
     if data_type == "Mood"
-      duplicate_entry = Mood.where(parse_object_id: parse_object_id).where(user_id: user_id).first
+      duplicate_entry = Mood.where('parse_object_id = ? and user_id = ?', parse_object_id, user_id).first
     elsif data_type == "Sleep"
-      duplicate_entry = Sleep.where(parse_object_id: parse_object_id).where(user_id: user_id).first
+      duplicate_entry = Sleep.where('parse_object_id = ? and user_id = ?', parse_object_id, user_id).first
     elsif data_type == "SelfCare"
-      duplicate_entry = SelfCare.where(parse_object_id: parse_object_id).where(user_id: user_id).first
+      duplicate_entry = SelfCare.where('parse_object_id = ? and user_id = ?', parse_object_id, user_id).first
     elsif data_type == "Journal"
-      duplicate_entry = Journal.where(parse_object_id: parse_object_id).where(user_id: user_id).first
+      duplicate_entry = Journal.where('parse_object_id = ? and user_id = ?', parse_object_id, user_id).first
     end
 
     if duplicate_entry == nil
@@ -462,13 +462,13 @@ module ParseHelper
 
   def duplicate_entry_updated?(data_type, parse_object_id, parse_data_entry, user_id)
     if data_type == "Mood"
-      duplicate_entry = Mood.where(parse_object_id: parse_object_id).where(user_id: user_id).first
+      duplicate_entry = Mood.where('parse_object_id = ? and user_id = ?', parse_object_id, user_id).first
     elsif data_type == "Sleep"
-      duplicate_entry = Sleep.where(parse_object_id: parse_object_id).where(user_id: user_id).first
+      duplicate_entry = Sleep.where('parse_object_id = ? and user_id = ?', parse_object_id, user_id).first
     elsif data_type == "SelfCare"
-      duplicate_entry = SelfCare.where(parse_object_id: parse_object_id).where(user_id: user_id).first
+      duplicate_entry = SelfCare.where('parse_object_id = ? and user_id = ?', parse_object_id, user_id).first
     elsif data_type == "Journal"
-      duplicate_entry = Journal.where(parse_object_id: parse_object_id).where(user_id: user_id).first
+      duplicate_entry = Journal.where('parse_object_id = ? and user_id = ?', parse_object_id, user_id).first
     end
 
     if duplicate_entry.updated_at < parse_data_entry["updatedAt"]
