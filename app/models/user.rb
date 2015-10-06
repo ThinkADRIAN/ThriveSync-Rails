@@ -209,9 +209,6 @@ class User < ActiveRecord::Base
     Analytics.identify(
       user_id: self.id,
       traits: {
-        first_name: self.first_name,
-        last_name: self.last_name,
-        email: self.email,
         created_at: self.created_at
       }
     )
