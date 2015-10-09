@@ -9,14 +9,21 @@
 // Example:
 // @link-color: #ff0000;
 
+// Dropdown Disappearing Fix
 .dropdown-backdrop{
     position: static;
 }
 
+// Vertically Center Menu Toggle
 .navbar .navbar-toggle {
   margin: 15px 0 15px;
 }
 
+// Capture Screen Blanked Out in Non-Mobile View
+// Ovewrites less/_button.less
+.btn {
+  margin: 0px 0px;
+}
 // Override @primary color with one took from _colors.less
 //@primary: @black;
 
