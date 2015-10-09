@@ -7,9 +7,3 @@
 //= require common-files/js/jquery.svg.js
 //= require common-files/js/jquery.svganim
 //= require common-files/js/jquery.backgroundvideo.min
-
-// Dropdown Menu Fix for Mobile
-// https://github.com/designmodo/startup-support/issues/43
-$('a.dropdown-toggle').click('button', function() {
-  $('a.dropdown-toggle').collapse('display');
-});
