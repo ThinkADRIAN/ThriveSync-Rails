@@ -28,3 +28,4 @@
 //= require slick
 //= require messages
 //= require bootstrap-material-design
+//= require custom_overrides
