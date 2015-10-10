@@ -1,27 +1,39 @@
 class MyDevise::RegistrationsController < Devise::RegistrationsController
+  include ParseHelper
+
+  prepend_before_filter :require_no_authentication, only: [ :new, :create, :edit, :update, :cancel ]
+  prepend_before_filter :authenticate_scope!, only: [:destroy]
+  acts_as_token_authentication_handler_for User, fallback_to_devise: false
+
+  # Disable token authentication for all actions
+  # See https://github.com/gonzalo-bulnes/simple_token_authentication/blob/master/lib/simple_token_authentication/acts_as_token_authentication_handler.rb#L12-L15
+  skip_before_filter :authenticate_user_from_token!
+  skip_before_filter :authenticate_user!
+
+  # Enable token authentication only for the :update, :destroy actions
+  before_filter :authenticate_user_from_token!, :only => [:update, :destroy]
+  before_filter :authenticate_user!, :only => [:update, :destroy]
+
   before_filter :configure_sign_up_params, only: [:create]
   before_filter :configure_account_update_params, only: [:update]
 
 	def create
-    build_resource(sign_up_params)
+    user_first_name = params[:user][:first_name]
+    user_last_name = params[:user][:last_name]
+    user_email = params[:user][:email]
+    user_password = params[:user][:password]
 
-    resource.save
+    # Check if Parse User exists
+    if parse_user_exists?(user_email)
+      login_to_parse(user_email, user_password)
 
-    yield resource if block_given?
-    if resource.persisted?
-      if resource.active_for_authentication?
-        set_flash_message :notice, :signed_up if is_flashing_format?
-        sign_up(resource_name, resource)
-        respond_with resource, location: after_sign_up_path_for(resource)
+      if @parse_user != nil
+        devise_create_new_rails_user
       else
-        set_flash_message :notice, :"signed_up_but_#{resource.inactive_message}" if is_flashing_format?
-        expire_data_after_sign_in!
-        respond_with resource, location: after_inactive_sign_up_path_for(resource)
+        render :status=>401, :json=>{:message => "Parse::ParseProtocolError: 101: invalid login parameters" }
       end
     else
-      clean_up_passwords resource
-      set_minimum_password_length
-      respond_with resource
+      devise_create_new_rails_user
     end
 	end
 
@@ -94,6 +106,30 @@ class MyDevise::RegistrationsController < Devise::RegistrationsController
       self.track_user_update
     end
     signed_in_root_path(resource)
+  end
+
+  # Code for Devise Create Action aka "Create New Rails User"
+  def devise_create_new_rails_user
+    build_resource(sign_up_params)
+
+    resource.save
+
+    yield resource if block_given?
+    if resource.persisted?
+      if resource.active_for_authentication?
+        set_flash_message :notice, :signed_up if is_flashing_format?
+        sign_up(resource_name, resource)
+        respond_with resource, location: after_sign_up_path_for(resource)
+      else
+        set_flash_message :notice, :"signed_up_but_#{resource.inactive_message}" if is_flashing_format?
+        expire_data_after_sign_in!
+        respond_with resource, location: after_inactive_sign_up_path_for(resource)
+      end
+    else
+      clean_up_passwords resource
+      set_minimum_password_length
+      respond_with resource
+    end
   end
 
   def identify_user_for_analytics
