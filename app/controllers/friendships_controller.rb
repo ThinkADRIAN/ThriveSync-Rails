@@ -49,13 +49,19 @@ class FriendshipsController < ApplicationController
 
   before_action :set_excluded_fields, only: [:index, :thrivers, :supporters, :patients, :providers]
 
+  after_filter :verify_authorized
+
   respond_to :html, :json
 
   api! "Show Connections"
   def index
+    authorize :friendship, :index?
     respond_to do |format|
       format.html
       format.json  { render :json => {
+        :_thrivers => @supported_thrivers, 
+        :pending_thrivers => @pending_supported_thrivers,
+        :requested_thrivers => @requested_supported_thrivers,
         :_supporters => @supporters,
         :pending_supporters => @pending_supporters,
         :requested_supporters => @requested_supporters,
@@ -73,6 +79,7 @@ class FriendshipsController < ApplicationController
 
   api! "Show Thriver Connections"
   def thrivers
+    authorize :friendship, :index?
     respond_to do |format|
       format.html
       format.json  { render :json => {
@@ -87,6 +94,7 @@ class FriendshipsController < ApplicationController
 
   api! "Show Supporter Connections"
   def supporters
+    authorize :friendship, :index?
     respond_to do |format|
       format.html
       format.json  { render :json => {
@@ -101,6 +109,7 @@ class FriendshipsController < ApplicationController
 
   api! "Show Patient Connections"
   def patients
+    authorize :friendship, :index?
     respond_to do |format|
       format.html
       format.json  { render :json => {
@@ -115,6 +124,7 @@ class FriendshipsController < ApplicationController
 
   api! "Show Provider Connections"
   def providers
+    authorize :friendship, :index?
     respond_to do |format|
       format.html
       format.json  { render :json => {
@@ -128,12 +138,14 @@ class FriendshipsController < ApplicationController
   end
 
   def new
+    authorize :friendship, :new?
     @connections = User.where(email: params[:search]).to_a
   end
 
   api! "Create Connection"
   param_group :connections_create_data
   def create
+    authorize :friendship, :create?
     invitee = User.find_by_id(params[:user_id])
     if ((current_user.is? :pro) || (invitee.is? :pro))
 	    if current_user.friend_request(invitee)
@@ -150,6 +162,7 @@ class FriendshipsController < ApplicationController
   api! "Update Connection (aka Accept Connection Request)"
   param_group :connections_update_data
   def update
+    authorize :friendship, :update?
     inviter = User.find_by_id(params[:id])
     if (current_user.accept_request(inviter))
     	
@@ -173,6 +186,7 @@ class FriendshipsController < ApplicationController
   api! "Destroy Connection (aka Remove Connection)"
   param_group :connections_destroy_data
   def destroy
+    authorize :friendship, :destroy?
     user = User.find_by_id(params[:id])
     if current_user.remove_friend(user)
 
