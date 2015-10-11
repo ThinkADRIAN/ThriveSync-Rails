@@ -36,10 +36,6 @@ class Ability
       scorecard.user_id == @user_id
     end
 
-    can :manage, Reward do |reward|
-      reward.user_id == @user_id
-    end
-
 =begin
     can :manage, User, id: user.id
     can :manage, Mood, :user => { id: user.id }
