@@ -1,4 +1,22 @@
 class MessagesController < ApplicationController
+  resource_description do
+    name 'T-Max Cards'
+    short 'T-Max Cards'
+    desc <<-EOS
+      == Long description
+        Send Cards between Supporters and their Thrivers
+      EOS
+
+    api_base_url ""
+    formats ['html', 'json']
+  end
+
+  def_param_group :messages_data do
+    param :user_id, :number, :desc => "Id of Recipient of T-Max Card [Number]", :required => true
+    param :body, :undef, :desc => "Message [String]", :required => true
+    param :subject, :undef, :desc => "Category [String]", :required => true
+  end
+
   acts_as_token_authentication_handler_for User
 
   before_action :authenticate_user!
@@ -15,6 +33,8 @@ class MessagesController < ApplicationController
   	@random_cards = PreDefinedCard.where(:id => random_ids)
   end
 
+  api! "Send T-Max Card"
+  param_group :messages_data
   def create
     # Limit Sending Messages between Supporters and their Thrivers
     if (current_user.is? :supporter) && (@thriver.supporters.include? current_user.id)
@@ -33,6 +53,7 @@ class MessagesController < ApplicationController
     end 
   end
 
+  api! "Draw Random T-Max Cards"
   def random_draw
     authorize :message, :random_draw?
     c = PreDefinedCard.all
@@ -40,7 +61,7 @@ class MessagesController < ApplicationController
     @random_cards = PreDefinedCard.where(:id => random_ids)
 
     respond_to do |format|
-      format.json { render :json => @random_cards, status: 200}
+      format.json { render :json => { :cards => @random_cards }, status: 200}
     end 
   end
 
