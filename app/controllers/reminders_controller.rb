@@ -20,7 +20,7 @@ class RemindersController < ApplicationController
     param :thursday_enabled, :bool, :desc => "Thursday Enabled [Boolean]", :required => false
     param :friday_enabled, :bool, :desc => "Friday Enabled [Boolean]", :required => false
     param :saturday_enabled, :bool, :desc => "Saturday Enabled [Boolean]", :required => false
-    param :allert_time, :undef, :desc => "Alert Time [DateTime]", :required => false
+    param :alert_time, :undef, :desc => "Alert Time [DateTime]", :required => false
   end
 
   def_param_group :reminders_destroy_data do
