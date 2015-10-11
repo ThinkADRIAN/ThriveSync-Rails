@@ -105,8 +105,12 @@ class ApplicationController < ActionController::Base
   private
 
   def user_not_authorized
-    flash[:error] = "You are not authorized to perform this action."
-    redirect_to request.headers["Referer"] || root_path
+    respond_to do |format|
+      flash[:error] = "You are not authorized to perform this action."
+      format.html { redirect_to request.headers["Referer"] || root_path }
+      format.json { render :status=>401, :json=>{:message => "You are not authorized to perform this action." }
+       }
+    end
   end
 
   def record_user_activity
