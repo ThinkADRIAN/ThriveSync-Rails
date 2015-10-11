@@ -72,27 +72,6 @@ class ApplicationController < ActionController::Base
   helper_method :pro_access_granted?
 
   protected
-  
-  def user_access_granted_index?
-  	((current_user.is? :pro) && (current_user.clients.include?(params[:id].to_i))) || 
-  	(current_user.id == params[:id].to_i) || (current_user.is? :superuser)
-  end
-
-  def user_access_granted_edit?
-  	(current_user.is? :superuser)
-  end
-
-  def authorize_user_index
-  	unless user_access_granted_index?
-  		user_not_authorized
-    end
-  end
-
-  def authorize_user_edit
-  	unless user_access_granted_edit?
-  		user_not_authorized
-    end
-  end
 
   def authenticate_inviter!
     authenticate_user!(:force => true)
