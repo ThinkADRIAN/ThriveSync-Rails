@@ -43,7 +43,6 @@ class SupportersController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.json { render :json => @supporters, status: 200 }
     end
   end
 
