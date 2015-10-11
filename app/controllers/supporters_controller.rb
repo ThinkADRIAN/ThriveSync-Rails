@@ -1,11 +1,30 @@
 class SupportersController < ApplicationController
+  resource_description do
+    name 'Supporters'
+    short 'Supporters'
+    desc <<-EOS
+      == Long description
+        Supporters are connected to Thrivers to provide peer support
+      EOS
+
+    api_base_url ""
+    formats ['html', 'json']
+  end
+
+  def_param_group :supporters_data do
+    param :email, :undef, :desc => "Email Address of Invited Supporter [String]", :required => true
+  end
+
   acts_as_token_authentication_handler_for User
 
   before_action :authenticate_user!
 
+  after_action :verify_authorized
+
   respond_to :html, :json
   
   def index
+    authorize :supporter, :index?
     @friends = current_user.friends
     @pending_friends = current_user.pending_friends
     @requested_friends = current_user.requested_friends
@@ -46,7 +65,10 @@ class SupportersController < ApplicationController
     end
   end
 
+  api! "Invite Supporter"
+  param_group :supporters_data
   def invite
+    authorize :supporter, :invite?
     invitee = User.find_by_email(params[:email])
 
     # Handle if invitee account already exists and is not already an existing supporter

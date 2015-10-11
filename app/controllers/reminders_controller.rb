@@ -1,18 +1,44 @@
 class RemindersController < ApplicationController
-  acts_as_token_authentication_handler_for User
+  resource_description do
+    name 'Reminders'
+    short 'Reminders'
+    desc <<-EOS
+      == Long description
+        Reminders are used for timed notifications that can re-engage the Thriver.
+      EOS
 
-  rescue_from CanCan::AccessDenied do |exception|
-    redirect_to root_url, :alert => exception.message
+    api_base_url ""
+    formats ['html', 'json']
   end
 
-  check_authorization
+  def_param_group :reminders_data do
+    param :message, :undef, :desc => "Message [String]", :required => false
+    param :sunday_enabled, :bool, :desc => "Sunday Enabled [Boolean]", :required => false
+    param :monday_enabled, :bool, :desc => "Monday Enabled [Boolean]", :required => false
+    param :tuesday_enabled, :bool, :desc => "Tuesday Enabled [Boolean]", :required => false
+    param :wednesday_enabled, :bool, :desc => "Wednesday Enabled [Boolean]", :required => false
+    param :thursday_enabled, :bool, :desc => "Thursday Enabled [Boolean]", :required => false
+    param :friday_enabled, :bool, :desc => "Friday Enabled [Boolean]", :required => false
+    param :saturday_enabled, :bool, :desc => "Saturday Enabled [Boolean]", :required => false
+    param :alert_time, :undef, :desc => "Alert Time [DateTime]", :required => false
+  end
 
-  before_action :set_reminder, only: [:show, :edit, :update, :destroy]
+  def_param_group :reminders_destroy_data do
+    param :id, :number, :desc => "Reminder to Delete [Number]", :required => true
+  end
+
+  acts_as_token_authentication_handler_for User
+
   before_action :authenticate_user!
+  before_action :set_reminder, only: [:show, :edit, :update, :destroy]
+  
+  after_action :verify_authorized
 
-  respond_to :html, :js, :json, :xml
+  respond_to :html, :json
 
+  api! "Show Reminders"
   def index
+    authorize :reminder, :index?
     @user = User.find_by_id(params[:user_id])
 
     if @user == nil
@@ -21,50 +47,75 @@ class RemindersController < ApplicationController
       @reminders = Reminder.where(user_id: @user.id)
     end
 
-    authorize! :manage, Reminder
-
     respond_to do |format|
       format.html
-      format.js
       format.json { render :json => @reminders, status: 200 }
-      format.xml { render :xml => @reminders, status: 200 }
     end
   end
 
   def show
-    authorize! :manage, Reminder
+    authorize :reminder, :show?
 
     respond_to do |format|
       format.html
-      format.js
       format.json { render :json =>  @reminder, status: 200 }
-      format.xml { render :xml => @reminder, status: 200 }
     end
   end
 
   def new
+    authorize :reminder, :new?
     @reminder = Reminder.new
+
+    respond_to do |format|
+      format.html
+      format.json { render :json =>  @reminder, status: 200 }
+    end
   end
 
+  api! "Edit Reminder"
+  param_group :reminders_data
   def edit
-    authorize! :manage, Reminder
+    authorize :reminder, :edit?
+
+    respond_to do |format|
+      format.html
+      format.json { render :json =>  @reminder, status: 200 }
+    end
   end
 
   def create
+    authorize :reminder, :create?
     @reminder = Reminder.new(reminder_params)
     @reminder.save
-    respond_with(@reminder)
+
+    respond_to do |format|
+      format.html
+      format.json { render :json =>  @reminder, status: 200 }
+    end
   end
 
+  api! "Update Reminder"
+  param_group :reminders_data
   def update
-    authorize! :manage, Reminder
+    authorize :reminder, :update?
     @reminder.update(reminder_params)
-    respond_with(@reminder)
+    
+    respond_to do |format|
+      format.html
+      format.json { render :json =>  @reminder, status: 200 }
+    end
   end
 
+  api! "Delete Reminder"
+  param_group :reminders_destroy_data
   def destroy
+    authorize :reminder, :destroy?
     @reminder.destroy
-    respond_with(@reminder)
+    
+    respond_to do |format|
+      format.html
+      format.json  { head :no_content }
+    end
   end
 
   private
