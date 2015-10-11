@@ -4,9 +4,12 @@ class CaptureController < ApplicationController
   before_action :authenticate_user!
   before_action :set_capture_date, only: [:update_capture]
 
-  respond_to :html, :js, :json
+  after_action :verify_authorized
+
+  respond_to :js
   
   def update_capture
+    authorize :capture, :update_capture?
     @user = User.find_by_id(params[:user_id])
 
     if $current_capture_screen == nil
