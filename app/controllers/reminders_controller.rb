@@ -114,7 +114,7 @@ class RemindersController < ApplicationController
     
     respond_to do |format|
       format.html
-      format.json { render :json =>  @reminder, status: 200 }
+      format.json  { head :no_content }
     end
   end
 

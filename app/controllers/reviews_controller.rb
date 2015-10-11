@@ -108,7 +108,7 @@ class ReviewsController < ApplicationController
     
     respond_to do |format|
       format.html
-      format.json { render :json => @review, status: 200 }
+      format.json  { head :no_content }
     end
   end
 
