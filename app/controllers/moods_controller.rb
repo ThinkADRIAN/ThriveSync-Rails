@@ -44,11 +44,11 @@ class MoodsController < ApplicationController
 
   acts_as_token_authentication_handler_for User
 
+  before_action :authenticate_user!
   before_action :set_mood, only: [:show, :edit, :update, :destroy]
   before_action :set_lookback_period, only: [:index]
-  before_action :authenticate_user!
 
-  after_filter :verify_authorized,  except: [:index]
+  after_action :verify_authorized,  except: [:index]
   #after_filter :verify_policy_scoped, only: [:index]
 
   respond_to :html, :js, :json
