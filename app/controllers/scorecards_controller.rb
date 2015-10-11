@@ -1,20 +1,36 @@
 class ScorecardsController < ApplicationController
-  acts_as_token_authentication_handler_for User
+  resource_description do
+    name 'Scorecards'
+    short 'Scorecards'
+    desc <<-EOS
+      == Long description
+        Store game data for Thrivers in a Scorecard
+      EOS
 
-  rescue_from CanCan::AccessDenied do |exception|
-    redirect_to root_url, :alert => exception.message
+    api_base_url ""
+    formats ['html', 'json']
   end
 
-  #load_and_authorize_resource
-  check_authorization
+  def_param_group :scorecards_data do
+    param :checkin_goal, :number, :desc => "Checkin Goal [Number]", :required => true
+  end
 
-  before_action :set_scorecard, only: [:show, :edit, :update, :destroy]
+  def_param_group :scorecards_destroy_data do
+    param :id, :number, :desc => "Id of Scorecard to Delete [Number]", :required => true
+  end
+
+  acts_as_token_authentication_handler_for User
+
   before_action :authenticate_user!
+  before_action :set_scorecard, only: [:show, :edit, :update, :destroy]
 
-  respond_to :html, :js, :json, :xml
+  after_action :verify_authorized
+  
+  respond_to :html, :json
 
+  api! "Show Scorecards"
   def index
-    authorize! :manage, Scorecard
+    authorize :review, :index?
     @user = User.find_by_id(params[:user_id])
 
     if @user == nil
@@ -32,29 +48,51 @@ class ScorecardsController < ApplicationController
   end
 
   def show
-    authorize! :manage, Scorecard
-    respond_with(@scorecard)
+    authorize :review, :show?
+    
+    respond_to do |format|
+      format.html
+      format.json { render :json => @scorecard, status: 200 }
+    end
   end
 
   def new
-    authorize! :manage, Scorecard
+    authorize :review, :new?
     @scorecard = Scorecard.new
-    respond_with(@scorecard)
+    
+    respond_to do |format|
+      format.html
+      format.json { render :json => @scorecard, status: 200 }
+    end
   end
 
+  api! "Edit Scorecard"
   def edit
-    authorize! :manage, Scorecard
+    authorize :review, :edit?
+
+    respond_to do |format|
+      format.html
+      format.json { render :json => @scorecard, status: 200 }
+    end
   end
 
+  api! "Create Scorecard"
+  param_group :scorecards_data
   def create
-    authorize! :manage, Scorecard
+    authorize :review, :create?
     @scorecard = Scorecard.new(scorecard_params)
     @scorecard.save
-    respond_with(@scorecard)
+    
+    respond_to do |format|
+      format.html
+      format.json { render :json => @scorecard, status: 200 }
+    end
   end
 
+  api! "Update Scorecard"
+  param_group :scorecards_data
   def update
-    authorize! :manage, Scorecard
+    authorize :review, :update?
     
     respond_to do |format|
       if @scorecard.update(scorecard_params)
@@ -73,10 +111,16 @@ class ScorecardsController < ApplicationController
     end
   end
 
+  api! "Delete Scorecard"
+  param_group :scorecards_destroy_data
   def destroy
-    authorize! :manage, Scorecard
+    authorize :review, :destroy?
     @scorecard.destroy
-    respond_with(@scorecard)
+    
+    respond_to do |format|
+      format.html
+      format.json  { head :no_content }
+    end
   end
 
   private
