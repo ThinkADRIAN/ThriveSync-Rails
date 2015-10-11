@@ -45,6 +45,9 @@ class MessagesController < ApplicationController
 
     recipients = User.where(id: @thriver.id)
     conversation = current_user.send_message(recipients, params[:message][:body], params[:message][:subject]).conversation
+    
+    track_card_sent(@thriver)
+    
     flash[:success] = "Message has been sent!"
 
     respond_to do |format|
@@ -60,6 +63,8 @@ class MessagesController < ApplicationController
     random_ids = c.ids.sort_by { rand }.slice(0, 3)
     @random_cards = PreDefinedCard.where(:id => random_ids)
 
+    track_random_cards_drawn(@random_cards)
+
     respond_to do |format|
       format.json { render :json => { :cards => @random_cards }, status: 200}
     end 
@@ -67,7 +72,31 @@ class MessagesController < ApplicationController
 
   private
 
-  def set_thriver
-    @thriver = User.find(params[:thriver_id])
-  end
+    def set_thriver
+      @thriver = User.find(params[:thriver_id])
+    end
+
+    def track_card_sent(recipient)
+      # Track Card Sent for Segment.io Analytics
+      Analytics.track(
+        user_id: current_user.id,
+        event: 'Card Sent',
+        properties: {
+          recipient_id: recipient.id
+        }
+      )
+    end
+
+    def track_random_cards_drawn(cards)
+      # Track Random Cards Drawn for Segment.io Analytics
+      cards.each do |card|
+        Analytics.track(
+          user_id: current_user.id,
+          event: 'Random Card Drawn',
+          properties: {
+            card_id: card.id
+          }
+        )
+      end
+    end
 end
