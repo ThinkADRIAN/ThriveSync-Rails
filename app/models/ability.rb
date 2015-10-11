@@ -40,10 +40,6 @@ class Ability
       reward.user_id == @user_id
     end
 
-    can :manage, Review do |review|
-      review.user_id == @user_id
-    end
-
 =begin
     can :manage, User, id: user.id
     can :manage, Mood, :user => { id: user.id }
