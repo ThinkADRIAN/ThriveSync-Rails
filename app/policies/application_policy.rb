@@ -50,4 +50,13 @@ class ApplicationPolicy
       scope
     end
   end
+
+  protected
+    def authorize_current_user_and_super_user
+      if user || (user.is? :superuser)
+        true
+      else
+        false
+      end
+    end 
 end
