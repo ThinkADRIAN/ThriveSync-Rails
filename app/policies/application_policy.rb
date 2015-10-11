@@ -58,5 +58,13 @@ class ApplicationPolicy
       else
         false
       end
-    end 
+    end
+
+    def authorize_super_user
+      if user.is? :superuser
+        true
+      else
+        false
+      end
+    end
 end
