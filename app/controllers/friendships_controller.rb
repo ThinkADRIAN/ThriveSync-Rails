@@ -25,7 +25,7 @@ class FriendshipsController < ApplicationController
 
   acts_as_token_authentication_handler_for User
 
-	before_filter :authenticate_user!
+	before_action :authenticate_user!
 
   before_action :set_friends, only: [:index, :thrivers, :supporters, :patients, :providers]
   before_action :set_pending_friends, only: [:index, :thrivers, :supporters, :patients, :providers]
@@ -49,7 +49,7 @@ class FriendshipsController < ApplicationController
 
   before_action :set_excluded_fields, only: [:index, :thrivers, :supporters, :patients, :providers]
 
-  after_filter :verify_authorized
+  after_action :verify_authorized
 
   respond_to :html, :json
 
