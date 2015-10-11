@@ -84,17 +84,13 @@ class ApplicationController < ActionController::Base
 
   def authorize_user_index
   	unless user_access_granted_index?
-  		flash[:error] = "Unauthorized access"
-  		redirect_to root_url
-      false
+  		user_not_authorized
     end
   end
 
   def authorize_user_edit
   	unless user_access_granted_edit?
-  		flash[:error] = "Unauthorized access"
-  		redirect_to root_url
-      false
+  		user_not_authorized
     end
   end
 
@@ -110,6 +106,7 @@ class ApplicationController < ActionController::Base
       format.html { redirect_to request.headers["Referer"] || root_path }
       format.json { render :status=>401, :json=>{:message => "You are not authorized to perform this action." }
        }
+      false
     end
   end
 
