@@ -90,6 +90,7 @@ class ReviewsController < ApplicationController
   end
 
   api! "Update Review Record"
+  param_group :reviews_data
   def update
     authorize :review, :update?
     @review.update(review_params)
