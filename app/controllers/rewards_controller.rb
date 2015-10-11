@@ -1,20 +1,36 @@
 class RewardsController < ApplicationController
-  acts_as_token_authentication_handler_for User
+  resource_description do
+    name 'Reviews'
+    short 'Reviews'
+    desc <<-EOS
+      == Long description
+        Store data for Mobile App Review Cues
+      EOS
 
-  rescue_from CanCan::AccessDenied do |exception|
-    redirect_to root_url, :alert => exception.message
+    api_base_url ""
+    formats ['html', 'json']
   end
 
-  #load_and_authorize_resource
-  check_authorization
+  def_param_group :rewards_data do
+    param :rewards_enabled, :bool, :desc => "Rewards Enabled [Boolean]", :required => true
+  end
 
-  before_action :set_reward, only: [:show, :edit, :update, :destroy]
+  def_param_group :rewards_destroy_data do
+    param :id, :number, :desc => "Id of Reward Record to Delete [Number]", :required => true
+  end
+
+  acts_as_token_authentication_handler_for User
+
   before_action :authenticate_user!
+  before_action :set_reward, only: [:show, :edit, :update, :destroy]
 
-  respond_to :html, :js, :json, :xml
+  after_action :verify_authorized
 
+  respond_to :html, :json
+
+  api! "Show Rewards Record"
   def index
-    authorize! :manage, Reward
+    authorize :reminder, :index?
     @user = User.find_by_id(params[:user_id])
 
     if @user == nil
@@ -30,37 +46,69 @@ class RewardsController < ApplicationController
   end
 
   def show
-    authorize! :manage, Reward
-    respond_with(@reward)
+    authorize :reminder, :show?
+    
+    respond_to do |format|
+      format.html
+      format.json { render :json => @reward, status: 200 }
+    end
   end
 
   def new
-    authorize! :manage, Reward
+    authorize :reminder, :new?
     @reward = Reward.new
-    respond_with(@reward)
+    
+    respond_to do |format|
+      format.html
+      format.json { render :json => @reward, status: 200 }
+    end
   end
 
+  api! "Edit Reward Record"
   def edit
-    authorize! :manage, Reward
+    authorize :reminder, :edit?
+
+    respond_to do |format|
+      format.html
+      format.json { render :json => @reward, status: 200 }
+    end
   end
 
+  api! "Create Reward Record"
+  param_group :rewards_data
   def create
-    authorize! :manage, Reward
+    authorize :reminder, :create?
     @reward = Reward.new(reward_params)
     @reward.save
-    respond_with(@reward)
+    
+    respond_to do |format|
+      format.html
+      format.json { render :json => @reward, status: 200 }
+    end
   end
 
+  api! "Update Reward Record"
+  param_group :rewards_data
   def update
-    authorize! :manage, Reward
+    authorize :reminder, :update?
     @reward.update(reward_params)
-    respond_with(@reward)
+    
+    respond_to do |format|
+      format.html
+      format.json { render :json => @reward, status: 200 }
+    end
   end
 
+  api! "Delete Reward Record"
+  param_group :rewards_destroy_data
   def destroy
-    authorize! :manage, Reward
+    authorize :reminder, :destroy?
     @reward.destroy
-    respond_with(@reward)
+    
+    respond_to do |format|
+      format.html
+      format.json  { head :no_content }
+    end
   end
 
   private

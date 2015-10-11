@@ -72,31 +72,6 @@ class ApplicationController < ActionController::Base
   helper_method :pro_access_granted?
 
   protected
-  
-  def user_access_granted_index?
-  	((current_user.is? :pro) && (current_user.clients.include?(params[:id].to_i))) || 
-  	(current_user.id == params[:id].to_i) || (current_user.is? :superuser)
-  end
-
-  def user_access_granted_edit?
-  	(current_user.is? :superuser)
-  end
-
-  def authorize_user_index
-  	unless user_access_granted_index?
-  		flash[:error] = "Unauthorized access"
-  		redirect_to root_url
-      false
-    end
-  end
-
-  def authorize_user_edit
-  	unless user_access_granted_edit?
-  		flash[:error] = "Unauthorized access"
-  		redirect_to root_url
-      false
-    end
-  end
 
   def authenticate_inviter!
     authenticate_user!(:force => true)
@@ -105,8 +80,13 @@ class ApplicationController < ActionController::Base
   private
 
   def user_not_authorized
-    flash[:error] = "You are not authorized to perform this action."
-    redirect_to request.headers["Referer"] || root_path
+    respond_to do |format|
+      flash[:error] = "You are not authorized to perform this action."
+      format.html { redirect_to request.headers["Referer"] || root_path }
+      format.json { render :status=>401, :json=>{:message => "You are not authorized to perform this action." }
+       }
+      false
+    end
   end
 
   def record_user_activity
