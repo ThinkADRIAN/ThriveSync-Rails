@@ -71,6 +71,7 @@ class FriendshipsController < ApplicationController
     end
   end
 
+  api! "Show Thriver Connections"
   def thrivers
     respond_to do |format|
       format.html
