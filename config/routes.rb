@@ -31,7 +31,6 @@ Rails.application.routes.draw do
   resources :pros, only: [:index]
 
   resources :supporters, only: [:index] do
-    get "list_thrivers", :on => :collection
     post '/invite' => 'supporters#invite', :on => :collection
   end
 
@@ -86,9 +85,10 @@ Rails.application.routes.draw do
   end
 
   resources :connections, :controller => 'friendships', :except => [:show, :edit] do
-    get "requests", :on => :collection
-    get "invites", :on => :collection
+    get "thrivers", :on => :collection
     get "supporters", :on => :collection
+    get "patients", :on => :collection
+    get "providers", :on => :collection
   end
 
   require 'api_constraints'
