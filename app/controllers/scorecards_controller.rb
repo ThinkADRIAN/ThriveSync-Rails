@@ -15,7 +15,7 @@ class ScorecardsController < ApplicationController
     param :checkin_goal, :number, :desc => "Checkin Goal [Number]", :required => true
   end
 
-  def_param_group :scorecards_destroy_data do
+  def_param_group :destroy_scorecards_data do
     param :id, :number, :desc => "Id of Scorecard to Delete [Number]", :required => true
   end
 
@@ -112,7 +112,7 @@ class ScorecardsController < ApplicationController
   end
 
   api! "Delete Scorecard"
-  param_group :scorecards_destroy_data
+  param_group :destroy_scorecards_data
   def destroy
     authorize :review, :destroy?
     @scorecard.destroy
