@@ -17,7 +17,7 @@ class ReviewsController < ApplicationController
     param :review_trigger_date, :undef, :desc => "Review Trigger Date [DateTime]", :required => false
   end
 
-  def_param_group :reviews_destroy_data do
+  def_param_group :destroy_reviews_data do
     param :id, :number, :desc => "Id of Review Entry to Delete [Number]", :required => true
   end
 
@@ -102,7 +102,7 @@ class ReviewsController < ApplicationController
   end
 
   api! "Delete Review Record"
-  param_group :reviews_destroy_data
+  param_group :destroy_reviews_data
   def destroy
     authorize :review, :destroy?
     @review.destroy
