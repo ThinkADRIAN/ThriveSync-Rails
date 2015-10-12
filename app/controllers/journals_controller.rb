@@ -78,18 +78,16 @@ class JournalsController < ApplicationController
       format.html
       format.js
       format.json { render :json => @journals, status: 200 }
-      format.xml { render :xml => @journals, status: 200 }
     end
   end
 
   # GET /journals/1
   # GET /journals/1.json
   def show
-    authorize! :manage, Journal
-    authorize! :read, Journal
+    authorize @journal
 
     respond_to do |format|
-      format.html { render :nothing => true }
+      format.html
       format.js
       format.json { render :json =>  @journal, status: 200 }
     end

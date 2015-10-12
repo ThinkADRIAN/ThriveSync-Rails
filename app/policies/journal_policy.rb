@@ -4,7 +4,11 @@ class JournalPolicy < ApplicationPolicy
   end
 
   def show?
-    scope.where(:id => record.id).exists?
+    if user.id == record.user_id
+      true
+    else
+      false
+    end
   end
 
   def create?
