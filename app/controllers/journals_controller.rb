@@ -60,12 +60,19 @@ class JournalsController < ApplicationController
       @journals = Journal.where(user_id: @user.id)
       if @user.id == current_user.id
         skip_authorization
-      else
-        authorize @journals
+      elsif current_user.is? :pro
+        client_id = @user.id
+        if current_user.clients.include? client_id
+          skip_authorization
+        else
+          authorize @journals
+        end
+      elsif current_user.is? :superuser
+        skip_authorization
       end
+    else
+      authorize @journals
     end
-
-    #@journals = policy_scope(@journals)
 
     respond_to do |format|
       format.html
