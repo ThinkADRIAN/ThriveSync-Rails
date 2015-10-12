@@ -11,11 +11,17 @@ class RewardsController < ApplicationController
     formats ['html', 'json']
   end
 
-  def_param_group :rewards_data do
+  def_param_group :create_rewards_data do
+    param :user_id, :number, :desc => "User Id [Number]", :required => true
     param :rewards_enabled, :bool, :desc => "Rewards Enabled [Boolean]", :required => true
   end
 
-  def_param_group :rewards_destroy_data do
+  def_param_group :update_rewards_data do
+    param :user_id, :number, :desc => "User Id [Number]", :required => false
+    param :rewards_enabled, :bool, :desc => "Rewards Enabled [Boolean]", :required => false
+  end
+
+  def_param_group :destroy_rewards_data do
     param :id, :number, :desc => "Id of Reward Record to Delete [Number]", :required => true
   end
 
@@ -75,7 +81,7 @@ class RewardsController < ApplicationController
   end
 
   api! "Create Reward Record"
-  param_group :rewards_data
+  param_group :create_rewards_data
   def create
     authorize :reminder, :create?
     @reward = Reward.new(reward_params)
@@ -88,7 +94,7 @@ class RewardsController < ApplicationController
   end
 
   api! "Update Reward Record"
-  param_group :rewards_data
+  param_group :update_rewards_data
   def update
     authorize :reminder, :update?
     @reward.update(reward_params)
@@ -100,7 +106,7 @@ class RewardsController < ApplicationController
   end
 
   api! "Delete Reward Record"
-  param_group :rewards_destroy_data
+  param_group :destroy_rewards_data
   def destroy
     authorize :reminder, :destroy?
     @reward.destroy
