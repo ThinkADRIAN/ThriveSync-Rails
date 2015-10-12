@@ -16,7 +16,7 @@ class PreDefinedCardsController < ApplicationController
     param :category, :undef, :desc => "Card Category [String]", :required => true
   end
 
-  def_param_group :pre_defined_cards_destroy_data do
+  def_param_group :destroy_pre_defined_cards_data do
     param :id, :number, :desc => "Id of Pre-Defined Card to Delete [Number]", :required => true
   end
 
@@ -96,7 +96,7 @@ class PreDefinedCardsController < ApplicationController
   end
 
   api! "Delete Pre-Defined Card"
-  param_group :pre_defined_cards_destroy_data
+  param_group :destroy_pre_defined_cards_data
   def destroy
     authorize :pre_defined_card, :destroy?
     @pre_defined_card.destroy
