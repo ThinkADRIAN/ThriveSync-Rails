@@ -23,7 +23,7 @@ class RemindersController < ApplicationController
     param :alert_time, :undef, :desc => "Alert Time [DateTime]", :required => false
   end
 
-  def_param_group :reminders_destroy_data do
+  def_param_group :destroy_reminders_data do
     param :id, :number, :desc => "Reminder to Delete [Number]", :required => true
   end
 
@@ -107,7 +107,7 @@ class RemindersController < ApplicationController
   end
 
   api! "Delete Reminder"
-  param_group :reminders_destroy_data
+  param_group :destroy_reminders_data
   def destroy
     authorize :reminder, :destroy?
     @reminder.destroy
