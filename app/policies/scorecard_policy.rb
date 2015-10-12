@@ -8,7 +8,7 @@ class ScorecardPolicy < ApplicationPolicy
   end
 
   def create?
-    false
+    authorize_super_user
   end
 
   def new?
@@ -24,6 +24,6 @@ class ScorecardPolicy < ApplicationPolicy
   end
 
   def destroy?
-    false
+    authorize_super_user
   end
 end
