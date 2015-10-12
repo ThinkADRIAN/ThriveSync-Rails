@@ -63,12 +63,14 @@ class JournalsController < ApplicationController
       elsif current_user.is? :pro
         client_id = @user.id
         if current_user.clients.include? client_id
-          skip_authorization
+          authorize @journals
         else
           authorize @journals
         end
       elsif current_user.is? :superuser
-        skip_authorization
+        authorize @journals
+      else
+        authorize @journals
       end
     else
       authorize @journals
