@@ -128,8 +128,9 @@ class PreDefinedCardsController < ApplicationController
       user_id: current_user.id,
       event: 'Pre-Defined Card Created',
       properties: {
-        text: @pre_defined_card.text,
-        category: @pre_defined_card.category
+          pre_defined_card_id: @pre_defined_card.id,
+          text: @pre_defined_card.text,
+          category: @pre_defined_card.category
       }
     )
   end
@@ -140,6 +141,7 @@ class PreDefinedCardsController < ApplicationController
         user_id: current_user.id,
         event: 'Pre-Defined Card Updated',
         properties: {
+            pre_defined_card_id: @pre_defined_card.id,
             text: @pre_defined_card.text,
             category: @pre_defined_card.category
         }
