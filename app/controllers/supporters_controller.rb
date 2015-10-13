@@ -79,6 +79,8 @@ class SupportersController < ApplicationController
       invitee.roles += ["supporter"]
       invitee.save!
 
+      track_supporter_invited(invitee)
+
       respond_to do |format|
         format.json { render :json  => { status: "Supporter Invitation Successful Sent" }}
       end
@@ -100,5 +102,18 @@ class SupportersController < ApplicationController
         format.json { head :ok }
       end
     end
+  end
+
+  private
+
+  def track_supporter_invited(invitee)
+    # Track Supporter Invitation for Segment.io Analytics
+    Analytics.track(
+        user_id: current_user.id,
+        event: 'Invited Supporter',
+        properties: {
+            invitee_id: invitee.id
+        }
+    )
   end
 end
