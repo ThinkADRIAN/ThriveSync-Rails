@@ -302,7 +302,7 @@ class SelfCaresController < ApplicationController
     end
 
     def track_self_care_created
-      # Track Mood Creation for Segment.io Analytics
+      # Track Self Care Creation for Segment.io Analytics
       Analytics.track(
         user_id: @self_care.user_id,
         event: 'Created Self Care Entry',
@@ -312,13 +312,14 @@ class SelfCaresController < ApplicationController
           medication: @self_care.medication,
           meditation: @self_care.meditation,
           exercise: @self_care.exercise,
-          timestamp: @self_care.timestamp
+          timestamp: @self_care.timestamp,
+          self_care_user_id: @self_care.user_id
         }
       )
     end
 
     def track_self_care_updated
-      # Track Mood Update for Segment.io Analytics
+      # Track Self Care Update for Segment.io Analytics
       Analytics.track(
         user_id: @self_care.user_id,
         event: 'Updated Self Care Entry',
@@ -328,13 +329,14 @@ class SelfCaresController < ApplicationController
           medication: @self_care.medication,
           meditation: @self_care.meditation,
           exercise: @self_care.exercise,
-          timestamp: @self_care.timestamp
+          timestamp: @self_care.timestamp,
+          self_care_user_id: @self_care.user_id
         }
       )
     end
 
     def track_self_care_deleted
-      # Track Mood Deletion for Segment.io Analytics
+      # Track Self Care Deletion for Segment.io Analytics
       Analytics.track(
         user_id: @self_care.user_id,
         event: 'Deleted Self Care Entry',
