@@ -1,10 +1,10 @@
 class RewardsController < ApplicationController
   resource_description do
-    name 'Reviews'
-    short 'Reviews'
+    name 'Rewards'
+    short 'Rewards'
     desc <<-EOS
       == Long description
-        Store data for Mobile App Review Cues
+        Store data for Mobile App Reward Cues
       EOS
 
     api_base_url ""
@@ -86,6 +86,8 @@ class RewardsController < ApplicationController
     authorize :reminder, :create?
     @reward = Reward.new(reward_params)
     @reward.save
+
+    track_reward_created
     
     respond_to do |format|
       format.html
@@ -98,6 +100,8 @@ class RewardsController < ApplicationController
   def update
     authorize :reminder, :update?
     @reward.update(reward_params)
+
+    track_reward_updated
     
     respond_to do |format|
       format.html
@@ -110,6 +114,8 @@ class RewardsController < ApplicationController
   def destroy
     authorize :reminder, :destroy?
     @reward.destroy
+
+    reward_deleted
     
     respond_to do |format|
       format.html
@@ -118,11 +124,48 @@ class RewardsController < ApplicationController
   end
 
   private
-    def set_reward
-      @reward = Reward.find(params[:id])
-    end
+  def set_reward
+    @reward = Reward.find(params[:id])
+  end
 
-    def reward_params
-      params.fetch(:reward, {}).permit(:user_id, :rewards_enabled)
-    end
+  def reward_params
+    params.fetch(:reward, {}).permit(:user_id, :rewards_enabled)
+  end
+  
+  def track_reward_created
+    # Track Reward Created for Segment.io Analytics
+    Analytics.track(
+        user_id: current_user.id,
+        event: 'Reward Created',
+        properties: {
+            reward_id: @reward.id,
+            reward_user_id: @reward.rewards_enabled,
+            reward_user_id: @reward.user_id
+        }
+    )
+  end
+
+  def track_reward_updated
+    # Track Reward Updated for Segment.io Analytics
+    Analytics.track(
+        user_id: current_user.id,
+        event: 'Reward Updated',
+        properties: {
+            reward_id: @reward.id,
+            reward_user_id: @reward.rewards_enabled,
+            reward_user_id: @reward.user_id
+        }
+    )
+  end
+
+  def track_reward_deleted
+    # Track Reward Deleted for Segment.io Analytics
+    Analytics.track(
+        user_id: current_user.id,
+        event: 'Reward Deleted',
+        properties: {
+        }
+    )
+  end
+  
 end
