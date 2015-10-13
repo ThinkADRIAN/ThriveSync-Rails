@@ -306,14 +306,15 @@ class MoodsController < ApplicationController
     def track_mood_created
       # Track Mood Creation for Segment.io Analytics
       Analytics.track(
-        user_id: @mood.user_id,
+        user_id: current_user.id,
         event: 'Created Mood Entry',
         properties: {
           mood_id: @mood.id,
           mood_rating: @mood.mood_rating,
           anxiety_rating: @mood.anxiety_rating,
           irritability_rating: @mood.irritability_rating,
-          timestamp: @mood.timestamp
+          timestamp: @mood.timestamp,
+          mood_user_id: @mood.user_id
         }
       )
     end
@@ -321,14 +322,15 @@ class MoodsController < ApplicationController
     def track_mood_updated
       # Track Mood Update for Segment.io Analytics
       Analytics.track(
-        user_id: @mood.user_id,
+        user_id: current_user.id,
         event: 'Updated Mood Entry',
         properties: {
           mood_id: @mood.id,
           mood_rating: @mood.mood_rating,
           anxiety_rating: @mood.anxiety_rating,
           irritability_rating: @mood.irritability_rating,
-          timestamp: @mood.timestamp
+          timestamp: @mood.timestamp,
+          mood_user_id: @mood.user_id
         }
       )
     end
@@ -336,7 +338,7 @@ class MoodsController < ApplicationController
     def track_mood_deleted
       # Track Mood Deletion for Segment.io Analytics
       Analytics.track(
-        user_id: @mood.user_id,
+        user_id: current_user.id,
         event: 'Deleted Mood Entry',
         properties: {
         }

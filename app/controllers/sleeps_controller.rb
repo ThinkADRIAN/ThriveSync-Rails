@@ -293,13 +293,14 @@ class SleepsController < ApplicationController
     def track_sleep_created
       # Track Sleep Creation for Segment.io Analytics
       Analytics.track(
-        user_id: @sleep.user_id,
+        user_id: current_user.id,
         event: 'Created Sleep Entry',
         properties: {
           sleep_id: @sleep.id,
           start_time: @sleep.start_time,
           finish_time: @sleep.finish_time,
-          quality: @sleep.quality
+          quality: @sleep.quality,
+          sleep_user_id: @sleep.user_id
         }
       )
     end
@@ -307,13 +308,14 @@ class SleepsController < ApplicationController
     def track_sleep_updated
       # Track Sleep Update for Segment.io Analytics
       Analytics.track(
-        user_id: @sleep.user_id,
+        user_id: current_user.id,
         event: 'Updated Sleep Entry',
         properties: {
           sleep_id: @sleep.id,
           start_time: @sleep.start_time,
           finish_time: @sleep.finish_time,
-          quality: @sleep.quality
+          quality: @sleep.quality,
+          sleep_user_id: @sleep.user_id
         }
       )
     end
@@ -321,7 +323,7 @@ class SleepsController < ApplicationController
     def track_sleep_deleted
       # Track Sleep Deletion for Segment.io Analytics
       Analytics.track(
-        user_id: @sleep.user_id,
+        user_id: current_user.id,
         event: 'Deleted Sleep Entry',
         properties: {
         }

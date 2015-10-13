@@ -1,19 +1,14 @@
 class JournalPolicy < ApplicationPolicy
   def index?
-    if user.is? :superuser
-      true
-    elsif user.is? :pro
-      client_id = record.first.user_id
-      if user.clients.include? client_id
-        true
-      else
-        false
-      end 
-    end
+    false
   end
 
   def show?
-    scope.where(:id => record.id).exists?
+    if user.id == record.user_id
+      true
+    else
+      false
+    end
   end
 
   def create?

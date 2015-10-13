@@ -60,29 +60,36 @@ class JournalsController < ApplicationController
       @journals = Journal.where(user_id: @user.id)
       if @user.id == current_user.id
         skip_authorization
+      elsif current_user.is? :pro
+        client_id = @user.id
+        if current_user.clients.include? client_id
+          authorize @journals
+        else
+          authorize @journals
+        end
+      elsif current_user.is? :superuser
+        authorize @journals
       else
         authorize @journals
       end
+    else
+      authorize @journals
     end
-
-    #@journals = policy_scope(@journals)
 
     respond_to do |format|
       format.html
       format.js
       format.json { render :json => @journals, status: 200 }
-      format.xml { render :xml => @journals, status: 200 }
     end
   end
 
   # GET /journals/1
   # GET /journals/1.json
   def show
-    authorize! :manage, Journal
-    authorize! :read, Journal
+    authorize @journal
 
     respond_to do |format|
-      format.html { render :nothing => true }
+      format.html
       format.js
       format.json { render :json =>  @journal, status: 200 }
     end
@@ -296,11 +303,12 @@ class JournalsController < ApplicationController
     def track_journal_created
       # Track Journal Creation for Segment.io Analytics
       Analytics.track(
-        user_id: @journal.user_id,
+        user_id: current_user.id,
         event: 'Created Journal Entry',
         properties: {
           journal_id: @journal.id,
-          timestamp: @journal.timestamp
+          timestamp: @journal.timestamp,
+          journal_user_id: @journal.user_id
         }
       )
     end
@@ -308,11 +316,12 @@ class JournalsController < ApplicationController
     def track_journal_updated
       # Track Journal Update for Segment.io Analytics
       Analytics.track(
-        user_id: @journal.user_id,
+        user_id: current_user.id,
         event: 'Updated Journal Entry',
         properties: {
           journal_id: @journal.id,
-          timestamp: @journal.timestamp
+          timestamp: @journal.timestamp,
+          journal_user_id: @journal.user_id
         }
       )
     end
@@ -320,7 +329,7 @@ class JournalsController < ApplicationController
     def track_journal_deleted
       # Track Journal Deletion for Segment.io Analytics
       Analytics.track(
-        user_id: @journal.user_id,
+        user_id: current_user.id,
         event: 'Deleted Journal Entry',
         properties: {
         }

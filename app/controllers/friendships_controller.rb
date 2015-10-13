@@ -11,15 +11,15 @@ class FriendshipsController < ApplicationController
     formats ['html', 'json']
   end
 
-  def_param_group :connections_create_data do
+  def_param_group :create_connections_data do
     param :user_id, :number, :desc => "Id of Invitee to Send Request for Connection [Number]", :required => true
   end
 
-  def_param_group :connections_update_data do
+  def_param_group :update_connections_data do
     param :id, :number, :desc => "Id of Inviter to Confirm Connection [Number]", :required => true
   end
 
-  def_param_group :connections_destroy_data do
+  def_param_group :destroy_connections_data do
     param :id, :number, :desc => "Id of User to Disconnect Connection [Number]", :required => true
   end
 
@@ -143,7 +143,7 @@ class FriendshipsController < ApplicationController
   end
 
   api! "Create Connection"
-  param_group :connections_create_data
+  param_group :create_connections_data
   def create
     authorize :friendship, :create?
     invitee = User.find_by_id(params[:user_id])
@@ -160,7 +160,7 @@ class FriendshipsController < ApplicationController
   end
 
   api! "Update Connection (aka Accept Connection Request)"
-  param_group :connections_update_data
+  param_group :update_connections_data
   def update
     authorize :friendship, :update?
     inviter = User.find_by_id(params[:id])
@@ -184,7 +184,7 @@ class FriendshipsController < ApplicationController
   end
 
   api! "Destroy Connection (aka Remove Connection)"
-  param_group :connections_destroy_data
+  param_group :destroy_connections_data
   def destroy
     authorize :friendship, :destroy?
     user = User.find_by_id(params[:id])

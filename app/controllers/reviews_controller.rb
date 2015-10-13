@@ -17,7 +17,7 @@ class ReviewsController < ApplicationController
     param :review_trigger_date, :undef, :desc => "Review Trigger Date [DateTime]", :required => false
   end
 
-  def_param_group :reviews_destroy_data do
+  def_param_group :destroy_reviews_data do
     param :id, :number, :desc => "Id of Review Entry to Delete [Number]", :required => true
   end
 
@@ -82,6 +82,8 @@ class ReviewsController < ApplicationController
     authorize :review, :create?
     @review = Review.new(review_params)
     @review.save
+
+    track_review_created
     
     respond_to do |format|
       format.html
@@ -94,6 +96,8 @@ class ReviewsController < ApplicationController
   def update
     authorize :review, :update?
     @review.update(review_params)
+
+    track_review_updated
     
     respond_to do |format|
       format.html
@@ -102,10 +106,12 @@ class ReviewsController < ApplicationController
   end
 
   api! "Delete Review Record"
-  param_group :reviews_destroy_data
+  param_group :destroy_reviews_data
   def destroy
     authorize :review, :destroy?
     @review.destroy
+
+    track_review_deleted
     
     respond_to do |format|
       format.html
@@ -115,11 +121,51 @@ class ReviewsController < ApplicationController
 
 
   private
-    def set_review
-      @review = Review.find(params[:id])
-    end
+  def set_review
+    @review = Review.find(params[:id])
+  end
 
-    def review_params
-      params.fetch(:review, {}).permit(:review_counter, :review_last_date, :review_trigger_date)
-    end
+  def review_params
+    params.fetch(:review, {}).permit(:review_counter, :review_last_date, :review_trigger_date)
+  end
+
+  def track_review_created
+    # Track Review Created for Segment.io Analytics
+    Analytics.track(
+        user_id: current_user.id,
+        event: 'Review Created',
+        properties: {
+            review_id: @review.id,
+            review_counter: @review.review_counter,
+            review_last_date: @review.review_last_date,
+            review_trigger_date: @review.review_trigger_date,
+            review_user_id: @review.user_id
+        }
+    )
+  end
+
+  def track_review_updated
+    # Track Review Updated for Segment.io Analytics
+    Analytics.track(
+        user_id: current_user.id,
+        event: 'Review Updated',
+        properties: {
+            review_id: @review.id,
+            review_counter: @review.review_counter,
+            review_last_date: @review.review_last_date,
+            review_trigger_date: @review.review_trigger_date,
+            review_user_id: @review.user_id
+        }
+    )
+  end
+
+  def track_review_deleted
+    # Track Review Deleted for Segment.io Analytics
+    Analytics.track(
+        user_id: current_user.id,
+        event: 'Review Deleted',
+        properties: {
+        }
+    )
+  end
 end

@@ -15,7 +15,7 @@ class ScorecardsController < ApplicationController
     param :checkin_goal, :number, :desc => "Checkin Goal [Number]", :required => true
   end
 
-  def_param_group :scorecards_destroy_data do
+  def_param_group :destroy_scorecards_data do
     param :id, :number, :desc => "Id of Scorecard to Delete [Number]", :required => true
   end
 
@@ -82,6 +82,8 @@ class ScorecardsController < ApplicationController
     authorize :review, :create?
     @scorecard = Scorecard.new(scorecard_params)
     @scorecard.save
+
+    track_scorecard_created
     
     respond_to do |format|
       format.html
@@ -112,10 +114,12 @@ class ScorecardsController < ApplicationController
   end
 
   api! "Delete Scorecard"
-  param_group :scorecards_destroy_data
+  param_group :destroy_scorecards_data
   def destroy
     authorize :review, :destroy?
     @scorecard.destroy
+
+    track_scorecard_deleted
     
     respond_to do |format|
       format.html
@@ -124,24 +128,49 @@ class ScorecardsController < ApplicationController
   end
 
   private
-    def set_scorecard
-      @scorecard = Scorecard.find(params[:id])
-    end
+  def set_scorecard
+    @scorecard = Scorecard.find(params[:id])
+  end
 
-    def scorecard_params
-      params.fetch(:scorecard, {}).permit(:checkin_goal)
-    end
+  def scorecard_params
+    params.fetch(:scorecard, {}).permit(:checkin_goal)
+  end
 
-    def track_scorecard_updated
-      # Track Scorecard Update for Segment.io Analytics
-      Analytics.track(
-        user_id: @scorecard.user_id,
+  def track_scorecard_created
+    # Track Scorecard Created for Segment.io Analytics
+    Analytics.track(
+        user_id: current_user.id,
+        event: 'Created Scorecard',
+        properties: {
+            scorecard_id: @scorecard.id,
+            checkin_goal: @scorecard.checkin_goal,
+            updated_at: @scorecard.updated_at,
+            scorecard_user_id: @scorecard.user_id
+        }
+    )
+  end
+
+  def track_scorecard_updated
+    # Track Scorecard Updated for Segment.io Analytics
+    Analytics.track(
+        user_id: current_user.id,
         event: 'Updated Scorecard',
         properties: {
-          scorecard_id: @scorecard.id,
-          checkin_goal: @scorecard.checkin_goal,
-          updated_at: @scorecard.updated_at
+            scorecard_id: @scorecard.id,
+            checkin_goal: @scorecard.checkin_goal,
+            updated_at: @scorecard.updated_at,
+            scorecard_user_id: @scorecard.user_id
         }
-      )
-    end
+    )
+  end
+
+  def track_scorecard_deleted
+    # Track Scorecard Deleted for Segment.io Analytics
+    Analytics.track(
+        user_id: @scorecard.user_id,
+        event: 'Deleted Scorecard',
+        properties: {
+        }
+    )
+  end
 end
