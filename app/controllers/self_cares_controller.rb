@@ -304,7 +304,7 @@ class SelfCaresController < ApplicationController
     def track_self_care_created
       # Track Self Care Creation for Segment.io Analytics
       Analytics.track(
-        user_id: @self_care.user_id,
+        user_id: current_user.id,
         event: 'Created Self Care Entry',
         properties: {
           self_care_id: @self_care.id,
@@ -321,7 +321,7 @@ class SelfCaresController < ApplicationController
     def track_self_care_updated
       # Track Self Care Update for Segment.io Analytics
       Analytics.track(
-        user_id: @self_care.user_id,
+        user_id: current_user.id,
         event: 'Updated Self Care Entry',
         properties: {
           self_care_id: @self_care.id,
@@ -338,7 +338,7 @@ class SelfCaresController < ApplicationController
     def track_self_care_deleted
       # Track Self Care Deletion for Segment.io Analytics
       Analytics.track(
-        user_id: @self_care.user_id,
+        user_id: current_user.id,
         event: 'Deleted Self Care Entry',
         properties: {
         }
