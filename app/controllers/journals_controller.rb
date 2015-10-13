@@ -308,7 +308,7 @@ class JournalsController < ApplicationController
         properties: {
           journal_id: @journal.id,
           timestamp: @journal.timestamp,
-          user_id: @journal.user_id
+          journal_user_id: @journal.user_id
         }
       )
     end
@@ -321,7 +321,7 @@ class JournalsController < ApplicationController
         properties: {
           journal_id: @journal.id,
           timestamp: @journal.timestamp,
-          user_id: @journal.user_id
+          journal_user_id: @journal.user_id
         }
       )
     end
