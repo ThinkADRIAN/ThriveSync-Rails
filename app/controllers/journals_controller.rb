@@ -303,11 +303,12 @@ class JournalsController < ApplicationController
     def track_journal_created
       # Track Journal Creation for Segment.io Analytics
       Analytics.track(
-        user_id: @journal.user_id,
+        user_id: current_user.id,
         event: 'Created Journal Entry',
         properties: {
           journal_id: @journal.id,
-          timestamp: @journal.timestamp
+          timestamp: @journal.timestamp,
+          user_id: @journal.user_id
         }
       )
     end
@@ -315,11 +316,12 @@ class JournalsController < ApplicationController
     def track_journal_updated
       # Track Journal Update for Segment.io Analytics
       Analytics.track(
-        user_id: @journal.user_id,
+        user_id: current_user.id,
         event: 'Updated Journal Entry',
         properties: {
           journal_id: @journal.id,
-          timestamp: @journal.timestamp
+          timestamp: @journal.timestamp,
+          user_id: @journal.user_id
         }
       )
     end
@@ -327,7 +329,7 @@ class JournalsController < ApplicationController
     def track_journal_deleted
       # Track Journal Deletion for Segment.io Analytics
       Analytics.track(
-        user_id: @journal.user_id,
+        user_id: current_user.id,
         event: 'Deleted Journal Entry',
         properties: {
         }
