@@ -13,6 +13,11 @@ namespace :db do
 
     #Rake::Task['db:reset'].invoke
 
+    # Truncate all existing data
+    require 'database_cleaner'
+    DatabaseCleaner.strategy = :truncation
+    DatabaseCleaner.clean
+
     # Create admin_user account
     admin_user = User.new(:email => "admin@thrivesync.com",
       :first_name => "ThriveSync",

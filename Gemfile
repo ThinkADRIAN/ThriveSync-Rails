@@ -11,6 +11,9 @@ group :development, :test do
 # Use sqlite3 as the database for Active Record
 #	gem 'sqlite3'
 end
+group :development, :staging do
+  gem 'database_cleaner'
+end
 group :production, :staging do
   gem 'rails_12factor'
 end
@@ -50,73 +53,73 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
- # Authentication
- gem 'devise',           '>= 2.0.0'
- gem 'devise_invitable', '~> 1.3.4'
- gem 'omniauth'
- gem 'omniauth-twitter'
- gem 'omniauth-facebook'
- gem 'omniauth-linkedin'
- gem 'omniauth-google-oauth2'
- gem 'simple_token_authentication', '~> 1.0'
+# Authentication
+gem 'devise',           '>= 2.0.0'
+gem 'devise_invitable', '~> 1.3.4'
+gem 'omniauth'
+gem 'omniauth-twitter'
+gem 'omniauth-facebook'
+gem 'omniauth-linkedin'
+gem 'omniauth-google-oauth2'
+gem 'simple_token_authentication', '~> 1.0'
 
- # Authorization
- gem 'cancancan', '~> 1.10'
- gem 'pundit'
+# Authorization
+gem 'cancancan', '~> 1.10'
+gem 'pundit'
 
- # Graphing
- gem 'chartkick'
- gem 'groupdate'
+# Graphing
+gem 'chartkick'
+gem 'groupdate'
 
- # Email Services
- gem 'mandrill-api'
+# Email Services
+gem 'mandrill-api'
 
- # Friendships
- # gem 'amistad'
- gem 'has_friendship'
+# Friendships
+# gem 'amistad'
+gem 'has_friendship'
 
- # Data Generator
- gem 'faker'
+# Data Generator
+gem 'faker'
 
- # ENV Variable Handling
- gem 'figaro'
+# ENV Variable Handling
+gem 'figaro'
 
- # Styling
- gem 'designmodo-startup_framework-rails'
- gem 'less-rails-bootstrap'
- gem 'less-rails'
- gem 'font-awesome-rails'
- gem 'will_paginate'
- gem 'chosen-rails'
- gem 'bootstrap-material-design'
+# Styling
+gem 'designmodo-startup_framework-rails'
+gem 'less-rails-bootstrap'
+gem 'less-rails'
+gem 'font-awesome-rails'
+gem 'will_paginate'
+gem 'chosen-rails'
+gem 'bootstrap-material-design'
 
- # Interface
- gem 'jquery-ui-rails'
- gem 'jquery-slick-rails'
- gem 'touchpunch-rails'
+# Interface
+gem 'jquery-ui-rails'
+gem 'jquery-slick-rails'
+gem 'touchpunch-rails'
 
- # Messaging
- gem 'mailboxer'
+# Messaging
+gem 'mailboxer'
 
- # Analytics
- gem 'analytics-ruby', '~> 2.0.0', :require => 'segment/analytics'
+# Analytics
+gem 'analytics-ruby', '~> 2.0.0', :require => 'segment/analytics'
 
- # Parse Platform Client
- gem 'parse-ruby-client'
+# Parse Platform Client
+gem 'parse-ruby-client'
 
- # Testing
- group :development, :test do 
-  gem 'rspec-rails'
-  gem 'factory_girl_rails'
-  gem 'capybara'
-  gem 'guard-rspec'
-  gem 'spring-commands-rspec'
-  gem 'vcr'
- end 
- group :test do
-  gem 'webmock'
- end
+# Testing
+group :development, :test do
+gem 'rspec-rails'
+gem 'factory_girl_rails'
+gem 'capybara'
+gem 'guard-rspec'
+gem 'spring-commands-rspec'
+gem 'vcr'
+end
+group :test do
+gem 'webmock'
+end
 
- #Api gems
- gem 'active_model_serializers'
- gem 'apipie-rails', github: 'Apipie/apipie-rails', ref: '928bd858fd14ec67eeb9483ba0d43b3be8339608'
+#Api gems
+gem 'active_model_serializers'
+gem 'apipie-rails', github: 'Apipie/apipie-rails', ref: '928bd858fd14ec67eeb9483ba0d43b3be8339608'
