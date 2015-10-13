@@ -119,11 +119,63 @@ class RemindersController < ApplicationController
   end
 
   private
-    def set_reminder
-      @reminder = Reminder.find(params[:id])
-    end
+  def set_reminder
+    @reminder = Reminder.find(params[:id])
+  end
 
-    def reminder_params
-      params.fetch(:reminder, {}).permit(:user_id, :message, :sunday_enabled, :monday_enabled, :tuesday_enabled, :wednesday_enabled, :thursday_enabled, :friday_enabled, :saturday_enabled, :alert_time)
-    end
+  def reminder_params
+    params.fetch(:reminder, {}).permit(:user_id, :message, :sunday_enabled, :monday_enabled, :tuesday_enabled, :wednesday_enabled, :thursday_enabled, :friday_enabled, :saturday_enabled, :alert_time)
+  end
+
+  def track_reminder_created
+    # Track Reminder Created for Segment.io Analytics
+    Analytics.track(
+        user_id: current_user.id,
+        event: 'Reminder Created',
+        properties: {
+            reminder_id: @reminder.id,
+            user_id: @reminder.user_id,
+            message: @reminder.message,
+            sunday_enabled: @reminder.sunday_enabled,
+            monday_enabled: @reminder.monday_enabled,
+            tuesday_enabled: @reminder.tuesday_enabled,
+            wednesday_enabled: @reminder.wednesday_enabled,
+            thursday_enabled: @reminder.thursday_enabled,
+            friday_enabled: @reminder.friday_enabled,
+            saturday_enabled: @reminder.saturday_enabled,
+            alert_time: @reminder.alert_time
+        }
+    )
+  end
+
+  def track_reminder_updated
+    # Track Reminder Updated for Segment.io Analytics
+    Analytics.track(
+        user_id: current_user.id,
+        event: 'Reminder Updated',
+        properties: {
+            reminder_id: @reminder.id,
+            user_id: @reminder.user_id,
+            message: @reminder.message,
+            sunday_enabled: @reminder.sunday_enabled,
+            monday_enabled: @reminder.monday_enabled,
+            tuesday_enabled: @reminder.tuesday_enabled,
+            wednesday_enabled: @reminder.wednesday_enabled,
+            thursday_enabled: @reminder.thursday_enabled,
+            friday_enabled: @reminder.friday_enabled,
+            saturday_enabled: @reminder.saturday_enabled,
+            alert_time: @reminder.alert_time
+        }
+    )
+  end
+
+  def track_reminder_deleted
+    # Track Reminder Deleted for Segment.io Analytics
+    Analytics.track(
+        user_id: current_user.id,
+        event: 'Reminder Deleted',
+        properties: {
+        }
+    )
+  end
 end
