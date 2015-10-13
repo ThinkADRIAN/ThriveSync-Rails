@@ -76,6 +76,8 @@ class PreDefinedCardsController < ApplicationController
     authorize :pre_defined_card, :create?
     @pre_defined_card = PreDefinedCard.new(pre_defined_card_params)
     @pre_defined_card.save
+
+    track_pre_defined_card_created
     
     respond_to do |format|
       format.html
@@ -88,6 +90,8 @@ class PreDefinedCardsController < ApplicationController
   def update
     authorize :pre_defined_card, :update?
     @pre_defined_card.update(pre_defined_card_params)
+
+    track_pre_defined_card_updated
     
     respond_to do |format|
       format.html
@@ -100,6 +104,8 @@ class PreDefinedCardsController < ApplicationController
   def destroy
     authorize :pre_defined_card, :destroy?
     @pre_defined_card.destroy
+
+    track_pre_defined_card_deleted
     
     respond_to do |format|
       format.html
@@ -108,11 +114,45 @@ class PreDefinedCardsController < ApplicationController
   end
 
   private
-    def set_pre_defined_card
-      @pre_defined_card = PreDefinedCard.find(params[:id])
-    end
+  def set_pre_defined_card
+    @pre_defined_card = PreDefinedCard.find(params[:id])
+  end
 
-    def pre_defined_card_params
-      params.fetch(:pre_defined_card, {}).permit(:text, :category)
-    end
+  def pre_defined_card_params
+    params.fetch(:pre_defined_card, {}).permit(:text, :category)
+  end
+
+  def track_pre_defined_card_created
+    # Track Pre-Defined Card Created for Segment.io Analytics
+    Analytics.track(
+      user_id: current_user.id,
+      event: 'Pre-Defined Card Created',
+      properties: {
+        text: @pre_defined_card.text,
+        category: @pre_defined_card.category
+      }
+    )
+  end
+
+  def track_pre_defined_card_updated
+    # Track Pre-Defined Card Updated for Segment.io Analytics
+    Analytics.track(
+        user_id: current_user.id,
+        event: 'Pre-Defined Card Updated',
+        properties: {
+            text: @pre_defined_card.text,
+            category: @pre_defined_card.category
+        }
+    )
+  end
+
+  def track_pre_defined_card_deleted
+    # Track Pre-Defined Card Deleted for Segment.io Analytics
+    Analytics.track(
+        user_id: current_user.id,
+        event: 'Pre-Defined Card Deleted',
+        properties: {
+        }
+    )
+  end
 end
