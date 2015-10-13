@@ -134,7 +134,7 @@ class RemindersController < ApplicationController
         event: 'Reminder Created',
         properties: {
             reminder_id: @reminder.id,
-            user_id: @reminder.user_id,
+            reminder_user_id: @reminder.user_id,
             message: @reminder.message,
             sunday_enabled: @reminder.sunday_enabled,
             monday_enabled: @reminder.monday_enabled,
@@ -155,7 +155,7 @@ class RemindersController < ApplicationController
         event: 'Reminder Updated',
         properties: {
             reminder_id: @reminder.id,
-            user_id: @reminder.user_id,
+            reminder_user_id: @reminder.user_id,
             message: @reminder.message,
             sunday_enabled: @reminder.sunday_enabled,
             monday_enabled: @reminder.monday_enabled,
