@@ -12,8 +12,10 @@ class PreDefinedCardsController < ApplicationController
   end
 
   def_param_group :pre_defined_cards_data do
-    param :text, :undef, :desc => "Card Text [String]", :required => true
-    param :category, :undef, :desc => "Card Category [String]", :required => true
+    param :pre_defined_card, Hash , :desc => "Pre-Defined Card", :required => false do
+      param :text, :undef, :desc => "Card Text [String]", :required => true
+      param :category, :undef, :desc => "Card Category [String]", :required => true
+    end
   end
 
   def_param_group :destroy_pre_defined_cards_data do
@@ -80,7 +82,7 @@ class PreDefinedCardsController < ApplicationController
     track_pre_defined_card_created
     
     respond_to do |format|
-      format.html
+      format.html { redirect_to action: "index" }
       format.json  { render :json => @pre_defined_card, status: 200 }
     end
   end
@@ -94,7 +96,7 @@ class PreDefinedCardsController < ApplicationController
     track_pre_defined_card_updated
     
     respond_to do |format|
-      format.html
+      format.html { redirect_to action: "index" }
       format.json  { render :json => @pre_defined_card, status: 200 }
     end
   end
@@ -108,7 +110,7 @@ class PreDefinedCardsController < ApplicationController
     track_pre_defined_card_deleted
     
     respond_to do |format|
-      format.html
+      format.html { redirect_to action: "index" }
       format.json  { head :no_content }
     end
   end
