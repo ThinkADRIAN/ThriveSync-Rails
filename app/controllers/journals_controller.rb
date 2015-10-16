@@ -211,7 +211,6 @@ class JournalsController < ApplicationController
     respond_to do |format|
       if @journal.update(journal_params)
         track_journal_updated
-
         flash.now[:success] = 'Journal Entry was successfully updated.'
         format.js
         format.json { render json: @journal, status: :created }
