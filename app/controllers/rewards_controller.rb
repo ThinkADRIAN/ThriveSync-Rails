@@ -34,6 +34,8 @@ class RewardsController < ApplicationController
 
   respond_to :html, :json
 
+  # GET /rewards
+  # GET /rewards.json
   api! "Show Rewards Record"
   def index
     authorize :reminder, :index?
@@ -51,6 +53,8 @@ class RewardsController < ApplicationController
     end
   end
 
+  # GET /rewards/1
+  # GET /rewards/1.json
   def show
     authorize :reminder, :show?
     
@@ -60,6 +64,7 @@ class RewardsController < ApplicationController
     end
   end
 
+  # GET /rewards/new
   def new
     authorize :reminder, :new?
     @reward = Reward.new
@@ -70,7 +75,7 @@ class RewardsController < ApplicationController
     end
   end
 
-  api! "Edit Reward Record"
+  # GET /rewards/1/edit
   def edit
     authorize :reminder, :edit?
 
@@ -80,46 +85,67 @@ class RewardsController < ApplicationController
     end
   end
 
+  # POST /rewards
+  # POST /rewards.json
   api! "Create Reward Record"
   param_group :create_rewards_data
   def create
     authorize :reminder, :create?
     @reward = Reward.new(reward_params)
-    @reward.save
 
-    track_reward_created
-    
     respond_to do |format|
-      format.html
-      format.json { render :json => @reward, status: 200 }
+      if @reward.save
+        track_reward_created
+        flash[:success] = 'Reward record was successfully created.'
+        format.html { redirect_to rewards_path }
+        format.json  { render json: @reward, status: :created }
+      else
+        flash[:error] = 'Reward record was not created... Try again???'
+        format.html { render :new }
+        format.json { render json: @rewards.errors, status: :unprocessable_entity }
+      end
     end
   end
 
+  # PATCH/PUT /rewards/1
+  # PATCH/PUT /rewards/1.json
   api! "Update Reward Record"
   param_group :update_rewards_data
   def update
     authorize :reminder, :update?
-    @reward.update(reward_params)
 
-    track_reward_updated
-    
     respond_to do |format|
-      format.html
-      format.json { render :json => @reward, status: 200 }
+      if @reward.update(reward_params)
+        track_reward_updated
+        flash[:success] = 'Reward record was successfully updated.'
+        format.html { redirect_to rewards_path }
+        format.json  { render json: @reward, status: 200 }
+      else
+        flash[:error] = 'Reward record was not updated... Try again???'
+        format.html { render :edit }
+        format.json { render json: @rewards.errors, status: :unprocessable_entity }
+      end
     end
   end
 
+  # DELETE /rewards/1
+  # DELETE /rewards/1.json
   api! "Delete Reward Record"
   param_group :destroy_rewards_data
   def destroy
     authorize :reminder, :destroy?
-    @reward.destroy
 
-    reward_deleted
-    
     respond_to do |format|
-      format.html
-      format.json  { head :no_content }
+      if @reward.destroy
+        reward_deleted
+        flash[:success] = 'Reward record was successfully deleted.'
+        format.html { redirect_to rewards_path }
+        format.json { head :no_content }
+      else
+        flash[:error] = 'Reward record was not deleted... Try again???'
+        format.html { redirect rewards_path }
+        format.json { render json: @rewards.errors, status: :unprocessable_entity }
+      end
     end
   end
 
@@ -133,7 +159,7 @@ class RewardsController < ApplicationController
   end
   
   def track_reward_created
-    # Track Reward Created for Segment.io Analytics
+    # Track Reward Creation for Segment.io Analytics
     Analytics.track(
         user_id: current_user.id,
         event: 'Reward Created',
@@ -146,7 +172,7 @@ class RewardsController < ApplicationController
   end
 
   def track_reward_updated
-    # Track Reward Updated for Segment.io Analytics
+    # Track Reward Update for Segment.io Analytics
     Analytics.track(
         user_id: current_user.id,
         event: 'Reward Updated',
@@ -159,7 +185,7 @@ class RewardsController < ApplicationController
   end
 
   def track_reward_deleted
-    # Track Reward Deleted for Segment.io Analytics
+    # Track Reward Deletion for Segment.io Analytics
     Analytics.track(
         user_id: current_user.id,
         event: 'Reward Deleted',
@@ -167,5 +193,4 @@ class RewardsController < ApplicationController
         }
     )
   end
-  
 end
