@@ -30,6 +30,8 @@ class ReviewsController < ApplicationController
 
   respond_to :html, :json
 
+  # GET /reviews
+  # GET /reviews.json
   api! "Show Review Records"
   def index
     authorize :review, :index?
@@ -47,6 +49,8 @@ class ReviewsController < ApplicationController
     end
   end
 
+  # GET /reviews/1
+  # GET /reviews/1.json
   def show
     authorize :review, :show?
     
@@ -56,6 +60,7 @@ class ReviewsController < ApplicationController
     end
   end
 
+  # GET /reviews/new
   def new
     authorize :review, :new?
     @review = Review.new
@@ -66,7 +71,7 @@ class ReviewsController < ApplicationController
     end
   end
 
-  api! "Edit Review Record"
+  # GET /reviews/1/edit
   def edit
     authorize :review, :edit?
 
@@ -76,46 +81,67 @@ class ReviewsController < ApplicationController
     end
   end
 
+  # POST /reviews
+  # POST /reviews.json
   api! "Create Review Record"
   param_group :reviews_data
   def create
     authorize :review, :create?
     @review = Review.new(review_params)
-    @review.save
 
-    track_review_created
-    
     respond_to do |format|
-      format.html
-      format.json { render :json => @review, status: 200 }
+      if @review.save
+        track_review_created
+        flash[:success] = 'Review was successfully created.'
+        format.html { redirect_to reviews_path }
+        format.json  { render json: @review, status: :created }
+      else
+        flash[:error] = 'Review was not created... Try again???'
+        format.html { render :new }
+        format.json { render json: @reviews.errors, status: :unprocessable_entity }
+      end
     end
   end
 
+  # PATCH/PUT /reviews/1
+  # PATCH/PUT /reviews/1.json
   api! "Update Review Record"
   param_group :reviews_data
   def update
     authorize :review, :update?
-    @review.update(review_params)
 
-    track_review_updated
-    
     respond_to do |format|
-      format.html
-      format.json { render :json => @review, status: 200 }
+      if @review.update(review_params)
+        track_review_updated
+        flash[:success] = 'Review was successfully updated.'
+        format.html { redirect_to reviews_path }
+        format.json  { render json: @review, status: 200 }
+      else
+        flash[:error] = 'Review was not updated... Try again???'
+        format.html { render :edit }
+        format.json { render json: @reviews.errors, status: :unprocessable_entity }
+      end
     end
   end
 
+  # DELETE /reviews/1
+  # DELETE /reviews/1.json
   api! "Delete Review Record"
   param_group :destroy_reviews_data
   def destroy
     authorize :review, :destroy?
-    @review.destroy
 
-    track_review_deleted
-    
     respond_to do |format|
-      format.html
-      format.json  { head :no_content }
+      if @review.destroy
+        track_review_deleted
+        flash[:success] = 'Review was successfully deleted.'
+        format.html { redirect_to reviews_path }
+        format.json { head :no_content }
+      else
+        flash[:error] = 'Review was not deleted... Try again???'
+        format.html { redirect reviews_path }
+        format.json { render json: @reviews.errors, status: :unprocessable_entity }
+      end
     end
   end
 
@@ -130,7 +156,7 @@ class ReviewsController < ApplicationController
   end
 
   def track_review_created
-    # Track Review Created for Segment.io Analytics
+    # Track Review Creation for Segment.io Analytics
     Analytics.track(
         user_id: current_user.id,
         event: 'Review Created',
@@ -145,7 +171,7 @@ class ReviewsController < ApplicationController
   end
 
   def track_review_updated
-    # Track Review Updated for Segment.io Analytics
+    # Track Review Update for Segment.io Analytics
     Analytics.track(
         user_id: current_user.id,
         event: 'Review Updated',
@@ -160,7 +186,7 @@ class ReviewsController < ApplicationController
   end
 
   def track_review_deleted
-    # Track Review Deleted for Segment.io Analytics
+    # Track Review Deletion for Segment.io Analytics
     Analytics.track(
         user_id: current_user.id,
         event: 'Review Deleted',
