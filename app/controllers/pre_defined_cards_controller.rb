@@ -98,6 +98,8 @@ class PreDefinedCardsController < ApplicationController
     end
   end
 
+  # PATCH/PUT /pre_defined_cards/1
+  # PATCH/PUT /pre_defined_cards/1.json
   api! "Update Pre-Defined Card"
   param_group :pre_defined_cards_data
   def update
