@@ -111,7 +111,7 @@ class PreDefinedCardsController < ApplicationController
         format.json  { render json: @pre_defined_card, status: 200 }
       else
         flash[:error] = 'Pre-defined card was not updated... Try again???'
-        format.html { render :new }
+        format.html { render :edit }
         format.json { render json: @pre_defined_cards.errors, status: :unprocessable_entity }
       end
     end
