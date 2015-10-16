@@ -42,6 +42,10 @@ class MoodsController < ApplicationController
     param :timestamp, :undef, :desc => "Timestamp for Mood Entry [DateTime(UTC)]", :required => false
   end
 
+  def_param_group :destroy_moods_data do
+    param :id, :number, :desc => "Id of Mood Entry to Delete [Number]", :required => true
+  end
+
   acts_as_token_authentication_handler_for User
 
   before_action :authenticate_user!
@@ -76,7 +80,7 @@ class MoodsController < ApplicationController
     respond_to do |format|
       format.html
       format.js
-      format.json { render :json => @moods, status: 200 }
+      format.json { render json: @moods, status: 200 }
     end
   end
 
@@ -87,9 +91,9 @@ class MoodsController < ApplicationController
     authorize! :read, Mood
     
     respond_to do |format|
-      format.html { render :nothing => true }
+      format.html { render nothing: true }
       format.js
-      format.json { render :json =>  @mood, status: 200 }
+      format.json { render json: @mood, status: 200 }
     end
   end
 
@@ -118,8 +122,6 @@ class MoodsController < ApplicationController
   end
 
   # GET /moods/1/edit
-  api! "Edit Mood Entry"
-  param_group :moods_all
   def edit
     @user = User.find_by_id(params[:user_id])
 
@@ -159,27 +161,29 @@ class MoodsController < ApplicationController
 
     @mood = Mood.new(mood_params)
     @mood.user_id = current_user.id
-    
-    if $capture_source == 'mood'
-      d = $capture_date
-      t = Time.now
-      dt = DateTime.new(d.year, d.month, d.day, t.hour, t.min, t.sec, t.zone)
 
-      @mood.timestamp = dt
-    else
-      @mood.timestamp = DateTime.now.in_time_zone
+    if params[:timestamp].nil?
+      if $capture_source == 'mood'
+        d = $capture_date
+        t = Time.now
+        dt = DateTime.new(d.year, d.month, d.day, t.hour, t.min, t.sec, t.zone)
+
+        @mood.timestamp = dt
+      else
+        @mood.timestamp = DateTime.now.in_time_zone
+      end
     end
-    
+
     respond_to do |format|
       if @mood.save
         track_mood_created
 
         current_user.scorecard.update_scorecard('moods')
-        flash.now[:success] = "Mood Entry was successfully tracked."
+        flash.now[:success] = 'Mood Entry was successfully tracked.'
         format.js { render status: :created }
-        format.json { render :json => @mood, status: :created }
+        format.json { render json: @mood, status: :created }
       else
-        flash.now[:error] = "Mood Entry was not tracked... Try again???"
+        flash.now[:error] = 'Mood Entry was not tracked... Try again???'
         format.js   { render json: @mood.errors, status: :unprocessable_entity }
         format.json { render json: @mood.errors, status: :unprocessable_entity }
       end
@@ -207,11 +211,11 @@ class MoodsController < ApplicationController
       if @mood.update(mood_params)
         track_mood_updated
 
-        flash.now[:success] = "Mood Entry was successfully updated."
+        flash.now[:success] = 'Mood Entry was successfully updated.'
         format.js
-        format.json { render :json => @mood, status: 200 }
+        format.json { render json: @mood, status: 200 }
       else
-        flash.now[:error] = "Mood Entry was not updated... Try again???"
+        flash.now[:error] = 'Mood Entry was not updated... Try again???'
         format.js   { render json: @mood.errors, status: :unprocessable_entity }
         format.json { render json: @mood.errors, status: :unprocessable_entity }
       end
@@ -241,6 +245,7 @@ class MoodsController < ApplicationController
   # DELETE /moods/1
   # DELETE /moods/1.json
   api! "Delete Mood Entry"
+  param_group :destroy_moods_data
   def destroy
     @user = User.find_by_id(params[:user_id])
 
@@ -256,11 +261,20 @@ class MoodsController < ApplicationController
     
     @mood.destroy
     track_mood_deleted
-    
+
     respond_to do |format|
-      flash.now[:success] = "Mood Entry was successfully deleted."
-      format.js 
-      format.json { head :no_content }
+      if @mood.destroy
+        track_journal_deleted
+        flash[:success] = 'Mood was successfully deleted.'
+        format.html { redirect_to moods_path }
+        format.js
+        format.json { head :no_content }
+      else
+        flash[:error] = 'Mood was not deleted... Try again???'
+        format.html { redirect moods_path }
+        format.js
+        format.json { render json: @moods.errors, status: :unprocessable_entity }
+      end
     end
   end
 
@@ -277,7 +291,7 @@ class MoodsController < ApplicationController
       end
     end
 
-    $current_capture_screen = "Mood"
+    $current_capture_screen = 'Mood'
     
     respond_to do |format|
       format.js
@@ -291,7 +305,7 @@ class MoodsController < ApplicationController
     end
 
     def set_lookback_period
-      if(params.has_key?(:mood_lookback_period))
+      if params.has_key? :mood_lookback_period
         @mood_lookback_period = params[:mood_lookback_period]
       else
         @mood_lookback_period = DEFAULT_LOOKBACK_PERIOD
@@ -307,7 +321,7 @@ class MoodsController < ApplicationController
       # Track Mood Creation for Segment.io Analytics
       Analytics.track(
         user_id: current_user.id,
-        event: 'Created Mood Entry',
+        event: 'Mood Entry Created',
         properties: {
           mood_id: @mood.id,
           mood_rating: @mood.mood_rating,
@@ -323,7 +337,7 @@ class MoodsController < ApplicationController
       # Track Mood Update for Segment.io Analytics
       Analytics.track(
         user_id: current_user.id,
-        event: 'Updated Mood Entry',
+        event: 'Mood Entry Updated',
         properties: {
           mood_id: @mood.id,
           mood_rating: @mood.mood_rating,
@@ -339,7 +353,7 @@ class MoodsController < ApplicationController
       # Track Mood Deletion for Segment.io Analytics
       Analytics.track(
         user_id: current_user.id,
-        event: 'Deleted Mood Entry',
+        event: 'Mood Entry Deleted',
         properties: {
         }
       )
