@@ -36,6 +36,8 @@ class RemindersController < ApplicationController
 
   respond_to :html, :json
 
+  # GET /reminders
+  # GET /reminders.json
   api! "Show Reminders"
   def index
     authorize :reminder, :index?
@@ -49,72 +51,101 @@ class RemindersController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.json { render :json => @reminders, status: 200 }
+      format.json { render json: @reminders, status: 200 }
     end
   end
 
+  # GET /reminders/1
+  # GET /reminders/1.json
   def show
     authorize :reminder, :show?
 
     respond_to do |format|
       format.html
-      format.json { render :json =>  @reminder, status: 200 }
+      format.json { render json: @reminder, status: 200 }
     end
   end
 
+  # GET /reminders/new
   def new
     authorize :reminder, :new?
     @reminder = Reminder.new
 
     respond_to do |format|
       format.html
-      format.json { render :json =>  @reminder, status: 200 }
+      format.json { render json: @reminder, status: 200 }
     end
   end
 
-  api! "Edit Reminder"
-  param_group :reminders_data
+  # GET /reminders/1/edit
   def edit
     authorize :reminder, :edit?
 
     respond_to do |format|
       format.html
-      format.json { render :json =>  @reminder, status: 200 }
+      format.json { render json: @reminder, status: 200 }
     end
   end
 
+  # POST /reminders
+  # POST /reminders.json
   def create
     authorize :reminder, :create?
     @reminder = Reminder.new(reminder_params)
-    @reminder.save
 
     respond_to do |format|
-      format.html
-      format.json { render :json =>  @reminder, status: 200 }
+      if @reminder.save
+        track_reminder_created
+        flash.now[:success] = 'Reminder was successfully created.'
+        format.html { redirect_to reminders_path }
+        format.json { render json: @reminder, status: :created }
+      else
+        flash.now[:error] = 'Reminder was not created... Try again???'
+        format.html { render :new }
+        format.json { render json: @reminder.errors, status: :unprocessable_entity }
+      end
     end
   end
 
+  # PATCH/PUT /reminders/1
+  # PATCH/PUT /reminders/1.json
   api! "Update Reminder"
   param_group :reminders_data
   def update
     authorize :reminder, :update?
-    @reminder.update(reminder_params)
-    
+
     respond_to do |format|
-      format.html
-      format.json { render :json =>  @reminder, status: 200 }
+      if @reminder.update(reminder_params)
+        track_reminder_updated
+        flash.now[:success] = 'Reminder was successfully updated.'
+        format.html { redirect_to reminders_path }
+        format.json { render json: @reminder, status: 200 }
+      else
+        flash.now[:error] = 'Reminder was not updated... Try again???'
+        format.html { render :edit }
+        format.json { render json: @reminder.errors, status: :unprocessable_entity }
+      end
     end
   end
 
+  # DELETE /reminders/1
+  # DELETE /reminders/1.json
   api! "Delete Reminder"
   param_group :destroy_reminders_data
   def destroy
     authorize :reminder, :destroy?
-    @reminder.destroy
-    
+
     respond_to do |format|
-      format.html
-      format.json  { head :no_content }
+      if @reminder.destroy
+        track_reminder_deleted
+        flash[:success] = 'Reminder was successfully deleted.'
+        format.html { redirect_to reminders_path }
+        format.json { head :no_content }
+      else
+        flash[:error] = 'Reminder was not deleted... Try again???'
+        format.html { redirect reminders_path }
+        format.json { render json: @reminders.errors, status: :unprocessable_entity }
+      end
     end
   end
 
@@ -128,7 +159,7 @@ class RemindersController < ApplicationController
   end
 
   def track_reminder_created
-    # Track Reminder Created for Segment.io Analytics
+    # Track Reminder Creation for Segment.io Analytics
     Analytics.track(
         user_id: current_user.id,
         event: 'Reminder Created',
@@ -149,7 +180,7 @@ class RemindersController < ApplicationController
   end
 
   def track_reminder_updated
-    # Track Reminder Updated for Segment.io Analytics
+    # Track Reminder Update for Segment.io Analytics
     Analytics.track(
         user_id: current_user.id,
         event: 'Reminder Updated',
@@ -170,7 +201,7 @@ class RemindersController < ApplicationController
   end
 
   def track_reminder_deleted
-    # Track Reminder Deleted for Segment.io Analytics
+    # Track Reminder Deletion for Segment.io Analytics
     Analytics.track(
         user_id: current_user.id,
         event: 'Reminder Deleted',
