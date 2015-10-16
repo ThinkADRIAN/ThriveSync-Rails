@@ -37,7 +37,7 @@ class JournalsController < ApplicationController
   end
 
   def_param_group :destroy_journals_data do
-    param :id, :number, :desc => "Id of Journal to Delete [Number]", :required => true
+    param :id, :number, :desc => "Id of Journal Entry to Delete [Number]", :required => true
   end
 
   acts_as_token_authentication_handler_for User
@@ -237,6 +237,10 @@ class JournalsController < ApplicationController
     end
 
     @journal = Journal.find(params[:journal_id])
+
+    respond_to do |format|
+      format.js
+    end
   end
 
   # DELETE /journals/1
