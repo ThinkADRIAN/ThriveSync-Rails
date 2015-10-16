@@ -177,7 +177,6 @@ class MoodsController < ApplicationController
     respond_to do |format|
       if @mood.save
         track_mood_created
-
         current_user.scorecard.update_scorecard('moods')
         flash.now[:success] = 'Mood Entry was successfully tracked.'
         format.js { render status: :created }
@@ -210,7 +209,6 @@ class MoodsController < ApplicationController
     respond_to do |format|
       if @mood.update(mood_params)
         track_mood_updated
-
         flash.now[:success] = 'Mood Entry was successfully updated.'
         format.js
         format.json { render json: @mood, status: 200 }
@@ -258,13 +256,10 @@ class MoodsController < ApplicationController
         authorize @moods
       end
     end
-    
-    @mood.destroy
-    track_mood_deleted
 
     respond_to do |format|
       if @mood.destroy
-        track_journal_deleted
+        track_mood_deleted
         flash[:success] = 'Mood was successfully deleted.'
         format.html { redirect_to moods_path }
         format.js
