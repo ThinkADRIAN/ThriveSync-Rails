@@ -61,8 +61,6 @@ class PreDefinedCardsController < ApplicationController
     end
   end
 
-  api! "Edit Pre-Defined Card"
-  param_group :pre_defined_cards_data
   def edit
     authorize :pre_defined_card, :edit?
 
@@ -77,13 +75,18 @@ class PreDefinedCardsController < ApplicationController
   def create
     authorize :pre_defined_card, :create?
     @pre_defined_card = PreDefinedCard.new(pre_defined_card_params)
-    @pre_defined_card.save
 
-    track_pre_defined_card_created
-    
     respond_to do |format|
-      format.html { redirect_to action: "index" }
-      format.json  { render :json => @pre_defined_card, status: 200 }
+      if @pre_defined_card.save
+        track_pre_defined_card_created
+        flash[:success] = "Pre-Defined Card was successfully created."
+        format.html { redirect_to pre_defined_cards_path }
+        format.json  { render :json => @pre_defined_card, status: :created }
+      else
+        flash[:error] = "Pre-defined card was not created... Try again???"
+        format.html { render :new }
+        format.json { render json: @pre_defined_cards.errors, status: :unprocessable_entity }
+      end
     end
   end
 
@@ -91,13 +94,18 @@ class PreDefinedCardsController < ApplicationController
   param_group :pre_defined_cards_data
   def update
     authorize :pre_defined_card, :update?
-    @pre_defined_card.update(pre_defined_card_params)
 
-    track_pre_defined_card_updated
-    
     respond_to do |format|
-      format.html { redirect_to action: "index" }
-      format.json  { render :json => @pre_defined_card, status: 200 }
+      if @pre_defined_card.update(pre_defined_card_params)
+        track_pre_defined_card_updated
+        flash[:success] = "Pre-Defined Card was successfully updated."
+        format.html { redirect_to pre_defined_cards_path }
+        format.json  { render :json => @pre_defined_card, status: 200 }
+      else
+        flash[:error] = "Pre-defined card was not updated... Try again???"
+        format.html { render :new }
+        format.json { render json: @pre_defined_cards.errors, status: :unprocessable_entity }
+      end
     end
   end
 
@@ -105,13 +113,18 @@ class PreDefinedCardsController < ApplicationController
   param_group :destroy_pre_defined_cards_data
   def destroy
     authorize :pre_defined_card, :destroy?
-    @pre_defined_card.destroy
 
-    track_pre_defined_card_deleted
-    
     respond_to do |format|
-      format.html { redirect_to action: "index" }
-      format.json  { head :no_content }
+      if @pre_defined_card.destroy
+        track_pre_defined_card_deleted
+        flash[:success] = "Pre-Defined Card was successfully deleted."
+        format.html { redirect_to pre_defined_cards_path }
+        format.json { head :no_content }
+      else
+        flash[:error] = "Pre-defined card was not deleted... Try again???"
+        format.html { redirect pre_defined_cards_path }
+        format.json { render json: @pre_defined_cards.errors, status: :unprocessable_entity }
+      end
     end
   end
 
@@ -125,7 +138,7 @@ class PreDefinedCardsController < ApplicationController
   end
 
   def track_pre_defined_card_created
-    # Track Pre-Defined Card Created for Segment.io Analytics
+    # Track Pre-Defined Card Creation for Segment.io Analytics
     Analytics.track(
       user_id: current_user.id,
       event: 'Pre-Defined Card Created',
@@ -138,7 +151,7 @@ class PreDefinedCardsController < ApplicationController
   end
 
   def track_pre_defined_card_updated
-    # Track Pre-Defined Card Updated for Segment.io Analytics
+    # Track Pre-Defined Card Update for Segment.io Analytics
     Analytics.track(
         user_id: current_user.id,
         event: 'Pre-Defined Card Updated',
@@ -151,7 +164,7 @@ class PreDefinedCardsController < ApplicationController
   end
 
   def track_pre_defined_card_deleted
-    # Track Pre-Defined Card Deleted for Segment.io Analytics
+    # Track Pre-Defined Card Deletion for Segment.io Analytics
     Analytics.track(
         user_id: current_user.id,
         event: 'Pre-Defined Card Deleted',
