@@ -31,6 +31,8 @@ class PreDefinedCardsController < ApplicationController
 
   respond_to :html, :json
 
+  # GET /pre_defined_cards
+  # GET /pre_defined_cards.json
   api! "Show Pre-Defined Cards"
   def index
     authorize :pre_defined_card, :index?
@@ -38,38 +40,44 @@ class PreDefinedCardsController < ApplicationController
     
     respond_to do |format|
       format.html
-      format.json  { render :json => @pre_defined_cards, status: 200 }
+      format.json  { render json: @pre_defined_cards, status: 200 }
     end
   end
 
+  # GET /pre_defined_cards/1
+  # GET /pre_defined_cards/1.json
   def show
     authorize :pre_defined_card, :show?
 
     respond_to do |format|
       format.html
-      format.json  { render :json => @pre_defined_card, status: 200 }
+      format.json  { render json: @pre_defined_card, status: 200 }
     end
   end
 
+  # GET /pre_defined_cards/new
   def new
     authorize :pre_defined_card, :new?
     @pre_defined_card = PreDefinedCard.new
     
     respond_to do |format|
       format.html
-      format.json  { render :json => @pre_defined_card, status: 200 }
+      format.json  { render json: @pre_defined_card, status: 200 }
     end
   end
 
+  # GET /pre_defined_cards/1/edit
   def edit
     authorize :pre_defined_card, :edit?
 
     respond_to do |format|
       format.html
-      format.json  { render :json => @pre_defined_card, status: 200 }
+      format.json  { render json: @pre_defined_card, status: 200 }
     end
   end
 
+  # POST /pre_defined_cards
+  # POST /pre_defined_cards.json
   api! "Create Pre-Defined Card"
   param_group :pre_defined_cards_data
   def create
@@ -79,11 +87,11 @@ class PreDefinedCardsController < ApplicationController
     respond_to do |format|
       if @pre_defined_card.save
         track_pre_defined_card_created
-        flash[:success] = "Pre-Defined Card was successfully created."
+        flash[:success] = 'Pre-Defined Card was successfully created.'
         format.html { redirect_to pre_defined_cards_path }
-        format.json  { render :json => @pre_defined_card, status: :created }
+        format.json  { render json: @pre_defined_card, status: :created }
       else
-        flash[:error] = "Pre-defined card was not created... Try again???"
+        flash[:error] = 'Pre-defined card was not created... Try again???'
         format.html { render :new }
         format.json { render json: @pre_defined_cards.errors, status: :unprocessable_entity }
       end
@@ -98,17 +106,19 @@ class PreDefinedCardsController < ApplicationController
     respond_to do |format|
       if @pre_defined_card.update(pre_defined_card_params)
         track_pre_defined_card_updated
-        flash[:success] = "Pre-Defined Card was successfully updated."
+        flash[:success] = 'Pre-Defined Card was successfully updated.'
         format.html { redirect_to pre_defined_cards_path }
-        format.json  { render :json => @pre_defined_card, status: 200 }
+        format.json  { render json: @pre_defined_card, status: 200 }
       else
-        flash[:error] = "Pre-defined card was not updated... Try again???"
+        flash[:error] = 'Pre-defined card was not updated... Try again???'
         format.html { render :new }
         format.json { render json: @pre_defined_cards.errors, status: :unprocessable_entity }
       end
     end
   end
 
+  # DELETE /pre_defined_cards/1
+  # DELETE /pre_defined_cards/1.json
   api! "Delete Pre-Defined Card"
   param_group :destroy_pre_defined_cards_data
   def destroy
@@ -117,11 +127,11 @@ class PreDefinedCardsController < ApplicationController
     respond_to do |format|
       if @pre_defined_card.destroy
         track_pre_defined_card_deleted
-        flash[:success] = "Pre-Defined Card was successfully deleted."
+        flash[:success] = 'Pre-Defined Card was successfully deleted.'
         format.html { redirect_to pre_defined_cards_path }
         format.json { head :no_content }
       else
-        flash[:error] = "Pre-defined card was not deleted... Try again???"
+        flash[:error] = 'Pre-defined card was not deleted... Try again???'
         format.html { redirect pre_defined_cards_path }
         format.json { render json: @pre_defined_cards.errors, status: :unprocessable_entity }
       end
