@@ -88,7 +88,7 @@ class ScorecardsController < ApplicationController
   param_group :scorecards_data
   def create
     authorize :review, :create?
-    @scorecard = Scorecard.new(scorecard_params
+    @scorecard = Scorecard.new(scorecard_params)
 
     respond_to do |format|
       if @scorecard.save
