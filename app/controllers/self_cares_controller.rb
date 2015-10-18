@@ -45,6 +45,10 @@ class SelfCaresController < ApplicationController
     param :timestamp, :undef, :desc => "Timestamp for Self Care Entry [DateTime(UTC)]", :required => false
   end
 
+  def_param_group :destroy_self_cares_data do
+    param :id, :number, :desc => "Id of Self Care Entry to Delete [Number]", :required => true
+  end
+
   acts_as_token_authentication_handler_for User
 
   before_action :set_self_care, only: [:show, :edit, :update, :destroy]
@@ -54,7 +58,7 @@ class SelfCaresController < ApplicationController
   after_filter :verify_authorized,  except: [:index]
   #after_filter :verify_policy_scoped, only: [:index]
 
-  respond_to :html, :js, :json, :xml
+  respond_to :html, :js, :json
   
   # GET /self_cares
   # GET /self_cares.json
@@ -80,7 +84,6 @@ class SelfCaresController < ApplicationController
       format.html
       format.js
       format.json { render :json => @self_cares, status: 200 }
-      format.xml { render :xml => @self_cares, status: 200 }
     end
   end
 
@@ -91,9 +94,9 @@ class SelfCaresController < ApplicationController
     authorize! :read, SelfCare
     
     respond_to do |format|
-      format.js { render :nothing => true }
+      format.html { render nothing: true }
+      format.js
       format.json { render :json =>  @self_care, status: 200 }
-      format.xml { render :xml => @self_care, status: 200 }
     end
   end
 
@@ -164,21 +167,23 @@ class SelfCaresController < ApplicationController
     @self_care = SelfCare.new(self_care_params)
     @self_care.user_id = current_user.id
 
-    if $capture_source == 'self_care'
-      d = $capture_date
-      t = Time.now
-      dt = DateTime.new(d.year, d.month, d.day, t.hour, t.min, t.sec, t.zone)
+    if params[:timestamp].nil?
+      if $capture_source == 'self_care'
+        d = $capture_date
+        t = Time.now
+        dt = DateTime.new(d.year, d.month, d.day, t.hour, t.min, t.sec, t.zone)
 
-      @self_care.timestamp = dt
-    else
-      @self_care.timestamp = DateTime.now.in_time_zone
+        @self_care.timestamp = dt
+      else
+        @self_care.timestamp = DateTime.now.in_time_zone
+      end
     end
     
     respond_to do |format|
       if @self_care.save
         track_self_care_created
         current_user.scorecard.update_scorecard('self_cares')
-        flash.now[:success] = "Self Entry was successfully tracked."
+        flash.now[:success] = 'Self Entry was successfully tracked.'
         format.js { render status: :created }
         format.json { render :json => @self_care, status: :created }
       else
@@ -209,7 +214,7 @@ class SelfCaresController < ApplicationController
     respond_to do |format|
       if @self_care.update(self_care_params)
         track_self_care_updated
-        flash.now[:success] = "Self Care Entry was successfully updated."
+        flash.now[:success] = 'Self Care Entry was successfully updated.'
         format.js { render status: 200 }
         format.json { render :json => @self_care, status: :created }
       else
@@ -239,6 +244,7 @@ class SelfCaresController < ApplicationController
   # DELETE /self_cares/1
   # DELETE /self_cares/1.json
   api! "Delete Self Care Entry"
+  param_group :destroy_self_cares_data
   def destroy
     @user = User.find_by_id(params[:user_id])
 
@@ -260,6 +266,21 @@ class SelfCaresController < ApplicationController
       format.js 
       format.json { head :no_content }
     end
+
+    respond_to do |format|
+      if @self_care.destroy
+        track_self_care_deleted
+        flash[:success] = 'Self Care was successfully deleted.'
+        format.html { redirect_to self_cares_path }
+        format.js
+        format.json { head :no_content }
+      else
+        flash[:error] = 'Self Care was not deleted... Try again???'
+        format.html { redirect self_cares_path }
+        format.js
+        format.json { render json: @self_cares.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   def cancel
@@ -275,7 +296,7 @@ class SelfCaresController < ApplicationController
       end
     end
 
-    $current_capture_screen = "SelfCare"
+    $current_capture_screen = 'SelfCare'
     
     respond_to do |format|
       format.js
@@ -289,7 +310,7 @@ class SelfCaresController < ApplicationController
     end
 
     def set_lookback_period
-      if(params.has_key?(:self_care_lookback_period))
+      if params.has_key? :self_care_lookback_period
         @self_care_lookback_period = params[:self_care_lookback_period]
       else
         @self_care_lookback_period = DEFAULT_LOOKBACK_PERIOD
@@ -305,7 +326,7 @@ class SelfCaresController < ApplicationController
       # Track Self Care Creation for Segment.io Analytics
       Analytics.track(
         user_id: current_user.id,
-        event: 'Created Self Care Entry',
+        event: 'Self Care Entry Created',
         properties: {
           self_care_id: @self_care.id,
           counseling: @self_care.counseling,
@@ -322,7 +343,7 @@ class SelfCaresController < ApplicationController
       # Track Self Care Update for Segment.io Analytics
       Analytics.track(
         user_id: current_user.id,
-        event: 'Updated Self Care Entry',
+        event: 'Self Care Entry Updated',
         properties: {
           self_care_id: @self_care.id,
           counseling: @self_care.counseling,
@@ -339,7 +360,7 @@ class SelfCaresController < ApplicationController
       # Track Self Care Deletion for Segment.io Analytics
       Analytics.track(
         user_id: current_user.id,
-        event: 'Deleted Self Care Entry',
+        event: 'Self Care Entry Deleted',
         properties: {
         }
       )

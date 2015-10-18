@@ -45,12 +45,10 @@ class MessagesController < ApplicationController
 
     recipients = User.where(id: @thriver.id)
     conversation = current_user.send_message(recipients, params[:message][:body], params[:message][:subject]).conversation
-    
-    track_card_sent(@thriver)
-    
-    flash[:success] = "Message has been sent!"
 
     respond_to do |format|
+      track_card_sent(@thriver)
+      flash[:success] = 'Message has been sent!'
       format.html { redirect_to supporters_path }
       format.json { head :ok }
     end 
@@ -63,10 +61,9 @@ class MessagesController < ApplicationController
     random_ids = c.ids.sort_by { rand }.slice(0, 3)
     @random_cards = PreDefinedCard.where(:id => random_ids)
 
-    track_random_cards_drawn(@random_cards)
-
     respond_to do |format|
-      format.json { render :json => { :cards => @random_cards }, status: 200}
+      track_random_cards_drawn(@random_cards)
+      format.json { render json: {cards: @random_cards}, status: 200}
     end 
   end
 
@@ -92,7 +89,7 @@ class MessagesController < ApplicationController
       cards.each do |card|
         Analytics.track(
           user_id: current_user.id,
-          event: 'Random Card Drawn',
+          event: 'Random Cards Drawn',
           properties: {
             card_id: card.id
           }

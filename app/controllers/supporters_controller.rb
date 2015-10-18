@@ -21,8 +21,11 @@ class SupportersController < ApplicationController
 
   after_action :verify_authorized
 
-  respond_to :html, :json
-  
+  respond_to :json
+
+  # GET /supporters
+  # GET /supporters.json
+  api! "Show Supporters"
   def index
     authorize :supporter, :index?
     @friends = current_user.friends
@@ -61,10 +64,12 @@ class SupportersController < ApplicationController
     end
 
     respond_to do |format|
-      format.html
+      format.json  { render json: @supporters, status: 200 }
     end
   end
 
+  # POST /supporters/invite
+  # POST /supporters/invite.json
   api! "Invite Supporter"
   param_group :supporters_data
   def invite

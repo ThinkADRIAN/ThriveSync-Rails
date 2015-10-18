@@ -28,6 +28,8 @@ class ScorecardsController < ApplicationController
   
   respond_to :html, :json
 
+  # GET /scorecards
+  # GET /scorecards.json
   api! "Show Scorecards"
   def index
     authorize :review, :index?
@@ -47,6 +49,8 @@ class ScorecardsController < ApplicationController
     end
   end
 
+  # GET /scorecards/1
+  # GET /scorecards/1.json
   def show
     authorize :review, :show?
     
@@ -56,6 +60,7 @@ class ScorecardsController < ApplicationController
     end
   end
 
+  # GET /scoreards/new
   def new
     authorize :review, :new?
     @scorecard = Scorecard.new
@@ -66,6 +71,7 @@ class ScorecardsController < ApplicationController
     end
   end
 
+  # GET /scorecards/1/edit
   api! "Edit Scorecard"
   def edit
     authorize :review, :edit?
@@ -76,21 +82,30 @@ class ScorecardsController < ApplicationController
     end
   end
 
+  # POST /scorecards
+  # POST /scorecards.json
   api! "Create Scorecard"
   param_group :scorecards_data
   def create
     authorize :review, :create?
-    @scorecard = Scorecard.new(scorecard_params)
-    @scorecard.save
+    @scorecard = Scorecard.new(scorecard_params
 
-    track_scorecard_created
-    
     respond_to do |format|
-      format.html
-      format.json { render :json => @scorecard, status: 200 }
+      if @scorecard.save
+        track_scorecard_created
+        flash[:success] = 'Scorecard was successfully created.'
+        format.html { redirect_to scorecards_path }
+        format.json  { render json: @scorecard, status: :created }
+      else
+        flash[:error] = 'Scorecard was not created... Try again???'
+        format.html { render :new }
+        format.json { render json: @scorecards.errors, status: :unprocessable_entity }
+      end
     end
   end
 
+  # PATCH/PUT /scorecards/1
+  # PATCH/PUT /scorecards/1.json
   api! "Update Scorecard"
   param_group :scorecards_data
   def update
@@ -101,7 +116,7 @@ class ScorecardsController < ApplicationController
         @scorecard.update_goals
         track_scorecard_updated
 
-        flash.now[:success] = "Scorecard was successfully updated."
+        flash.now[:success] = 'Scorecard was successfully updated.'
         format.html { redirect_to scorecards_url, notice: 'Scorecard was successfully updated.' }
         format.js
         format.json { render :json => @scorecard, status: :created }
@@ -113,17 +128,24 @@ class ScorecardsController < ApplicationController
     end
   end
 
+  # DELETE /scorecards/1
+  # DELETE /scorecards/1.json
   api! "Delete Scorecard"
   param_group :destroy_scorecards_data
   def destroy
     authorize :review, :destroy?
-    @scorecard.destroy
 
-    track_scorecard_deleted
-    
     respond_to do |format|
-      format.html
-      format.json  { head :no_content }
+      if @scorecard.destroy
+        track_scorecard_deleted
+        flash[:success] = 'Scorecard was successfully deleted.'
+        format.html { redirect_to scorecards_path }
+        format.json { head :no_content }
+      else
+        flash[:error] = 'Scorecard was not deleted... Try again???'
+        format.html { redirect scorecards_path }
+        format.json { render json: @scorecards.errors, status: :unprocessable_entity }
+      end
     end
   end
 
@@ -137,10 +159,10 @@ class ScorecardsController < ApplicationController
   end
 
   def track_scorecard_created
-    # Track Scorecard Created for Segment.io Analytics
+    # Track Scorecard Creation for Segment.io Analytics
     Analytics.track(
         user_id: current_user.id,
-        event: 'Created Scorecard',
+        event: 'Scorecard Created',
         properties: {
             scorecard_id: @scorecard.id,
             checkin_goal: @scorecard.checkin_goal,
@@ -151,10 +173,10 @@ class ScorecardsController < ApplicationController
   end
 
   def track_scorecard_updated
-    # Track Scorecard Updated for Segment.io Analytics
+    # Track Scorecard Update for Segment.io Analytics
     Analytics.track(
         user_id: current_user.id,
-        event: 'Updated Scorecard',
+        event: 'Scorecard Updated',
         properties: {
             scorecard_id: @scorecard.id,
             checkin_goal: @scorecard.checkin_goal,
@@ -165,10 +187,10 @@ class ScorecardsController < ApplicationController
   end
 
   def track_scorecard_deleted
-    # Track Scorecard Deleted for Segment.io Analytics
+    # Track Scorecard Deletion for Segment.io Analytics
     Analytics.track(
         user_id: @scorecard.user_id,
-        event: 'Deleted Scorecard',
+        event: 'Scorecard Deleted',
         properties: {
         }
     )

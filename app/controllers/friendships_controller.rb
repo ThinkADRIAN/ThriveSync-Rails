@@ -373,7 +373,7 @@ class FriendshipsController < ApplicationController
       # Track Connection Creation for Segment.io Analytics
       Analytics.track(
         user_id: current_user.id,
-        event: 'Created Connection',
+        event: 'Connection Created',
         properties: {
           invitee_id: invitee.id
         }
@@ -384,7 +384,7 @@ class FriendshipsController < ApplicationController
       # Track Connection Update for Segment.io Analytics
       Analytics.track(
         user_id: current_user.id,
-        event: 'Updated Connection',
+        event: 'Connection Updated',
         properties: {
           inviter_id: inviter.id
         }
@@ -395,7 +395,7 @@ class FriendshipsController < ApplicationController
       # Track Connection Deletion for Segment.io Analytics
       Analytics.track(
         user_id: current_user.id,
-        event: 'Deleted Connection',
+        event: 'Connection Deleted',
         properties: {
           user_id: user.id
         }
