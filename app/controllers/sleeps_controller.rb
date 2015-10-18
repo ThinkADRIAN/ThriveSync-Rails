@@ -119,8 +119,6 @@ class SleepsController < ApplicationController
   end
 
   # GET /sleeps/1/edit
-  api! "Edit Sleep Entry"
-  param_group :sleeps_all
   def edit
     @user = User.find_by_id(params[:user_id])
 
