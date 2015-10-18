@@ -1,6 +1,10 @@
+require 'resque/server'
+
 Rails.application.routes.draw do
   apipie
-  
+
+  mount Resque::Server.new, at: "/resque"
+
   resources :pre_defined_cards
 
   resources :reviews
