@@ -107,6 +107,9 @@ gem 'analytics-ruby', '~> 2.0.0', :require => 'segment/analytics'
 # Parse Platform Client
 gem 'parse-ruby-client'
 
+# Background Job Processing
+gem 'resque'
+
 # Testing
 group :development, :test do
 gem 'rspec-rails'
