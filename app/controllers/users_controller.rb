@@ -36,7 +36,9 @@ class UsersController < ApplicationController
   after_action :verify_authorized
 
   respond_to :html, :json
-  
+
+  # GET /thrivers
+  # GET /thrivers.json
   api! "Show Thriver"
   def index
     # Pundit authorization can be skipped because
@@ -55,7 +57,8 @@ class UsersController < ApplicationController
     end
   end
 
-  # GET /users/:id.:format
+  # GET /thrivers/1
+  # GET /thrivers/1.json
   def show
     # Pundit authorization can be skipped because
     # before_filter :authorize_user_index handles authorization
@@ -73,17 +76,7 @@ class UsersController < ApplicationController
     end
   end
 
-  def create
-    authorize :user, :create?
-    @user = User.new(user_params)
-    @user.save
-    
-    respond_to do |format|
-      format.html
-      format.json { render :json => @user, status: 200 }
-    end
-  end
-
+  # GET /thrivers/new
   def new
     authorize :user, :new?
     @user = User.new
@@ -94,7 +87,7 @@ class UsersController < ApplicationController
     end
   end
 
-  # GET /users/:id/edit
+  # GET /thrivers/1/edit
   def edit
     # Pundit authorization can be skipped because
     # before_filter :authorize_user_edit handles authorization
@@ -106,7 +99,22 @@ class UsersController < ApplicationController
     end
   end
 
-  # PATCH/PUT /users/:id.:format
+  # POST /thrivers
+  # POST /thrivers.json
+  def create
+    authorize :user, :create?
+    @user = User.new(user_params)
+    @user.save
+    track_user_created
+
+    respond_to do |format|
+      format.html
+      format.json { render :json => @user, status: 200 }
+    end
+  end
+
+  # PATCH/PUT /thrivers/1
+  # PATCH/PUT /thrivers/1.json
   def update
     # Pundit authorization can be skipped because
     # before_filter :authorize_user_edit handles authorization
@@ -115,6 +123,7 @@ class UsersController < ApplicationController
     authorize! :assign_roles, current_user if params[:user][:assign_roles]
     respond_to do |format|
       if @user.update(user_params)
+        track_user_updated
         sign_in(@user == current_user ? @user : current_user, :bypass => true)
         format.html { redirect_to @user, notice: 'Your profile was successfully updated.' }
         format.json { head :no_content }
@@ -141,16 +150,24 @@ class UsersController < ApplicationController
     end
   end
 
-  # DELETE /users/:id.:format
+  # DELETE /thrivers/1
+  # DELETE /thrivers/1.json
   def destroy
     # Pundit authorization can be skipped because
     # before_filter :authorize_user_destroy handles authorization
     authorize :user, :destroy? # skip_authorization
 
-    @user.destroy
     respond_to do |format|
-      format.html { redirect_to root_url }
-      format.json { head :no_content }
+      if @user.destroy
+        track_user_deleted
+        flash[:success] = 'Thriver was successfully deleted.'
+        format.html { redirect_to root_path }
+        format.json { head :no_content }
+      else
+        flash[:error] = 'Thriver was not deleted... Try again???'
+        format.html { redirect root_pathpath }
+        format.json { render json: @users.errors, status: :unprocessable_entity }
+      end
     end
   end
 
@@ -159,8 +176,9 @@ class UsersController < ApplicationController
   def migrate_from_thrivetracker
     authorize :user, :migrate_from_thrivetracker?
     etl_for_parse(current_user.id, params[:email], params[:password])
+    track_migration_from_parse
     respond_to do |format|
-      format.html { redirect_to root_url }
+      format.html { redirect_to root_path }
       format.json { head :no_content }
     end
   end
@@ -170,8 +188,9 @@ class UsersController < ApplicationController
     authorize :user, :request_password_reset_from_thrivetracker?
     resp = Parse::User.reset_password(current_user.email)
     puts resp
+    track_request_password_reset_from_thrivetracker
     respond_to do |format|
-      format.html { redirect_to root_url }
+      format.html { redirect_to root_path }
       format.json { head :no_content }
     end
   end
@@ -210,13 +229,65 @@ class UsersController < ApplicationController
   end
 
   private
-    def set_user
-      @user = User.find(params[:id])
-    end
+  def set_user
+    @user = User.find(params[:id])
+  end
 
-    def user_params
-      accessible = [ :first_name, :last_name, :email, roles: [], clients: [], supporters: [] ] # extend with your own params
-      accessible << [ :password, :password_confirmation ] unless params[:user][:password].blank?
-      params.fetch(:user, {}).permit(accessible)
-    end
+  def user_params
+    accessible = [ :first_name, :last_name, :email, roles: [], clients: [], supporters: [] ] # extend with your own params
+    accessible << [ :password, :password_confirmation ] unless params[:user][:password].blank?
+    params.fetch(:user, {}).permit(accessible)
+  end
+
+  def track_user_created
+    # Track User Creation for Segment.io Analytics
+    Analytics.track(
+        user_id: current_user.id,
+        event: 'User Created',
+        properties: {
+            user_id: @user.id
+        }
+    )
+  end
+
+  def track_user_updated
+    # Track Pre-Defined Card Update for Segment.io Analytics
+    Analytics.track(
+        user_id: current_user.id,
+        event: 'User Updated',
+        properties: {
+            user_id: @user.id
+        }
+    )
+  end
+
+  def track_user_deleted
+    # Track User Deletion for Segment.io Analytics
+    Analytics.track(
+        user_id: current_user.id,
+        event: 'User Deleted',
+        properties: {
+        }
+    )
+  end
+
+  def track_migration_from_parse
+    # Track Migration from Parse for Segment.io Analytics
+    Analytics.track(
+        user_id: current_user.id,
+        event: 'Migration from Parse',
+        properties: {
+        }
+    )
+  end
+
+  def track_request_password_reset_from_thrivetracker
+    # Track Migration from Parse for Segment.io Analytics
+    Analytics.track(
+        user_id: current_user.id,
+        event: 'Request Password Reset from ThriveTracker',
+        properties: {
+        }
+    )
+  end
 end
