@@ -125,8 +125,6 @@ class SelfCaresController < ApplicationController
   end
 
   # GET /self_cares/1/edit
-  api! "Edit Self Care Entry"
-  param_group :self_cares_all
   def edit
     @user = User.find_by_id(params[:user_id])
 
