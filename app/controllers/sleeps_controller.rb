@@ -41,6 +41,10 @@ class SleepsController < ApplicationController
     param_group :sleeps_data
   end
 
+  def_param_group :destroy_sleeps_data do
+    param :id, :number, :desc => "Id of Sleep Entry to Delete [Number]", :required => true
+  end
+
   acts_as_token_authentication_handler_for User
 
   before_action :set_sleep, only: [:show, :edit, :update, :destroy]
@@ -50,7 +54,7 @@ class SleepsController < ApplicationController
   after_filter :verify_authorized,  except: [:index]
   #after_filter :verify_policy_scoped, only: [:index]
 
-  respond_to :js
+  respond_to :html, :js, :json
   
   # GET /sleeps
   # GET /sleeps.json
@@ -76,7 +80,6 @@ class SleepsController < ApplicationController
       format.html
       format.js
       format.json { render :json => @sleeps, status: 200 }
-      format.xml { render :xml => @sleeps, status: 200 }
     end
   end
 
@@ -89,7 +92,6 @@ class SleepsController < ApplicationController
     respond_to do |format|
       format.js { render :nothing => true }
       format.json { render :json =>  @sleep, status: 200 }
-      format.xml { render :xml => @sleep, status: 200 }
     end
   end
 
@@ -228,6 +230,7 @@ class SleepsController < ApplicationController
   # DELETE /sleeps/1
   # DELETE /sleeps/1.json
   api! "Delete Sleep Entry"
+  param_group :destroy_sleeps_data
   def destroy
     @user = User.find_by_id(params[:user_id])
 
@@ -241,13 +244,27 @@ class SleepsController < ApplicationController
       end
     end
     
-    @sleep.destroy
-    track_sleep_deleted
+
 
     respond_to do |format|
       flash.now[:success] = 'Sleep Entry was successfully deleted.'
       format.js
       format.json { head :no_content }
+    end
+
+    respond_to do |format|
+      if @sleep.destroy
+        track_sleep_deleted
+        flash[:success] = 'Sleep Entry was successfully deleted.'
+        format.html { redirect_to sleeps_path }
+        format.js
+        format.json { head :no_content }
+      else
+        flash[:error] = 'Sleep Entry was not deleted... Try again???'
+        format.html { redirect sleeps_path }
+        format.js
+        format.json { render json: @sleeps.errors, status: :unprocessable_entity }
+      end
     end
   end
 
@@ -278,7 +295,7 @@ class SleepsController < ApplicationController
     end
 
     def set_lookback_period
-      if(params.has_key?(:sleep_lookback_period))
+      if params.has_key? :sleep_lookback_period
         @sleep_lookback_period = params[:sleep_lookback_period]
       else
         @sleep_lookback_period = DEFAULT_LOOKBACK_PERIOD
@@ -294,7 +311,7 @@ class SleepsController < ApplicationController
       # Track Sleep Creation for Segment.io Analytics
       Analytics.track(
         user_id: current_user.id,
-        event: 'Created Sleep Entry',
+        event: 'Sleep Entry Created',
         properties: {
           sleep_id: @sleep.id,
           start_time: @sleep.start_time,
@@ -309,7 +326,7 @@ class SleepsController < ApplicationController
       # Track Sleep Update for Segment.io Analytics
       Analytics.track(
         user_id: current_user.id,
-        event: 'Updated Sleep Entry',
+        event: 'Sleep Entry Updated',
         properties: {
           sleep_id: @sleep.id,
           start_time: @sleep.start_time,
@@ -324,7 +341,7 @@ class SleepsController < ApplicationController
       # Track Sleep Deletion for Segment.io Analytics
       Analytics.track(
         user_id: current_user.id,
-        event: 'Deleted Sleep Entry',
+        event: 'Sleep Entry Deleted',
         properties: {
         }
       )
