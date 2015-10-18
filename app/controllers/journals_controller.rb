@@ -36,6 +36,10 @@ class JournalsController < ApplicationController
     param :timestamp, :undef, :desc => "Timestamp for Journal Entry [DateTime(UTC)]", :required => false
   end
 
+  def_param_group :destroy_journals_data do
+    param :id, :number, :desc => "Id of Journal Entry to Delete [Number]", :required => true
+  end
+
   acts_as_token_authentication_handler_for User
 
   before_action :authenticate_user!
@@ -79,7 +83,7 @@ class JournalsController < ApplicationController
     respond_to do |format|
       format.html
       format.js
-      format.json { render :json => @journals, status: 200 }
+      format.json { render json: @journals, status: 200 }
     end
   end
 
@@ -89,9 +93,9 @@ class JournalsController < ApplicationController
     authorize @journal
 
     respond_to do |format|
-      format.html
+      format.html { render nothing: true }
       format.js
-      format.json { render :json =>  @journal, status: 200 }
+      format.json { render json: @journal, status: 200 }
     end
   end
 
@@ -113,15 +117,13 @@ class JournalsController < ApplicationController
     @journal= Journal.new
 
     respond_to do |format|
-      format.html { render :nothing => true }
+      format.html { render nothing: true }
       format.js
-      format.json { render :json =>  @journal, status: 200 }
+      format.json { render json: @journal, status: 200 }
     end
   end
 
   # GET /journals/1/edit
-  api! "Edit Journal Entry"
-  param_group :journals_all
   def edit
     @user = User.find_by_id(params[:user_id])
 
@@ -136,9 +138,9 @@ class JournalsController < ApplicationController
     end
 
     respond_to do |format|
-      format.html { render :nothing => true }
+      format.html { render nothing: true }
       format.js
-      format.json { render :json =>  @journal, status: 200 }
+      format.json { render json: @journal, status: 200 }
     end
   end
 
@@ -162,23 +164,25 @@ class JournalsController < ApplicationController
     @journal = Journal.new(journal_params)
     @journal.user_id = current_user.id
 
-    if $capture_source == 'journal'
-      d = $capture_date
-      t = Time.now
-      dt = DateTime.new(d.year, d.month, d.day, t.hour, t.min, t.sec, t.zone)
+    if params[:timestamp].nil?
+      if $capture_source == 'journal'
+        d = $capture_date
+        t = Time.now
+        dt = DateTime.new(d.year, d.month, d.day, t.hour, t.min, t.sec, t.zone)
 
-      @journal.timestamp = dt
-    else
-      @journal.timestamp = DateTime.now.in_time_zone
+        @journal.timestamp = dt
+      else
+        @journal.timestamp = DateTime.now.in_time_zone
+      end
     end
     
     respond_to do |format|
       if @journal.save
         track_journal_created
         current_user.scorecard.update_scorecard('journals')
-        flash.now[:success] = "Journal was successfully tracked."
+        flash.now[:success] = 'Journal was successfully tracked.'
         format.js { render status: :created }
-        format.json { render :json => @journal, status: :created }
+        format.json { render json: @journal, status: :created }
       else
         flash.now[:error] = 'Journal Entry was not tracked... Try again???'
         format.js   { render json: @journal.errors, status: :unprocessable_entity }
@@ -207,12 +211,11 @@ class JournalsController < ApplicationController
     respond_to do |format|
       if @journal.update(journal_params)
         track_journal_updated
-
-        flash.now[:success] = "Journal Entry was successfully updated."
+        flash.now[:success] = 'Journal Entry was successfully updated.'
         format.js
-        format.json { render :json => @journal, status: :created }
+        format.json { render json: @journal, status: :created }
       else
-        flash.now[:error] = "Journal Entry was not updated... Try again???"
+        flash.now[:error] = 'Journal Entry was not updated... Try again???'
         format.js   { render json: @journal.errors, status: :unprocessable_entity }
         format.json { render json: @journal.errors, status: :unprocessable_entity }
       end
@@ -233,11 +236,16 @@ class JournalsController < ApplicationController
     end
 
     @journal = Journal.find(params[:journal_id])
+
+    respond_to do |format|
+      format.js
+    end
   end
 
   # DELETE /journals/1
   # DELETE /journals/1.json
   api! "Delete Journal Entry"
+  param_group :destroy_journals_data
   def destroy
     @user = User.find_by_id(params[:user_id])
 
@@ -251,13 +259,19 @@ class JournalsController < ApplicationController
       end
     end
 
-    @journal.destroy
-    track_journal_deleted
-    
     respond_to do |format|
-      flash.now[:success] = "Journal Entry was successfully deleted."
-      format.js 
-      format.json { head :no_content }
+      if @journal.destroy
+        track_journal_deleted
+        flash[:success] = 'Journal was successfully deleted.'
+        format.html { redirect_to journals_path }
+        format.js
+        format.json { head :no_content }
+      else
+        flash[:error] = 'Journal was not deleted... Try again???'
+        format.html { redirect journals_path }
+        format.js
+        format.json { render json: @journals.errors, status: :unprocessable_entity }
+      end
     end
   end
 
@@ -274,7 +288,7 @@ class JournalsController < ApplicationController
       end
     end
 
-    $current_capture_screen = "Journal"
+    $current_capture_screen = 'Journal'
 
     respond_to do |format|
       format.js
@@ -288,7 +302,7 @@ class JournalsController < ApplicationController
     end
 
     def set_lookback_period
-      if(params.has_key?(:journal_lookback_period))
+      if params.has_key? :journal_lookback_period
         @journal_lookback_period = params[:journal_lookback_period]
       else
         @journal_lookback_period = DEFAULT_LOOKBACK_PERIOD
@@ -304,7 +318,7 @@ class JournalsController < ApplicationController
       # Track Journal Creation for Segment.io Analytics
       Analytics.track(
         user_id: current_user.id,
-        event: 'Created Journal Entry',
+        event: 'Journal Entry Created',
         properties: {
           journal_id: @journal.id,
           timestamp: @journal.timestamp,
@@ -317,7 +331,7 @@ class JournalsController < ApplicationController
       # Track Journal Update for Segment.io Analytics
       Analytics.track(
         user_id: current_user.id,
-        event: 'Updated Journal Entry',
+        event: 'Journal Entry Updated',
         properties: {
           journal_id: @journal.id,
           timestamp: @journal.timestamp,
@@ -330,7 +344,7 @@ class JournalsController < ApplicationController
       # Track Journal Deletion for Segment.io Analytics
       Analytics.track(
         user_id: current_user.id,
-        event: 'Deleted Journal Entry',
+        event: 'Journal Entry Deleted',
         properties: {
         }
       )
