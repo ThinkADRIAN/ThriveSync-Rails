@@ -1,4 +1,6 @@
 class ParseMigrater
+  include ParseHelper
+
   @queue = :migration
 
   def self.perform(user_id, email, password)
