@@ -58,7 +58,7 @@ class SelfCaresController < ApplicationController
   after_filter :verify_authorized,  except: [:index]
   #after_filter :verify_policy_scoped, only: [:index]
 
-  respond_to :html, :js, :json, :xml
+  respond_to :html, :js, :json
   
   # GET /self_cares
   # GET /self_cares.json
