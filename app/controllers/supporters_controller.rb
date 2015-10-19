@@ -21,7 +21,7 @@ class SupportersController < ApplicationController
 
   after_action :verify_authorized
 
-  respond_to :json
+  respond_to :html, :json
 
   # GET /supporters
   # GET /supporters.json
@@ -64,6 +64,7 @@ class SupportersController < ApplicationController
     end
 
     respond_to do |format|
+      format.html
       format.json  { render json: @supporters, status: 200 }
     end
   end
@@ -104,6 +105,7 @@ class SupportersController < ApplicationController
       User.invite!({:email => params[:email]}, current_user)
 
       respond_to do |format|
+        format.html
         format.json { head :ok }
       end
     end
