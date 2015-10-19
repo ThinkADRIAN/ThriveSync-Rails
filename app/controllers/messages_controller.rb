@@ -12,9 +12,11 @@ class MessagesController < ApplicationController
   end
 
   def_param_group :messages_data do
-    param :user_id, :number, :desc => "Id of Recipient of T-Max Card [Number]", :required => true
-    param :body, :undef, :desc => "Message [String]", :required => true
-    param :subject, :undef, :desc => "Category [String]", :required => true
+    param :thriver_id, :number, :desc => "Id of Recipient of T-Max Card [Number]", :required => true
+    param :message, Hash , :desc => "Message", :required => false do
+      param :body, :undef, :desc => "Message [String]", :required => true
+      param :subject, :undef, :desc => "Category [String]", :required => true
+    end
   end
 
   acts_as_token_authentication_handler_for User

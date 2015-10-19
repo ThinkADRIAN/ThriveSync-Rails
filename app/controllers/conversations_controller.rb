@@ -8,6 +8,8 @@ class ConversationsController < ApplicationController
 
   after_action :verify_authorized
 
+  respond_to :html, :json
+
   def show
     authorize :conversation, :show?
   end
@@ -37,7 +39,7 @@ class ConversationsController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.json { render :json => @cards, status: 200 }
+      format.json { render :json => { :cards => @cards }, status: 200 }
     end 
   end
 
