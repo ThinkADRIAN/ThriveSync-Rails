@@ -241,14 +241,6 @@ class SleepsController < ApplicationController
         authorize @sleeps
       end
     end
-    
-
-
-    respond_to do |format|
-      flash.now[:success] = 'Sleep Entry was successfully deleted.'
-      format.js
-      format.json { head :no_content }
-    end
 
     respond_to do |format|
       if @sleep.destroy
