@@ -260,12 +260,12 @@ class MoodsController < ApplicationController
     respond_to do |format|
       if @mood.destroy
         track_mood_deleted
-        flash[:success] = 'Mood was successfully deleted.'
+        flash[:success] = 'Mood Entry was successfully deleted.'
         format.html { redirect_to moods_path }
         format.js
         format.json { head :no_content }
       else
-        flash[:error] = 'Mood was not deleted... Try again???'
+        flash[:error] = 'Mood Entry was not deleted... Try again???'
         format.html { redirect moods_path }
         format.js
         format.json { render json: @moods.errors, status: :unprocessable_entity }
