@@ -255,25 +255,16 @@ class SelfCaresController < ApplicationController
         authorize @self_cares
       end
     end
-    
-    @self_care.destroy
-    track_self_care_deleted
-    
-    respond_to do |format|
-      flash.now[:success] = "Self Care Entry was successfully deleted."
-      format.js 
-      format.json { head :no_content }
-    end
 
     respond_to do |format|
       if @self_care.destroy
         track_self_care_deleted
-        flash[:success] = 'Self Care was successfully deleted.'
+        flash[:success] = 'Self Care Entry was successfully deleted.'
         format.html { redirect_to self_cares_path }
         format.js
         format.json { head :no_content }
       else
-        flash[:error] = 'Self Care was not deleted... Try again???'
+        flash[:error] = 'Self Care Entry was not deleted... Try again???'
         format.html { redirect self_cares_path }
         format.js
         format.json { render json: @self_cares.errors, status: :unprocessable_entity }
