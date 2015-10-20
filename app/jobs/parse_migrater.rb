@@ -1,9 +1,8 @@
 class ParseMigrater
   extend ParseHelper
+  include SuckerPunch::Job
 
-  @queue = :migration
-
-  def self.perform(user_id, email, password)
+  def perform(user_id, email, password)
     ParseMigrater.etl_for_parse(user_id, email, password)
   end
 end
