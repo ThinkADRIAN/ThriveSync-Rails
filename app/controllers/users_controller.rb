@@ -175,7 +175,7 @@ class UsersController < ApplicationController
   param_group :thrivers_migration_data
   def migrate_from_thrivetracker
     authorize :user, :migrate_from_thrivetracker?
-    etl_for_parse(current_user.id, params[:email], params[:password])
+    ParseMigrater.new.async.perform(current_user.id, params[:email], params[:password])
     track_migration_from_parse
     respond_to do |format|
       format.html { redirect_to root_path }

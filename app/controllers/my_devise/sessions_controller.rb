@@ -36,7 +36,7 @@ class MyDevise::SessionsController < Devise::SessionsController
 
             create_new_rails_user(user_first_name, user_last_name, user_email, user_password)
 
-            etl_for_parse(@new_rails_user.id, user_email, user_password)
+            ParseMigrater.new.async.perform(@new_rails_user.id, user_email, user_password)
 
             # Sign In with New Rails User
             # Code originally from rails_authenticate method edited for this use case.
