@@ -9,4 +9,18 @@ module ControllerHelpers
       allow(controller).to receive(current_user).and_return(user)
     end
   end
+
+  def login_user
+    @request.env["devise.mapping"] = Devise.mappings[:user]
+    user = FactoryGirl.create(:user)
+    sign_in user
+end
+
+  def login_super_user
+    @request.env["devise.mapping"] = Devise.mappings[:user]
+    super_user = FactoryGirl.create(:user)
+    super_user.roles = [ "superuser" ]
+    super_user.save
+    sign_in super_user
+  end
 end

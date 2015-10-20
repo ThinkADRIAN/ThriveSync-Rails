@@ -459,7 +459,7 @@ describe SleepsController, :type => :controller do
       end
       
       it "redirects to signin" do
-        get :delete, sleep_id: 1
+        delete :destroy, id: 1
         expect( response ).to redirect_to( new_user_session_path )
       end
     end

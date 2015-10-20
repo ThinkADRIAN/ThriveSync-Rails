@@ -262,12 +262,12 @@ class JournalsController < ApplicationController
     respond_to do |format|
       if @journal.destroy
         track_journal_deleted
-        flash[:success] = 'Journal was successfully deleted.'
+        flash[:success] = 'Journal Entry was successfully deleted.'
         format.html { redirect_to journals_path }
         format.js
         format.json { head :no_content }
       else
-        flash[:error] = 'Journal was not deleted... Try again???'
+        flash[:error] = 'Journal Entry was not deleted... Try again???'
         format.html { redirect journals_path }
         format.js
         format.json { render json: @journals.errors, status: :unprocessable_entity }
