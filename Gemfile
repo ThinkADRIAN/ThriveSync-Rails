@@ -108,7 +108,7 @@ gem 'analytics-ruby', '~> 2.0.0', :require => 'segment/analytics'
 gem 'parse-ruby-client'
 
 # Background Job Processing
-gem 'resque'
+gem 'sucker_punch', '~> 1.0'
 
 # Testing
 group :development, :test do
