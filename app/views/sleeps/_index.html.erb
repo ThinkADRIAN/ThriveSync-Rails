@@ -1,11 +1,18 @@
 <% render "shared/set_lookback" %>
 
+<% todays_sleeps = Sleep.where(user_id: current_user.id, finish_time: (Date.today.in_time_zone.at_beginning_of_day..Date.today.in_time_zone.end_of_day)) %>
+
 <div>
-  <% if @user == nil || @user.id == current_user.id %>
+  <% if (@user == nil || @user.id == current_user.id) && todays_sleeps.count < MAX_SLEEP_ENTRIES %>
     <h1><%= current_user.first_name.to_s + " " + current_user.last_name.to_s %><h1>
       <%= link_to 'Add a new Sleep Entry', new_sleep_path(modal_enabled: 'true'), remote: true, class: "btn btn-primary" %>
   <% else %>
-    <h1><%= @user.first_name.to_s + " " + @user.last_name.to_s %><h1>
+      <% if @user == nil %>
+          <% user = current_user %>
+      <% else %>
+          <% user = @user %>
+      <% end %>
+      <h1><%= user.first_name.to_s + " " + user.last_name.to_s %><h1>
   <% end %>
 
   <div class="btn-group">

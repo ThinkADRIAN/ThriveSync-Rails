@@ -259,11 +259,11 @@ describe JournalsController, :type => :controller do
           }.to change(Journal,:count).by(1) 
         end
 
-        it "returns a created 201 response" do 
+        it "returns a created 201 response" do
           xhr :post, :create, :journal => @spec_journal_attrs
-          expect(response).to have_http_status(:created)
-          #expect(response).to redirect_to Journal.last 
-        end 
+          expect(response).to be_success
+          #expect(response).to redirect_to Journal.last
+        end
       end 
 
       context "with valid JSON attributes(:context)" do 

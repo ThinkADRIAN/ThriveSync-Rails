@@ -165,6 +165,8 @@ class SelfCaresController < ApplicationController
     @self_care = SelfCare.new(self_care_params)
     @self_care.user_id = current_user.id
 
+    todays_self_cares = SelfCare.where(user_id: current_user.id, timestamp: (Date.today.in_time_zone.at_beginning_of_day..Date.today.in_time_zone.end_of_day))
+
     if params[:timestamp].nil?
       if $capture_source == 'self_care'
         d = $capture_date
@@ -178,16 +180,22 @@ class SelfCaresController < ApplicationController
     end
     
     respond_to do |format|
-      if @self_care.save
-        track_self_care_created
-        current_user.scorecard.update_scorecard('self_cares')
-        flash.now[:success] = 'Self Entry was successfully tracked.'
-        format.js { render status: :created }
-        format.json { render :json => @self_care, status: :created }
+      if todays_self_cares.count < MAX_SELF_CARE_ENTRIES
+        if @self_care.save
+          track_self_care_created
+          current_user.scorecard.update_scorecard('self_cares')
+          flash.now[:success] = 'Self Entry was successfully tracked.'
+          format.js
+          format.json { render :json => @self_care, status: :created }
+        else
+          flash.now[:error] = 'Self Care Entry was not tracked... Try again???'
+          format.js   { render json: @self_care.errors, status: :unprocessable_entity }
+          format.json { render json: @self_care.errors, status: :unprocessable_entity }
+        end
       else
-        flash.now[:error] = 'Self Care Entry was not tracked... Try again???'
-        format.js   { render json: @self_care.errors, status: :unprocessable_entity }
-        format.json { render json: @self_care.errors, status: :unprocessable_entity }
+        flash.now[:warning] = 'Self Care Entry was not tracked.  Daily Self Care Entry Limit Reached.'
+        format.js
+        format.json { render json: 'Self Care Entry was not tracked.  Daily Self Care Entry Limit Reached.', status: 400 }
       end
     end
   end
@@ -208,17 +216,26 @@ class SelfCaresController < ApplicationController
         authorize @self_cares
       end
     end
-    
+
+    timestamp = self_care_params[:timestamp].to_datetime
+    days_self_cares = SelfCare.where(user_id: current_user.id, timestamp: (timestamp.in_time_zone.at_beginning_of_day..timestamp.in_time_zone.end_of_day))
+
     respond_to do |format|
-      if @self_care.update(self_care_params)
-        track_self_care_updated
-        flash.now[:success] = 'Self Care Entry was successfully updated.'
-        format.js { render status: 200 }
-        format.json { render :json => @self_care, status: :created }
+      if days_self_cares.count < MAX_SELF_CARE_ENTRIES - 1
+        if @self_care.update(self_care_params)
+          track_self_care_updated
+          flash.now[:success] = 'Self Care Entry was successfully updated.'
+          format.js { render status: 200 }
+          format.json { render :json => @self_care, status: :created }
+        else
+          flash.now[:error] = 'Self Care Entry was not updated... Try again???'
+          format.js   { render json: @self_care.errors, status: :unprocessable_entity }
+          format.json { render json: @self_care.errors, status: :unprocessable_entity }
+        end
       else
-        flash.now[:error] = 'Self Care Entry was not updated... Try again???'
-        format.js   { render json: @self_care.errors, status: :unprocessable_entity }
-        format.json { render json: @self_care.errors, status: :unprocessable_entity }
+        flash.now[:error] = 'Self Care Entry was not updated.  Daily Self Care Entry Limit Reached.'
+        format.js
+        format.json { render json: 'Self Care Entry was not updated.  Daily Self Care Entry Limit Reached.', status: 400 }
       end
     end
   end

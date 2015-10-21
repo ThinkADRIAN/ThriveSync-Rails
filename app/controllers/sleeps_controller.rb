@@ -159,18 +159,26 @@ class SleepsController < ApplicationController
     @sleep = Sleep.new(sleep_params)
     @sleep.user_id = current_user.id
     @sleep.time = (@sleep.finish_time.to_i - @sleep.start_time.to_i) / 3600
-    
+
+    todays_sleeps = Sleep.where(user_id: current_user.id, finish_time: (Date.today.in_time_zone.at_beginning_of_day..Date.today.in_time_zone.end_of_day))
+
     respond_to do |format|
-      if @sleep.save
-        track_sleep_created
-        current_user.scorecard.update_scorecard('sleeps')
-        flash.now[:success] = 'Sleep Entry was successfully tracked.'
-        format.js { render status: :created }
-        format.json { render :json => @sleep, status: :created }
+      if todays_sleeps.count < MAX_SLEEP_ENTRIES
+        if @sleep.save
+          track_sleep_created
+          current_user.scorecard.update_scorecard('sleeps')
+          flash.now[:success] = 'Sleep Entry was successfully tracked.'
+          format.js
+          format.json { render :json => @sleep, status: :created }
+        else
+          flash.now[:error] = 'Sleep Entry was not tracked... Try again???'
+          format.js { render json: @sleep.errors, status: :unprocessable_entity }
+          format.json { render json: @sleep.errors, status: :unprocessable_entity }
+        end
       else
-        flash.now[:error] = 'Sleep Entry was not tracked... Try again???'
-        format.js { render json: @sleep.errors, status: :unprocessable_entity }
-        format.json { render json: @sleep.errors, status: :unprocessable_entity }
+        flash.now[:warning] = 'Sleep Entry was not tracked.  Daily Sleep Entry Limit Reached.'
+        format.js
+        format.json { render json: 'Sleep Entry was not tracked.  Daily Sleep Entry Limit Reached.', status: 400 }
       end
     end
   end
@@ -192,19 +200,28 @@ class SleepsController < ApplicationController
       end
     end
 
-    respond_to do |format|
-      if @sleep.update(sleep_params)
-        @sleep.time = (@sleep.finish_time.to_i - @sleep.start_time.to_i) / 3600
-        @sleep.save
-        track_sleep_updated
+    finish_time = sleep_params[:finish_time].to_datetime
+    days_sleeps = Sleep.where(user_id: current_user.id, finish_time: (finish_time.in_time_zone.at_beginning_of_day..finish_time.in_time_zone.end_of_day))
 
-        flash.now[:success] = 'Sleep Entry was successfully updated.'
-        format.js { render status: 200 }
-        format.json { render :json => @sleep, status: :created }
+    respond_to do |format|
+      if days_sleeps.count < MAX_SLEEP_ENTRIES - 1
+        if @sleep.update(sleep_params)
+          @sleep.time = (@sleep.finish_time.to_i - @sleep.start_time.to_i) / 3600
+          @sleep.save
+          track_sleep_updated
+
+          flash.now[:success] = 'Sleep Entry was successfully updated.'
+          format.js { render status: 200 }
+          format.json { render :json => @sleep, status: :created }
+        else
+          flash.now[:error] = 'Sleep Entry was not updated... Try again???'
+          format.js { render json: @sleep.errors, status: :unprocessable_entity }
+          format.json { render json: @sleep.errors, status: :unprocessable_entity }
+        end
       else
-        flash.now[:error] = 'Sleep Entry was not updated... Try again???'
-        format.js { render json: @sleep.errors, status: :unprocessable_entity }
-        format.json { render json: @sleep.errors, status: :unprocessable_entity }
+        flash.now[:error] = 'Sleep Entry was not updated.  Daily Sleep Entry Limit Reached.'
+        format.js
+        format.json { render json: 'Sleep Entry was not updated.  Daily Sleep Entry Limit Reached.', status: 400 }
       end
     end
   end
