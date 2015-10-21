@@ -71,6 +71,19 @@ class ApplicationController < ActionController::Base
 
   helper_method :pro_access_granted?
 
+  def app_constants
+    respond_to do |format|
+      format.json {
+        render json: {
+          max_journal_entries: MAX_JOURNAL_ENTRIES,
+          max_mood_entries: MAX_MOOD_ENTRIES,
+          max_self_care_entries: MAX_SELF_CARE_ENTRIES,
+          max_sleep_entries: MAX_SLEEP_ENTRIES,
+        }
+      }
+    end
+  end
+
   protected
 
   def authenticate_inviter!

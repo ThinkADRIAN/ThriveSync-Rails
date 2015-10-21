@@ -60,6 +60,8 @@ Rails.application.routes.draw do
 
   get "/update_capture" => 'capture#update_capture', as: 'update_capture'
 
+  get "/app_constants" => 'application#app_constants', as: 'app_constants'
+
   resources :conversations, :path => 'cards_stack', only: [:index, :show, :destroy] do
     member do
       post :reply
