@@ -164,7 +164,7 @@ class JournalsController < ApplicationController
     @journal = Journal.new(journal_params)
     @journal.user_id = current_user.id
 
-    todays_journals = Journal.where(user_id: current_user.id, timestamp: (Date.today.at_beginning_of_day.in_time_zone..Date.today.end_of_day.in_time_zone))
+    todays_journals = Journal.where(user_id: current_user.id, timestamp: (Date.today.in_time_zone.at_beginning_of_day..Date.today.in_time_zone.end_of_day))
 
     if params[:timestamp].nil?
       if $capture_source == 'journal'
@@ -217,8 +217,7 @@ class JournalsController < ApplicationController
     end
 
     timestamp = journal_params[:timestamp].to_datetime
-    days_journals = Journal.where(user_id: current_user.id, timestamp: (timestamp.at_beginning_of_day.in_time_zone..timestamp.end_of_day.in_time_zone))
-
+    days_journals = Journal.where(user_id: current_user.id, timestamp: (timestamp.in_time_zone.at_beginning_of_day..timestamp.in_time_zone.end_of_day))
 
     respond_to do |format|
       if days_journals.count < MAX_JOURNAL_ENTRIES - 1
