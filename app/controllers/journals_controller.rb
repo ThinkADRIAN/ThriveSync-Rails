@@ -181,7 +181,7 @@ class JournalsController < ApplicationController
         track_journal_created
         current_user.scorecard.update_scorecard('journals')
         flash.now[:success] = 'Journal was successfully tracked.'
-        format.js { render status: :created }
+        format.js
         format.json { render json: @journal, status: :created }
       else
         flash.now[:error] = 'Journal Entry was not tracked... Try again???'
