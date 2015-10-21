@@ -162,6 +162,9 @@ class MoodsController < ApplicationController
     @mood = Mood.new(mood_params)
     @mood.user_id = current_user.id
 
+    todays_moods = Mood.where(user_id: current_user.id, timestamp: (Date.today.at_beginning_of_day.in_time_zone..Date.today.end_of_day.in_time_zone))
+
+
     if params[:timestamp].nil?
       if $capture_source == 'mood'
         d = $capture_date
@@ -175,16 +178,22 @@ class MoodsController < ApplicationController
     end
 
     respond_to do |format|
-      if @mood.save
-        track_mood_created
-        current_user.scorecard.update_scorecard('moods')
-        flash.now[:success] = 'Mood Entry was successfully tracked.'
-        format.js { render status: :created }
-        format.json { render json: @mood, status: :created }
+      if todays_moods.count < MAX_MOOD_ENTRIES
+        if @mood.save
+          track_mood_created
+          current_user.scorecard.update_scorecard('moods')
+          flash.now[:success] = 'Mood Entry was successfully tracked.'
+          format.js { render status: :created }
+          format.json { render json: @mood, status: :created }
+        else
+          flash.now[:error] = 'Mood Entry was not tracked... Try again???'
+          format.js   { render json: @mood.errors, status: :unprocessable_entity }
+          format.json { render json: @mood.errors, status: :unprocessable_entity }
+        end
       else
-        flash.now[:error] = 'Mood Entry was not tracked... Try again???'
-        format.js   { render json: @mood.errors, status: :unprocessable_entity }
-        format.json { render json: @mood.errors, status: :unprocessable_entity }
+        flash.now[:warning] = 'Mood Entry was not tracked.  Daily Mood Entry Limit Reached.'
+        format.js
+        format.json { render json: 'Mood Entry was not tracked.  Daily Mood Entry Limit Reached.', status: 400 }
       end
     end
   end
