@@ -192,9 +192,9 @@ class JournalsController < ApplicationController
           format.json { render json: @journal.errors, status: :unprocessable_entity }
         end
       else
-        flash.now[:warning] = 'Journal Entry was not tracked.  Daily Journal Limit Reached.'
+        flash.now[:warning] = 'Journal Entry was not tracked.  Daily Journal Entry Limit Reached.'
         format.js
-        format.json { render json: 'Journal Entry was not tracked.  Daily Journal Limit Reached.', status: 400 }
+        format.json { render json: 'Journal Entry was not tracked.  Daily Journal Entry Limit Reached.', status: 400 }
       end
     end
   end
