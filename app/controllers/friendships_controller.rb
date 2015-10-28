@@ -177,9 +177,15 @@ class FriendshipsController < ApplicationController
 
       track_connection_updated(inviter)
 
-      redirect_to :back, :notice => "Successfully confirmed connection!"
+      respond_to do |format|
+        format.html { redirect_to :back, :notice => "Successfully confirmed connection!" }
+        format.json { render :json  => { status: "Successfully confirmed connection!" }}
+      end
     else
-      redirect_to :back, :notice => "Sorry! Could not confirm connection!"
+      respond_to do |format|
+        format.html { redirect_to :back, :notice => "Sorry, couldn't confirm connection!" }
+        format.json { render :json  => { status: "Sorry, couldn't confirm connection!" }}
+      end
     end
   end
 
