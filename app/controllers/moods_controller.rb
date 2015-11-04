@@ -162,7 +162,7 @@ class MoodsController < ApplicationController
     @mood = Mood.new(mood_params)
     @mood.user_id = current_user.id
 
-    todays_moods = Mood.where(user_id: current_user.id, timestamp: (Date.today.in_time_zone.at_beginning_of_day..Date.in_time_zone.today.end_of_day))
+    todays_moods = Mood.where(user_id: current_user.id, timestamp: (Date.today.in_time_zone.at_beginning_of_day..Date.today.in_time_zone.end_of_day))
 
 
     if params[:timestamp].nil?
