@@ -76,20 +76,15 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 
-  # Mandrill Settings
+  # Mailgun Settings
   config.action_mailer.default_url_options = { :host => 'staging.thrivesync.com' }
   # ActionMailer Config
-  # Setup for production - deliveries, no errors raised
   config.action_mailer.delivery_method = :smtp
-  config.action_mailer.perform_deliveries = true
-  config.action_mailer.raise_delivery_errors = false
-  config.action_mailer.default :charset => "utf-8"
   config.action_mailer.smtp_settings = {
-    :port =>           '587',
-    :address =>        'smtp.mandrillapp.com',
-    :user_name =>      ENV['MANDRILL_USERNAME'],
-    :password =>       ENV['MANDRILL_APIKEY'],
-    :domain =>         'heroku.com',
-    :authentication => :plain
+      :authentication => :plain,
+      :address => "smtp.mailgun.org",
+      :port => 587,
+      :user_name => ENV['EMAIL_USERNAME'],
+      :password => ENV['EMAIL_PASSWORD']
   }
 end
