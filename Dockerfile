@@ -1,5 +1,5 @@
 # Dockerfile
-FROM quay.io/aptible/ruby:ruby-2.2
+FROM quay.io/aptible/ruby:ruby-2.0.0
 
 RUN apt-get update && apt-get -y install build-essential
 
