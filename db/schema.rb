@@ -11,10 +11,28 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150921170929) do
+ActiveRecord::Schema.define(version: 20151105145119) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "flipper_features", force: true do |t|
+    t.string   "name",       null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "flipper_features", ["name"], name: "index_flipper_features_on_name", unique: true, using: :btree
+
+  create_table "flipper_gates", force: true do |t|
+    t.integer  "flipper_feature_id", null: false
+    t.string   "name",               null: false
+    t.string   "value"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+  end
+
+  add_index "flipper_gates", ["flipper_feature_id", "name", "value"], name: "index_flipper_gates_on_flipper_feature_id_and_name_and_value", unique: true, using: :btree
 
   create_table "friendships", force: true do |t|
     t.integer  "friendable_id"
@@ -257,12 +275,15 @@ ActiveRecord::Schema.define(version: 20150921170929) do
     t.integer  "invited_by_id"
     t.string   "invited_by_type"
     t.integer  "supporters",             default: [],                                        array: true
+    t.datetime "research_started_at"
   end
 
   add_index "users", ["authentication_token"], name: "index_users_on_authentication_token", using: :btree
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["invitation_token"], name: "index_users_on_invitation_token", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+
+  add_foreign_key "flipper_gates", "flipper_features", name: "flipper_gates_flipper_feature_id_fk"
 
   add_foreign_key "mailboxer_conversation_opt_outs", "mailboxer_conversations", name: "mb_opt_outs_on_conversations_id", column: "conversation_id"
 
