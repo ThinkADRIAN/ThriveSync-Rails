@@ -110,6 +110,11 @@ gem 'parse-ruby-client'
 # Background Job Processing
 gem 'sucker_punch', '~> 1.0'
 
+# Feature Flags
+gem 'flipper'
+gem 'flipper-activerecord3dot2'
+gem 'flipper-ui'
+
 # Testing
 group :development, :test do
 gem 'rspec-rails'

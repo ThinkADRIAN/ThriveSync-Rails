@@ -204,6 +204,8 @@ class User < ActiveRecord::Base
     #return nil
   end
 
+  alias_method :flipper_id, :id
+
   def identify_user_for_analytics
     # Identify User for Segment.io Analytics
     Analytics.identify(
