@@ -2,49 +2,51 @@
 
 <% todays_journals = Journal.where(user_id: current_user.id, timestamp: (Date.today.in_time_zone.at_beginning_of_day..Date.today.in_time_zone.end_of_day)) %>
 
-<div>
-  <% if (@user == nil || @user.id == current_user.id) && todays_journals.count < MAX_JOURNAL_ENTRIES %>
-      <h1><%= current_user.first_name.to_s + " " + current_user.last_name.to_s %><h1>
-      <%= link_to 'Add a new Journal Entry', new_journal_path(modal_enabled: 'true'), remote: true, class: "btn btn-primary" %>
-  <% else %>
-      <% if @user == nil %>
-          <% user = current_user %>
+<div class="container">
+    <div>
+      <% if (@user == nil || @user.id == current_user.id) && todays_journals.count < MAX_JOURNAL_ENTRIES %>
+          <h1><%= current_user.first_name.to_s + " " + current_user.last_name.to_s %><h1>
+          <%= link_to 'Add a new Journal Entry', new_journal_path(modal_enabled: 'true'), remote: true, class: "btn btn-primary" %>
       <% else %>
-          <% user = @user %>
+          <% if @user == nil %>
+              <% user = current_user %>
+          <% else %>
+              <% user = @user %>
+          <% end %>
+          <h1><%= user.first_name.to_s + " " + user.last_name.to_s %><h1>
       <% end %>
-      <h1><%= user.first_name.to_s + " " + user.last_name.to_s %><h1>
-  <% end %>
 
-  <div class="btn-group">
-    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      Change View Period <span class="caret"></span>
-    </button>
-    <ul class="dropdown-menu">
-      <% if params.has_key?(:user_id) %>
-        <li><%= link_to 'Last Year', user_journals_path(@user, journal_lookback_period: 'last_year')%></li>
-        <li><%= link_to 'Last Month', user_journals_path(@user, journal_lookback_period: 'last_month') %></li>
-        <li><%= link_to 'Last Week', user_journals_path(@user, journal_lookback_period: 'last_week') %></li>
-        <li><%= link_to 'This Week', user_journals_path(@user, journal_lookback_period: 'week') %></li>
-        <li><%= link_to 'This Month', user_journals_path(@user, journal_lookback_period: 'month') %></li>
-        <li><%= link_to 'This Year', user_journals_path(@user, journal_lookback_period: 'year')%></li>
-      <% else %>
-        <li><%= link_to 'Last Year', journals_path(journal_lookback_period: 'last_year')%></li>
-        <li><%= link_to 'Last Month', journals_path(journal_lookback_period: 'last_month') %></li>
-        <li><%= link_to 'Last Week', journals_path(journal_lookback_period: 'last_week') %></li>
-        <li><%= link_to 'This Week', journals_path(journal_lookback_period: 'week') %></li>
-        <li><%= link_to 'This Month', journals_path(journal_lookback_period: 'month') %></li>
-        <li><%= link_to 'This Year', journals_path(journal_lookback_period: 'year')%></li>
-      <% end %>
-    </ul>
-  </div>
+      <div class="btn-group">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Change View Period <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+          <% if params.has_key?(:user_id) %>
+            <li><%= link_to 'Last Year', user_journals_path(@user, journal_lookback_period: 'last_year')%></li>
+            <li><%= link_to 'Last Month', user_journals_path(@user, journal_lookback_period: 'last_month') %></li>
+            <li><%= link_to 'Last Week', user_journals_path(@user, journal_lookback_period: 'last_week') %></li>
+            <li><%= link_to 'This Week', user_journals_path(@user, journal_lookback_period: 'week') %></li>
+            <li><%= link_to 'This Month', user_journals_path(@user, journal_lookback_period: 'month') %></li>
+            <li><%= link_to 'This Year', user_journals_path(@user, journal_lookback_period: 'year')%></li>
+          <% else %>
+            <li><%= link_to 'Last Year', journals_path(journal_lookback_period: 'last_year')%></li>
+            <li><%= link_to 'Last Month', journals_path(journal_lookback_period: 'last_month') %></li>
+            <li><%= link_to 'Last Week', journals_path(journal_lookback_period: 'last_week') %></li>
+            <li><%= link_to 'This Week', journals_path(journal_lookback_period: 'week') %></li>
+            <li><%= link_to 'This Month', journals_path(journal_lookback_period: 'month') %></li>
+            <li><%= link_to 'This Year', journals_path(journal_lookback_period: 'year')%></li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+
+    <div>
+      <%= render "shared/chart_journal" %>
+    </div>
+
+    <% if @user == nil || @user.id == current_user.id %>
+      <div>
+        <%= render "details" %>
+      </div>
+    <% end %>
 </div>
-
-<div>
-  <%= render "shared/chart_journal" %>
-</div>
-
-<% if @user == nil || @user.id == current_user.id %>
-  <div>
-    <%= render "details" %>
-  </div>
-<% end %>
