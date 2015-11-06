@@ -1,0 +1,81 @@
+<div class="col-sm-12">
+  <% if !@self_cares.empty? %>
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h3 class="panel-title">Self Cares Entries</h3>
+      </div>
+      <div class="panel-body">
+        <%
+          if @self_care_lookback_period == 'week' 
+            lookback_range = DATE_RANGE_THIS_WEEK
+          elsif @self_care_lookback_period == 'last_week'
+            lookback_range = DATE_RANGE_LAST_WEEK
+          elsif @self_care_lookback_period == 'month'
+            lookback_range = DATE_RANGE_THIS_MONTH
+          elsif @self_care_lookback_period == 'last_month'
+            lookback_range = DATE_RANGE_LAST_MONTH
+          elsif @self_care_lookback_period == 'year'
+            lookback_range = DATE_RANGE_THIS_YEAR
+          elsif @self_care_lookback_period == 'last_year'
+            lookback_range = DATE_RANGE_LAST_YEAR
+          end
+
+          self_cares_for_lookback_period = @self_cares.where(timestamp: lookback_range)
+          self_cares_for_lookback_period = self_cares_for_lookback_period.order('timestamp DESC')
+          
+          self_cares_for_lookback_period.each do |self_care| %>
+          
+          <% if self_care.user_id == current_user.id || (current_user.is? :superuser) || (current_user.is? :pro) && (current_user.clients.include? self_care.user_id) %>
+            <div class="col-md-4">
+                <h4><%= I18n.l self_care.timestamp, format: :long_am_pm %></h4>
+            </div>
+            <div class="col-md-4">
+              <p>
+                <strong>Counseling:</strong>
+                <% if self_care.counseling == false %>
+                  <%= "No" %>
+                <% elsif self_care.counseling == true %>
+                  <%= "Yes" %>
+                <% end %>
+              </p> 
+
+              <p>
+                <strong>Medication:</strong>
+                <% if self_care.medication == false %>
+                  <%= "No" %>
+                <% elsif self_care.medication == true %>
+                  <%= "Yes" %>
+                <% end %>
+              </p> 
+
+              <p>
+                <strong>Meditation:</strong>
+                <% if self_care.meditation == false %>
+                  <%= "No" %>
+                <% elsif self_care.meditation == true %>
+                  <%= "Yes" %>
+                <% end %>
+              </p> 
+
+              <p>
+                <strong>Exercise:</strong>
+                <% if self_care.exercise == false %>
+                  <%= "No" %>
+                <% elsif self_care.exercise == true %>
+                  <%= "Yes" %>
+                <% end %>
+              </p> 
+            </div>
+            <div class="col-md-4">
+              <%= link_to 'Edit', edit_self_care_path(self_care, modal_enabled: 'true'), remote: true,  class: "btn-default btn-xs" %>
+              <%= link_to 'Remove', self_care_delete_path(self_care, modal_enabled: 'true'),  class: "btn-danger btn-xs", remote: true, self_care: self_care %>
+            </div>
+            <div class="col-md-12">
+              <hr>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>

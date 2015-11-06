@@ -1,9 +1,18 @@
 Rails.application.routes.draw do
-  
-  resources :scorecards
+  apipie
 
+  resources :pre_defined_cards
+
+  resources :reviews
+
+  resources :rewards
+
+  resources :reminders
+
+  resources :scorecards
+  
   devise_for :users, :path => '', :path_names => {:sign_in => 'login', :sign_out => 'logout'}, :controllers => {:registrations => 'my_devise/registrations',
-    :omniauth_callbacks => "omniauth_callbacks", :sessions => 'users/sessions', :passwords => 'users/passwords'}
+    :omniauth_callbacks => "omniauth_callbacks", :sessions => 'my_devise/sessions', :passwords => 'users/passwords', :invitations => 'my_devise/invitations'}
   match '/users/:id/finish_signup' => 'users#finish_signup', via: [:get, :patch], :as => :finish_signup
 
   # Auto-created by Devise
@@ -19,7 +28,11 @@ Rails.application.routes.draw do
 
   get 'superusers/index'
 
-  get 'pros/index'
+  resources :pros, only: [:index]
+
+  resources :supporters, only: [:index] do
+    post '/invite' => 'supporters#invite', :on => :collection
+  end
 
   match 'moods/cancel' => 'moods#cancel', :via => :get
 
@@ -45,10 +58,28 @@ Rails.application.routes.draw do
     get "delete"
   end
 
-  resources :scorecards do
+  get "/update_capture" => 'capture#update_capture', as: 'update_capture'
+
+  get "/app_constants" => 'application#app_constants', as: 'app_constants'
+
+  resources :conversations, :path => 'cards_stack', only: [:index, :show, :destroy] do
+    member do
+      post :reply
+      post :restore
+      post :mark_as_read
+    end
+    collection do
+      delete :empty_trash
+    end
+  end
+
+  resources :messages, :path => 'cards', only: [:new, :create] do
+    get "random_draw", :on => :collection
   end
 
   resources :users, :path => 'thrivers' do
+    post "migrate_from_thrivetracker", :on => :collection
+    post "request_password_reset_from_thrivetracker", :on => :collection
     resources :moods
     resources :sleeps
     resources :self_cares
@@ -56,8 +87,15 @@ Rails.application.routes.draw do
   end
 
   resources :connections, :controller => 'friendships', :except => [:show, :edit] do
-    get "requests", :on => :collection
-    get "invites", :on => :collection
+    get "thrivers", :on => :collection
+    get "supporters", :on => :collection
+    get "patients", :on => :collection
+    get "providers", :on => :collection
+  end
+
+  flipper_constraint = lambda { |request| request.remote_ip == '127.0.0.1' }
+  constraints flipper_constraint do
+    mount Flipper::UI.app($flipper) => '/flipper'
   end
 
   require 'api_constraints'

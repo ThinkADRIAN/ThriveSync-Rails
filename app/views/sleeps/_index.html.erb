@@ -1,64 +1,49 @@
-<div>
-  <% if @user == nil %>
-    <h1><%= current_user.first_name.to_s + " " + current_user.last_name.to_s %><h1>
-      <%= link_to 'Add a new Sleep Entry', new_sleep_path(modal_enabled: 'true'), remote: true, class: "btn btn-primary" %>
-  <% else %>
-    <h1><%= @user.first_name.to_s + " " + @user.last_name.to_s %><h1>
-  <% end %>
-</div>
+<% render "shared/set_lookback" %>
 
-<div>
-  <%= render "shared/chart_sleep" %>
-</div>
+<% todays_sleeps = Sleep.where(user_id: current_user.id, finish_time: (Date.today.in_time_zone.at_beginning_of_day..Date.today.in_time_zone.end_of_day)) %>
 
-<div class="col-sm-12">
-  <% if !@sleeps.empty? %>
-    <div class="panel panel-primary">
-      <div class="panel-heading">
-        <h3 class="panel-title">Sleep Entries</h3>
-      </div>
-      <div class="panel-body">
-        <% @sleeps = @sleeps.order('created_at DESC')
-          @sleeps.each do |sleep| %>
-          <% if sleep.user_id == current_user.id || (current_user.is? :superuser) || (current_user.is? :pro) && (current_user.clients.include? sleep.user_id) %>
-            <div class="col-md-4">
-                <h4><%= sleep.updated_at.strftime("%a - %b %e, %Y - %m:%M %p") %></h4>
-            </div>
-            <div class="col-md-4">
-              <p>
-                <strong>Sleep Start Time:</strong>
-                <%= sleep.start_time %>
-              </p> 
-
-              <p>
-                <strong>Sleep Finish Time:</strong>
-                <%= sleep.finish_time %>
-              </p> 
-
-              <p>
-                <strong>Sleep Quality:</strong>
-                <% if sleep.quality == 1 %>
-                  <%= "Broken" %>
-                <% elsif sleep.quality == 2 %>
-                  <%= "Light" %>
-                <% elsif sleep.quality == 3 %>
-                  <%= "Normal" %>
-                <% elsif sleep.quality == 4 %>
-                  <%= "Deep" %>
-                <% end %>
-                (<%= sleep.quality %>)
-              </p>
-            </div>
-            <div class="col-md-4">
-              <%= link_to 'Edit', edit_sleep_path(sleep, modal_enabled: 'true'), remote: true,  class: "btn-default btn-xs" %>
-              <%= link_to 'Remove', sleep_delete_path(sleep, modal_enabled: 'true'),  class: "btn-danger btn-xs", remote: true, sleep: sleep %>
-            </div>
-            <div class="col-md-12">
-              <hr>
-            </div>
+<div class="container">
+    <div>
+      <% if (@user == nil || @user.id == current_user.id) && todays_sleeps.count < MAX_SLEEP_ENTRIES %>
+        <h1><%= current_user.first_name.to_s + " " + current_user.last_name.to_s %><h1>
+          <%= link_to 'Add a new Sleep Entry', new_sleep_path(modal_enabled: 'true'), remote: true, class: "btn btn-primary" %>
+      <% else %>
+          <% if @user == nil %>
+              <% user = current_user %>
+          <% else %>
+              <% user = @user %>
           <% end %>
-        <% end %>
+          <h1><%= user.first_name.to_s + " " + user.last_name.to_s %><h1>
+      <% end %>
+
+      <div class="btn-group">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Change View Period <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+          <% if params.has_key?(:user_id) %>
+            <li><%= link_to 'Last Year', user_sleeps_path(@user, sleep_lookback_period: 'last_year')%></li>
+            <li><%= link_to 'Last Month', user_sleeps_path(@user, sleep_lookback_period: 'last_month') %></li>
+            <li><%= link_to 'Last Week', user_sleeps_path(@user, sleep_lookback_period: 'last_week') %></li>
+            <li><%= link_to 'This Week', user_sleeps_path(@user, sleep_lookback_period: 'week') %></li>
+            <li><%= link_to 'This Month', user_sleeps_path(@user, sleep_lookback_period: 'month') %></li>
+            <li><%= link_to 'This Year', user_sleeps_path(@user, sleep_lookback_period: 'year')%></li>
+          <% else %>
+            <li><%= link_to 'Last Year', sleeps_path(sleep_lookback_period: 'last_year')%></li>
+            <li><%= link_to 'Last Month', sleeps_path(sleep_lookback_period: 'last_month') %></li>
+            <li><%= link_to 'Last Week', sleeps_path(sleep_lookback_period: 'last_week') %></li>
+            <li><%= link_to 'This Week', sleeps_path(sleep_lookback_period: 'week') %></li>
+            <li><%= link_to 'This Month', sleeps_path(sleep_lookback_period: 'month') %></li>
+            <li><%= link_to 'This Year', sleeps_path(sleep_lookback_period: 'year')%></li>
+          <% end %>
+        </ul>
       </div>
+
+    <div>
+      <%= render "shared/chart_sleep" %>
     </div>
-  <% end %>
+
+    <div>
+      <%= render "details" %>
+    </div>
 </div>

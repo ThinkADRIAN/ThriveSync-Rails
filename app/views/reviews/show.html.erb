@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Review counter:</strong>
+  <%= @review.review_counter %>
+</p>
+
+<p>
+  <strong>Review last date:</strong>
+  <%= @review.review_last_date %>
+</p>
+
+<p>
+  <strong>Review trigger date:</strong>
+  <%= @review.review_trigger_date %>
+</p>
+
+<%= link_to 'Edit', edit_review_path(@review) %> |
+<%= link_to 'Back', reviews_path %>

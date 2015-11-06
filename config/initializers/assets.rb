@@ -8,3 +8,8 @@ Rails.application.config.assets.version = '1.0'
 # Rails.application.config.assets.precompile += %w( search.js )
 
 Rails.application.config.assets.precompile += %w( welcome.css )
+
+Rails.application.config.assets.enabled = true
+#Rails.applicationconfig.assets.paths << Rails.root.join('app', 'assets', 'bootstrap-material-design', 'dist', 'css')    
+#Rails.applicationconfig.assets.paths << Rails.root.join('app', 'assets', 'bootstrap-material-design', 'dist', 'js')    
+#Rails.applicationconfig.assets.paths << Rails.root.join('app', 'assets', 'bootstrap-material-design', 'dist', 'fonts')

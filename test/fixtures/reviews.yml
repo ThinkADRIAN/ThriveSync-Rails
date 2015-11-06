@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  last_login_date: 2015-06-28 17:01:25
+  review_counter: 1
+  review_last_date: 2015-06-28 17:01:25
+  review_trigger_date: 2015-06-28 17:01:25
+
+two:
+  last_login_date: 2015-06-28 17:01:25
+  review_counter: 1
+  review_last_date: 2015-06-28 17:01:25
+  review_trigger_date: 2015-06-28 17:01:25

@@ -1,3 +1,9 @@
-$("#inner-mood-modal").html("<%= escape_javascript(render 'edit') %>");
-$("#mood-modal").modal("show");
-$("#mood-modal").css("z-index", "1500");
+<% if params[:modal_enabled] == 'true' %>
+  $("#inner-mood-modal").html("<%= escape_javascript(render 'edit') %>");
+  $("#mood-modal").appendTo("body").modal("show");
+  $("#mood-modal").css("z-index", "1500");
+<% else %>
+  $(".capture-delorean").html("<%= escape_javascript(render 'capture/delorean_disabled') %>");
+  $(".capture-nav").html("<%= escape_javascript(render 'capture/nav/mood_disabled') %>");
+  $(".capture-window").html("<%= escape_javascript(render 'capture/new/mood', :controller => 'moods', :action => 'edit', :@mood => Mood.find(params[:id]) ) %>");
+<% end %>

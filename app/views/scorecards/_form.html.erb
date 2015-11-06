@@ -12,40 +12,8 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :checkin_count %><br>
-    <%= f.number_field :checkin_count %>
-  </div>
-  <div class="field">
-    <%= f.label :perfect_checkin_count %><br>
-    <%= f.number_field :perfect_checkin_count %>
-  </div>
-  <div class="field">
-    <%= f.label :last_checkin_date %><br>
-    <%= f.datetime_select :last_checkin_date %>
-  </div>
-  <div class="field">
-    <%= f.label :streak_count %><br>
-    <%= f.number_field :streak_count %>
-  </div>
-  <div class="field">
-    <%= f.label :streak_record %><br>
-    <%= f.number_field :streak_record %>
-  </div>
-  <div class="field">
-    <%= f.label :moods_score %><br>
-    <%= f.number_field :moods_score %>
-  </div>
-  <div class="field">
-    <%= f.label :sleeps_score %><br>
-    <%= f.number_field :sleeps_score %>
-  </div>
-  <div class="field">
-    <%= f.label :self_cares_score %><br>
-    <%= f.number_field :self_cares_score %>
-  </div>
-  <div class="field">
-    <%= f.label :journals_score %><br>
-    <%= f.number_field :journals_score %>
+    <%= f.label "Checkin Goal" %><br>
+    <%= f.select :checkin_goal, (1..7) %>
   </div>
   <div class="actions">
     <%= f.submit %>

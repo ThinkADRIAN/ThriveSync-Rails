@@ -1,0 +1,66 @@
+<div class="container">
+
+    <h1>Reminders</h1>
+
+    <table class="table table-condensed">
+      <thead>
+        <tr>
+          <th>Message</th>
+          <th>Sunday</th>
+          <th>Monday</th>
+          <th>Tuesday</th>
+          <th>Wednesday</th>
+          <th>Thursday</th>
+          <th>Friday</th>
+          <th>Saturday</th>
+          <th>Alert time</th>
+          <th colspan="3"></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @reminders.order('alert_time ASC').each do |reminder| %>
+          <tr>
+            <td><%= reminder.message %></td>
+            <td>
+              <% if reminder.sunday_enabled %>
+                X
+              <% end %>
+            </td>
+            <td>
+              <% if reminder.monday_enabled %>
+                X
+              <% end %>
+            </td>
+            <td>
+              <% if reminder.tuesday_enabled %>
+                X
+              <% end %>
+            </td>
+            <td>
+              <% if reminder.wednesday_enabled %>
+                X
+              <% end %>
+            </td>
+            <td>
+              <% if reminder.thursday_enabled %>
+                X
+              <% end %>
+            </td>
+            <td>
+              <% if reminder.friday_enabled %>
+                X
+              <% end %>
+            </td>
+            <td>
+              <% if reminder.saturday_enabled %>
+                X
+              <% end %>
+            </td>
+            <td><%= reminder.alert_time.strftime("%I:%M %P") %></td>
+            <td><%= link_to 'Edit', edit_reminder_path(reminder) %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+</div>

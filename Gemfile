@@ -3,16 +3,18 @@ source 'https://rubygems.org'
 ruby '2.0.0'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.1.6'
+gem 'rails', '4.1.8'
 # Use sqlite3 as the database for Active Record
 #gem 'sqlite3'
 
 group :development, :test do
-	# Use sqlite3 as the database for Active Record
+# Use sqlite3 as the database for Active Record
 #	gem 'sqlite3'
-	gem 'sunspot_solr'
 end
-group :production do
+group :development, :staging do
+  gem 'database_cleaner'
+end
+group :production, :staging do
   gem 'rails_12factor'
 end
 
@@ -51,43 +53,81 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
- gem 'devise'
- gem 'cancan'
+# Authentication
+gem 'devise',           '>= 2.0.0'
+gem 'devise_invitable', '~> 1.3.4'
+gem 'omniauth'
+gem 'omniauth-twitter'
+gem 'omniauth-facebook'
+gem 'omniauth-linkedin'
+gem 'omniauth-google-oauth2'
+gem 'simple_token_authentication', '~> 1.0'
 
- gem 'omniauth'
- gem 'omniauth-twitter'
- gem 'omniauth-facebook'
- gem 'omniauth-linkedin'
- gem 'omniauth-google-oauth2' 
+# Authorization
+gem 'cancancan', '~> 1.10'
+gem 'pundit'
 
- gem 'chartkick'
- gem 'groupdate'
+# Graphing
+gem 'chartkick'
+gem 'groupdate'
 
- gem 'mandrill-api'
+# Email Services
+gem 'mandrill-api'
 
- gem 'less-rails-bootstrap'
+# Friendships
+# gem 'amistad'
+gem 'has_friendship'
 
- gem 'amistad'
+# Data Generator
+gem 'faker'
 
- gem 'faker'
+# ENV Variable Handling
+gem 'figaro'
 
- gem 'figaro'
+# Styling
+gem 'designmodo-startup_framework-rails'
+gem 'less-rails-bootstrap'
+gem 'less-rails'
+gem 'font-awesome-rails'
+gem 'will_paginate'
+gem 'chosen-rails'
+gem 'bootstrap-material-design'
 
- gem 'jquery-ui-rails'
+# Interface
+gem 'jquery-ui-rails'
+gem 'jquery-slick-rails'
+gem 'touchpunch-rails'
 
- gem 'less-rails'
+# Messaging
+gem 'mailboxer'
 
- gem 'designmodo-startup_framework-rails'
+# Analytics
+gem 'analytics-ruby', '~> 2.0.0', :require => 'segment/analytics'
 
- gem "font-awesome-rails"
+# Parse Platform Client
+gem 'parse-ruby-client'
 
- gem "jquery-slick-rails"
+# Background Job Processing
+gem 'sucker_punch', '~> 1.0'
 
- gem 'touchpunch-rails'
- 
- gem 'sunspot_rails'
+# Feature Flags
+gem 'flipper'
+gem 'flipper-activerecord3dot2'
+gem 'flipper-ui'
 
- gem 'simple_token_authentication', '~> 1.0'
+# Testing
+group :development, :test do
+gem 'rspec-rails'
+gem 'factory_girl_rails'
+gem 'capybara'
+gem 'guard-rspec'
+gem 'spring-commands-rspec'
+gem 'vcr'
+end
+group :test do
+gem 'webmock'
+end
 
- #Api gems
- gem 'active_model_serializers'
+#Api gems
+gem 'active_model_serializers'
+gem 'apipie-rails', github: 'Apipie/apipie-rails', ref: '928bd858fd14ec67eeb9483ba0d43b3be8339608'

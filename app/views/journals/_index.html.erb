@@ -1,44 +1,52 @@
-<div>
-  <% if @user == nil %>
-    <h1><%= current_user.first_name.to_s + " " + current_user.last_name.to_s %><h1>
-    <%= link_to 'Add a new Journal Entry', new_journal_path(modal_enabled: 'true'), remote: true, class: "btn btn-primary" %>
-  <% else %>
-    <h1><%= @user.first_name.to_s + " " + @user.last_name.to_s %><h1>
-  <% end %>
-</div>
+<% render "shared/set_lookback" %>
 
-<div>
-  <%= render "shared/chart_journal" %>
-</div>
+<% todays_journals = Journal.where(user_id: current_user.id, timestamp: (Date.today.in_time_zone.at_beginning_of_day..Date.today.in_time_zone.end_of_day)) %>
 
-<div class="col-sm-12">
-  <% if !@journals.empty? %>
-    <div class="panel panel-primary">
-      <div class="panel-heading">
-        <h3 class="panel-title">Journal Entries</h3>
-      </div>
-      <div class="panel-body">
-        <% @journals = @journals.order('created_at DESC')
-          @journals.each do |journal| %>
-          <% if journal.user_id == current_user.id || (current_user.is? :superuser) || (current_user.is? :pro) && (current_user.clients.include? journal.user_id) %>
-            <div class="col-md-8">
-                <h4><%= journal.created_at.strftime("%a - %b %e, %Y - %m:%M %p") %></h4>
-            </div>
-            <div class="col-md-4">
-              <%= link_to 'Edit', edit_journal_path(journal, modal_enabled: 'true'), remote: true, class: "btn-default btn-xs" %>
-              <%= link_to 'Remove', journal_delete_path(journal, modal_enabled: 'true'),  class: "btn-danger btn-xs", remote: true, journal: journal %>
-            </div>
-            <div class="col-md-12">
-              <p>
-                <%= journal.journal_entry %>
-              </p>
-            </div>
-            <div class="col-md-12">
-              <hr>
-            </div>
+<div class="container">
+    <div>
+      <% if (@user == nil || @user.id == current_user.id) && todays_journals.count < MAX_JOURNAL_ENTRIES %>
+          <h1><%= current_user.first_name.to_s + " " + current_user.last_name.to_s %><h1>
+          <%= link_to 'Add a new Journal Entry', new_journal_path(modal_enabled: 'true'), remote: true, class: "btn btn-primary" %>
+      <% else %>
+          <% if @user == nil %>
+              <% user = current_user %>
+          <% else %>
+              <% user = @user %>
           <% end %>
-        <% end %>
+          <h1><%= user.first_name.to_s + " " + user.last_name.to_s %><h1>
+      <% end %>
+
+      <div class="btn-group">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Change View Period <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+          <% if params.has_key?(:user_id) %>
+            <li><%= link_to 'Last Year', user_journals_path(@user, journal_lookback_period: 'last_year')%></li>
+            <li><%= link_to 'Last Month', user_journals_path(@user, journal_lookback_period: 'last_month') %></li>
+            <li><%= link_to 'Last Week', user_journals_path(@user, journal_lookback_period: 'last_week') %></li>
+            <li><%= link_to 'This Week', user_journals_path(@user, journal_lookback_period: 'week') %></li>
+            <li><%= link_to 'This Month', user_journals_path(@user, journal_lookback_period: 'month') %></li>
+            <li><%= link_to 'This Year', user_journals_path(@user, journal_lookback_period: 'year')%></li>
+          <% else %>
+            <li><%= link_to 'Last Year', journals_path(journal_lookback_period: 'last_year')%></li>
+            <li><%= link_to 'Last Month', journals_path(journal_lookback_period: 'last_month') %></li>
+            <li><%= link_to 'Last Week', journals_path(journal_lookback_period: 'last_week') %></li>
+            <li><%= link_to 'This Week', journals_path(journal_lookback_period: 'week') %></li>
+            <li><%= link_to 'This Month', journals_path(journal_lookback_period: 'month') %></li>
+            <li><%= link_to 'This Year', journals_path(journal_lookback_period: 'year')%></li>
+          <% end %>
+        </ul>
       </div>
     </div>
-  <% end %>
+
+    <div>
+      <%= render "shared/chart_journal" %>
+    </div>
+
+    <% if @user == nil || @user.id == current_user.id %>
+      <div>
+        <%= render "details" %>
+      </div>
+    <% end %>
 </div>

@@ -1,88 +1,49 @@
-<div>
-  <% if @user == nil %>
-    <h1><%= current_user.first_name.to_s + " " + current_user.last_name.to_s %><h1>
-      <%= link_to 'Add a new Mood Entry', new_mood_path(modal_enabled: 'true'), remote: true, class: "btn btn-primary" %>
-  <% else %>
-    <h1><%= @user.first_name.to_s + " " + @user.last_name.to_s %><h1>
-  <% end %>
-</div>
+<% render "shared/set_lookback" %>
 
-<div>
-  <%= render "shared/chart_mood" %>
-</div>
-
-<div class="col-sm-12">
-  <% if !@moods.empty? %>
-    <div class="panel panel-primary">
-      <div class="panel-heading">
-        <h3 class="panel-title">Mood Entries</h3>
-      </div>
-      <div class="panel-body">
-        <% @moods = @moods.order('created_at DESC')
-          @moods.each do |mood| %>
-          <% if mood.user_id == current_user.id || (current_user.is? :superuser) || (current_user.is? :pro) && (current_user.clients.include? mood.user_id)  %>
-            <div class="col-md-4">
-                <h4><%= mood.timestamp.strftime("%a - %b %e, %Y - %m:%M %p") %></h4>
-            </div>
-            <div class="col-md-4">
-                <p>
-                <strong>Mood Level:</strong>
-                <% if mood.mood_rating == 1 %>
-                  <%= "Severely Depressed" %>
-                <% elsif mood.mood_rating == 2 %>
-                  <%= "Moderately Depressed" %>
-                <% elsif mood.mood_rating == 3 %>
-                  <%= "Mildly Depressed" %>
-                <% elsif mood.mood_rating == 4 %>
-                  <%= "Baseline" %>
-                <% elsif mood.mood_rating == 5 %>
-                  <%= "Mildly Elevated" %> 
-                <% elsif mood.mood_rating == 6 %>
-                  <%= "Moderately Elevated" %>
-                <% elsif mood.mood_rating == 7 %>
-                  <%= "Severely Elevated" %> 
-                <% end %>
-                (<%= mood.mood_rating %>)
-              </p> 
-
-              <p>
-                <strong>Anxiety Level:</strong>
-                <% if mood.anxiety_rating == 1 %>
-                  <%= "None" %>
-                <% elsif mood.anxiety_rating == 2 %>
-                  <%= "Mild" %>
-                <% elsif mood.anxiety_rating == 3 %>
-                  <%= "Moderate" %>
-                <% elsif mood.anxiety_rating == 4 %>
-                  <%= "Severe" %>
-                <% end %>
-                (<%= mood.anxiety_rating %>)
-              </p>
-
-              <p>
-                <strong>Irritability Level:</strong>
-                <% if mood.irritability_rating == 1 %>
-                  <%= "None" %>
-                <% elsif mood.irritability_rating == 2 %>
-                  <%= "Mild" %>
-                <% elsif mood.irritability_rating == 3 %>
-                  <%= "Moderate" %>
-                <% elsif mood.irritability_rating == 4 %>
-                  <%= "Severe" %>
-                <% end %>
-                (<%= mood.irritability_rating %>)
-              </p>
-            </div>
-            <div class="col-md-4">
-              <%= link_to 'Edit', edit_mood_path(mood, modal_enabled: 'true'), remote: true,  class: "btn-default btn-xs" %>
-              <%= link_to 'Remove', mood_delete_path(mood, modal_enabled: 'true'),  class: "btn-danger btn-xs", remote: true, mood: mood %>
-            </div>
-            <div class="col-md-12">
-              <hr>
-            </div>
+<% todays_moods = Mood.where(user_id: current_user.id, timestamp: (Date.today.in_time_zone.at_beginning_of_day..Date.today.in_time_zone.end_of_day)) %>
+<div class="container">
+    <div>
+      <% if (@user == nil || @user.id == current_user.id) && todays_moods.count < MAX_MOOD_ENTRIES %>
+        <h1><%= current_user.first_name.to_s + " " + current_user.last_name.to_s %><h1>
+          <%= link_to 'Add a new Mood Entry', new_mood_path(modal_enabled: 'true'), remote: true, class: "btn btn-primary" %>
+      <% else %>
+          <% if @user == nil %>
+              <% user = current_user %>
+          <% else %>
+              <% user = @user %>
           <% end %>
-        <% end %>
+          <h1><%= user.first_name.to_s + " " + user.last_name.to_s %><h1>
+      <% end %>
+
+      <div class="btn-group">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Change View Period <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+          <% if params.has_key?(:user_id) %>
+            <li><%= link_to 'Last Year', user_moods_path(@user, mood_lookback_period: 'last_year')%></li>
+            <li><%= link_to 'Last Month', user_moods_path(@user, mood_lookback_period: 'last_month') %></li>
+            <li><%= link_to 'Last Week', user_moods_path(@user, mood_lookback_period: 'last_week') %></li>
+            <li><%= link_to 'This Week', user_moods_path(@user, mood_lookback_period: 'week') %></li>
+            <li><%= link_to 'This Month', user_moods_path(@user, mood_lookback_period: 'month') %></li>
+            <li><%= link_to 'This Year', user_moods_path(@user, mood_lookback_period: 'year')%></li>
+          <% else %>
+            <li><%= link_to 'Last Year', moods_path(mood_lookback_period: 'last_year')%></li>
+            <li><%= link_to 'Last Month', moods_path(mood_lookback_period: 'last_month') %></li>
+            <li><%= link_to 'Last Week', moods_path(mood_lookback_period: 'last_week') %></li>
+            <li><%= link_to 'This Week', moods_path(mood_lookback_period: 'week') %></li>
+            <li><%= link_to 'This Month', moods_path(mood_lookback_period: 'month') %></li>
+            <li><%= link_to 'This Year', moods_path(mood_lookback_period: 'year')%></li>
+          <% end %>
+        </ul>
       </div>
     </div>
-  <% end %>
+
+    <div>
+      <%= render "shared/chart_mood" %>
+    </div>
+
+    <div>
+      <%= render "details" %>
+    </div>
 </div>

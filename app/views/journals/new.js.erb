@@ -1,6 +1,6 @@
 <% if params[:modal_enabled] == 'true' %>
   $("#inner-journal-modal").html("<%= escape_javascript(render 'new') %>");  
-  $("#journal-modal").modal("show");
+  $("#journal-modal").appendTo("body").modal("show");
   $("#journal-modal").css("z-index", "1500");
 <% else %>
   $(".capture-delorean").html("<%= escape_javascript(render 'capture/delorean_disabled') %>");

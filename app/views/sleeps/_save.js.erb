@@ -12,5 +12,8 @@ $("ul.errors").html("");
   $("#sleep-modal").modal("hide");
 
   $(".shared-index").html("<%= escape_javascript(render 'shared/index') %>");
+
+    $(".capture-delorean").html("<%= escape_javascript(render 'capture/delorean') %>");
+  $(".capture-nav").html("<%= escape_javascript(render 'capture/nav/sleep') %>");
   $(".capture-window").html("<%= escape_javascript(render 'capture/show/sleep') %>");
 <% end %>

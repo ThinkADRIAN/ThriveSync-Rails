@@ -16,6 +16,13 @@
       <%= f.label "Journal Entry:" %> <br>
       <%= f.text_area :journal_entry %>
     </div>
+
+    <% if !current_page?(action: 'new')%>
+      <div class="form-group">
+        <%= f.label "Timestamp:" %> <br>
+        <%= f.datetime_local_field :timestamp %>
+      </div>
+    <% end %>
   </div>
     
   <br>

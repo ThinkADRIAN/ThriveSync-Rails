@@ -38,13 +38,10 @@ Rails.application.configure do
   # ActionMailer Config
   config.action_mailer.default_url_options = {:host => "localhost:3000"}
   config.action_mailer.delivery_method = :smtp
-
   config.action_mailer.smtp_settings = {
-      :enable_starttls_auto => true,
-      :address => "smtp.gmail.com",
+      :authentication => :plain,
+      :address => "smtp.mailgun.org",
       :port => 587,
-      :domain => "thrivestreams.com",
-      :authentication => "plain",
       :user_name => ENV['EMAIL_USERNAME'],
       :password => ENV['EMAIL_PASSWORD']
   }

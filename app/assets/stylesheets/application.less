@@ -14,12 +14,16 @@
  *= require slick
  *= require slick-theme
  *= require font-awesome
- *= require bootstrap.min.css
- *= require bootstrap_and_overrides.css
- += require_tree
+ * require bootstrap-material-design
+ * require dist/css/material.min.css
+ *= require_tree .
  *= require_self
  */
 
+//@import 'less/material.less';
+@import 'variables.less';
 @import 'startup_framework.less';
-
-@import '../startup-framework/ui-kit/ui-kit-header/less/header-3.less';
+@import 'welcome.less';
+@import 'ui-kit/ui-kit-header/less/header-10.less';
+@import 'ui-kit/ui-kit-content/less/content-20.less';
+@import 'custom_overrides.less';
