@@ -1,67 +1,63 @@
-    <header class="header-3">
-      <div class="container">
-        <div class="row">
-          <nav class="navbar col-sm-12" role="navigation">
-            <div class="navbar-header">
-              <button type="button" class="navbar-toggle">
-              </button>
-              <a class="navbar-brand" href="/">
-                <img src="/assets/ThriveSync-Logo-Navbar.png">
-              </a>
-            </div>
-            <div class="collapse navbar-collapse pull-right">
-              <ul class="nav pull-left">
-                <li><a href="/">Home</a></li>
-                <% if user_signed_in? && (current_user.is? :superuser) %>
-                  <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Super User Tools<b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                      <li><a href="/superusers/index">Users</a></li>
-                      <li><a href="#">Professionals</a></li>
-                      <li><a href="#">Organizations</a></li>
-                    </ul>
-                  </li>
-                <% end %>
-
-                <% if user_signed_in? && (current_user.is? :admin) %>
-                  <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin Tools<b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                      <li><a href="#">Users</a></li>
-                      <li><a href="#">Professionals</a></li>
-                      <li><a href="#">Organizations</a></li>
-                    </ul>
-                  </li>
-                <% end %>
-
-                <% if user_signed_in? && (current_user.is? :pro) %>
-                  <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Pro Tools<b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                      <li><a href="<%= pros_path %>">Clients</a></li>
-                    </ul>
-                  </li>
-                  <li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Connect<b class="caret"></b></a>
+<header class="header-10">
+  <div class="container">
+    <div class="row">
+      <div class="navbar col-sm-12" role="navigation">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle"></button>
+          <a class="brand" href="/"><img src=/assets/ThriveSync-Logo.png></a>
+        </div>
+        <div class="collapse navbar-collapse pull-right">
+          <ul class="nav pull-left">
+            <% if user_signed_in? && (current_user.is? :superuser) %>
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Super User Tools<b class="caret"></b></a>
                   <ul class="dropdown-menu">
-                      <li><a href="<%= connections_path %>">Clients</a></li>
+                    <li><a href="/superusers/index">Users</a></li>
+                    <li><a href="#">Professionals</a></li>
+                    <li><a href="#">Organizations</a></li>
                   </ul>
                 </li>
-                <% end %>
+            <% end %>
 
-                <% if user_signed_in? && (current_user.is? :client) %>
-                  <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Client Tools<b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                      <li><a href="<%= moods_path %>">Mood</a></li>
-                      <li><a href="<%= sleeps_path %>">Sleep</a></li>
-                      <li><a href="<%= self_cares_path %>">Self Care</a></li>
-                      <li><a href="<%= journals_path %>">Journal</a></li>
-                    </ul>
-                  </li>
-                <% end %>
+            <% if user_signed_in? && (current_user.is? :admin) %>
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin Tools<b class="caret"></b></a>
+                  <ul class="dropdown-menu">
+                    <li><a href="#">Users</a></li>
+                    <li><a href="#">Professionals</a></li>
+                    <li><a href="#">Organizations</a></li>
+                  </ul>
+                </li>
+            <% end %>
 
-              <% if user_signed_in? && (current_user.is? :user) %>
+            <% if user_signed_in? && (current_user.is? :pro) %>
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Pro Tools<b class="caret"></b></a>
+                  <ul class="dropdown-menu">
+                    <li><a href="<%= pros_path %>">Clients</a></li>
+                  </ul>
+                </li>
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Connect<b class="caret"></b></a>
+                  <ul class="dropdown-menu">
+                    <li><a href="<%= connections_path %>">Clients</a></li>
+                  </ul>
+                </li>
+            <% end %>
+
+            <% if user_signed_in? && (current_user.is? :client) %>
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Client Tools<b class="caret"></b></a>
+                  <ul class="dropdown-menu">
+                    <li><a href="<%= moods_path %>">Mood</a></li>
+                    <li><a href="<%= sleeps_path %>">Sleep</a></li>
+                    <li><a href="<%= self_cares_path %>">Self Care</a></li>
+                    <li><a href="<%= journals_path %>">Journal</a></li>
+                  </ul>
+                </li>
+            <% end %>
+
+            <% if user_signed_in? && (current_user.is? :user) %>
                 <li class="dropdown">
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown">Trackers<b class="caret"></b></a>
                   <ul class="dropdown-menu">
@@ -71,9 +67,9 @@
                     <li><a href="<%= journals_path %>">Journal</a></li>
                   </ul>
                 </li>
-              <% end %>
+            <% end %>
 
-              <% if user_signed_in? && ((current_user.is? :user) || (current_user.is? :client)) && ( ($flipper[:peer_support].enabled? current_user) || ($flipper[:provider_support].enabled? current_user)) %>
+            <% if user_signed_in? && ((current_user.is? :user) || (current_user.is? :client)) && ( ($flipper[:peer_support].enabled? current_user) || ($flipper[:provider_support].enabled? current_user)) %>
                 <li class="dropdown">
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown">Connect<b class="caret"></b></a>
                   <ul class="dropdown-menu">
@@ -86,30 +82,34 @@
                     <% end %>
                   </ul>
                 </li>
-              <% end %>
-          
-              <% if user_signed_in?%>
+            <% end %>
+
+            <% if user_signed_in?%>
                 <li class="dropdown">
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown">Account<b class="caret"></b></a>
                   <ul class="dropdown-menu">
                     <li><a href="<%= edit_user_registration_path %>">Profile</a></li>
                     <% if user_signed_in? && ((current_user.is? :user) || (current_user.is? :client)) %>
-                      <li><a href="<%= scorecards_path %>">Scorecard</a></li>
-                      <li><a href="<%= reminders_path %>">Reminders</a></li>
+                        <li><a href="<%= scorecards_path %>">Scorecard</a></li>
+                        <li><a href="<%= reminders_path %>">Reminders</a></li>
                     <% end %>
                     <li><%= link_to "Logout", destroy_user_session_path, method: :delete %></li>
                   </ul>
                 </li>
                 <div class="navbar-text pull-left">
-                    Logged in as <strong><%= current_user.first_name + " " + current_user.last_name %></strong>. 
+                  Logged in as <strong><%= current_user.first_name + " " + current_user.last_name %></strong>.
                 </div>
-                
-              <% else %>
-                <li><a href="<%= new_user_registration_path %>">Sign Up</a></li>
-                <li><a href="<%= new_user_session_path %>">Login</a></li>
-              <% end %>
-            </div>
-          </nav><!--/.nav-collapse -->
+            <% end %>
+          </ul>
+          <% if !user_signed_in?%>
+            <form class="navbar-form pull-left">
+              <a class="btn btn-success" href="<%= new_user_registration_path %>">Sign Up</a>
+              <a class="btn btn-default" href="<%= new_user_session_path %>">Login</a>
+            </form>
+          <% end %>
         </div>
       </div>
-    </header>
+    </div>
+  </div>
+  <div class="header-background"></div>
+</header>
