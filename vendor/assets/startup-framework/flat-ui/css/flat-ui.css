@@ -979,15 +979,15 @@ fieldset[disabled] .btn-link:focus {
 }
 .caret {
   border-width: 8px 6px;
-  border-bottom-color: #ecf0f1;
-  border-top-color: #ecf0f1;
+  border-bottom-color: #34495e;
+  border-top-color: #34495e;
   border-style: solid;
   border-bottom-style: none;
   -webkit-transition: 0.25s;
   transition: 0.25s;
-  -webkit-transform: scale(1.001, 1.001);
-  -ms-transform: scale(1.001, 1.001);
-  transform: scale(1.001, 1.001);
+  -webkit-transform: scale(1.001, );
+  -ms-transform: scale(1.001, );
+  transform: scale(1.001, );
 }
 .dropup .caret,
 .dropup .btn-lg .caret,
@@ -2092,7 +2092,7 @@ select[multiple].navbar-input {
 .navbar-form .btn {
   height: 35px;
   padding: 5px 10px;
-  font-size: 15px;
+  font-size: 13px;
   line-height: 1.4;
   border-radius: 6px;
 }
@@ -2174,8 +2174,8 @@ select[multiple].navbar-form .btn {
 .navbar-text {
   font-size: 16px;
   line-height: 1.438;
-  color: #ecf0f1;
-  margin-top: 13px;
+  color: #34495e;
+  margin-top: 0;
   margin-bottom: 0;
   padding-top: 15px;
   padding-bottom: 15px;

@@ -20,12 +20,10 @@
 //= require jquery-ui/effect
 //= require jquery-ui/slider
 //= require jquery_ujs
+// require twitter/bootstrap
 //= require jquery.slick
 //= require chosen-jquery
-//= require bootstrap.min.js
-//= require flatui
-//= require startup_framework
 //= require slick
 //= require messages
-//= require bootstrap-material-design
+// require bootstrap-material-design
 //= require custom_overrides

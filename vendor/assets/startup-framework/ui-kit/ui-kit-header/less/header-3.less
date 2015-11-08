@@ -15,7 +15,7 @@
     }
     .navbar {
         top: 0;
-        margin-top: 0px;
+        margin-top: 10px;
         font-family: @font-family-demo;
         &.navbar-fixed-top {
             top: 0 !important;
@@ -36,8 +36,8 @@
                 }
                 > a {
                     padding: 35px 0 21px;
-                    .font(17px);
-                    font-weight: 500;
+                    .font(13px);
+                    font-weight: 800;
                     letter-spacing: 2px;
                     .a-color(@concrete, @link-hover-color);
                 }
@@ -60,7 +60,7 @@
             }
         }
         .navbar-toggle {
-            background-image: url("/assets/common-files/icons/menu-icon-dark@2x.png");
+            background-image: url("@{startup-basePath}common-files/icons/menu-icon-dark@2x.png");
             .background-size(17px 12px);
         }
     }

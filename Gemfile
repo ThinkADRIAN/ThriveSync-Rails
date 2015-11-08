@@ -86,8 +86,9 @@ gem 'figaro'
 
 # Styling
 gem 'designmodo-startup_framework-rails'
-gem 'less-rails-bootstrap'
+# gem 'less-rails-bootstrap'
 gem 'less-rails'
+gem 'twitter-bootstrap-rails'
 gem 'font-awesome-rails'
 gem 'will_paginate'
 gem 'chosen-rails'
