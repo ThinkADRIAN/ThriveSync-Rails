@@ -31,9 +31,9 @@
             Providers can be granted access to this data for better delivery of the right support at the right time.
           </p>
           <br>
-          <a class="btn btn-success" href="#"><span class="fui-user"> </span>I'm an INDIVIDUAL looking to better manage my mental health</a>
+          <a class="btn btn-success" href="<%= page_path('individuals') %>"><span class="fui-user"> </span>I'm an INDIVIDUAL looking to better manage my mental health</a>
           <br><br>
-          <a class="btn btn-info" href="#"><span class="fui-heart"> </span>I'm a PROVIDER looking to better support my patients</a>
+          <a class="btn btn-info" href="<%= page_path('providers') %>"><span class="fui-heart"> </span>I'm a PROVIDER looking to better support my patients</a>
         </div>
         <div class="col-sm-4">
           <div class="img">
@@ -75,15 +75,15 @@
         <div class="col-sm-2 col-sm-offset-1">
           <h6>WHO WE HELP</h6>
           <ul>
-            <li><a href="#">Individuals</a></li>
-            <li><a href="#">Providers</a></li>
+            <li><%= link_to 'Individuals', page_path('individuals') %></li>
+            <li><%= link_to 'Providers', page_path('providers') %></li>
           </ul>
         </div>
         <div class="col-sm-2">
           <h6>ABOUT US</h6>
           <ul>
             <li><a href="http://thrivestreams.com" target="_blank">Company</a></li>
-            <li><a href="#">Team</a></li>
+            <li><%= link_to 'Team', page_path('team') %></li>
             <li><a href="http://thrivestreams.com/opportunities/" target="_blank">Career</a></li>
             <li><a href="http://thrivestreams.com/blog/" target="_blank">Blog</a></li>
             <li><a href="http://thrivestreams.com/contact/" target="_blank">Contact</a></li>

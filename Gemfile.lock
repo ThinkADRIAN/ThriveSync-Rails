@@ -172,6 +172,7 @@ GEM
       rails (~> 4.1.8)
     hashdiff (0.2.2)
     hashie (3.4.3)
+    high_voltage (2.4.0)
     hike (1.2.3)
     hitimes (1.2.3)
     i18n (0.7.0)
@@ -403,6 +404,7 @@ DEPENDENCIES
   groupdate
   guard-rspec
   has_friendship
+  high_voltage (~> 2.4.0)
   jbuilder (~> 2.0)
   jquery-rails
   jquery-slick-rails
