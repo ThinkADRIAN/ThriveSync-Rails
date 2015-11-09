@@ -21,7 +21,7 @@
 // require jquery.ui.effect
 //= require jquery-ui
 //= require jquery_ujs
-// require twitter/bootstrap
+//= require twitter/bootstrap
 //= require flatui
 //= require startup_framework
 //= require jquery.slick
