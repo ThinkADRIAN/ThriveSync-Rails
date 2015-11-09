@@ -9,10 +9,12 @@
         <div class="collapse navbar-collapse pull-right">
           <ul class="nav pull-left">
             <% if !user_signed_in? %>
+                <!--
                 <ul class="nav pull-left">
                   <li><%= link_to 'Individuals', page_path('individuals') %></li>
                   <li><%= link_to 'Providers', page_path('providers') %></li>
                 </ul>
+                -->
             <% end %>
             <% if user_signed_in? && (current_user.is? :superuser) %>
                 <li class="dropdown">
