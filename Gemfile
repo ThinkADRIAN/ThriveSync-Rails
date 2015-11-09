@@ -85,10 +85,9 @@ gem 'faker'
 gem 'figaro'
 
 # Styling
-# gem 'designmodo-startup_framework-rails'
-# gem 'less-rails-bootstrap'
 gem 'less-rails'
 gem 'twitter-bootstrap-rails'
+gem 'designmodo-startup_framework-rails', '~> 1.1.3.10'
 gem 'font-awesome-rails'
 gem 'will_paginate'
 gem 'chosen-rails'
