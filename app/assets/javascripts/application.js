@@ -15,7 +15,7 @@
 //= require jquery
 //= require jquery-ui
 //= require jquery_ujs
-// require twitter/bootstrap
+//= require twitter/bootstrap
 //= require jquery.slick
 //= require chosen-jquery
 //= require slick
