@@ -14,6 +14,7 @@
 //= require jquery
 //= require jquery-ui
 //= require jquery_ujs
+//= require sharrre
 //= require twitter/bootstrap
 //= require flatui
 //= require startup_framework
