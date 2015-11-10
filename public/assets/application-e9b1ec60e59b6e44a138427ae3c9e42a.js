@@ -40386,12 +40386,6 @@ $('a.dropdown-toggle').click('button', function() {
 
 
 
-// require jquery.ui.button
-// require jquery.ui.datepicker
-// require jquery.ui.slider
-// require jquery.ui.spinner
-// require jquery.ui.tooltip
-// require jquery.ui.effect
 
 
 
