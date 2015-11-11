@@ -41,8 +41,8 @@ class JournalPolicy < ApplicationPolicy
           scope
         else
           scope = nil
-        end 
-      else 
+        end
+      else
         scope
       end
     end

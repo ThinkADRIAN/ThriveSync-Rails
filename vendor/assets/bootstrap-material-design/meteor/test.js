@@ -9,7 +9,7 @@ var packageName;  // there seems to be no official way of finding out the name o
 
     // curiously enough, the 'local-test:...' package isn't loaded into Package before calling Tinytest, so we can't do this determination outside this loop
     if (!packageName)
-      Object.keys(Package).forEach(function(p) {
+      Object.keys(Package).forEach(function (p) {
         if (p.search(/local-test/) > -1)
           packageName = p.replace('local-test:', '');  // we should stop the loop, but forEach can't do that
       })
@@ -24,9 +24,9 @@ var packageName;  // there seems to be no official way of finding out the name o
     HTTP.get(
       '/packages/' + packagePath + '/dist/fonts/Material-Design-Icons.' + font,
       {
-         headers: {
-           'Cache-Control': 'no-cache'  // because Meteor has cached fonts even after they were removed from package.js (!) - https://github.com/meteor/meteor/issues/3196
-         }
+        headers: {
+          'Cache-Control': 'no-cache'  // because Meteor has cached fonts even after they were removed from package.js (!) - https://github.com/meteor/meteor/issues/3196
+        }
       },
       function callback(error, result) {
         if (error) {

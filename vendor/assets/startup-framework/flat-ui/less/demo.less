@@ -1,9 +1,6 @@
 // Demo Flat UI Free
-
-
 // Loading config with variables (changing them leads to changing a color scheme)
 @import "variables";
-
 // Utility mixins for greater good
 @import "mixins";
 
@@ -16,6 +13,7 @@
   padding: 73px 0 110px;
   text-align: center;
 }
+
 .demo-logo {
   font: 900 90px/100px @font-family-demo;
   letter-spacing: -2px;
@@ -37,12 +35,13 @@
     font-weight: 700;
     letter-spacing: 0;
     padding-top: 5px;
-  }  
+  }
 }
+
 // Panels delimiter
 .demo-row {
   margin-bottom: 20px;
-  
+
   .demo-heading-note,
   .demo-text-note {
     display: block;
@@ -59,12 +58,12 @@
     bottom: auto;
     top: 10px;
   }
-  
+
   &.typography-row {
     .demo-content {
       float: none;
-      width: auto;    
-      clear: both; 
+      width: auto;
+      clear: both;
     }
     .demo-type-example {
       padding-left: 25%;
@@ -73,10 +72,12 @@
     }
   }
 }
+
 .demo-section-title {
   font: 900 32px/40px @font-family-demo;
   margin: 10px 0;
 }
+
 .demo-panel-title {
   padding-top: 20px;
   margin: 2px 0 20px;
@@ -86,16 +87,19 @@
     color: mix(@brand-primary, @inverse, 66%);
     font-size: inherit;
     font-weight: 400;
-  }  
+  }
 }
+
 // Shift blocks to fit design
 .demo-navigation {
   margin-bottom: -4px;
   margin-top: -10px;
 }
+
 .demo-pager {
   margin-top: -20px;
 }
+
 .demo-tooltips {
   height: 126px;
 
@@ -104,11 +108,13 @@
     left: -8px !important;
     position: relative !important;
     top: -8px !important;
-  }  
+  }
 }
+
 .demo-headings {
   margin-bottom: 12px;
 }
+
 .demo-tiles {
   margin-bottom: 46px
 }
@@ -120,13 +126,13 @@
 
   .demo-content {
     margin: 0 0 0 -35px;
-    
+
     > span {
       display: inline-block;
       margin: 0 0 32px 35px;
       width: 24px;
       font-size: 24px;
-    }  
+    }
   }
 }
 
@@ -169,10 +175,12 @@
 .demo-samples {
   margin-bottom: 46px;
 }
-.demo-video {  
+
+.demo-video {
   padding-top: 95px;
   border-radius: @border-radius-large;
 }
+
 .demo-download-section {
   float: none;
   margin: 0 auto;
@@ -181,10 +189,11 @@
 
   [class*='fui-'] {
     margin: 3px 0 -3px;
-  }  
+  }
 }
+
 .demo-download {
-  background-color: mix(@brand-primary, @inverse, 10%);  
+  background-color: mix(@brand-primary, @inverse, 10%);
   height: 190px;
   margin: 0 auto 32px;
   padding: 40px 28px 30px 32px;
@@ -195,26 +204,30 @@
   img {
     height: 104px;
     width: 82px;
-  }  
+  }
 }
+
 .demo-download-text {
   font-size: 15px;
   padding: 20px 0;
   text-align: center;
 }
+
 .demo-text-box {
   a:hover {
     color: @brand-secondary;
-  }  
+  }
 }
+
 .demo-browser {
   background: mix(@brand-primary, black, 85%) url(../images/demo/browser.png) 0 0 no-repeat;
-  background-size: 659px 42px;  
+  background-size: 659px 42px;
   color: @inverse;
   margin: 0 41px 140px 0;
   padding-top: 42px;
   border-radius: 0 0 @border-radius-large @border-radius-large;
 }
+
 .demo-browser-side {
   float: left;
   padding: 22px 20px;
@@ -234,8 +247,9 @@
     margin-top: 3px;
     text-transform: none;
     -webkit-font-smoothing: subpixel-antialiased;
-  }  
+  }
 }
+
 .demo-browser-author {
   background: ~"url(../images/demo/browser-author.jpg) center center no-repeat";
   border: 3px solid @inverse;
@@ -245,6 +259,7 @@
   width: 84px;
   border-radius: 50%;
 }
+
 .demo-browser-action {
   padding: 30px 0 12px;
 
@@ -263,11 +278,12 @@
       position: relative;
       top: 1px;
       -webkit-font-smoothing: antialiased;
-    }  
-  }    
+    }
+  }
 }
+
 .demo-browser-content {
-  background-color: @brand-primary;  
+  background-color: @brand-primary;
   overflow: hidden;
   padding: 21px 0 0 20px;
   border-radius: 0 0 @border-radius-large;
@@ -277,22 +293,24 @@
     float: left;
     margin: 0 15px 20px 0;
     width: 146px;
-  }  
+  }
 }
+
 // Serving 2x images
 @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (-moz-min-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 3/2), only screen and (-o-min-device-pixel-ratio: 2/1), only screen and (min--moz-device-pixel-ratio: 1.5), only screen and (min-device-pixel-ratio: 1.5), only screen and (min-device-pixel-ratio: 2) {
   .logo {
     background-image: url(../images/demo/logo-mask-2x.png)
   }
+
   .demo-browser {
     background-image: url(../images/demo/browser-2x.png)
-  }  
+  }
 }
 
 // Shatches
 .demo-swatches-row {
   [class*="col"] {
-    float: left;    
+    float: left;
     min-height: 1px;
   }
   .swatches-col {

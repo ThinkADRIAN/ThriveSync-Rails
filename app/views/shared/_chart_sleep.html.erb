@@ -1,124 +1,124 @@
 <% if @user == nil %>
-  <% user = current_user %>
+    <% user = current_user %>
 <% else %>
-  <% user = @user%>
+    <% user = @user %>
 <% end %>
 
 <% @sleeps = Sleep.where(user_id: user.id) %>
 
-<% 
-if @sleep_lookback_period == 'week' 
-  sleep_time_chart_data = @sleeps.group_by_day(:finish_time, range: DATE_RANGE_THIS_WEEK, format: "%b %d, %Y").sum(:time)
-  sleep_quality_chart_data = @sleeps.group_by_day(:finish_time, range: DATE_RANGE_THIS_WEEK, format: "%b %d, %Y").average(:quality)
-  y_axis_ticks = [{v:0, f:'No'}, {v:1, f:'Yes'}]
-elsif @sleep_lookback_period == 'last_week'
-  sleep_time_chart_data = @sleeps.group_by_day(:finish_time, range: DATE_RANGE_LAST_WEEK, format: "%b %d, %Y").sum(:time)
-  sleep_quality_chart_data = @sleeps.group_by_day(:finish_time, range: DATE_RANGE_LAST_WEEK, format: "%b %d, %Y").average(:quality)
-  y_axis_ticks = [{v:0, f:'No'}, {v:1, f:'Yes'}]
-elsif @sleep_lookback_period == 'month'
-  sleep_time_chart_data = @sleeps.group_by_day(:finish_time, range: DATE_RANGE_THIS_MONTH, format: "%b %d, %Y").sum(:time)
-  sleep_quality_chart_data = @sleeps.group_by_day(:finish_time, range: DATE_RANGE_THIS_MONTH, format: "%b %d, %Y").average(:quality)
-  y_axis_ticks = [{v:0, f:'No'}, {v:1, f:'Yes'}]
-elsif @sleep_lookback_period == 'last_month'
-  sleep_time_chart_data = @sleeps.group_by_day(:finish_time, range: DATE_RANGE_LAST_MONTH, format: "%b %d, %Y").sum(:time)
-  sleep_quality_chart_data = @sleeps.group_by_day(:finish_time, range: DATE_RANGE_LAST_MONTH, format: "%b %d, %Y").average(:quality)
-  y_axis_ticks = [{v:0, f:'No'}, {v:1, f:'Yes'}]
-elsif @sleep_lookback_period == 'year'
-  sleep_time_chart_data = @sleeps.group_by_month(:finish_time, range: DATE_RANGE_THIS_YEAR, format: "%b %Y").sum(:time)
-  sleep_quality_chart_data = @sleeps.group_by_month(:finish_time, range: DATE_RANGE_THIS_YEAR, format: "%b %Y").average(:quality)
-elsif @sleep_lookback_period == 'last_year'
-  sleep_time_chart_data = @sleeps.group_by_month(:finish_time, range: DATE_RANGE_LAST_YEAR, format: "%b %Y").sum(:time)
-  sleep_quality_chart_data = @sleeps.group_by_month(:finish_time, range: DATE_RANGE_LAST_YEAR, format: "%b %Y").average(:quality)
-end
+<%
+   if @sleep_lookback_period == 'week'
+     sleep_time_chart_data = @sleeps.group_by_day(:finish_time, range: DATE_RANGE_THIS_WEEK, format: "%b %d, %Y").sum(:time)
+     sleep_quality_chart_data = @sleeps.group_by_day(:finish_time, range: DATE_RANGE_THIS_WEEK, format: "%b %d, %Y").average(:quality)
+     y_axis_ticks = [{v: 0, f: 'No'}, {v: 1, f: 'Yes'}]
+   elsif @sleep_lookback_period == 'last_week'
+     sleep_time_chart_data = @sleeps.group_by_day(:finish_time, range: DATE_RANGE_LAST_WEEK, format: "%b %d, %Y").sum(:time)
+     sleep_quality_chart_data = @sleeps.group_by_day(:finish_time, range: DATE_RANGE_LAST_WEEK, format: "%b %d, %Y").average(:quality)
+     y_axis_ticks = [{v: 0, f: 'No'}, {v: 1, f: 'Yes'}]
+   elsif @sleep_lookback_period == 'month'
+     sleep_time_chart_data = @sleeps.group_by_day(:finish_time, range: DATE_RANGE_THIS_MONTH, format: "%b %d, %Y").sum(:time)
+     sleep_quality_chart_data = @sleeps.group_by_day(:finish_time, range: DATE_RANGE_THIS_MONTH, format: "%b %d, %Y").average(:quality)
+     y_axis_ticks = [{v: 0, f: 'No'}, {v: 1, f: 'Yes'}]
+   elsif @sleep_lookback_period == 'last_month'
+     sleep_time_chart_data = @sleeps.group_by_day(:finish_time, range: DATE_RANGE_LAST_MONTH, format: "%b %d, %Y").sum(:time)
+     sleep_quality_chart_data = @sleeps.group_by_day(:finish_time, range: DATE_RANGE_LAST_MONTH, format: "%b %d, %Y").average(:quality)
+     y_axis_ticks = [{v: 0, f: 'No'}, {v: 1, f: 'Yes'}]
+   elsif @sleep_lookback_period == 'year'
+     sleep_time_chart_data = @sleeps.group_by_month(:finish_time, range: DATE_RANGE_THIS_YEAR, format: "%b %Y").sum(:time)
+     sleep_quality_chart_data = @sleeps.group_by_month(:finish_time, range: DATE_RANGE_THIS_YEAR, format: "%b %Y").average(:quality)
+   elsif @sleep_lookback_period == 'last_year'
+     sleep_time_chart_data = @sleeps.group_by_month(:finish_time, range: DATE_RANGE_LAST_YEAR, format: "%b %Y").sum(:time)
+     sleep_quality_chart_data = @sleeps.group_by_month(:finish_time, range: DATE_RANGE_LAST_YEAR, format: "%b %Y").average(:quality)
+   end
 %>
 
 <div class="col-md-12">
-    <%= line_chart [
-    {name: "Sleep Time", data: sleep_time_chart_data}
-    ], colors: [ SLEEP_PRIMARY_COLOR ],
-    library: {
-        title: "Sleep Quantity",
-        titlePosition: 'out',
-        titleTextStyle: {
-            color: SLEEP_PRIMARY_COLOR
-        },
-        backgroundColor: {
-            fill: SLEEP_BACKGROUND_COLOR,
-            stroke: SLEEP_PRIMARY_COLOR,
-            strokeWidth: SLEEP_STROKE_WIDTH
-        },
-        animation: {
-            duration: SLEEP_ANIMATION_DURATION,
-            startup: true,
-            easing: SLEEP_ANIMATION_EASING
-        },
-        hAxis: {
-            textStyle: {
-                color: SLEEP_PRIMARY_COLOR
-            },
-            gridlines: {
-                color: SLEEP_BACKGROUND_COLOR
-            }
-        },
-        legend: {
-            textStyle: {
-                color: SLEEP_PRIMARY_COLOR
-            },
-            position: SLEEP_LEGEND_POSITION
-        },
-        vAxis: {
-            textStyle: {
-                color: SLEEP_PRIMARY_COLOR
-            },
-            gridlines: {
-                color: SLEEP_BACKGROUND_COLOR
-            }
-        }
-    } %>
+  <%= line_chart [
+                         {name: "Sleep Time", data: sleep_time_chart_data}
+                 ], colors: [SLEEP_PRIMARY_COLOR],
+                 library: {
+                         title: "Sleep Quantity",
+                         titlePosition: 'out',
+                         titleTextStyle: {
+                                 color: SLEEP_PRIMARY_COLOR
+                         },
+                         backgroundColor: {
+                                 fill: SLEEP_BACKGROUND_COLOR,
+                                 stroke: SLEEP_PRIMARY_COLOR,
+                                 strokeWidth: SLEEP_STROKE_WIDTH
+                         },
+                         animation: {
+                                 duration: SLEEP_ANIMATION_DURATION,
+                                 startup: true,
+                                 easing: SLEEP_ANIMATION_EASING
+                         },
+                         hAxis: {
+                                 textStyle: {
+                                         color: SLEEP_PRIMARY_COLOR
+                                 },
+                                 gridlines: {
+                                         color: SLEEP_BACKGROUND_COLOR
+                                 }
+                         },
+                         legend: {
+                                 textStyle: {
+                                         color: SLEEP_PRIMARY_COLOR
+                                 },
+                                 position: SLEEP_LEGEND_POSITION
+                         },
+                         vAxis: {
+                                 textStyle: {
+                                         color: SLEEP_PRIMARY_COLOR
+                                 },
+                                 gridlines: {
+                                         color: SLEEP_BACKGROUND_COLOR
+                                 }
+                         }
+                 } %>
 </div>
 
 <div class="col-md-12">
   <%= line_chart [
-  {name: "Quality", data: sleep_quality_chart_data}
-  ], colors: [ SLEEP_PRIMARY_COLOR ],
-  library: {
-      title: "Sleep Quality",
-      titlePosition: 'out',
-      titleTextStyle: {
-              color: SLEEP_PRIMARY_COLOR
-      },
-      backgroundColor: {
-          fill: SLEEP_BACKGROUND_COLOR,
-          stroke: SLEEP_PRIMARY_COLOR,
-          strokeWidth: SLEEP_STROKE_WIDTH
-      },
-      animation: {
-          duration: SLEEP_ANIMATION_DURATION,
-          startup: true,
-          easing: SLEEP_ANIMATION_EASING
-      },
-      hAxis: {
-          textStyle: {
-              color: SLEEP_PRIMARY_COLOR
-          },
-          gridlines: {
-              color: SLEEP_BACKGROUND_COLOR
-          }
-      },
-      legend: {
-          textStyle: {
-              color: SLEEP_PRIMARY_COLOR
-          },
-          position: SLEEP_LEGEND_POSITION
-      },
-      vAxis: {
-          ticks: [{v:1, f:'Broken'}, {v:2, f:'Light'}, {v:3, f:'Norm'}, {v:4, f:'Deep'}],
-          textStyle: {
-              color: SLEEP_PRIMARY_COLOR
-          },
-          gridlines: {
-              color: SLEEP_BACKGROUND_COLOR
-          }
-      }
-  } %>
+                         {name: "Quality", data: sleep_quality_chart_data}
+                 ], colors: [SLEEP_PRIMARY_COLOR],
+                 library: {
+                         title: "Sleep Quality",
+                         titlePosition: 'out',
+                         titleTextStyle: {
+                                 color: SLEEP_PRIMARY_COLOR
+                         },
+                         backgroundColor: {
+                                 fill: SLEEP_BACKGROUND_COLOR,
+                                 stroke: SLEEP_PRIMARY_COLOR,
+                                 strokeWidth: SLEEP_STROKE_WIDTH
+                         },
+                         animation: {
+                                 duration: SLEEP_ANIMATION_DURATION,
+                                 startup: true,
+                                 easing: SLEEP_ANIMATION_EASING
+                         },
+                         hAxis: {
+                                 textStyle: {
+                                         color: SLEEP_PRIMARY_COLOR
+                                 },
+                                 gridlines: {
+                                         color: SLEEP_BACKGROUND_COLOR
+                                 }
+                         },
+                         legend: {
+                                 textStyle: {
+                                         color: SLEEP_PRIMARY_COLOR
+                                 },
+                                 position: SLEEP_LEGEND_POSITION
+                         },
+                         vAxis: {
+                                 ticks: [{v: 1, f: 'Broken'}, {v: 2, f: 'Light'}, {v: 3, f: 'Norm'}, {v: 4, f: 'Deep'}],
+                                 textStyle: {
+                                         color: SLEEP_PRIMARY_COLOR
+                                 },
+                                 gridlines: {
+                                         color: SLEEP_BACKGROUND_COLOR
+                                 }
+                         }
+                 } %>
 </div>

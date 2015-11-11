@@ -1,27 +1,27 @@
-require 'rails_helper' 
+require 'rails_helper'
 
 describe SelfCaresController, :type => :controller do
   include Devise::TestHelpers
 
-  describe "GET #index" do 
+  describe "GET #index" do
     context "with anonymous user" do
       before :each do
         # This simulates an anonymous user
         login_with nil
       end
-      
+
       it "redirects to signin" do
         get :index
-        expect( response ).to redirect_to( new_user_session_path )
+        expect(response).to redirect_to(new_user_session_path)
       end
     end
-    
+
     context "with authenticated user" do
       before :each do
         # This simulates an authenticated user
         @spec_user = FactoryGirl.create(:user)
         login_with @spec_user
-        
+
         @spec_self_cares = FactoryGirl.create_list(:self_care, 5, user: @spec_user)
       end
 
@@ -33,11 +33,11 @@ describe SelfCaresController, :type => :controller do
         it "returns a successful 200 response" do
           expect(response).to be_success
         end
-        
-        it "populates an array of self cares" do 
+
+        it "populates an array of self cares" do
           expect(assigns(:self_cares).to_a).to eq(@spec_self_cares)
         end
-        
+
         it "renders the :index view" do
           expect(response).to render_template :index
         end
@@ -64,7 +64,7 @@ describe SelfCaresController, :type => :controller do
         end
       end
     end
-  end 
+  end
 
   describe "GET #show" do
     context "with anonymous user" do
@@ -72,13 +72,13 @@ describe SelfCaresController, :type => :controller do
         # This simulates an anonymous user
         login_with nil
       end
-      
+
       it "redirects to signin" do
-        get :show, id: 1 
-        expect( response ).to redirect_to( new_user_session_path )
+        get :show, id: 1
+        expect(response).to redirect_to(new_user_session_path)
       end
     end
-    
+
     context "with authenticated user" do
       before :each do
         # This simulates an authenticated user
@@ -88,10 +88,10 @@ describe SelfCaresController, :type => :controller do
 
       context "with HTML request" do
         before :each do
-          @spec_self_care = FactoryGirl.create(:self_care, user: @spec_user) 
+          @spec_self_care = FactoryGirl.create(:self_care, user: @spec_user)
           get :show, id: @spec_self_care.id
         end
-        
+
         it "assigns the requested self care to @self_care" do
           expect(assigns(:self_care)).to eq(@spec_self_care)
         end
@@ -120,19 +120,19 @@ describe SelfCaresController, :type => :controller do
     end
   end
 
-  describe "GET #new" do 
+  describe "GET #new" do
     context "with anonymous user" do
       before :each do
         # This simulates an anonymous user
         login_with nil
       end
-      
+
       it "redirects to signin" do
         get :new
-        expect( response ).to redirect_to( new_user_session_path )
+        expect(response).to redirect_to(new_user_session_path)
       end
     end
-    
+
     context "with authenticated user" do
       before :each do
         # This simulates an authenticated user
@@ -142,9 +142,9 @@ describe SelfCaresController, :type => :controller do
 
       context "with HTML request" do
         before :each do
-          get :new 
+          get :new
         end
-        
+
         it "assigns a new Self Care to @self_care" do
           expect(assigns(:self_care)).to be_a_new(SelfCare)
         end
@@ -171,28 +171,28 @@ describe SelfCaresController, :type => :controller do
         end
       end
     end
-  end 
+  end
 
-  describe "GET #edit" do 
+  describe "GET #edit" do
     context "with anonymous user" do
       before :each do
         # This simulates an anonymous user
         login_with nil
       end
-      
+
       it "redirects to signin" do
         get :edit, id: 1
-        expect( response ).to redirect_to( new_user_session_path )
+        expect(response).to redirect_to(new_user_session_path)
       end
     end
-    
+
     context "with authenticated user" do
       before :each do
         # This simulates an authenticated user
         @spec_user = FactoryGirl.create(:user)
         login_with @spec_user
 
-        @spec_self_care = FactoryGirl.create(:self_care, user: @spec_user) 
+        @spec_self_care = FactoryGirl.create(:self_care, user: @spec_user)
       end
 
       context "with HTML request" do
@@ -228,19 +228,19 @@ describe SelfCaresController, :type => :controller do
     end
   end
 
-  describe "POST #create" do 
+  describe "POST #create" do
     context "with anonymous user" do
       before :each do
         # This simulates an anonymous user
         login_with nil
       end
-      
+
       it "redirects to signin" do
         post :create
-        expect( response ).to redirect_to( new_user_session_path )
+        expect(response).to redirect_to(new_user_session_path)
       end
     end
-    
+
     context "with authenticated user" do
       before :each do
         # This simulates an authenticated user
@@ -252,63 +252,63 @@ describe SelfCaresController, :type => :controller do
         @spec_self_care_attrs = FactoryGirl.attributes_for(:self_care, user: @spec_user).as_json
       end
 
-      context "with valid JS request(:context)" do 
-        it "creates a new self care" do 
-          expect{
+      context "with valid JS request(:context)" do
+        it "creates a new self care" do
+          expect {
             xhr :post, :create, :self_care => @spec_self_care_attrs
-          }.to change(SelfCare,:count).by(1) 
+          }.to change(SelfCare, :count).by(1)
         end
 
-        it "returns a created 201 response" do 
-         xhr :post, :create, :self_care => @spec_self_care_attrs
+        it "returns a created 201 response" do
+          xhr :post, :create, :self_care => @spec_self_care_attrs
           expect(response).to have_http_status(:created)
           #expect(response).to redirect_to SelfCare.last 
-        end 
-      end 
+        end
+      end
 
-      context "with valid JSON attributes(:context)" do 
-        it "creates a new self care" do 
-          expect{
+      context "with valid JSON attributes(:context)" do
+        it "creates a new self care" do
+          expect {
             post :create, :self_care => @spec_self_care_attrs, format: :json
-          }.to change(SelfCare,:count).by(1) 
+          }.to change(SelfCare, :count).by(1)
         end
 
-        it "returns a created 201 response" do 
+        it "returns a created 201 response" do
           post :create, :self_care => @spec_self_care_attrs, format: :json
           expect(response).to have_http_status(:created)
           #expect(response).to redirect_to SelfCare.last 
-        end 
-      end 
-
-      context "with invalid JS request" do 
-        it "does not save the new self care" do
-          @spec_invalid_self_care_attrs = FactoryGirl.attributes_for(:invalid_self_care).as_json
-          expect{ 
-            xhr :post, :create, self_care: @spec_invalid_self_care_attrs
-          }.to_not change(SelfCare,:count) 
-        end 
-
-        it "re-renders JS for new method" do 
-          @spec_invalid_self_care_attrs = FactoryGirl.attributes_for(:invalid_self_care).as_json
-          xhr :post, :create, self_care: @spec_invalid_self_care_attrs
-          xhr :get, :new, @params
-        end 
+        end
       end
 
-      context "with invalid JSON attributes" do 
+      context "with invalid JS request" do
         it "does not save the new self care" do
           @spec_invalid_self_care_attrs = FactoryGirl.attributes_for(:invalid_self_care).as_json
-          expect{ 
-            post :create, self_care: @spec_invalid_self_care_attrs, format: :json
-          }.to_not change(SelfCare,:count) 
-        end 
+          expect {
+            xhr :post, :create, self_care: @spec_invalid_self_care_attrs
+          }.to_not change(SelfCare, :count)
+        end
 
-        it "re-renders JS for new method" do 
+        it "re-renders JS for new method" do
           @spec_invalid_self_care_attrs = FactoryGirl.attributes_for(:invalid_self_care).as_json
           xhr :post, :create, self_care: @spec_invalid_self_care_attrs
           xhr :get, :new, @params
-        end 
-      end 
+        end
+      end
+
+      context "with invalid JSON attributes" do
+        it "does not save the new self care" do
+          @spec_invalid_self_care_attrs = FactoryGirl.attributes_for(:invalid_self_care).as_json
+          expect {
+            post :create, self_care: @spec_invalid_self_care_attrs, format: :json
+          }.to_not change(SelfCare, :count)
+        end
+
+        it "re-renders JS for new method" do
+          @spec_invalid_self_care_attrs = FactoryGirl.attributes_for(:invalid_self_care).as_json
+          xhr :post, :create, self_care: @spec_invalid_self_care_attrs
+          xhr :get, :new, @params
+        end
+      end
     end
   end
 
@@ -318,13 +318,13 @@ describe SelfCaresController, :type => :controller do
         # This simulates an anonymous user
         login_with nil
       end
-      
+
       it "redirects to signin" do
         put :update, id: 1
-        expect( response ).to redirect_to( new_user_session_path )
+        expect(response).to redirect_to(new_user_session_path)
       end
     end
-    
+
     context "with authenticated user" do
       before :each do
         # This simulates an authenticated user
@@ -346,7 +346,7 @@ describe SelfCaresController, :type => :controller do
           expect(assigns(:self_care).as_json).to eq(@spec_self_care.as_json)
         end
 
-        it "updates an existing self care" do 
+        it "updates an existing self care" do
           xhr :put, :update, :id => @spec_self_care.as_json["id"], self_care: @spec_updated_self_care_attrs
           @spec_self_care.reload
           expect(@spec_self_care.counseling).to eq(@spec_updated_self_care_attrs["counseling"])
@@ -355,17 +355,17 @@ describe SelfCaresController, :type => :controller do
           expect(@spec_self_care.exercise).to eq(@spec_updated_self_care_attrs["exercise"])
         end
 
-        it "returns a updated 200 response" do 
+        it "returns a updated 200 response" do
           xhr :put, :update, :id => @spec_self_care.as_json["id"], self_care: @spec_updated_self_care_attrs
           expect(response).to be_success
           #expect(response).to redirect_to SelfCare.last 
-        end 
+        end
 
         it "gives a success flash message" do
           xhr :put, :update, :id => @spec_self_care.as_json["id"], self_care: @spec_updated_self_care_attrs
           expect(flash[:success]).to eq("Self Care Entry was successfully updated.")
         end
-      end 
+      end
 
       context "with valid JSON attributes" do
         it "located the requested @self_care" do
@@ -373,7 +373,7 @@ describe SelfCaresController, :type => :controller do
           expect(assigns(:self_care).as_json).to eq(@spec_self_care.as_json)
         end
 
-        it "updates an existing self care" do 
+        it "updates an existing self care" do
           put :update, :id => @spec_self_care.as_json["id"], self_care: {:counseling => @spec_updated_self_care_attrs["counseling"], :medication => @spec_updated_self_care_attrs["medication"], :meditation => @spec_updated_self_care_attrs["meditation"], :exercise => @spec_updated_self_care_attrs["exercise"]}, format: :json
 
           @spec_self_care.reload
@@ -383,26 +383,26 @@ describe SelfCaresController, :type => :controller do
           expect(@spec_self_care.exercise).to eq(@spec_updated_self_care_attrs["exercise"])
         end
 
-        it "returns a created 200 response" do 
+        it "returns a created 200 response" do
           put :update, :id => @spec_self_care.as_json["id"], self_care: {:counseling => @spec_updated_self_care_attrs["counseling"], :medication => @spec_updated_self_care_attrs["medication"], :meditation => @spec_updated_self_care_attrs["meditation"], :exercise => @spec_updated_self_care_attrs["exercise"]}, format: :json
           #expect(response).to redirect_to SelfCare.last 
-        end 
+        end
 
         it "gives a success flash message" do
           put :update, :id => @spec_self_care.as_json["id"], self_care: {:counseling => @spec_updated_self_care_attrs["counseling"], :medication => @spec_updated_self_care_attrs["medication"], :meditation => @spec_updated_self_care_attrs["meditation"], :exercise => @spec_updated_self_care_attrs["exercise"]}, format: :json
           expect(flash[:success]).to eq("Self Care Entry was successfully updated.")
         end
-      end 
+      end
 
-      context "with invalid JSON attributes" do 
+      context "with invalid JSON attributes" do
         it "does not update the new self care" do
           @spec_invalid_self_care_attrs = FactoryGirl.attributes_for(:invalid_self_care).as_json
-          expect{ 
+          expect {
             put :update, :id => @spec_self_care.as_json["id"], self_care: {:counseling => @spec_invalid_self_care_attrs["counseling"], :medication => @spec_invalid_self_care_attrs["medication"], :meditation => @spec_invalid_self_care_attrs["meditation"], :exercise => @spec_invalid_self_care_attrs["exercise"]}, format: :json
-          }.to_not change(SelfCare,:count) 
-        end 
+          }.to_not change(SelfCare, :count)
+        end
 
-        it "re-renders JS for edit method" do 
+        it "re-renders JS for edit method" do
           @spec_invalid_self_care_attrs = FactoryGirl.attributes_for(:invalid_self_care).as_json
           put :update, :id => @spec_self_care.as_json["id"], self_care: {:counseling => @spec_invalid_self_care_attrs["counseling"], :medication => @spec_invalid_self_care_attrs["medication"], :meditation => @spec_invalid_self_care_attrs["meditation"], :exercise => @spec_invalid_self_care_attrs["exercise"]}, format: :js
           xhr :get, :edit, :id => @spec_self_care.as_json["id"], self_care: {:counseling => @spec_updated_self_care_attrs["counseling"], :medication => @spec_updated_self_care_attrs["medication"], :meditation => @spec_updated_self_care_attrs["meditation"], :exercise => @spec_updated_self_care_attrs["exercise"]}, format: :json
@@ -413,7 +413,7 @@ describe SelfCaresController, :type => :controller do
           put :update, :id => @spec_self_care.as_json["id"], self_care: {:counseling => @spec_invalid_self_care_attrs["counseling"], :medication => @spec_invalid_self_care_attrs["medication"], :meditation => @spec_invalid_self_care_attrs["meditation"], :exercise => @spec_invalid_self_care_attrs["exercise"]}, format: :json
           expect(flash[:error]).to eq("Self Care Entry was not updated... Try again???")
         end
-      end 
+      end
     end
   end
 
@@ -423,10 +423,10 @@ describe SelfCaresController, :type => :controller do
         # This simulates an anonymous user
         login_with nil
       end
-      
+
       it "redirects to signin" do
         get :cancel
-        expect( response ).to redirect_to( new_user_session_path )
+        expect(response).to redirect_to(new_user_session_path)
       end
     end
 
@@ -437,13 +437,13 @@ describe SelfCaresController, :type => :controller do
         login_with @spec_user
       end
 
-      before :each do 
+      before :each do
         @spec_self_care_attrs = FactoryGirl.attributes_for(:self_care, user: @spec_user).as_json
         @spec_self_care = FactoryGirl.create(:self_care, @spec_self_care_attrs)
       end
 
       context "with JS request" do
-        it "re-renders JS for index method" do 
+        it "re-renders JS for index method" do
           xhr :get, :delete, self_care_id: @spec_self_care.as_json["id"], format: :js
           xhr :get, :index
         end
@@ -451,16 +451,16 @@ describe SelfCaresController, :type => :controller do
     end
   end
 
-  describe "DELETE #destroy" do 
+  describe "DELETE #destroy" do
     context "with anonymous user" do
       before :each do
         # This simulates an anonymous user
         login_with nil
       end
-      
+
       it "redirects to signin" do
         delete :destroy, id: 1
-        expect( response ).to redirect_to( new_user_session_path )
+        expect(response).to redirect_to(new_user_session_path)
       end
     end
 
@@ -471,37 +471,37 @@ describe SelfCaresController, :type => :controller do
         login_with @spec_user
       end
 
-      before :each do 
+      before :each do
         @spec_self_care_attrs = FactoryGirl.attributes_for(:self_care, user: @spec_user).as_json
         @spec_self_care = FactoryGirl.create(:self_care, @spec_self_care_attrs)
-      end 
+      end
 
       context "with JS request" do
-        it "deletes the self care" do 
-          expect{ 
+        it "deletes the self care" do
+          expect {
             delete :destroy, id: @spec_self_care.as_json["id"], format: :js
-          }.to change(SelfCare,:count).by(-1) 
-        end 
+          }.to change(SelfCare, :count).by(-1)
+        end
 
-        it "re-renders JS for index method" do 
+        it "re-renders JS for index method" do
           delete :destroy, id: @spec_self_care.as_json["id"], format: :js
           xhr :get, :index, @params
         end
 
-        it "gives a success flash message" do 
+        it "gives a success flash message" do
           delete :destroy, id: @spec_self_care.as_json["id"], format: :js
           expect(flash[:success]).to eq("Self Care Entry was successfully deleted.")
         end
       end
 
       context "with JSON request" do
-        it "deletes the self care" do 
-          expect{ 
+        it "deletes the self care" do
+          expect {
             delete :destroy, id: @spec_self_care.as_json["id"], format: :json
-          }.to change(SelfCare,:count).by(-1) 
-        end 
+          }.to change(SelfCare, :count).by(-1)
+        end
 
-        it "returns a no content 204 response" do 
+        it "returns a no content 204 response" do
           delete :destroy, id: @spec_self_care.as_json["id"], format: :json
           expect(response).to have_http_status(:no_content)
         end
@@ -509,16 +509,16 @@ describe SelfCaresController, :type => :controller do
     end
   end
 
-  describe "GET #cancel" do 
+  describe "GET #cancel" do
     context "with anonymous user" do
       before :each do
         # This simulates an anonymous user
         login_with nil
       end
-      
+
       it "redirects to signin" do
         get :cancel
-        expect( response ).to redirect_to( new_user_session_path )
+        expect(response).to redirect_to(new_user_session_path)
       end
     end
 
@@ -530,7 +530,7 @@ describe SelfCaresController, :type => :controller do
       end
 
       context "with JS request" do
-        it "re-renders JS for index method" do 
+        it "re-renders JS for index method" do
           xhr :get, :cancel, format: :js
           xhr :get, :index
         end

@@ -1,6 +1,6 @@
-require 'rails_helper' 
+require 'rails_helper'
 
-describe Sleep do 
+describe Sleep do
   it "has a valid factory" do
     expect(FactoryGirl.create(:sleep)).to be_valid
   end

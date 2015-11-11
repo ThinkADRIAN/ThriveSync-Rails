@@ -1,4 +1,4 @@
-module.exports = function(grunt) {
+module.exports = function (grunt) {
   "use strict";
 
   require("load-grunt-tasks")(grunt);
@@ -214,7 +214,7 @@ module.exports = function(grunt) {
         tasks: ["newer:jshint:test", "jasmine"]
       },
       less: {
-        files:["less/**/*.less"],
+        files: ["less/**/*.less"],
         tasks: ["material:less"]
       },
       livereload: {
@@ -249,8 +249,8 @@ module.exports = function(grunt) {
       "meteor-publish": {
         command: [
           "ALL_EXIT_CODE=0; for PACKAGE_FILE in meteor/package*.js",
-            "do cp $PACKAGE_FILE ./package.js && meteor publish $@",
-            "ALL_EXIT_CODE=$(echo $ALL_EXIT_CODE + $? | bc); done",
+          "do cp $PACKAGE_FILE ./package.js && meteor publish $@",
+          "ALL_EXIT_CODE=$(echo $ALL_EXIT_CODE + $? | bc); done",
           "exit $ALL_EXIT_CODE"
         ].join(";")
       }
@@ -294,7 +294,7 @@ module.exports = function(grunt) {
     "uglify:ripples"
   ]);
 
-  grunt.registerTask("build", function() {
+  grunt.registerTask("build", function () {
     grunt.task.run(["newer:jshint", "default"]);
   });
 
@@ -303,13 +303,13 @@ module.exports = function(grunt) {
     "connect:test:keepalive"
   ]);
 
-  grunt.registerTask("serve", function(target){
+  grunt.registerTask("serve", function (target) {
     var buildTarget = "material:less";
-    if(target && target === "scss") {
+    if (target && target === "scss") {
       buildTarget = "scss";
     }
     grunt.task.run([
-      "build:"+ buildTarget,
+      "build:" + buildTarget,
       "connect:livereload",
       "watch"
     ]);

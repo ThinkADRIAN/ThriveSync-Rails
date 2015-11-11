@@ -1,257 +1,259 @@
 <div class="container">
   <h1>Scorecard</h1>
-    <div class="col-sm-12">
 
-      <h5>Goals</h5>
+  <div class="col-sm-12">
 
-      <table class="table table-condensed">
-        <thead>
+    <h5>Goals</h5>
+
+    <table class="table table-condensed">
+      <thead>
+      <tr>
+        <th>Checkin Goal</th>
+        <th>Sunday</th>
+        <th>Monday</th>
+        <th>Tuesday</th>
+        <th>Wednesday</th>
+        <th>Thursday</th>
+        <th>Friday</th>
+        <th>Saturday</th>
+        <th>Checkins To Go</th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <% @scorecards.each do |scorecard| %>
           <tr>
-            <th>Checkin Goal</th>
-            <th>Sunday</th>
-            <th>Monday</th>
-            <th>Tuesday</th>
-            <th>Wednesday</th>
-            <th>Thursday</th>
-            <th>Friday</th>
-            <th>Saturday</th>
-            <th>Checkins To Go</th>
+            <td><%= scorecard.checkin_goal %>
+              - <%= link_to 'Edit', edit_scorecard_path(scorecard), class: "btn-default btn-xs" %></td>
+            <td>
+              <% if scorecard.checkin_sunday %>
+                  X
+              <% end %>
+            </td>
+            <td>
+              <% if scorecard.checkin_monday %>
+                  X
+              <% end %>
+            </td>
+            <td>
+              <% if scorecard.checkin_tuesday %>
+                  X
+              <% end %>
+            </td>
+            <td>
+              <% if scorecard.checkin_wednesday %>
+                  X
+              <% end %>
+            </td>
+            <td>
+              <% if scorecard.checkin_thursday %>
+                  X
+              <% end %>
+            </td>
+            <td>
+              <% if scorecard.checkin_friday %>
+                  X
+              <% end %>
+            </td>
+            <td>
+              <% if scorecard.checkin_saturday %>
+                  X
+              <% end %>
+            </td>
+            <td><%= scorecard.checkins_to_reach_goal %></td>
           </tr>
-        </thead>
+      <% end %>
+      </tbody>
+    </table>
 
-        <tbody>
-          <% @scorecards.each do |scorecard| %>
-            <tr>
-              <td><%= scorecard.checkin_goal %> - <%= link_to 'Edit', edit_scorecard_path(scorecard), class: "btn-default btn-xs" %></td>
-              <td>
-                <% if scorecard.checkin_sunday %>
-                  X
-                <% end %>
-              </td>
-              <td>
-                <% if scorecard.checkin_monday %>
-                  X
-                <% end %>
-              </td>
-              <td>
-                <% if scorecard.checkin_tuesday %>
-                  X
-                <% end %>
-              </td>
-              <td>
-                <% if scorecard.checkin_wednesday %>
-                  X
-                <% end %>
-              </td>
-              <td>
-                <% if scorecard.checkin_thursday %>
-                  X
-                <% end %>
-              </td>
-              <td>
-                <% if scorecard.checkin_friday %>
-                  X
-                <% end %>
-              </td>
-              <td>
-                <% if scorecard.checkin_saturday %>
-                  X
-                <% end %>
-              </td>
-              <td><%= scorecard.checkins_to_reach_goal %></td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
+    <h5>Main</h5>
 
-      <h5>Main</h5>
+    <table class="table table-condensed">
+      <thead>
+      <tr>
+        <th>Total Score</th>
+        <th>Level Multiplier</th>
+        <th>Checkin Count</th>
+        <th>Last Checkin</th>
+        <th>Streak Count</th>
+        <th>Streak Record</th>
+        <th>Perfect Checkin Count</th>
+        <th>Last Perfect Checkin</th>
+        <th>Days Since Signup</th>
+      </tr>
+      </thead>
 
-      <table class="table table-condensed">
-        <thead>
+      <tbody>
+      <% @scorecards.each do |scorecard| %>
           <tr>
-            <th>Total Score</th>
-            <th>Level Multiplier</th>
-            <th>Checkin Count</th>
-            <th>Last Checkin</th>
-            <th>Streak Count</th>
-            <th>Streak Record</th>
-            <th>Perfect Checkin Count</th>
-            <th>Last Perfect Checkin</th>
-            <th>Days Since Signup</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          <% @scorecards.each do |scorecard| %>
-            <tr>
-              <td><%= scorecard.total_score %></td>
-              <td><%= scorecard.level_multiplier %></td>
-              <td><%= scorecard.checkin_count %></td>
-              <td>
-                <% if scorecard.last_checkin_date != nil %>
+            <td><%= scorecard.total_score %></td>
+            <td><%= scorecard.level_multiplier %></td>
+            <td><%= scorecard.checkin_count %></td>
+            <td>
+              <% if scorecard.last_checkin_date != nil %>
                   <%= I18n.l scorecard.last_checkin_date, format: :long_am_pm %>
-                <% else %>
+              <% else %>
                   ---
-                <% end %>
-              </td>
-              <td><%= scorecard.streak_count %></td>
-              <td><%= scorecard.streak_record %></td>
-              <td><%= scorecard.perfect_checkin_count %></td>
-              <td>
-                <% if scorecard.last_perfect_checkin_date != nil %>
+              <% end %>
+            </td>
+            <td><%= scorecard.streak_count %></td>
+            <td><%= scorecard.streak_record %></td>
+            <td><%= scorecard.perfect_checkin_count %></td>
+            <td>
+              <% if scorecard.last_perfect_checkin_date != nil %>
                   <%= I18n.l scorecard.last_perfect_checkin_date, format: :long_am_pm %>
-                <% else %>
+              <% else %>
                   ---
-                <% end %>
-              </td>
-              <td><%= scorecard.days_since_signup %></td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
-
-      <br>
-
-      <h5>Mood</h5>
-
-      <table class="table table-condensed">
-        <thead>
-          <tr>
-            <th>Score</th>
-            <th>Level Multiplier</th>
-            <th>Checkin Count</th>
-            <th>Last Checkin</th>
-            <th>Streak Count</th>
-            <th>Streak Record</th>
+              <% end %>
+            </td>
+            <td><%= scorecard.days_since_signup %></td>
           </tr>
-        </thead>
+      <% end %>
+      </tbody>
+    </table>
 
-        <tbody>
-          <% @scorecards.each do |scorecard| %>
-            <tr>
-              <td><%= scorecard.moods_score %></td>
-              <td><%= scorecard.mood_level_multiplier %></td>
-              <td><%= scorecard.mood_checkin_count %></td>
-              <td>
-                <% if scorecard.mood_last_checkin_date != nil %>
+    <br>
+
+    <h5>Mood</h5>
+
+    <table class="table table-condensed">
+      <thead>
+      <tr>
+        <th>Score</th>
+        <th>Level Multiplier</th>
+        <th>Checkin Count</th>
+        <th>Last Checkin</th>
+        <th>Streak Count</th>
+        <th>Streak Record</th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <% @scorecards.each do |scorecard| %>
+          <tr>
+            <td><%= scorecard.moods_score %></td>
+            <td><%= scorecard.mood_level_multiplier %></td>
+            <td><%= scorecard.mood_checkin_count %></td>
+            <td>
+              <% if scorecard.mood_last_checkin_date != nil %>
                   <%= I18n.l scorecard.mood_last_checkin_date, format: :long_am_pm %>
-                <% else %>
+              <% else %>
                   ---
-                <% end %>
-              </td>
-              <td><%= scorecard.mood_streak_count %></td>
-              <td><%= scorecard.mood_streak_record %></td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
-
-      <br>
-
-      <h5>Sleep</h5>
-
-      <table class="table table-condensed">
-        <thead>
-          <tr>
-            <th>Score</th>
-            <th>Level Multiplier</th>
-            <th>Checkin Count</th>
-            <th>Last Checkin</th>
-            <th>Streak Count</th>
-            <th>Streak Record</th>
+              <% end %>
+            </td>
+            <td><%= scorecard.mood_streak_count %></td>
+            <td><%= scorecard.mood_streak_record %></td>
           </tr>
-        </thead>
+      <% end %>
+      </tbody>
+    </table>
 
-        <tbody>
-          <% @scorecards.each do |scorecard| %>
-            <tr>
-              <td><%= scorecard.sleeps_score %></td>
-              <td><%= scorecard.sleep_level_multiplier %></td>
-              <td><%= scorecard.sleep_checkin_count %></td>
-              <td>
-                <% if scorecard.sleep_last_checkin_date != nil %>
+    <br>
+
+    <h5>Sleep</h5>
+
+    <table class="table table-condensed">
+      <thead>
+      <tr>
+        <th>Score</th>
+        <th>Level Multiplier</th>
+        <th>Checkin Count</th>
+        <th>Last Checkin</th>
+        <th>Streak Count</th>
+        <th>Streak Record</th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <% @scorecards.each do |scorecard| %>
+          <tr>
+            <td><%= scorecard.sleeps_score %></td>
+            <td><%= scorecard.sleep_level_multiplier %></td>
+            <td><%= scorecard.sleep_checkin_count %></td>
+            <td>
+              <% if scorecard.sleep_last_checkin_date != nil %>
                   <%= I18n.l scorecard.sleep_last_checkin_date, format: :long_am_pm %>
-                <% else %>
+              <% else %>
                   ---
-                <% end %>
-              </td>
-              <td><%= scorecard.sleep_streak_count %></td>
-              <td><%= scorecard.sleep_streak_record %></td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
-
-      <br>
-
-      <h5>Self Care</h5>
-
-      <table class="table table-condensed">
-        <thead>
-          <tr>
-            <th>Score</th>
-            <th>Level Multiplier</th>
-            <th>Checkin Count</th>
-            <th>Last Checkin</th>
-            <th>Streak Count</th>
-            <th>Streak Record</th>
+              <% end %>
+            </td>
+            <td><%= scorecard.sleep_streak_count %></td>
+            <td><%= scorecard.sleep_streak_record %></td>
           </tr>
-        </thead>
+      <% end %>
+      </tbody>
+    </table>
 
-        <tbody>
-          <% @scorecards.each do |scorecard| %>
-            <tr>
-              <td><%= scorecard.self_cares_score %></td>
-              <td><%= scorecard.self_care_level_multiplier %></td>
-              <td><%= scorecard.self_care_checkin_count %></td>
-              <td>
-                <% if scorecard.self_care_last_checkin_date != nil %>
+    <br>
+
+    <h5>Self Care</h5>
+
+    <table class="table table-condensed">
+      <thead>
+      <tr>
+        <th>Score</th>
+        <th>Level Multiplier</th>
+        <th>Checkin Count</th>
+        <th>Last Checkin</th>
+        <th>Streak Count</th>
+        <th>Streak Record</th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <% @scorecards.each do |scorecard| %>
+          <tr>
+            <td><%= scorecard.self_cares_score %></td>
+            <td><%= scorecard.self_care_level_multiplier %></td>
+            <td><%= scorecard.self_care_checkin_count %></td>
+            <td>
+              <% if scorecard.self_care_last_checkin_date != nil %>
                   <%= I18n.l scorecard.self_care_last_checkin_date, format: :long_am_pm %>
-                <% else %>
+              <% else %>
                   ---
-                <% end %>
-              </td>
-              <td><%= scorecard.self_care_streak_count %></td>
-              <td><%= scorecard.self_care_streak_record %></td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
-
-      <br>
-
-      <h5>Journal</h5>
-
-      <table class="table table-condensed">
-        <thead>
-          <tr>
-            <th>Score</th>
-            <th>Level Multiplier</th>
-            <th>Checkin Count</th>
-            <th>Last Checkin</th>
-            <th>Streak Count</th>
-            <th>Streak Record</th>
+              <% end %>
+            </td>
+            <td><%= scorecard.self_care_streak_count %></td>
+            <td><%= scorecard.self_care_streak_record %></td>
           </tr>
-        </thead>
+      <% end %>
+      </tbody>
+    </table>
 
-        <tbody>
-          <% @scorecards.each do |scorecard| %>
-            <tr>
-              <td><%= scorecard.journals_score %></td>
-              <td><%= scorecard.journal_level_multiplier %></td>
-              <td><%= scorecard.journal_checkin_count %></td>
-              <td>
-                <% if scorecard.journal_last_checkin_date != nil %>
+    <br>
+
+    <h5>Journal</h5>
+
+    <table class="table table-condensed">
+      <thead>
+      <tr>
+        <th>Score</th>
+        <th>Level Multiplier</th>
+        <th>Checkin Count</th>
+        <th>Last Checkin</th>
+        <th>Streak Count</th>
+        <th>Streak Record</th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <% @scorecards.each do |scorecard| %>
+          <tr>
+            <td><%= scorecard.journals_score %></td>
+            <td><%= scorecard.journal_level_multiplier %></td>
+            <td><%= scorecard.journal_checkin_count %></td>
+            <td>
+              <% if scorecard.journal_last_checkin_date != nil %>
                   <%= I18n.l scorecard.journal_last_checkin_date, format: :long_am_pm %>
-                <% else %>
+              <% else %>
                   ---
-                <% end %>
-              </td>
-              <td><%= scorecard.journal_streak_count %></td>
-              <td><%= scorecard.journal_streak_record %></td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
-    </div>
+              <% end %>
+            </td>
+            <td><%= scorecard.journal_streak_count %></td>
+            <td><%= scorecard.journal_streak_record %></td>
+          </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
 </div>

@@ -1,173 +1,173 @@
 <% if @user == nil %>
-  <% user = current_user %>
+    <% user = current_user %>
 <% else %>
-  <% user = @user%>
+    <% user = @user %>
 <% end %>
 
 <% @moods = Mood.where(user_id: user.id) %>
 
-<% 
-if @mood_lookback_period == 'week' 
-  mood_chart_data = @moods.group_by_day(:timestamp, range: DATE_RANGE_THIS_WEEK).average(:mood_rating)
-  anxiety_chart_data = @moods.group_by_day(:timestamp, range: DATE_RANGE_THIS_WEEK).average(:anxiety_rating)
-  irritability_chart_data = @moods.group_by_day(:timestamp, range: DATE_RANGE_THIS_WEEK).average(:irritability_rating)
-elsif @mood_lookback_period == 'last_week'
-  mood_chart_data = @moods.group_by_day(:timestamp, range: DATE_RANGE_LAST_WEEK).average(:mood_rating)
-  anxiety_chart_data = @moods.group_by_day(:timestamp, range: DATE_RANGE_LAST_WEEK).average(:anxiety_rating)
-  irritability_chart_data = @moods.group_by_day(:timestamp, range: DATE_RANGE_LAST_WEEK).average(:irritability_rating)
-elsif @mood_lookback_period == 'month'
-  mood_chart_data = @moods.group_by_day(:timestamp, range: DATE_RANGE_THIS_MONTH).average(:mood_rating)
-  anxiety_chart_data = @moods.group_by_day(:timestamp, range: DATE_RANGE_THIS_MONTH).average(:anxiety_rating)
-  irritability_chart_data = @moods.group_by_day(:timestamp, range: DATE_RANGE_THIS_MONTH).average(:irritability_rating)
-elsif @mood_lookback_period == 'last_month'
-  mood_chart_data = @moods.group_by_day(:timestamp, range: DATE_RANGE_LAST_MONTH).average(:mood_rating)
-  anxiety_chart_data = @moods.group_by_day(:timestamp, range: DATE_RANGE_LAST_MONTH).average(:anxiety_rating)
-  irritability_chart_data = @moods.group_by_day(:timestamp, range: DATE_RANGE_LAST_MONTH).average(:irritability_rating)
-elsif @mood_lookback_period == 'year'
-  mood_chart_data = @moods.group_by_month(:timestamp, range: DATE_RANGE_THIS_YEAR).average(:mood_rating)
-  anxiety_chart_data = @moods.group_by_month(:timestamp, range: DATE_RANGE_THIS_YEAR).average(:anxiety_rating)
-  irritability_chart_data = @moods.group_by_month(:timestamp, range: DATE_RANGE_THIS_YEAR).average(:irritability_rating)
-elsif @mood_lookback_period == 'last_year'
-  mood_chart_data = @moods.group_by_month(:timestamp, range: DATE_RANGE_LAST_YEAR).average(:mood_rating)
-  anxiety_chart_data = @moods.group_by_month(:timestamp, range: DATE_RANGE_LAST_YEAR).average(:anxiety_rating)
-  irritability_chart_data = @moods.group_by_month(:timestamp, range: DATE_RANGE_LAST_YEAR).average(:irritability_rating)
-end
+<%
+   if @mood_lookback_period == 'week'
+     mood_chart_data = @moods.group_by_day(:timestamp, range: DATE_RANGE_THIS_WEEK).average(:mood_rating)
+     anxiety_chart_data = @moods.group_by_day(:timestamp, range: DATE_RANGE_THIS_WEEK).average(:anxiety_rating)
+     irritability_chart_data = @moods.group_by_day(:timestamp, range: DATE_RANGE_THIS_WEEK).average(:irritability_rating)
+   elsif @mood_lookback_period == 'last_week'
+     mood_chart_data = @moods.group_by_day(:timestamp, range: DATE_RANGE_LAST_WEEK).average(:mood_rating)
+     anxiety_chart_data = @moods.group_by_day(:timestamp, range: DATE_RANGE_LAST_WEEK).average(:anxiety_rating)
+     irritability_chart_data = @moods.group_by_day(:timestamp, range: DATE_RANGE_LAST_WEEK).average(:irritability_rating)
+   elsif @mood_lookback_period == 'month'
+     mood_chart_data = @moods.group_by_day(:timestamp, range: DATE_RANGE_THIS_MONTH).average(:mood_rating)
+     anxiety_chart_data = @moods.group_by_day(:timestamp, range: DATE_RANGE_THIS_MONTH).average(:anxiety_rating)
+     irritability_chart_data = @moods.group_by_day(:timestamp, range: DATE_RANGE_THIS_MONTH).average(:irritability_rating)
+   elsif @mood_lookback_period == 'last_month'
+     mood_chart_data = @moods.group_by_day(:timestamp, range: DATE_RANGE_LAST_MONTH).average(:mood_rating)
+     anxiety_chart_data = @moods.group_by_day(:timestamp, range: DATE_RANGE_LAST_MONTH).average(:anxiety_rating)
+     irritability_chart_data = @moods.group_by_day(:timestamp, range: DATE_RANGE_LAST_MONTH).average(:irritability_rating)
+   elsif @mood_lookback_period == 'year'
+     mood_chart_data = @moods.group_by_month(:timestamp, range: DATE_RANGE_THIS_YEAR).average(:mood_rating)
+     anxiety_chart_data = @moods.group_by_month(:timestamp, range: DATE_RANGE_THIS_YEAR).average(:anxiety_rating)
+     irritability_chart_data = @moods.group_by_month(:timestamp, range: DATE_RANGE_THIS_YEAR).average(:irritability_rating)
+   elsif @mood_lookback_period == 'last_year'
+     mood_chart_data = @moods.group_by_month(:timestamp, range: DATE_RANGE_LAST_YEAR).average(:mood_rating)
+     anxiety_chart_data = @moods.group_by_month(:timestamp, range: DATE_RANGE_LAST_YEAR).average(:anxiety_rating)
+     irritability_chart_data = @moods.group_by_month(:timestamp, range: DATE_RANGE_LAST_YEAR).average(:irritability_rating)
+   end
 %>
 
 <div class="col-md-12">
-    <%= line_chart [
-    {name: "Mood", data: mood_chart_data}
-    ], colors: [MOOD_PRIMARY_COLOR],
-    library: {
-        title: "Mood",
-        titlePosition: 'out',
-        titleTextStyle: {
-            color: MOOD_PRIMARY_COLOR
-        },
-        backgroundColor: {
-            fill: MOOD_BACKGROUND_COLOR,
-            stroke: MOOD_PRIMARY_COLOR,
-            strokeWidth: MOOD_STROKE_WIDTH
-        },
-        animation: {
-            duration: MOOD_ANIMATION_DURATION,
-            startup: true,
-            easing: MOOD_ANIMATION_EASING
-        },
-        hAxis: {
-            textStyle: {
-                color: MOOD_PRIMARY_COLOR
-            },
-            gridlines: {
-               color: MOOD_BACKGROUND_COLOR
-            }
-        },
-        legend: {
-            textStyle: {
-                color: MOOD_BACKGROUND_COLOR
-            },
-            position: MOOD_LEGEND_POSITION
-        },
-        vAxis: {
-            ticks: [{v:1, f:'Sev D'}, {v:2, f:'Mod D'}, {v:3, f:'Mild D'}, {v:4, f:'Base'}, {v:5, f:'Mild E'}, {v:6, f:'Mod E'}, {v:7, f:'Sev E'}],
-            textStyle: {
-                color: MOOD_PRIMARY_COLOR
-            },
-            gridlines: {
-                color: MOOD_BACKGROUND_COLOR
-            }
-        }
-    } %>
+  <%= line_chart [
+                         {name: "Mood", data: mood_chart_data}
+                 ], colors: [MOOD_PRIMARY_COLOR],
+                 library: {
+                         title: "Mood",
+                         titlePosition: 'out',
+                         titleTextStyle: {
+                                 color: MOOD_PRIMARY_COLOR
+                         },
+                         backgroundColor: {
+                                 fill: MOOD_BACKGROUND_COLOR,
+                                 stroke: MOOD_PRIMARY_COLOR,
+                                 strokeWidth: MOOD_STROKE_WIDTH
+                         },
+                         animation: {
+                                 duration: MOOD_ANIMATION_DURATION,
+                                 startup: true,
+                                 easing: MOOD_ANIMATION_EASING
+                         },
+                         hAxis: {
+                                 textStyle: {
+                                         color: MOOD_PRIMARY_COLOR
+                                 },
+                                 gridlines: {
+                                         color: MOOD_BACKGROUND_COLOR
+                                 }
+                         },
+                         legend: {
+                                 textStyle: {
+                                         color: MOOD_BACKGROUND_COLOR
+                                 },
+                                 position: MOOD_LEGEND_POSITION
+                         },
+                         vAxis: {
+                                 ticks: [{v: 1, f: 'Sev D'}, {v: 2, f: 'Mod D'}, {v: 3, f: 'Mild D'}, {v: 4, f: 'Base'}, {v: 5, f: 'Mild E'}, {v: 6, f: 'Mod E'}, {v: 7, f: 'Sev E'}],
+                                 textStyle: {
+                                         color: MOOD_PRIMARY_COLOR
+                                 },
+                                 gridlines: {
+                                         color: MOOD_BACKGROUND_COLOR
+                                 }
+                         }
+                 } %>
 </div>
 
 <div class="col-md-12">
   <%= line_chart [
-  {name: "Anxiety", data: anxiety_chart_data}
-  ], colors: [MOOD_PRIMARY_COLOR],
-  library: {
-      title: "Anxiety",
-      titlePosition: 'out',
-      titleTextStyle: {
-          color: MOOD_PRIMARY_COLOR
-      },
-      backgroundColor: {
-          fill: MOOD_BACKGROUND_COLOR,
-          stroke: MOOD_PRIMARY_COLOR,
-          strokeWidth: MOOD_STROKE_WIDTH
-      },
-      animation: {
-          duration: MOOD_ANIMATION_DURATION,
-          startup: true,
-          easing: MOOD_ANIMATION_EASING
-      },
-      hAxis: {
-          textStyle: {
-              color: MOOD_PRIMARY_COLOR
-          },
-          gridlines: {
-              color: MOOD_BACKGROUND_COLOR
-          }
-      },
-      legend: {
-          textStyle: {
-              color: MOOD_PRIMARY_COLOR
-          },
-          position: MOOD_LEGEND_POSITION
-      },
-      vAxis: {
-          ticks: [{v:1, f:'None'}, {v:2, f:'Mild'}, {v:3, f:'Mod'}, {v:4, f:'Sev'}],
-          textStyle: {
-              color: MOOD_PRIMARY_COLOR
-          },
-          gridlines: {
-              color: MOOD_BACKGROUND_COLOR
-          }
-      }
-  } %>
+                         {name: "Anxiety", data: anxiety_chart_data}
+                 ], colors: [MOOD_PRIMARY_COLOR],
+                 library: {
+                         title: "Anxiety",
+                         titlePosition: 'out',
+                         titleTextStyle: {
+                                 color: MOOD_PRIMARY_COLOR
+                         },
+                         backgroundColor: {
+                                 fill: MOOD_BACKGROUND_COLOR,
+                                 stroke: MOOD_PRIMARY_COLOR,
+                                 strokeWidth: MOOD_STROKE_WIDTH
+                         },
+                         animation: {
+                                 duration: MOOD_ANIMATION_DURATION,
+                                 startup: true,
+                                 easing: MOOD_ANIMATION_EASING
+                         },
+                         hAxis: {
+                                 textStyle: {
+                                         color: MOOD_PRIMARY_COLOR
+                                 },
+                                 gridlines: {
+                                         color: MOOD_BACKGROUND_COLOR
+                                 }
+                         },
+                         legend: {
+                                 textStyle: {
+                                         color: MOOD_PRIMARY_COLOR
+                                 },
+                                 position: MOOD_LEGEND_POSITION
+                         },
+                         vAxis: {
+                                 ticks: [{v: 1, f: 'None'}, {v: 2, f: 'Mild'}, {v: 3, f: 'Mod'}, {v: 4, f: 'Sev'}],
+                                 textStyle: {
+                                         color: MOOD_PRIMARY_COLOR
+                                 },
+                                 gridlines: {
+                                         color: MOOD_BACKGROUND_COLOR
+                                 }
+                         }
+                 } %>
 </div>
 
 <div class="col-md-12">
   <%= line_chart [
-  {name: "Irritability", data: irritability_chart_data}
-  ], colors: [MOOD_PRIMARY_COLOR],
-  library: {
-      title: "Irritability",
-      titlePosition: 'out',
-      titleTextStyle: {
-          color: MOOD_PRIMARY_COLOR
-      },
-      backgroundColor: {
-          fill: MOOD_BACKGROUND_COLOR,
-          stroke: MOOD_PRIMARY_COLOR,
-          strokeWidth: MOOD_STROKE_WIDTH
-      },
-      animation: {
-          duration: MOOD_ANIMATION_DURATION,
-          startup: true,
-          easing: MOOD_ANIMATION_EASING
-      },
-      hAxis: {
-          textStyle: {
-              color: MOOD_PRIMARY_COLOR
-          },
-          gridlines: {
-              color: MOOD_BACKGROUND_COLOR
-          }
-      },
-      legend: {
-          textStyle: {
-              color: MOOD_PRIMARY_COLOR
-          },
-          position: MOOD_LEGEND_POSITION
-      },
-      vAxis: {
-          ticks: [{v:1, f:'None'}, {v:2, f:'Mild'}, {v:3, f:'Mod'}, {v:4, f:'Sev'}],
-          textStyle: {
-              color: MOOD_PRIMARY_COLOR
-          },
-          gridlines: {
-              color: MOOD_BACKGROUND_COLOR
-          }
-      }
-  } %>
+                         {name: "Irritability", data: irritability_chart_data}
+                 ], colors: [MOOD_PRIMARY_COLOR],
+                 library: {
+                         title: "Irritability",
+                         titlePosition: 'out',
+                         titleTextStyle: {
+                                 color: MOOD_PRIMARY_COLOR
+                         },
+                         backgroundColor: {
+                                 fill: MOOD_BACKGROUND_COLOR,
+                                 stroke: MOOD_PRIMARY_COLOR,
+                                 strokeWidth: MOOD_STROKE_WIDTH
+                         },
+                         animation: {
+                                 duration: MOOD_ANIMATION_DURATION,
+                                 startup: true,
+                                 easing: MOOD_ANIMATION_EASING
+                         },
+                         hAxis: {
+                                 textStyle: {
+                                         color: MOOD_PRIMARY_COLOR
+                                 },
+                                 gridlines: {
+                                         color: MOOD_BACKGROUND_COLOR
+                                 }
+                         },
+                         legend: {
+                                 textStyle: {
+                                         color: MOOD_PRIMARY_COLOR
+                                 },
+                                 position: MOOD_LEGEND_POSITION
+                         },
+                         vAxis: {
+                                 ticks: [{v: 1, f: 'None'}, {v: 2, f: 'Mild'}, {v: 3, f: 'Mod'}, {v: 4, f: 'Sev'}],
+                                 textStyle: {
+                                         color: MOOD_PRIMARY_COLOR
+                                 },
+                                 gridlines: {
+                                         color: MOOD_BACKGROUND_COLOR
+                                 }
+                         }
+                 } %>
 </div>

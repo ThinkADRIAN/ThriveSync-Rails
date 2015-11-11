@@ -19,31 +19,34 @@
 @import '@{startup-basePath}ui-kit/ui-kit-footer/less/footer-10.less';
 
 body > section, footer > .container {
-    padding-top: 80px;
-    padding-bottom: 80px;
+  padding-top: 80px;
+  padding-bottom: 80px;
 }
+
 .content-3.v-center {
-    padding-top:135px;
-    padding-bottom: 18px;
-    .img.second {
-        max-width: 397px;
+  padding-top: 135px;
+  padding-bottom: 18px;
+  .img.second {
+    max-width: 397px;
+  }
+  @media (max-width: 768px) {
+    padding-top: 50px;
+    padding-bottom: 0;
+    .img {
+      margin-bottom: 0;
     }
-    @media (max-width: 768px) {
-        padding-top: 50px;
-        padding-bottom: 0;
-        .img {
-            margin-bottom: 0;
-        }
-    }
+  }
 }
+
 .header-6-sub {
-    @media (max-width: 768px) {
-        margin-bottom: 40px;
-    }
+  @media (max-width: 768px) {
+    margin-bottom: 40px;
+  }
 }
+
 .footer-10 {
-    margin-top: 72px;
-    @media (max-width: 768px) {
-        margin-top: 50px;
-    }
+  margin-top: 72px;
+  @media (max-width: 768px) {
+    margin-top: 50px;
+  }
 }

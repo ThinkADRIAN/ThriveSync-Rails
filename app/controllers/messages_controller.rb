@@ -5,7 +5,7 @@ class MessagesController < ApplicationController
     desc <<-EOS
       == Long description
         Send Cards between Supporters and their Thrivers
-      EOS
+    EOS
 
     api_base_url ""
     formats ['html', 'json']
@@ -13,7 +13,7 @@ class MessagesController < ApplicationController
 
   def_param_group :messages_data do
     param :thriver_id, :number, :desc => "Id of Recipient of T-Max Card [Number]", :required => true
-    param :message, Hash , :desc => "Message", :required => false do
+    param :message, Hash, :desc => "Message", :required => false do
       param :body, :undef, :desc => "Message [String]", :required => true
       param :subject, :undef, :desc => "Category [String]", :required => true
     end
@@ -30,13 +30,14 @@ class MessagesController < ApplicationController
 
   def new
     authorize :message, :new?
-  	c = PreDefinedCard.all
-  	random_ids = c.ids.sort_by { rand }.slice(0, 3)
-  	@random_cards = PreDefinedCard.where(:id => random_ids)
+    c = PreDefinedCard.all
+    random_ids = c.ids.sort_by { rand }.slice(0, 3)
+    @random_cards = PreDefinedCard.where(:id => random_ids)
   end
 
   api! "Send T-Max Card"
   param_group :messages_data
+
   def create
     # Limit Sending Messages between Supporters and their Thrivers
     if (current_user.is? :supporter) && (@thriver.supporters.include? current_user.id)
@@ -53,10 +54,11 @@ class MessagesController < ApplicationController
       flash[:success] = 'Message has been sent!'
       format.html { redirect_to supporters_path }
       format.json { head :ok }
-    end 
+    end
   end
 
   api! "Draw Random T-Max Cards"
+
   def random_draw
     authorize :message, :random_draw?
     c = PreDefinedCard.all
@@ -65,37 +67,37 @@ class MessagesController < ApplicationController
 
     respond_to do |format|
       track_random_cards_drawn(@random_cards)
-      format.json { render json: {cards: @random_cards}, status: 200}
-    end 
+      format.json { render json: {cards: @random_cards}, status: 200 }
+    end
   end
 
   private
 
-    def set_thriver
-      @thriver = User.find(params[:thriver_id])
-    end
+  def set_thriver
+    @thriver = User.find(params[:thriver_id])
+  end
 
-    def track_card_sent(recipient)
-      # Track Card Sent for Segment.io Analytics
+  def track_card_sent(recipient)
+    # Track Card Sent for Segment.io Analytics
+    Analytics.track(
+      user_id: current_user.id,
+      event: 'Card Sent',
+      properties: {
+        recipient_id: recipient.id
+      }
+    )
+  end
+
+  def track_random_cards_drawn(cards)
+    # Track Random Cards Drawn for Segment.io Analytics
+    cards.each do |card|
       Analytics.track(
         user_id: current_user.id,
-        event: 'Card Sent',
+        event: 'Random Cards Drawn',
         properties: {
-          recipient_id: recipient.id
+          card_id: card.id
         }
       )
     end
-
-    def track_random_cards_drawn(cards)
-      # Track Random Cards Drawn for Segment.io Analytics
-      cards.each do |card|
-        Analytics.track(
-          user_id: current_user.id,
-          event: 'Random Cards Drawn',
-          properties: {
-            card_id: card.id
-          }
-        )
-      end
-    end
+  end
 end

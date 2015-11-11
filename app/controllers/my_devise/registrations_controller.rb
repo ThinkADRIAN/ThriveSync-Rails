@@ -4,7 +4,7 @@ class MyDevise::RegistrationsController < Devise::RegistrationsController
   before_filter :configure_sign_up_params, only: [:create]
   before_filter :configure_account_update_params, only: [:update]
 
-	def create
+  def create
     user_first_name = params[:user][:first_name]
     user_last_name = params[:user][:last_name]
     user_email = params[:user][:email]
@@ -17,19 +17,19 @@ class MyDevise::RegistrationsController < Devise::RegistrationsController
       if @parse_user != nil
         devise_create_new_rails_user
       else
-        render :status=>401, :json=>{:message => "Parse::ParseProtocolError: 101: invalid login parameters" }
+        render :status => 401, :json => {:message => "Parse::ParseProtocolError: 101: invalid login parameters"}
       end
     else
       devise_create_new_rails_user
     end
-	end
+  end
 
   def edit
     super
   end
 
-	def update
-		self.resource = resource_class.to_adapter.get!(send(:"current_#{resource_name}").to_key)
+  def update
+    self.resource = resource_class.to_adapter.get!(send(:"current_#{resource_name}").to_key)
     prev_unconfirmed_email = resource.unconfirmed_email if resource.respond_to?(:unconfirmed_email)
 
     resource_updated = update_resource(resource, account_update_params)
@@ -49,31 +49,31 @@ class MyDevise::RegistrationsController < Devise::RegistrationsController
     end
   end
 
-	def destroy
-		super
-	end
+  def destroy
+    super
+  end
 
-	private
-	
-	# Never trust parameters from the scary internet, only allow the white list through.
+  private
+
+  # Never trust parameters from the scary internet, only allow the white list through.
   def user_params
     params.require(:user).permit(:first_name, :last_name, :email, :password)
   end
 
-	protected
+  protected
 
   # You can put the params you want to permit in the empty array.
   def configure_sign_up_params
     devise_parameter_sanitizer.for(:sign_up) do |u|
-  		u.permit(:first_name, :last_name, :email, :password, :password_confirmation, roles: [])
-		end
+      u.permit(:first_name, :last_name, :email, :password, :password_confirmation, roles: [])
+    end
   end
 
   # You can put the params you want to permit in the empty array.
   def configure_account_update_params
     devise_parameter_sanitizer.for(:account_update) do |u|
-  		u.permit(:first_name, :last_name, :email, :timezone, :password, :password_confirmation, :current_password, roles: [], :reward_attributes => [:id, :rewards_enabled])
-		end
+      u.permit(:first_name, :last_name, :email, :timezone, :password, :password_confirmation, :current_password, roles: [], :reward_attributes => [:id, :rewards_enabled])
+    end
   end
 
   # The path used after sign up.

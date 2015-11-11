@@ -1,9 +1,9 @@
 <% if params[:modal_enabled] == 'true' %>
-  $("#inner-journal-modal").html("<%= escape_javascript(render 'edit') %>");
-  $("#journal-modal").appendTo("body").modal("show");
-  $("#journal-modal").css("z-index", "1500");
+$("#inner-journal-modal").html("<%= escape_javascript(render 'edit') %>");
+$("#journal-modal").appendTo("body").modal("show");
+$("#journal-modal").css("z-index", "1500");
 <% else %>
-  $(".capture-delorean").html("<%= escape_javascript(render 'capture/delorean_disabled') %>");
-  $(".capture-nav").html("<%= escape_javascript(render 'capture/nav/journal_disabled') %>");
-  $(".capture-window").html("<%= escape_javascript(render 'capture/new/journal', :controller => 'journals', :action => 'edit', :@journal => Journal.find(params[:id]) ) %>");
+$(".capture-delorean").html("<%= escape_javascript(render 'capture/delorean_disabled') %>");
+$(".capture-nav").html("<%= escape_javascript(render 'capture/nav/journal_disabled') %>");
+$(".capture-window").html("<%= escape_javascript(render 'capture/new/journal', :controller => 'journals', :action => 'edit', :@journal => Journal.find(params[:id]) ) %>");
 <% end %>

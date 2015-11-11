@@ -1,14 +1,14 @@
 <body>
-  <h1>Watch the ripple effect on newly created buttons!</h1>
+<h1>Watch the ripple effect on newly created buttons!</h1>
 
-  {{> hello}}
+{{> hello}}
 </body>
 
 <template name="hello">
-  <button type="button" class="btn btn-info">Click Me</button>
-  <hr/>
-  {{#each buttons}}
+    <button type="button" class="btn btn-info">Click Me</button>
+    <hr/>
+    {{#each buttons}}
     <button type="button" class="btn btn-primary">{{name}}</button>
     <br/>
-  {{/each}}
+    {{/each}}
 </template>

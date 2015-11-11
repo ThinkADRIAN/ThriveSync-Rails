@@ -72,7 +72,7 @@
 
   .navbar-collapse,
   .navbar-form {
-    border-color: rgba(0,0,0,0.1);
+    border-color: rgba(0, 0, 0, 0.1);
   }
 
   // Dropdowns
@@ -166,14 +166,9 @@
     }
   }
 
-  .generic-variations(~".navbar", @navbar-color, {
-    background-color: @material-color;
+  .generic-variations(~".navbar", @navbar-color, { background-color: @material-color; color: @material-text-color; // deeply defined to override welljumbo class without !impotant need .navbar-form .form-control-wrapper input.form-control::placeholder, .navbar-form input.form-control::placeholder {
     color: @material-text-color;
-    // deeply defined to override welljumbo class without !impotant need
-    .navbar-form .form-control-wrapper input.form-control::placeholder, .navbar-form input.form-control::placeholder {
-      color: @material-text-color;
-    }
-    .dropdown-menu {
+  } .dropdown-menu {
       border-radius: @dropdown-radius;
       li > a {
         font-size: @dropdown-font-size;
@@ -192,8 +187,7 @@
         background-color: @material-color;
         color: @material-text-color;
       }
-    }
-  });
+    } });
 
   &-inverse {
     background-color: @indigo;
@@ -205,6 +199,7 @@
       height: 50px;
       padding: 10px 15px;
     }
+
     .navbar-form {
       margin-top: 10px;
     }

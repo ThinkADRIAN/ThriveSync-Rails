@@ -1,25 +1,26 @@
 <%= form_for(@pre_defined_card) do |f| %>
-  <% if @pre_defined_card.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@pre_defined_card.errors.count, "error") %> prohibited this pre_defined_card from being saved:</h2>
+    <% if @pre_defined_card.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(@pre_defined_card.errors.count, "error") %> prohibited this pre_defined_card from being
+            saved:</h2>
 
-      <ul>
-      <% @pre_defined_card.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
+          <ul>
+            <% @pre_defined_card.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
+
+    <div class="field">
+      <%= f.label :text %><br>
+      <%= f.text_field :text %>
     </div>
-  <% end %>
-
-  <div class="field">
-    <%= f.label :text %><br>
-    <%= f.text_field :text %>
-  </div>
-  <div class="field">
-    <%= f.label :category %><br>
-    <%= f.text_field :category %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+    <div class="field">
+      <%= f.label :category %><br>
+      <%= f.text_field :category %>
+    </div>
+    <div class="actions">
+      <%= f.submit %>
+    </div>
 <% end %>
