@@ -13,17 +13,17 @@ function fadedEls(el, shift) {
             break;
     }
 
-    $(window).resize(function() {
+    $(window).resize(function () {
         if (!el.hasClass('ani-processed')) {
             el.eq(0).data('scrollPos', el.eq(0).offset().top - $(window).height() + shift);
         }
-    }).scroll(function() {
+    }).scroll(function () {
         if (!el.hasClass('ani-processed')) {
             if ($(window).scrollTop() >= el.eq(0).data('scrollPos')) {
                 el.addClass('ani-processed');
-                el.each(function(idx) {
+                el.each(function (idx) {
                     $(this).delay(idx * 200).animate({
-                        opacity : 1
+                        opacity: 1
                     }, 600);
                 });
             }
@@ -37,41 +37,41 @@ if (/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)) {
     window.mobile = false;
 }
 
-(function($) {
-    $(function() {
+(function ($) {
+    $(function () {
 
         // Focus state for append/prepend inputs
-        $('.input-prepend, .input-append').on('focus', 'input', function() {
+        $('.input-prepend, .input-append').on('focus', 'input', function () {
             $(this).closest('.control-group, form').addClass('focus');
-        }).on('blur', 'input', function() {
+        }).on('blur', 'input', function () {
             $(this).closest('.control-group, form').removeClass('focus');
         });
 
         fadedEls($('.features img'), 'h');
 
-        
-        (function(el) {
+
+        (function (el) {
             el.css('opacity', 0);
             $svg = $('#spaceship', el);
             $('#rocket-raw', $svg).attr('transform', 'translate(-400,400)');
             $('#SVGID_3_', $svg).attr('transform', 'translate(400,-400)');
 
-            $(window).resize(function() {
+            $(window).resize(function () {
                 if (!el.hasClass('ani-processed')) {
                     el.data('scrollPos', el.offset().top - $(window).height() + el.outerHeight());
                 }
-            }).scroll(function() {
+            }).scroll(function () {
                 if (!el.hasClass('ani-processed')) {
                     if ($(window).scrollTop() >= el.data('scrollPos')) {
                         el.addClass('ani-processed');
                         el.animate({
-                            opacity : 1
+                            opacity: 1
                         }, 600);
                         $('#rocket-raw, #SVGID_3_', $svg).clearQueue().stop().animate({
-                            svgTransform : 'translate(0,0)'
+                            svgTransform: 'translate(0,0)'
                         }, {
-                            duration : 600,
-                            easing : "easeInOutQuad"
+                            duration: 600,
+                            easing: "easeInOutQuad"
                         });
                     }
                 }
@@ -82,7 +82,7 @@ if (/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)) {
 
     });
 
-    $(window).load(function() {
+    $(window).load(function () {
 
         $('html').addClass('loaded');
 

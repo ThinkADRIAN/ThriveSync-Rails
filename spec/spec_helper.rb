@@ -71,12 +71,12 @@ RSpec.configure do |config|
   config.before(:each) do
     stub_request(:post, "http://localhost:8981/solr/test/update?wt=ruby").
       with(:body => "<?xml version=\"1.0\" encoding=\"UTF-8\"?><add><doc><field name=\"id\">User 202</field><field name=\"type\">User</field><field name=\"type\">ActiveRecord::Base</field><field name=\"class_name\">User</field><field name=\"email_s\">mikayla@kirlin.com</field></doc></add>",
-        :headers => {'Content-Type'=>'text/xml'}).
+           :headers => {'Content-Type' => 'text/xml'}).
       to_return(:status => 200, :body => "", :headers => {})
   end
 
-# The settings below are suggested to provide a good initial experience
-# with RSpec, but feel free to customize to your heart's content.
+  # The settings below are suggested to provide a good initial experience
+  # with RSpec, but feel free to customize to your heart's content.
 =begin
   # These two settings work together to allow you to limit a spec run
   # to individual examples or groups you care about by tagging them with

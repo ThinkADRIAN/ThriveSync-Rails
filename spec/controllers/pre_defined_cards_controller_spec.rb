@@ -12,7 +12,7 @@ describe PreDefinedCardsController, type: :controller do
 
       it "redirects to signin" do
         get :index
-        expect( response ).to redirect_to( new_user_session_path )
+        expect(response).to redirect_to(new_user_session_path)
       end
     end
 
@@ -24,7 +24,7 @@ describe PreDefinedCardsController, type: :controller do
 
       it "redirects to root" do
         get :index
-        expect( response ).to redirect_to( root_path )
+        expect(response).to redirect_to(root_path)
       end
     end
 
@@ -86,7 +86,7 @@ describe PreDefinedCardsController, type: :controller do
 
       it "redirects to signin" do
         get :show, id: 1
-        expect( response ).to redirect_to( new_user_session_path )
+        expect(response).to redirect_to(new_user_session_path)
       end
     end
 
@@ -100,7 +100,7 @@ describe PreDefinedCardsController, type: :controller do
 
       it "redirects to root" do
         get :show, id: @spec_pre_defined_card.id
-        expect( response ).to redirect_to( root_path )
+        expect(response).to redirect_to(root_path)
       end
     end
 
@@ -147,7 +147,7 @@ describe PreDefinedCardsController, type: :controller do
 
       it "redirects to signin" do
         get :new
-        expect( response ).to redirect_to( new_user_session_path )
+        expect(response).to redirect_to(new_user_session_path)
       end
     end
 
@@ -159,7 +159,7 @@ describe PreDefinedCardsController, type: :controller do
 
       it "redirects to root" do
         get :new
-        expect( response ).to redirect_to( root_path )
+        expect(response).to redirect_to(root_path)
       end
     end
 
@@ -205,7 +205,7 @@ describe PreDefinedCardsController, type: :controller do
 
       it "redirects to signin" do
         get :edit, id: 1
-        expect( response ).to redirect_to( new_user_session_path )
+        expect(response).to redirect_to(new_user_session_path)
       end
     end
 
@@ -219,7 +219,7 @@ describe PreDefinedCardsController, type: :controller do
 
       it "redirects to root" do
         get :edit, id: @spec_pre_defined_card.id, text: @spec_pre_defined_card.text, category: @spec_pre_defined_card.category
-        expect( response ).to redirect_to( root_path )
+        expect(response).to redirect_to(root_path)
       end
     end
 
@@ -267,7 +267,7 @@ describe PreDefinedCardsController, type: :controller do
 
       it "redirects to signin" do
         post :create
-        expect( response ).to redirect_to( new_user_session_path )
+        expect(response).to redirect_to(new_user_session_path)
       end
     end
 
@@ -281,7 +281,7 @@ describe PreDefinedCardsController, type: :controller do
 
       it "redirects to root" do
         post :create
-        expect( response ).to redirect_to( root_path )
+        expect(response).to redirect_to(root_path)
       end
     end
 
@@ -297,9 +297,9 @@ describe PreDefinedCardsController, type: :controller do
 
       context "with valid JSON attributes(:context)" do
         it "creates a new pre_defined_card" do
-          expect{
+          expect {
             post :create, :pre_defined_card => @spec_pre_defined_card_attrs, format: :json
-          }.to change(PreDefinedCard,:count).by(1)
+          }.to change(PreDefinedCard, :count).by(1)
         end
 
         it "returns a created 201 response" do
@@ -319,7 +319,7 @@ describe PreDefinedCardsController, type: :controller do
 
       it "redirects to signin" do
         put :update, id: 1
-        expect( response ).to redirect_to( new_user_session_path )
+        expect(response).to redirect_to(new_user_session_path)
       end
     end
 
@@ -333,7 +333,7 @@ describe PreDefinedCardsController, type: :controller do
 
       it "redirects to root" do
         put :update, id: @spec_pre_defined_card.id
-        expect( response ).to redirect_to( root_path )
+        expect(response).to redirect_to(root_path)
       end
     end
 
@@ -385,7 +385,7 @@ describe PreDefinedCardsController, type: :controller do
 
       it "redirects to signin" do
         delete :destroy, id: 1
-        expect( response ).to redirect_to( new_user_session_path )
+        expect(response).to redirect_to(new_user_session_path)
       end
     end
 
@@ -399,7 +399,7 @@ describe PreDefinedCardsController, type: :controller do
 
       it "redirects to root" do
         delete :destroy, id: @spec_pre_defined_card.id
-        expect( response ).to redirect_to( root_path )
+        expect(response).to redirect_to(root_path)
       end
     end
 
@@ -416,9 +416,9 @@ describe PreDefinedCardsController, type: :controller do
 
       context "with JSON request" do
         it "deletes the pre_defined_card" do
-          expect{
+          expect {
             delete :destroy, id: @spec_pre_defined_card.as_json["id"], format: :json
-          }.to change(PreDefinedCard,:count).by(-1)
+          }.to change(PreDefinedCard, :count).by(-1)
         end
 
         it "returns a no content 204 response" do

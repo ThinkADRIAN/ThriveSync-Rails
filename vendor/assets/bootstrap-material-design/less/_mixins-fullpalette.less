@@ -1,26 +1,18 @@
 // usage: .variations(~" .check", color, transparent);
 .variations(@extra, @property, @default) {
-  .generic-variations(@extra, @default, {
-    @{property}: @material-color;
-  });
+  .generic-variations(@extra, @default, { @{property}: @material-color; });
 }
 
 .background-variations(@extra, @default) {
-  .generic-variations(@extra, @default, {
-    background-color: @material-color;
-    & when (@material-color = @btn-default) {
-      color: @lightbg-text;
-    }
-    & when not (@material-color = @btn-default) {
+  .generic-variations(@extra, @default, { background-color: @material-color; & when (@material-color = @btn-default) {
+    color: @lightbg-text;
+  } & when not (@material-color = @btn-default) {
       color: @material-text-color;
-    }
-  });
+    } });
 }
 
 .text-variations(@extra, @default) {
-  .generic-variations(@extra, @default, {
-    color: @material-color;
-  });
+  .generic-variations(@extra, @default, { color: @material-color; });
 }
 
 //
@@ -155,6 +147,5 @@
   .generic-variations-factory(~"blue-grey");
 
 }
-
 
 @all-variations: ~"-default, -primary, -info, -success, -warning, -danger";

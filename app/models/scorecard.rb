@@ -7,7 +7,7 @@ class Scorecard < ActiveRecord::Base
   after_initialize :init
 
   def init
-    self.checkin_count  ||= 0
+    self.checkin_count ||= 0
     self.perfect_checkin_count ||= 0
     self.streak_count ||= 0
     self.moods_score ||= 0
@@ -126,10 +126,10 @@ class Scorecard < ActiveRecord::Base
       last_journals_date = last_journal_entry.last.created_at_before_type_cast.to_datetime.to_date
     end
 
-    return ( last_moods_date == todays_date &&
-      last_sleeps_date == todays_date && 
-      last_self_cares_date == todays_date && 
-      last_journals_date == todays_date )
+    return (last_moods_date == todays_date &&
+      last_sleeps_date == todays_date &&
+      last_self_cares_date == todays_date &&
+      last_journals_date == todays_date)
   end
 
   def first_perfect_checkin_for_day?
@@ -247,8 +247,8 @@ class Scorecard < ActiveRecord::Base
     elsif data_type_checkin_count >= 120
       self.increment_level_multiplier(data_type, 10)
     end
-    self.level_multiplier = ((self.mood_level_multiplier + self.sleep_level_multiplier + self.self_care_level_multiplier + self.journal_level_multiplier) / 4.to_f ).ceil
-    self.save 
+    self.level_multiplier = ((self.mood_level_multiplier + self.sleep_level_multiplier + self.self_care_level_multiplier + self.journal_level_multiplier) / 4.to_f).ceil
+    self.save
   end
 
   def get_data_type_checkin_count(data_type)
@@ -437,7 +437,7 @@ class Scorecard < ActiveRecord::Base
     if self.checkin_saturday == true
       checkins_to_reach_goal -= 1
     end
-    
+
     if checkins_to_reach_goal < 0
       checkins_to_reach_goal = 0
     end

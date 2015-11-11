@@ -21,5 +21,5 @@ class ConversationPolicy < ApplicationPolicy
 
   def mark_as_read?
     authorize_current_user_and_super_user
-  end  
+  end
 end

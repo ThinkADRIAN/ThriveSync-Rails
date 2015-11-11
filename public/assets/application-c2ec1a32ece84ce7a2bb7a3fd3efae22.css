@@ -4427,7 +4427,7 @@ footer {
   }
 }
 img {
-  width: auto\9;
+  width: auto \9;
   height: auto;
   max-width: 100%;
   vertical-align: middle;
@@ -7628,7 +7628,7 @@ you can use the generic selector below, but it's slower:
   -moz-transition: 0.6s ease-in-out opacity;
   -o-transition: 0.6s ease-in-out opacity;
   transition: 0.6s ease-in-out opacity;
-  left: 0!important;
+  left: 0 !important;
 }
 .content-10 .carousel .item.active.left,
 .content-10 .carousel .item.active.right {
@@ -7935,7 +7935,7 @@ you can use the generic selector below, but it's slower:
 }
 @media (max-width: 767px) {
   .content-14 {
-    height: auto!important;
+    height: auto !important;
   }
 }
 .content-14 h3 {
@@ -8465,7 +8465,7 @@ you can use the generic selector below, but it's slower:
   display: block;
   position: absolute;
   top: 0;
-  left: 0!important;
+  left: 0 !important;
   right: 0;
   opacity: 0;
 }
@@ -10563,10 +10563,10 @@ you can use the generic selector below, but it's slower:
   }
 }
 .content-35 .bx-viewport {
-  border-radius: 0!important;
-  box-shadow: none!important;
-  border: none!important;
-  background: none!important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  border: none !important;
+  background: none !important;
 }
 .content-35 > * {
   position: relative;
@@ -11117,7 +11117,7 @@ you can use the generic selector below, but it's slower:
   }
   .crew-1 .members .member-wrapper {
     display: block;
-    text-align: center!important;
+    text-align: center !important;
   }
   .crew-1 .members .member-wrapper + .member-wrapper {
     margin-top: 80px;
@@ -11278,7 +11278,7 @@ you can use the generic selector below, but it's slower:
   }
   .crew-2 .members .member-wrapper {
     display: block;
-    text-align: center!important;
+    text-align: center !important;
   }
   .crew-2 .members .member-wrapper + .member-wrapper .member {
     padding-top: 78px;
@@ -11479,7 +11479,7 @@ you can use the generic selector below, but it's slower:
   }
   .crew-3 .members .member-wrapper {
     display: block;
-    text-align: center!important;
+    text-align: center !important;
   }
   .crew-3 .members .member-wrapper + .member-wrapper {
     margin-top: 56px;
@@ -11658,7 +11658,7 @@ you can use the generic selector below, but it's slower:
   }
   .crew-4 .members .member-wrapper {
     display: block;
-    text-align: center!important;
+    text-align: center !important;
   }
   .crew-4 .members .member-wrapper + .member-wrapper {
     margin-top: 80px;
@@ -13481,14 +13481,14 @@ you can use the generic selector below, but it's slower:
 }
 .header-1-sub .pt-perspective {
   position: relative;
-  height: 100%!important;
+  height: 100% !important;
   -webkit-perspective: 1200px;
   -moz-perspective: 1200px;
   perspective: 1200px;
 }
 .header-1-sub .pt-page {
   width: 100%;
-  height: 100%!important;
+  height: 100% !important;
   position: absolute;
   top: 0;
   left: 0;
@@ -14593,7 +14593,7 @@ you can use the generic selector below, but it's slower:
 @media (max-width: 480px) {
   .header-6-sub {
     background-attachment: scroll;
-    background-position: 50% 50%!important;
+    background-position: 50% 50% !important;
   }
   .header-6-sub .container > .row:first-child,
   .header-6-sub .container > .row + .row {
@@ -15442,7 +15442,7 @@ you can use the generic selector below, but it's slower:
     padding-top: 150px;
     padding-bottom: 60px;
     background-attachment: scroll;
-    background-position: 50% 50%!important;
+    background-position: 50% 50% !important;
   }
 }
 .header-9-sub .nav-steps {
@@ -18376,7 +18376,7 @@ you can use the generic selector below, but it's slower:
 }
 .header-20 .navbar .brand {
   font-weight: 800;
-  color: #2c3e50!important;
+  color: #2c3e50 !important;
 }
 .header-20 .navbar .brand img:first-child {
   float: left;
@@ -19225,7 +19225,7 @@ you can use the generic selector below, but it's slower:
   display: block;
   position: relative;
   margin: 0;
-  padding: 0 10px!important;
+  padding: 0 10px !important;
   background: #e74c3c;
   color: #fff;
   text-align: center;
@@ -19485,7 +19485,7 @@ you can use the generic selector below, but it's slower:
   .price-2 .plans .plan {
     display: block;
     width: auto;
-    border: 0!important;
+    border: 0 !important;
     margin-top: 50px;
   }
   .price-2 .plans .plan:first-child {
@@ -19498,7 +19498,7 @@ you can use the generic selector below, but it's slower:
     -webkit-border-top-left-radius: 6px;
     -moz-border-radius-topleft: 6px;
     border-top-left-radius: 6px;
-    margin: 0!important;
+    margin: 0 !important;
   }
   .price-2 .plans .description {
     -webkit-border-bottom-right-radius: 6px;
@@ -19672,7 +19672,7 @@ you can use the generic selector below, but it's slower:
   background: #1abc9c;
 }
 .price-4 .plan .btn:active {
-  background: #16a085!important;
+  background: #16a085 !important;
 }
 .price-4 .plan,
 .price-4 .plan .title,
@@ -19882,13 +19882,13 @@ you can use the generic selector below, but it's slower:
   .price-5 .plans .plan {
     display: block;
     width: auto;
-    border: 0!important;
+    border: 0 !important;
   }
   .price-5 .plans .plan + .plan {
     margin-top: 30px;
   }
   .price-5 .plans .title {
-    margin: 0!important;
+    margin: 0 !important;
     -webkit-border-top-right-radius: 6px;
     -moz-border-radius-topright: 6px;
     border-top-right-radius: 6px;
@@ -19929,14 +19929,14 @@ you can use the generic selector below, but it's slower:
   text-decoration: none;
 }
 /* projects */
-.projects-* .pt-perspective {
+.projects- * .pt-perspective {
   position: relative;
   height: 100%;
   -webkit-perspective: 1200px;
   -moz-perspective: 1200px;
   perspective: 1200px;
 }
-.projects-* .pt-page {
+.projects- * .pt-page {
   width: 100%;
   height: 100%;
   position: absolute;
@@ -19954,30 +19954,30 @@ you can use the generic selector below, but it's slower:
   -moz-transform-style: preserve-3d;
   transform-style: preserve-3d;
 }
-.projects-* .pt-page-current,
-.projects-* .no-js .pt-page {
+.projects- * .pt-page-current,
+.projects- * .no-js .pt-page {
   visibility: visible;
   z-index: 1;
 }
-.projects-* .pt-page-ontop {
+.projects- * .pt-page-ontop {
   z-index: 999;
 }
-.projects-* .v-center {
+.projects- * .v-center {
   display: table;
   width: 100%;
 }
-.projects-* .v-center > * {
+.projects- * .v-center > * {
   display: table-cell;
   vertical-align: middle;
   margin: 0;
   float: none;
 }
 @media (max-width: 767px) {
-  .projects-* .v-center.row {
+  .projects- * .v-center.row {
     display: block;
     width: auto;
   }
-  .projects-* .v-center.row > * {
+  .projects- * .v-center.row > * {
     display: block;
     vertical-align: baseline;
   }
@@ -20201,7 +20201,7 @@ you can use the generic selector below, but it's slower:
   }
   .projects-1 .projects .project-wrapper {
     display: block;
-    text-align: center!important;
+    text-align: center !important;
   }
   .projects-1 .projects .project-wrapper + .project-wrapper {
     margin-top: 80px;
@@ -20533,7 +20533,7 @@ you can use the generic selector below, but it's slower:
   }
   .projects-3 .projects .project-wrapper {
     display: block;
-    text-align: center!important;
+    text-align: center !important;
   }
   .projects-3 .projects .project-wrapper + .project-wrapper {
     margin-top: 85px;

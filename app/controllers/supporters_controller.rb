@@ -5,7 +5,7 @@ class SupportersController < ApplicationController
     desc <<-EOS
       == Long description
         Supporters are connected to Thrivers to provide peer support
-      EOS
+    EOS
 
     api_base_url ""
     formats ['html', 'json']
@@ -26,12 +26,13 @@ class SupportersController < ApplicationController
   # GET /supporters
   # GET /supporters.json
   api! "Show Supporters"
+
   def index
     authorize :supporter, :index?
     @friends = current_user.friends
     @pending_friends = current_user.pending_friends
     @requested_friends = current_user.requested_friends
-    
+
     thrivers = User.where.not(id: current_user.id)
     @supported_thrivers = []
     thrivers.each do |thriver|
@@ -65,7 +66,7 @@ class SupportersController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.json  { render json: @supporters, status: 200 }
+      format.json { render json: @supporters, status: 200 }
     end
   end
 
@@ -73,6 +74,7 @@ class SupportersController < ApplicationController
   # POST /supporters/invite.json
   api! "Invite Supporter"
   param_group :supporters_data
+
   def invite
     authorize :supporter, :invite?
     invitee = User.find_by_email(params[:email])
@@ -88,19 +90,19 @@ class SupportersController < ApplicationController
       track_supporter_invited(invitee)
 
       respond_to do |format|
-        format.json { render :json  => { status: "Supporter Invitation Successful Sent" }}
+        format.json { render :json => {status: "Supporter Invitation Successful Sent"} }
       end
-    # Handle if invitee account already exists and is already an existing supporter
+      # Handle if invitee account already exists and is already an existing supporter
     elsif invitee != nil && !(invitee.is? :pro) && (current_user.supporters.include? invitee.id.to_i)
       respond_to do |format|
-        format.json { render :json => { :error => "This email is associated to an existing supporter." }}
+        format.json { render :json => {:error => "This email is associated to an existing supporter."} }
       end
-    # Handle if invitee account is a pro
+      # Handle if invitee account is a pro
     elsif invitee != nil && (invitee.is? :pro)
       respond_to do |format|
-        format.json { render :json => { :error => "Mental Health Providers cannot be invited as a peer supporter." }}
+        format.json { render :json => {:error => "Mental Health Providers cannot be invited as a peer supporter."} }
       end
-    # Default invitation for new users
+      # Default invitation for new users
     else
       User.invite!({:email => params[:email]}, current_user)
 
@@ -116,11 +118,11 @@ class SupportersController < ApplicationController
   def track_supporter_invited(invitee)
     # Track Supporter Invitation for Segment.io Analytics
     Analytics.track(
-        user_id: current_user.id,
-        event: 'Invited Supporter',
-        properties: {
-            invitee_id: invitee.id
-        }
+      user_id: current_user.id,
+      event: 'Invited Supporter',
+      properties: {
+        invitee_id: invitee.id
+      }
     )
   end
 end

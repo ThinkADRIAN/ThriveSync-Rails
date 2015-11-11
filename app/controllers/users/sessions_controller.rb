@@ -3,7 +3,7 @@ class Users::SessionsController < Devise::SessionsController
 
   before_filter :configure_sign_in_params, only: [:create, :destroy]
   skip_before_filter :verify_signed_out_user
-  skip_before_filter  :verify_authenticity_token, only:[:destroy]
+  skip_before_filter :verify_authenticity_token, only: [:destroy]
 
   # GET /resource/sign_in
   def new
@@ -29,9 +29,9 @@ class Users::SessionsController < Devise::SessionsController
       format.html { redirect_to root_path }
       format.json {
         if token_was_removed
-          render :status=>200, :json=>{:message => "Logout successful." }
+          render :status => 200, :json => {:message => "Logout successful."}
         else
-          render :status=>401, :json=>{:message => "Logout failed. Invalid token or some internal server error while saving." }
+          render :status => 401, :json => {:message => "Logout failed. Invalid token or some internal server error while saving."}
         end
       }
     end

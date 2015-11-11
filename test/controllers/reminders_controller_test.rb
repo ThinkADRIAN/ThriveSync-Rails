@@ -18,7 +18,7 @@ class RemindersControllerTest < ActionController::TestCase
 
   test "should create reminder" do
     assert_difference('Reminder.count') do
-      post :create, reminder: { alert_time: @reminder.alert_time, day_mask: @reminder.day_mask, message: @reminder.message, user_id: @reminder.user_id }
+      post :create, reminder: {alert_time: @reminder.alert_time, day_mask: @reminder.day_mask, message: @reminder.message, user_id: @reminder.user_id}
     end
 
     assert_redirected_to reminder_path(assigns(:reminder))
@@ -35,7 +35,7 @@ class RemindersControllerTest < ActionController::TestCase
   end
 
   test "should update reminder" do
-    patch :update, id: @reminder, reminder: { alert_time: @reminder.alert_time, day_mask: @reminder.day_mask, message: @reminder.message, user_id: @reminder.user_id }
+    patch :update, id: @reminder, reminder: {alert_time: @reminder.alert_time, day_mask: @reminder.day_mask, message: @reminder.message, user_id: @reminder.user_id}
     assert_redirected_to reminder_path(assigns(:reminder))
   end
 

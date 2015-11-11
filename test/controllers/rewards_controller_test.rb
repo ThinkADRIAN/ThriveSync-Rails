@@ -18,7 +18,7 @@ class RewardsControllerTest < ActionController::TestCase
 
   test "should create reward" do
     assert_difference('Reward.count') do
-      post :create, reward: { completed_first_entry: @reward.completed_first_entry, completed_first_streak: @reward.completed_first_streak, rewards_enabled: @reward.rewards_enabled, user_id: @reward.user_id }
+      post :create, reward: {completed_first_entry: @reward.completed_first_entry, completed_first_streak: @reward.completed_first_streak, rewards_enabled: @reward.rewards_enabled, user_id: @reward.user_id}
     end
 
     assert_redirected_to reward_path(assigns(:reward))
@@ -35,7 +35,7 @@ class RewardsControllerTest < ActionController::TestCase
   end
 
   test "should update reward" do
-    patch :update, id: @reward, reward: { completed_first_entry: @reward.completed_first_entry, completed_first_streak: @reward.completed_first_streak, rewards_enabled: @reward.rewards_enabled, user_id: @reward.user_id }
+    patch :update, id: @reward, reward: {completed_first_entry: @reward.completed_first_entry, completed_first_streak: @reward.completed_first_streak, rewards_enabled: @reward.rewards_enabled, user_id: @reward.user_id}
     assert_redirected_to reward_path(assigns(:reward))
   end
 
