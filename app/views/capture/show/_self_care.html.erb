@@ -10,9 +10,8 @@
 
 <% @capture_self_cares = SelfCare.where(user_id: user.id, timestamp: ($capture_date.at_beginning_of_day.in_time_zone..$capture_date.end_of_day.in_time_zone)) %>
 
-<% (1..8).each do %>
-    <br>
-<% end %>
+<br>
+
 <div class="scroller">
   <% if !@capture_self_cares.nil? %>
       <% @capture_self_cares.each do |self_care| %>
@@ -44,7 +43,7 @@
               <% end %>
             </p>
 
-            <p>
+            <p class="capture-self-care-bottom">
               <strong>Exercise:</strong>
               <% if self_care.exercise == false %>
                   <%= "No" %>
@@ -52,27 +51,24 @@
                   <%= "Yes" %>
               <% end %>
             </p>
-            <% (1..7).each do %>
-                <br>
-            <% end %>
-            <center>
-              <%= self_care.timestamp.strftime("%I:%M %p") %><br>
-              <%= link_to 'Edit', edit_self_care_path(id: self_care.id), remote: true, class: "btn btn-sm" %><br>
-            </center>
+
+            <br>
+
+            <div class="slider-timestamp">
+              <center>
+                <%= self_care.timestamp.strftime("%I:%M %p") %><br>
+                <%= link_to 'Edit', edit_self_care_path(id: self_care.id), remote: true, class: "btn btn-sm" %><br>
+              </center>
+            </div>
           </div>
       <% end %>
   <% end %>
   <% if @capture_self_cares.nil? || @capture_self_cares.count < MAX_SELF_CARE_ENTRIES %>
-      <div>
+      <div class="capture_button">
         <center>
-          <% (1..8).each do %>
-              <br>
-          <% end %>
-          <%= link_to 'Add Self Care', new_self_care_path(capture_source: 'self_care'), remote: true, class: "btn btn-primary btn-lg" %>
           <br>
-          <% (1..8).each do %>
-              <br>
-          <% end %>
+          <%= link_to 'Add Self Care', new_self_care_path(capture_source: 'self_care'), remote: true, class: "btn btn-primary btn-lg" %><br>
+          <br>
         </center>
       </div>
   <% end %>

@@ -10,13 +10,12 @@
 
 <% @capture_moods = Mood.where(user_id: user.id, timestamp: ($capture_date.at_beginning_of_day.in_time_zone..$capture_date.end_of_day.in_time_zone)) %>
 
-<% (1..8).each do %>
-    <br>
-<% end %>
+<br>
+
 <div class="scroller">
   <% if !@capture_moods.nil? %>
       <% @capture_moods.each do |mood| %>
-          <div>
+          <div class="capture_show">
             <p>
               <strong>Mood Level:</strong>
               <br>
@@ -70,28 +69,24 @@
               <% end %>
             </center>
             </p>
-            <% (1..7).each do %>
-                <br>
-            <% end %>
-            <center>
-              <%= mood.timestamp.strftime("%I:%M %p") %><br>
-              <%= link_to 'Edit', edit_mood_path(id: mood.id), remote: true, class: "btn btn-sm" %><br>
-            </center>
+
+            <br>
+
+            <div class="slider-timestamp">
+              <center>
+                <%= mood.timestamp.strftime("%I:%M %p") %><br>
+                <%= link_to 'Edit', edit_mood_path(id: mood.id), remote: true, class: "btn btn-sm" %><br>
+              </center>
+            </div>
           </div>
       <% end %>
   <% end %>
   <% if @capture_moods.nil? || @capture_moods.count < MAX_MOOD_ENTRIES %>
-      <div>
+      <div class="capture_button">
         <center>
-          <% (1..8).each do %>
-              <br>
-          <% end %>
+          <br>
           <%= link_to 'Add Mood', new_mood_path(capture_source: 'mood'), remote: true, class: "btn btn-primary btn-lg" %>
           <br>
-          <% (1..8).each do
-            puts @capture_moods %>
-              <br>
-          <% end %>
         </center>
       </div>
   <% end %>
