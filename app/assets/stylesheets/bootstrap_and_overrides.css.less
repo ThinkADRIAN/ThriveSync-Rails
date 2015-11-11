@@ -117,6 +117,7 @@
 }
 
 .navbar-text {
+  color: #ecf0f1;
   padding-top: 14px;
   padding-bottom: 0px;
 }
@@ -174,4 +175,23 @@
 
 #delorean {
   margin-left: 50px;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .navbar-collapse.collapse {
+    display: none !important;
+  }
+  .navbar-collapse.collapse.in {
+    display: block !important;
+  }
+  .navbar-header .collapse, .navbar-toggle {
+    display:block !important;
+  }
+  .navbar-header {
+    float:none;
+  }
+  .navbar-text {
+    padding-left: 35px;
+    padding-right: 20px;
+  }
 }
