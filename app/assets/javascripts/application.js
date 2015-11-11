@@ -17,7 +17,7 @@
 //= require sharrre
 //= require twitter/bootstrap
 // require flatui
-//= require startup_framework
+// require startup_framework
 //= require jquery.slick
 //= require chosen-jquery
 //= require slick
