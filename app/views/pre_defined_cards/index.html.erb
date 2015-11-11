@@ -2,23 +2,23 @@
 
 <table>
   <thead>
-    <tr>
-      <th>Text</th>
-      <th>Category</th>
-      <th colspan="3"></th>
-    </tr>
+  <tr>
+    <th>Text</th>
+    <th>Category</th>
+    <th colspan="3"></th>
+  </tr>
   </thead>
 
   <tbody>
-    <% @pre_defined_cards.each do |pre_defined_card| %>
+  <% @pre_defined_cards.each do |pre_defined_card| %>
       <tr>
         <td><%= pre_defined_card.text %></td>
         <td><%= pre_defined_card.category %></td>
         <td><%= link_to 'Show', pre_defined_card %></td>
         <td><%= link_to 'Edit', edit_pre_defined_card_path(pre_defined_card) %></td>
-        <td><%= link_to 'Destroy', pre_defined_card, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Destroy', pre_defined_card, method: :delete, data: {confirm: 'Are you sure?'} %></td>
       </tr>
-    <% end %>
+  <% end %>
   </tbody>
 </table>
 

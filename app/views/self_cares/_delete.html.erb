@@ -3,11 +3,11 @@
 </div>
 
 <div class="modal-body">
-	<ul class="errors"></ul>
-	Are you sure you wish to delete this self care entry?
+  <ul class="errors"></ul>
+  Are you sure you wish to delete this self care entry?
 </div>
 
 <div class="modal-footer">
   <%= link_to "Yes, Delete This Self Care Entry", self_care_path(@self_care), method: :delete, remote: true, class: "btn btn-danger" %>
-  <%= link_to "No, Please Don't", "#", class: "btn btn-default", data: { dismiss: "modal" } %>
+  <%= link_to "No, Please Don't", "#", class: "btn btn-default", data: {dismiss: "modal"} %>
 </div>

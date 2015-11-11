@@ -3,15 +3,15 @@ require 'rails_helper'
 RSpec.describe "pre_defined_cards/index", type: :view do
   before(:each) do
     assign(:pre_defined_cards, [
-      PreDefinedCard.create!(
-        :text => "Text",
-        :category => "Category"
-      ),
-      PreDefinedCard.create!(
-        :text => "Text",
-        :category => "Category"
-      )
-    ])
+                               PreDefinedCard.create!(
+                                 :text => "Text",
+                                 :category => "Category"
+                               ),
+                               PreDefinedCard.create!(
+                                 :text => "Text",
+                                 :category => "Category"
+                               )
+                             ])
   end
 
   it "renders a list of pre_defined_cards" do

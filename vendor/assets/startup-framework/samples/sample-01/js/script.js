@@ -13,17 +13,17 @@ function fadedEls(el, shift) {
             break;
     }
 
-    $(window).resize(function() {
+    $(window).resize(function () {
         if (!el.hasClass('ani-processed')) {
             el.eq(0).data('scrollPos', el.eq(0).offset().top - $(window).height() + shift);
         }
-    }).scroll(function() {
+    }).scroll(function () {
         if (!el.hasClass('ani-processed')) {
             if ($(window).scrollTop() >= el.eq(0).data('scrollPos')) {
                 el.addClass('ani-processed');
-                el.each(function(idx) {
+                el.each(function (idx) {
                     $(this).delay(idx * 200).animate({
-                        opacity : 1
+                        opacity: 1
                     }, 600);
                 });
             }
@@ -37,29 +37,28 @@ if (/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)) {
     window.mobile = false;
 }
 
-(function($) {
-    $(function() {
-       
+(function ($) {
+    $(function () {
+
         // Focus state for append/prepend inputs
-        $('.input-prepend, .input-append').on('focus', 'input', function() {
+        $('.input-prepend, .input-append').on('focus', 'input', function () {
             $(this).closest('.control-group, form').addClass('focus');
-        }).on('blur', 'input', function() {
+        }).on('blur', 'input', function () {
             $(this).closest('.control-group, form').removeClass('focus');
         });
- 
-       
+
 
         // features ani
         fadedEls($('.features').parent().find('h3'), 'h');
-        $('.features > *').each(function() {
+        $('.features > *').each(function () {
             fadedEls($(this), 150);
-        });     
-        
+        });
+
 
         // responsive
-        $(window).resize(function() {
+        $(window).resize(function () {
             // input-append auto width
-            $('footer .input-append input[type="text"]').each(function() {
+            $('footer .input-append input[type="text"]').each(function () {
                 var controlGroup = $(this).closest('.control-group');
 
                 if ($(window).width() > 480) {

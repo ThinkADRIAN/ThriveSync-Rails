@@ -1,6 +1,6 @@
-require 'rails_helper' 
+require 'rails_helper'
 
-describe Journal do 
+describe Journal do
   it "has a valid factory" do
     expect(FactoryGirl.create(:journal)).to be_valid
   end

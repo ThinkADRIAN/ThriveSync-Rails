@@ -3,9 +3,9 @@ require 'rails_helper'
 RSpec.describe "pre_defined_cards/edit", type: :view do
   before(:each) do
     @pre_defined_card = assign(:pre_defined_card, PreDefinedCard.create!(
-      :text => "MyString",
-      :category => "MyString"
-    ))
+                                                  :text => "MyString",
+                                                  :category => "MyString"
+                                                ))
   end
 
   it "renders the edit pre_defined_card form" do

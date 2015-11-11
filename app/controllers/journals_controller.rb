@@ -20,13 +20,13 @@ class JournalsController < ApplicationController
               }
             ]
           }
-      EOS
+    EOS
     api_base_url ""
     formats ['html', 'json']
   end
 
   def_param_group :journals_data do
-    param :journal, Hash , :desc => "Journal", :required => false do
+    param :journal, Hash, :desc => "Journal", :required => false do
       param :journal_entry, :undef, :desc => "Journal Entry [String]", :required => true
     end
   end
@@ -46,14 +46,15 @@ class JournalsController < ApplicationController
   before_action :set_journal, only: [:show, :edit, :update, :destroy]
   before_action :set_lookback_period, only: [:index]
 
-  after_action :verify_authorized,  except: [:index]
+  after_action :verify_authorized, except: [:index]
   #after_filter :verify_policy_scoped, only: [:index]
 
   respond_to :html, :js, :json
-  
+
   # GET /journals
   # GET /journals.json
   api! "Show Journal Entries"
+
   def index
     @user = User.find_by_id(params[:user_id])
 
@@ -148,6 +149,7 @@ class JournalsController < ApplicationController
   # POST /journals.json
   api! "Create Journal Entry"
   param_group :journals_data
+
   def create
     @user = User.find_by_id(params[:user_id])
 
@@ -177,7 +179,7 @@ class JournalsController < ApplicationController
         @journal.timestamp = DateTime.now.in_time_zone
       end
     end
-    
+
     respond_to do |format|
       if todays_journals.count < MAX_JOURNAL_ENTRIES
         if @journal.save
@@ -188,7 +190,7 @@ class JournalsController < ApplicationController
           format.json { render json: @journal, status: :created }
         else
           flash.now[:error] = 'Journal Entry was not tracked... Try again???'
-          format.js   { render json: @journal.errors, status: :unprocessable_entity }
+          format.js { render json: @journal.errors, status: :unprocessable_entity }
           format.json { render json: @journal.errors, status: :unprocessable_entity }
         end
       else
@@ -203,6 +205,7 @@ class JournalsController < ApplicationController
   # PATCH/PUT /journals/1.json
   api! "Update Journal Entry"
   param_group :journals_all
+
   def update
     @user = User.find_by_id(params[:user_id])
 
@@ -228,7 +231,7 @@ class JournalsController < ApplicationController
           format.json { render json: @journal, status: :created }
         else
           flash.now[:error] = 'Journal Entry was not updated... Try again???'
-          format.js   { render json: @journal.errors, status: :unprocessable_entity }
+          format.js { render json: @journal.errors, status: :unprocessable_entity }
           format.json { render json: @journal.errors, status: :unprocessable_entity }
         end
       else
@@ -263,6 +266,7 @@ class JournalsController < ApplicationController
   # DELETE /journals/1.json
   api! "Delete Journal Entry"
   param_group :destroy_journals_data
+
   def destroy
     @user = User.find_by_id(params[:user_id])
 
@@ -313,57 +317,57 @@ class JournalsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_journal
-      @journal = Journal.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_journal
+    @journal = Journal.find(params[:id])
+  end
 
-    def set_lookback_period
-      if params.has_key? :journal_lookback_period
-        @journal_lookback_period = params[:journal_lookback_period]
-      else
-        @journal_lookback_period = DEFAULT_LOOKBACK_PERIOD
-      end
+  def set_lookback_period
+    if params.has_key? :journal_lookback_period
+      @journal_lookback_period = params[:journal_lookback_period]
+    else
+      @journal_lookback_period = DEFAULT_LOOKBACK_PERIOD
     end
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def journal_params
-      params.fetch(:journal, {}).permit(:journal_entry, :timestamp, :journal_lookback_period, :capture_source)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def journal_params
+    params.fetch(:journal, {}).permit(:journal_entry, :timestamp, :journal_lookback_period, :capture_source)
+  end
 
-    def track_journal_created
-      # Track Journal Creation for Segment.io Analytics
-      Analytics.track(
-        user_id: current_user.id,
-        event: 'Journal Entry Created',
-        properties: {
-          journal_id: @journal.id,
-          timestamp: @journal.timestamp,
-          journal_user_id: @journal.user_id
-        }
-      )
-    end
+  def track_journal_created
+    # Track Journal Creation for Segment.io Analytics
+    Analytics.track(
+      user_id: current_user.id,
+      event: 'Journal Entry Created',
+      properties: {
+        journal_id: @journal.id,
+        timestamp: @journal.timestamp,
+        journal_user_id: @journal.user_id
+      }
+    )
+  end
 
-    def track_journal_updated
-      # Track Journal Update for Segment.io Analytics
-      Analytics.track(
-        user_id: current_user.id,
-        event: 'Journal Entry Updated',
-        properties: {
-          journal_id: @journal.id,
-          timestamp: @journal.timestamp,
-          journal_user_id: @journal.user_id
-        }
-      )
-    end
+  def track_journal_updated
+    # Track Journal Update for Segment.io Analytics
+    Analytics.track(
+      user_id: current_user.id,
+      event: 'Journal Entry Updated',
+      properties: {
+        journal_id: @journal.id,
+        timestamp: @journal.timestamp,
+        journal_user_id: @journal.user_id
+      }
+    )
+  end
 
-    def track_journal_deleted
-      # Track Journal Deletion for Segment.io Analytics
-      Analytics.track(
-        user_id: current_user.id,
-        event: 'Journal Entry Deleted',
-        properties: {
-        }
-      )
-    end
+  def track_journal_deleted
+    # Track Journal Deletion for Segment.io Analytics
+    Analytics.track(
+      user_id: current_user.id,
+      event: 'Journal Entry Deleted',
+      properties: {
+      }
+    )
+  end
 end

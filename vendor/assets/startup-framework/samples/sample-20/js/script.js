@@ -13,17 +13,17 @@ function fadedEls(el, shift) {
             break;
     }
 
-    $(window).resize(function() {
+    $(window).resize(function () {
         if (!el.hasClass('ani-processed')) {
             el.eq(0).data('scrollPos', el.eq(0).offset().top - $(window).height() + shift);
         }
-    }).scroll(function() {
+    }).scroll(function () {
         if (!el.hasClass('ani-processed')) {
             if ($(window).scrollTop() >= el.eq(0).data('scrollPos')) {
                 el.addClass('ani-processed');
-                el.each(function(idx) {
+                el.each(function (idx) {
                     $(this).delay(idx * 200).animate({
-                        opacity : 1
+                        opacity: 1
                     }, 800);
                 });
             }
@@ -31,18 +31,18 @@ function fadedEls(el, shift) {
     });
 }
 
-(function($) {
-    $(function() {
-        
+(function ($) {
+    $(function () {
+
         // Focus state for append/prepend inputs
-        $('.input-prepend, .input-append').on('focus', 'input', function() {
+        $('.input-prepend, .input-append').on('focus', 'input', function () {
             $(this).closest('.control-group, form').addClass('focus');
-        }).on('blur', 'input', function() {
+        }).on('blur', 'input', function () {
             $(this).closest('.control-group, form').removeClass('focus');
         });
 
-        
-        $(window).resize(function() {
+
+        $(window).resize(function () {
             $('.header-22-sub').css('height', ($(this).height() - $('header').outerHeight()) + 'px');
         });
 
@@ -51,19 +51,19 @@ function fadedEls(el, shift) {
         fadedEls($('.content-7 .row > *'), 'h/2');
 
         // Ani screen
-        (function(el) {
+        (function (el) {
             $('img:first-child', el).css('left', '-29.7%');
 
-            $(window).resize(function() {
+            $(window).resize(function () {
                 if (!el.hasClass('ani-processed')) {
                     el.data('scrollPos', el.offset().top - $(window).height() + el.outerHeight());
                 }
-            }).scroll(function() {
+            }).scroll(function () {
                 if (!el.hasClass('ani-processed')) {
                     if ($(window).scrollTop() >= el.data('scrollPos')) {
                         el.addClass('ani-processed');
                         $('img:first-child', el).animate({
-                            left : 0
+                            left: 0
                         }, 500);
                     }
                 }
@@ -74,7 +74,7 @@ function fadedEls(el, shift) {
 
     });
 
-    $(window).load(function() {
+    $(window).load(function () {
 
         $('html').addClass('loaded');
 

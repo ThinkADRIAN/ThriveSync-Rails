@@ -7,7 +7,7 @@ class CaptureController < ApplicationController
   after_action :verify_authorized
 
   respond_to :js
-  
+
   def update_capture
     authorize :capture, :update_capture?
     @user = User.find_by_id(params[:user_id])
@@ -23,11 +23,11 @@ class CaptureController < ApplicationController
 
   private
 
-    def set_capture_date
-      if(params.has_key?(:capture_date))
-        $capture_date = Date.parse(params[:capture_date])
-      else
-        $capture_date = Date.parse(DEFAULT_CAPTURE_DATE)
-      end
+  def set_capture_date
+    if (params.has_key?(:capture_date))
+      $capture_date = Date.parse(params[:capture_date])
+    else
+      $capture_date = Date.parse(DEFAULT_CAPTURE_DATE)
     end
+  end
 end

@@ -8,7 +8,7 @@ class SleepPolicy < ApplicationPolicy
         true
       else
         false
-      end 
+      end
     end
   end
 
@@ -46,8 +46,8 @@ class SleepPolicy < ApplicationPolicy
           scope
         else
           scope = nil
-        end 
-      else 
+        end
+      else
         scope
       end
     end

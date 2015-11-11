@@ -5,7 +5,7 @@ class UsersController < ApplicationController
     desc <<-EOS
       == Long description
         Thrivers are the primary users of ThriveSync
-      EOS
+    EOS
 
     api_base_url ""
     formats ['html', 'json']
@@ -28,7 +28,7 @@ class UsersController < ApplicationController
 
   before_action :authenticate_user!
   before_action :set_user, only: [:show, :edit, :update, :destroy]
-  
+
   before_filter :authorize_user_index, :only => [:index, :show]
   before_filter :authorize_user_edit, :only => [:edit, :update]
   before_filter :authorize_user_destroy, :only => [:destroy]
@@ -40,10 +40,11 @@ class UsersController < ApplicationController
   # GET /thrivers
   # GET /thrivers.json
   api! "Show Thriver"
+
   def index
     # Pundit authorization can be skipped because
     # before_filter :authorize_user_index handles authorization
-    skip_authorization 
+    skip_authorization
 
     @user = User.find_by_id(params[:id])
 
@@ -62,7 +63,7 @@ class UsersController < ApplicationController
   def show
     # Pundit authorization can be skipped because
     # before_filter :authorize_user_index handles authorization
-    skip_authorization 
+    skip_authorization
 
     @user = User.find_by_id(params[:id])
 
@@ -80,7 +81,7 @@ class UsersController < ApplicationController
   def new
     authorize :user, :new?
     @user = User.new
-    
+
     respond_to do |format|
       format.html
       format.json { render :json => @user, status: 200 }
@@ -173,6 +174,7 @@ class UsersController < ApplicationController
 
   api! "Migrate from ThriverTracker"
   param_group :thrivers_migration_data
+
   def migrate_from_thrivetracker
     authorize :user, :migrate_from_thrivetracker?
     ParseMigrater.new.async.perform(current_user.id, params[:email], params[:password])
@@ -184,6 +186,7 @@ class UsersController < ApplicationController
   end
 
   api! "Request Password Reset From ThriveTracker"
+
   def request_password_reset_from_thrivetracker
     authorize :user, :request_password_reset_from_thrivetracker?
     resp = Parse::User.reset_password(current_user.email)
@@ -194,20 +197,20 @@ class UsersController < ApplicationController
       format.json { head :no_content }
     end
   end
-  
+
   protected
-  
+
   def user_access_granted_index?
-    ((current_user.is? :pro) && (current_user.clients.include?(params[:id].to_i))) || 
-    (current_user.id == params[:id].to_i) || (current_user.is? :superuser) || (current_user && (params[:id] == nil) )
+    ((current_user.is? :pro) && (current_user.clients.include?(params[:id].to_i))) ||
+      (current_user.id == params[:id].to_i) || (current_user.is? :superuser) || (current_user && (params[:id] == nil))
   end
 
   def user_access_granted_edit?
-    (current_user.is? :superuser) || (current_user && (params[:id] == nil) )
+    (current_user.is? :superuser) || (current_user && (params[:id] == nil))
   end
 
   def user_access_granted_destroy?
-    (current_user.is? :superuser) || (current_user && (params[:id] == nil) )
+    (current_user.is? :superuser) || (current_user && (params[:id] == nil))
   end
 
   def authorize_user_index
@@ -234,60 +237,60 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    accessible = [ :first_name, :last_name, :email, roles: [], clients: [], supporters: [] ] # extend with your own params
-    accessible << [ :password, :password_confirmation ] unless params[:user][:password].blank?
+    accessible = [:first_name, :last_name, :email, roles: [], clients: [], supporters: []] # extend with your own params
+    accessible << [:password, :password_confirmation] unless params[:user][:password].blank?
     params.fetch(:user, {}).permit(accessible)
   end
 
   def track_user_created
     # Track User Creation for Segment.io Analytics
     Analytics.track(
-        user_id: current_user.id,
-        event: 'User Created',
-        properties: {
-            user_id: @user.id
-        }
+      user_id: current_user.id,
+      event: 'User Created',
+      properties: {
+        user_id: @user.id
+      }
     )
   end
 
   def track_user_updated
     # Track Pre-Defined Card Update for Segment.io Analytics
     Analytics.track(
-        user_id: current_user.id,
-        event: 'User Updated',
-        properties: {
-            user_id: @user.id
-        }
+      user_id: current_user.id,
+      event: 'User Updated',
+      properties: {
+        user_id: @user.id
+      }
     )
   end
 
   def track_user_deleted
     # Track User Deletion for Segment.io Analytics
     Analytics.track(
-        user_id: current_user.id,
-        event: 'User Deleted',
-        properties: {
-        }
+      user_id: current_user.id,
+      event: 'User Deleted',
+      properties: {
+      }
     )
   end
 
   def track_migration_from_parse
     # Track Migration from Parse for Segment.io Analytics
     Analytics.track(
-        user_id: current_user.id,
-        event: 'Migration from Parse',
-        properties: {
-        }
+      user_id: current_user.id,
+      event: 'Migration from Parse',
+      properties: {
+      }
     )
   end
 
   def track_request_password_reset_from_thrivetracker
     # Track Migration from Parse for Segment.io Analytics
     Analytics.track(
-        user_id: current_user.id,
-        event: 'Request Password Reset from ThriveTracker',
-        properties: {
-        }
+      user_id: current_user.id,
+      event: 'Request Password Reset from ThriveTracker',
+      properties: {
+      }
     )
   end
 end

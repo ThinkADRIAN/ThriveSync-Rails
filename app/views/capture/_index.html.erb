@@ -3,31 +3,31 @@
 </div>
 
 <% if $current_capture_screen == "Mood" || $current_capture_screen == nil %>
-  <div class="capture-nav">
+    <div class="capture-nav">
       <%= render "capture/nav/mood" %>
-  </div>
-  <div class="capture-window">
-    <%= render "capture/show/mood"%>
-  </div>
+    </div>
+    <div class="capture-window">
+      <%= render "capture/show/mood" %>
+    </div>
 <% elsif $current_capture_screen == "Sleep" %>
-  <div class="capture-nav">
+    <div class="capture-nav">
       <%= render "capture/nav/sleep" %>
-  </div>
-  <div class="capture-window">
-    <%= render "capture/show/sleep"%>
-  </div>
+    </div>
+    <div class="capture-window">
+      <%= render "capture/show/sleep" %>
+    </div>
 <% elsif $current_capture_screen == "SelfCare" %>
-  <div class="capture-nav">
+    <div class="capture-nav">
       <%= render "capture/nav/self_care" %>
-  </div>
-  <div class="capture-window">
-    <%= render "capture/show/self_care"%>
-  </div>
+    </div>
+    <div class="capture-window">
+      <%= render "capture/show/self_care" %>
+    </div>
 <% elsif $current_capture_screen == "Journal" %>
-  <div class="capture-nav">
+    <div class="capture-nav">
       <%= render "capture/nav/journal" %>
-  </div>
-  <div class="capture-window">
-    <%= render "capture/show/journal"%>
-  </div>
+    </div>
+    <div class="capture-window">
+      <%= render "capture/show/journal" %>
+    </div>
 <% end %>

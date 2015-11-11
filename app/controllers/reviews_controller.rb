@@ -5,7 +5,7 @@ class ReviewsController < ApplicationController
     desc <<-EOS
       == Long description
         Store data for Mobile App Review Cues
-      EOS
+    EOS
 
     api_base_url ""
     formats ['html', 'json']
@@ -25,7 +25,7 @@ class ReviewsController < ApplicationController
 
   before_action :authenticate_user!
   before_action :set_review, only: [:show, :edit, :update, :destroy]
- 
+
   after_action :verify_authorized
 
   respond_to :html, :json
@@ -33,6 +33,7 @@ class ReviewsController < ApplicationController
   # GET /reviews
   # GET /reviews.json
   api! "Show Review Records"
+
   def index
     authorize :review, :index?
     @user = User.find_by_id(params[:user_id])
@@ -53,7 +54,7 @@ class ReviewsController < ApplicationController
   # GET /reviews/1.json
   def show
     authorize :review, :show?
-    
+
     respond_to do |format|
       format.html
       format.json { render :json => @review, status: 200 }
@@ -64,7 +65,7 @@ class ReviewsController < ApplicationController
   def new
     authorize :review, :new?
     @review = Review.new
-    
+
     respond_to do |format|
       format.html
       format.json { render :json => @review, status: 200 }
@@ -85,6 +86,7 @@ class ReviewsController < ApplicationController
   # POST /reviews.json
   api! "Create Review Record"
   param_group :reviews_data
+
   def create
     authorize :review, :create?
     @review = Review.new(review_params)
@@ -94,7 +96,7 @@ class ReviewsController < ApplicationController
         track_review_created
         flash[:success] = 'Review was successfully created.'
         format.html { redirect_to reviews_path }
-        format.json  { render json: @review, status: :created }
+        format.json { render json: @review, status: :created }
       else
         flash[:error] = 'Review was not created... Try again???'
         format.html { render :new }
@@ -107,6 +109,7 @@ class ReviewsController < ApplicationController
   # PATCH/PUT /reviews/1.json
   api! "Update Review Record"
   param_group :reviews_data
+
   def update
     authorize :review, :update?
 
@@ -115,7 +118,7 @@ class ReviewsController < ApplicationController
         track_review_updated
         flash[:success] = 'Review was successfully updated.'
         format.html { redirect_to reviews_path }
-        format.json  { render json: @review, status: 200 }
+        format.json { render json: @review, status: 200 }
       else
         flash[:error] = 'Review was not updated... Try again???'
         format.html { render :edit }
@@ -128,6 +131,7 @@ class ReviewsController < ApplicationController
   # DELETE /reviews/1.json
   api! "Delete Review Record"
   param_group :destroy_reviews_data
+
   def destroy
     authorize :review, :destroy?
 
@@ -158,40 +162,40 @@ class ReviewsController < ApplicationController
   def track_review_created
     # Track Review Creation for Segment.io Analytics
     Analytics.track(
-        user_id: current_user.id,
-        event: 'Review Created',
-        properties: {
-            review_id: @review.id,
-            review_counter: @review.review_counter,
-            review_last_date: @review.review_last_date,
-            review_trigger_date: @review.review_trigger_date,
-            review_user_id: @review.user_id
-        }
+      user_id: current_user.id,
+      event: 'Review Created',
+      properties: {
+        review_id: @review.id,
+        review_counter: @review.review_counter,
+        review_last_date: @review.review_last_date,
+        review_trigger_date: @review.review_trigger_date,
+        review_user_id: @review.user_id
+      }
     )
   end
 
   def track_review_updated
     # Track Review Update for Segment.io Analytics
     Analytics.track(
-        user_id: current_user.id,
-        event: 'Review Updated',
-        properties: {
-            review_id: @review.id,
-            review_counter: @review.review_counter,
-            review_last_date: @review.review_last_date,
-            review_trigger_date: @review.review_trigger_date,
-            review_user_id: @review.user_id
-        }
+      user_id: current_user.id,
+      event: 'Review Updated',
+      properties: {
+        review_id: @review.id,
+        review_counter: @review.review_counter,
+        review_last_date: @review.review_last_date,
+        review_trigger_date: @review.review_trigger_date,
+        review_user_id: @review.user_id
+      }
     )
   end
 
   def track_review_deleted
     # Track Review Deletion for Segment.io Analytics
     Analytics.track(
-        user_id: current_user.id,
-        event: 'Review Deleted',
-        properties: {
-        }
+      user_id: current_user.id,
+      event: 'Review Deleted',
+      properties: {
+      }
     )
   end
 end

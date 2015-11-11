@@ -18,22 +18,22 @@ class MyDevise::InvitationsController < Devise::InvitationsController
       invitee.save!
 
       respond_to do |format|
-        format.html { redirect_to after_invite_path_for(current_user), :flash => { :success => "Supporter Invititation sent to #{(params[:user][:email])}" } }
+        format.html { redirect_to after_invite_path_for(current_user), :flash => {:success => "Supporter Invititation sent to #{(params[:user][:email])}"} }
         format.json { render :json => @cards, status: 200 }
       end
-    # Handle if invitee account already exists and is already an existing supporter
+      # Handle if invitee account already exists and is already an existing supporter
     elsif invitee != nil && !(invitee.is? :pro) && (current_user.supporters.include? invitee.id.to_i)
       respond_to do |format|
-        format.html { redirect_to new_user_invitation_path, :flash => { :error => "This email is associated to an existing supporter." }}
+        format.html { redirect_to new_user_invitation_path, :flash => {:error => "This email is associated to an existing supporter."} }
         format.json { render :error => "This email is associated to an existing supporter." }
       end
-    # Handle if invitee account is a pro
+      # Handle if invitee account is a pro
     elsif invitee != nil && (invitee.is? :pro)
       respond_to do |format|
-        format.html { redirect_to :back, :flash => { :error => "Mental Health Providers cannot be invited as a peer supporter." }}
+        format.html { redirect_to :back, :flash => {:error => "Mental Health Providers cannot be invited as a peer supporter."} }
         format.json { render :error => "Mental Health Providers cannot be invited as a peer supporter." }
       end
-    # Default invitation for new users
+      # Default invitation for new users
     else
       super
     end

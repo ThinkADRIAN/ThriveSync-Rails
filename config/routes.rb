@@ -10,9 +10,9 @@ Rails.application.routes.draw do
   resources :reminders
 
   resources :scorecards
-  
+
   devise_for :users, :path => '', :path_names => {:sign_in => 'login', :sign_out => 'logout'}, :controllers => {:registrations => 'my_devise/registrations',
-    :omniauth_callbacks => "omniauth_callbacks", :sessions => 'my_devise/sessions', :passwords => 'users/passwords', :invitations => 'my_devise/invitations'}
+                                                                                                                :omniauth_callbacks => "omniauth_callbacks", :sessions => 'my_devise/sessions', :passwords => 'users/passwords', :invitations => 'my_devise/invitations'}
   match '/users/:id/finish_signup' => 'users#finish_signup', via: [:get, :patch], :as => :finish_signup
 
   # Auto-created by Devise
@@ -101,7 +101,7 @@ Rails.application.routes.draw do
   require 'api_constraints'
 
   # Api definition
-  namespace :api, defaults: { format: :json } do#, constraints: { subdomain: 'api' }, path: '/'  do
+  namespace :api, defaults: {format: :json} do #, constraints: { subdomain: 'api' }, path: '/'  do
     scope module: :v1, constraints: ApiConstraints.new(version: 1, default: true) do
       devise_scope :user do
         post '/registrations' => 'registrations#create'

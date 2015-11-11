@@ -5,14 +5,14 @@ class PreDefinedCardsController < ApplicationController
     desc <<-EOS
       == Long description
         Pre-Defined Cards that can be sent as T-Max Cards
-      EOS
+    EOS
 
     api_base_url ""
     formats ['html', 'json']
   end
 
   def_param_group :pre_defined_cards_data do
-    param :pre_defined_card, Hash , :desc => "Pre-Defined Card", :required => false do
+    param :pre_defined_card, Hash, :desc => "Pre-Defined Card", :required => false do
       param :text, :undef, :desc => "Card Text [String]", :required => true
       param :category, :undef, :desc => "Card Category [String]", :required => true
     end
@@ -34,13 +34,14 @@ class PreDefinedCardsController < ApplicationController
   # GET /pre_defined_cards
   # GET /pre_defined_cards.json
   api! "Show Pre-Defined Cards"
+
   def index
     authorize :pre_defined_card, :index?
     @pre_defined_cards = PreDefinedCard.all
-    
+
     respond_to do |format|
       format.html
-      format.json  { render json: @pre_defined_cards, status: 200 }
+      format.json { render json: @pre_defined_cards, status: 200 }
     end
   end
 
@@ -51,7 +52,7 @@ class PreDefinedCardsController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.json  { render json: @pre_defined_card, status: 200 }
+      format.json { render json: @pre_defined_card, status: 200 }
     end
   end
 
@@ -59,10 +60,10 @@ class PreDefinedCardsController < ApplicationController
   def new
     authorize :pre_defined_card, :new?
     @pre_defined_card = PreDefinedCard.new
-    
+
     respond_to do |format|
       format.html
-      format.json  { render json: @pre_defined_card, status: 200 }
+      format.json { render json: @pre_defined_card, status: 200 }
     end
   end
 
@@ -72,7 +73,7 @@ class PreDefinedCardsController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.json  { render json: @pre_defined_card, status: 200 }
+      format.json { render json: @pre_defined_card, status: 200 }
     end
   end
 
@@ -80,6 +81,7 @@ class PreDefinedCardsController < ApplicationController
   # POST /pre_defined_cards.json
   api! "Create Pre-Defined Card"
   param_group :pre_defined_cards_data
+
   def create
     authorize :pre_defined_card, :create?
     @pre_defined_card = PreDefinedCard.new(pre_defined_card_params)
@@ -89,7 +91,7 @@ class PreDefinedCardsController < ApplicationController
         track_pre_defined_card_created
         flash[:success] = 'Pre-Defined Card was successfully created.'
         format.html { redirect_to pre_defined_cards_path }
-        format.json  { render json: @pre_defined_card, status: :created }
+        format.json { render json: @pre_defined_card, status: :created }
       else
         flash[:error] = 'Pre-defined card was not created... Try again???'
         format.html { render :new }
@@ -102,6 +104,7 @@ class PreDefinedCardsController < ApplicationController
   # PATCH/PUT /pre_defined_cards/1.json
   api! "Update Pre-Defined Card"
   param_group :pre_defined_cards_data
+
   def update
     authorize :pre_defined_card, :update?
 
@@ -110,7 +113,7 @@ class PreDefinedCardsController < ApplicationController
         track_pre_defined_card_updated
         flash[:success] = 'Pre-Defined Card was successfully updated.'
         format.html { redirect_to pre_defined_cards_path }
-        format.json  { render json: @pre_defined_card, status: 200 }
+        format.json { render json: @pre_defined_card, status: 200 }
       else
         flash[:error] = 'Pre-defined card was not updated... Try again???'
         format.html { render :edit }
@@ -123,6 +126,7 @@ class PreDefinedCardsController < ApplicationController
   # DELETE /pre_defined_cards/1.json
   api! "Delete Pre-Defined Card"
   param_group :destroy_pre_defined_cards_data
+
   def destroy
     authorize :pre_defined_card, :destroy?
 
@@ -155,9 +159,9 @@ class PreDefinedCardsController < ApplicationController
       user_id: current_user.id,
       event: 'Pre-Defined Card Created',
       properties: {
-          pre_defined_card_id: @pre_defined_card.id,
-          text: @pre_defined_card.text,
-          category: @pre_defined_card.category
+        pre_defined_card_id: @pre_defined_card.id,
+        text: @pre_defined_card.text,
+        category: @pre_defined_card.category
       }
     )
   end
@@ -165,23 +169,23 @@ class PreDefinedCardsController < ApplicationController
   def track_pre_defined_card_updated
     # Track Pre-Defined Card Update for Segment.io Analytics
     Analytics.track(
-        user_id: current_user.id,
-        event: 'Pre-Defined Card Updated',
-        properties: {
-            pre_defined_card_id: @pre_defined_card.id,
-            text: @pre_defined_card.text,
-            category: @pre_defined_card.category
-        }
+      user_id: current_user.id,
+      event: 'Pre-Defined Card Updated',
+      properties: {
+        pre_defined_card_id: @pre_defined_card.id,
+        text: @pre_defined_card.text,
+        category: @pre_defined_card.category
+      }
     )
   end
 
   def track_pre_defined_card_deleted
     # Track Pre-Defined Card Deletion for Segment.io Analytics
     Analytics.track(
-        user_id: current_user.id,
-        event: 'Pre-Defined Card Deleted',
-        properties: {
-        }
+      user_id: current_user.id,
+      event: 'Pre-Defined Card Deleted',
+      properties: {
+      }
     )
   end
 end

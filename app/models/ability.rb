@@ -31,7 +31,7 @@ class Ability
 
     # handle guest user (not logged in)
     user ||= User.new()
-    
+
 =begin
     can :manage, User, id: user.id
     can :manage, Mood, :user => { id: user.id }

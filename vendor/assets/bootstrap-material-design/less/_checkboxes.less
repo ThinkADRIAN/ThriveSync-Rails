@@ -1,6 +1,7 @@
 .form-horizontal .checkbox {
   padding-top: 20px;
 }
+
 .checkbox {
   transform: translateZ(0); // Force 3d rendering
   label {
@@ -30,7 +31,7 @@
       position: absolute;
       left: 0;
       content: "";
-      background-color: rgba(0,0,0,.84);
+      background-color: rgba(0, 0, 0, .84);
       height: @checkbox-size;
       width: @checkbox-size;
       border-radius: 100%;
@@ -59,14 +60,13 @@
       margin-left: 6px;
       width: 0;
       height: 0;
-      box-shadow:
-        0 0 0 0,
-        0 0 0 0,
-        0 0 0 0,
-        0 0 0 0,
-        0 0 0 0,
-        0 0 0 0,
-        0 0 0 0 inset;
+      box-shadow: 0 0 0 0,
+      0 0 0 0,
+      0 0 0 0,
+      0 0 0 0,
+      0 0 0 0,
+      0 0 0 0,
+      0 0 0 0 inset;
       animation: checkbox-off @checkbox-animation-check forwards;
     }
   }
@@ -75,12 +75,11 @@
     opacity: 0.2;
   }
   input[type=checkbox]:checked + .checkbox-material .check:before {
-    box-shadow:
-      0 0 0 10px,
+    box-shadow: 0 0 0 10px,
       10px -10px 0 10px,
-      32px 0px 0 20px,
-      0px 32px 0 20px,
-      -5px 5px 0 10px,
+    32px 0px 0 20px,
+    0px 32px 0 20px,
+    -5px 5px 0 10px,
       20px -12px 0 11px;
     animation: checkbox-on @checkbox-animation-check forwards;
   }
@@ -115,57 +114,52 @@
   .variations(~" input[type=checkbox]:checked + .checkbox-material .check", color, #4caf50);
 }
 
-
 @keyframes checkbox-on {
   0% {
-    box-shadow:
-      0 0 0 10px,
+    box-shadow: 0 0 0 10px,
       10px -10px 0 10px,
-      32px 0px 0 20px,
-      0px 32px 0 20px,
-      -5px 5px 0 10px,
-      15px 2px 0 11px;
+    32px 0px 0 20px,
+    0px 32px 0 20px,
+    -5px 5px 0 10px,
+    15px 2px 0 11px;
   }
   50% {
-    box-shadow:
-      0 0 0 10px,
+    box-shadow: 0 0 0 10px,
       10px -10px 0 10px,
-      32px 0px 0 20px,
-      0px 32px 0 20px,
-      -5px 5px 0 10px,
-      20px 2px 0 11px;
+    32px 0px 0 20px,
+    0px 32px 0 20px,
+    -5px 5px 0 10px,
+    20px 2px 0 11px;
   }
   100% {
-    box-shadow:
-      0 0 0 10px,
+    box-shadow: 0 0 0 10px,
       10px -10px 0 10px,
-      32px 0px 0 20px,
-      0px 32px 0 20px,
-      -5px 5px 0 10px,
+    32px 0px 0 20px,
+    0px 32px 0 20px,
+    -5px 5px 0 10px,
       20px -12px 0 11px;
   }
 }
+
 @keyframes checkbox-off {
   0% {
-    box-shadow:
-      0 0 0 10px,
+    box-shadow: 0 0 0 10px,
       10px -10px 0 10px,
-      32px 0px 0 20px,
-      0px 32px 0 20px,
-      -5px 5px 0 10px,
+    32px 0px 0 20px,
+    0px 32px 0 20px,
+    -5px 5px 0 10px,
       20px -12px 0 11px,
-      0 0 0 0 inset;
+    0 0 0 0 inset;
   }
 
   25% {
-    box-shadow:
-      0 0 0 10px,
+    box-shadow: 0 0 0 10px,
       10px -10px 0 10px,
-      32px 0px 0 20px,
-      0px 32px 0 20px,
-      -5px 5px 0 10px,
+    32px 0px 0 20px,
+    0px 32px 0 20px,
+    -5px 5px 0 10px,
       20px -12px 0 11px,
-      0 0 0 0 inset;
+    0 0 0 0 inset;
   }
   50% {
     transform: rotate(45deg);
@@ -173,14 +167,13 @@
     margin-left: 6px;
     width: 0px;
     height: 0px;
-    box-shadow:
-      0 0 0 10px,
+    box-shadow: 0 0 0 10px,
       10px -10px 0 10px,
-      32px 0px 0 20px,
-      0px 32px 0 20px,
-      -5px 5px 0 10px,
-      15px 2px 0 11px,
-      0 0 0 0 inset;
+    32px 0px 0 20px,
+    0px 32px 0 20px,
+    -5px 5px 0 10px,
+    15px 2px 0 11px,
+    0 0 0 0 inset;
   }
   51% {
     transform: rotate(0deg);
@@ -188,14 +181,13 @@
     margin-left: -2px;
     width: 20px;
     height: 20px;
-    box-shadow:
-      0 0 0 0,
-      0 0 0 0,
-      0 0 0 0,
-      0 0 0 0,
-      0 0 0 0,
-      0 0 0 0,
-      0px 0px 0 10px inset;
+    box-shadow: 0 0 0 0,
+    0 0 0 0,
+    0 0 0 0,
+    0 0 0 0,
+    0 0 0 0,
+    0 0 0 0,
+    0px 0px 0 10px inset;
   }
   100% {
     transform: rotate(0deg);
@@ -203,16 +195,16 @@
     margin-left: -2px;
     width: 20px;
     height: 20px;
-    box-shadow:
-      0 0 0 0,
-      0 0 0 0,
-      0 0 0 0,
-      0 0 0 0,
-      0 0 0 0,
-      0 0 0 0,
-      0px 0px 0 0px inset;
+    box-shadow: 0 0 0 0,
+    0 0 0 0,
+    0 0 0 0,
+    0 0 0 0,
+    0 0 0 0,
+    0 0 0 0,
+    0px 0px 0 0px inset;
   }
 }
+
 @keyframes rippleOn {
   0% {
     opacity: 0;
@@ -224,6 +216,7 @@
     opacity: 0;
   }
 }
+
 @keyframes rippleOff {
   0% {
     opacity: 0;

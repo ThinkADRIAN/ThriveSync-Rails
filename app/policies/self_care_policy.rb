@@ -8,7 +8,7 @@ class SelfCarePolicy < ApplicationPolicy
         true
       else
         false
-      end 
+      end
     end
   end
 
@@ -46,8 +46,8 @@ class SelfCarePolicy < ApplicationPolicy
           scope
         else
           scope = nil
-        end 
-      else 
+        end
+      else
         scope
       end
     end

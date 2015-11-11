@@ -39,8 +39,8 @@ class ConversationsController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.json { render :json => { :cards => @cards }, status: 200 }
-    end 
+      format.json { render :json => {:cards => @cards}, status: 200 }
+    end
   end
 
   def destroy
@@ -84,7 +84,7 @@ class ConversationsController < ApplicationController
   end
 
   def get_box
-    if params[:box].blank? or !["inbox","sent","trash"].include?(params[:box])
+    if params[:box].blank? or !["inbox", "sent", "trash"].include?(params[:box])
       params[:box] = 'inbox'
     end
     @box = params[:box]
