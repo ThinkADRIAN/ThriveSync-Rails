@@ -28464,6 +28464,7 @@ button.close {
   color: #ecf0f1;
 }
 .navbar-text {
+  color: #ecf0f1;
   padding-top: 14px;
   padding-bottom: 0px;
 }
@@ -28490,6 +28491,52 @@ button.close {
 }
 .footer-12:before {
   background: #ffffff;
+}
+.capture-window {
+  margin-bottom: 100px;
+}
+.capture-self-care-bottom {
+  padding-bottom: 50px;
+}
+.slick-slider .capture-show {
+  margin-top: 0px;
+}
+.slick-slider .capture_button.slick-slide.slick-current.slick-active {
+  margin-top: 100px;
+  margin-bottom: 135px;
+}
+.slider-timestamp {
+  margin-top: 20px;
+}
+#delorean {
+  margin-left: 50px;
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .navbar-collapse.collapse {
+    display: none !important;
+  }
+  .navbar-collapse.collapse.in {
+    display: block !important;
+  }
+  .navbar-header .collapse,
+  .navbar-toggle {
+    display: block !important;
+  }
+  .navbar-header {
+    float: none;
+  }
+  .navbar-text {
+    padding-left: 35px;
+    padding-right: 20px;
+  }
+  body > .navbar-collapse .navbar-form .btn,
+  body > .navbar-collapse .navbar-search .btn,
+  body > .navbar-collapse .navbar-form .btn-primary,
+  body > .navbar-collapse .navbar-search .btn-primary {
+    color: #ffffff;
+    padding: 3px 10px;
+    margin: 5px;
+  }
 }
 .dropdown-backdrop {
   position: static;
