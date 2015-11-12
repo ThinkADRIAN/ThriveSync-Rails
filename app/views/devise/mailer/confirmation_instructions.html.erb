@@ -1,5 +1,11 @@
-<p>Welcome <%= @email %>!</p>
+<p>Hi <%= @resource.first_name %>,</p>
 
-<p>You can verify your account email through the link below:</p>
+<p>Thanks for signing up for ThriveSync and welcome to our incredible community of Thrivers.</p>
+
+<p>You can verify your email address through the link below:</p>
 
 <p><%= link_to 'Verify my account', confirmation_url(@resource, confirmation_token: @token) %></p>
+
+<p>A big warm welcome.</p>
+
+<p>- The ThriveStreams Team</p>
