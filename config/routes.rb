@@ -1,4 +1,11 @@
 Rails.application.routes.draw do
+  # Redirect Naked Domain to www for production environment
+  if Rails.env.production?
+    constraints subdomain: false do
+      get ':any', to: redirect(subdomain: 'www', path: '/%{any}'), any: /.*/
+    end
+  end
+
   apipie
 
   resources :pre_defined_cards
