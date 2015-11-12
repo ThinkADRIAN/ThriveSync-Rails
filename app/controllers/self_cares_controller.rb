@@ -26,13 +26,13 @@ class SelfCaresController < ApplicationController
               }
             ]
           }
-      EOS
+    EOS
     api_base_url ""
     formats ['html', 'json']
   end
 
   def_param_group :self_cares_data do
-    param :self_care, Hash , :desc => "Self Care", :required => false do
+    param :self_care, Hash, :desc => "Self Care", :required => false do
       param :counseling, :undef, :desc => "Counseling [Boolean]", :required => true
       param :medication, :undef, :desc => "Medication [Boolean]", :required => true
       param :meditation, :undef, :desc => "Meditation [Boolean]", :required => true
@@ -55,14 +55,15 @@ class SelfCaresController < ApplicationController
   before_action :set_lookback_period, only: [:index]
   before_action :authenticate_user!
 
-  after_filter :verify_authorized,  except: [:index]
+  after_filter :verify_authorized, except: [:index]
   #after_filter :verify_policy_scoped, only: [:index]
 
   respond_to :html, :js, :json
-  
+
   # GET /self_cares
   # GET /self_cares.json
   api! "Show Self Care Entries"
+
   def index
     @user = User.find_by_id(params[:user_id])
 
@@ -92,11 +93,11 @@ class SelfCaresController < ApplicationController
   def show
     authorize! :manage, SelfCare
     authorize! :read, SelfCare
-    
+
     respond_to do |format|
       format.html { render nothing: true }
       format.js
-      format.json { render :json =>  @self_care, status: 200 }
+      format.json { render :json => @self_care, status: 200 }
     end
   end
 
@@ -120,7 +121,7 @@ class SelfCaresController < ApplicationController
     respond_to do |format|
       format.html { render :nothing => true }
       format.js
-      format.json { render :json =>  @self_care, status: 200 }
+      format.json { render :json => @self_care, status: 200 }
     end
   end
 
@@ -141,7 +142,7 @@ class SelfCaresController < ApplicationController
     respond_to do |format|
       format.html { render :nothing => true }
       format.js
-      format.json { render :json =>  @self_care, status: 200 }
+      format.json { render :json => @self_care, status: 200 }
     end
   end
 
@@ -149,6 +150,7 @@ class SelfCaresController < ApplicationController
   # POST /self_cares.json
   api! "Create Self Care Entry"
   param_group :self_cares_data
+
   def create
     @user = User.find_by_id(params[:user_id])
 
@@ -178,7 +180,7 @@ class SelfCaresController < ApplicationController
         @self_care.timestamp = DateTime.now.in_time_zone
       end
     end
-    
+
     respond_to do |format|
       if todays_self_cares.count < MAX_SELF_CARE_ENTRIES
         if @self_care.save
@@ -189,7 +191,7 @@ class SelfCaresController < ApplicationController
           format.json { render :json => @self_care, status: :created }
         else
           flash.now[:error] = 'Self Care Entry was not tracked... Try again???'
-          format.js   { render json: @self_care.errors, status: :unprocessable_entity }
+          format.js { render json: @self_care.errors, status: :unprocessable_entity }
           format.json { render json: @self_care.errors, status: :unprocessable_entity }
         end
       else
@@ -204,6 +206,7 @@ class SelfCaresController < ApplicationController
   # PATCH/PUT /self_cares/1.json
   api! "Update Self Care Entry"
   param_group :self_cares_all
+
   def update
     @user = User.find_by_id(params[:user_id])
 
@@ -229,7 +232,7 @@ class SelfCaresController < ApplicationController
           format.json { render :json => @self_care, status: :created }
         else
           flash.now[:error] = 'Self Care Entry was not updated... Try again???'
-          format.js   { render json: @self_care.errors, status: :unprocessable_entity }
+          format.js { render json: @self_care.errors, status: :unprocessable_entity }
           format.json { render json: @self_care.errors, status: :unprocessable_entity }
         end
       else
@@ -260,6 +263,7 @@ class SelfCaresController < ApplicationController
   # DELETE /self_cares/1.json
   api! "Delete Self Care Entry"
   param_group :destroy_self_cares_data
+
   def destroy
     @user = User.find_by_id(params[:user_id])
 
@@ -303,72 +307,72 @@ class SelfCaresController < ApplicationController
     end
 
     $current_capture_screen = 'SelfCare'
-    
+
     respond_to do |format|
       format.js
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_self_care
-      @self_care = SelfCare.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_self_care
+    @self_care = SelfCare.find(params[:id])
+  end
 
-    def set_lookback_period
-      if params.has_key? :self_care_lookback_period
-        @self_care_lookback_period = params[:self_care_lookback_period]
-      else
-        @self_care_lookback_period = DEFAULT_LOOKBACK_PERIOD
-      end
+  def set_lookback_period
+    if params.has_key? :self_care_lookback_period
+      @self_care_lookback_period = params[:self_care_lookback_period]
+    else
+      @self_care_lookback_period = DEFAULT_LOOKBACK_PERIOD
     end
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def self_care_params
-      params.fetch(:self_care, {}).permit(:counseling, :medication, :meditation, :exercise, :timestamp, :self_care_lookback_period, :capture_source)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def self_care_params
+    params.fetch(:self_care, {}).permit(:counseling, :medication, :meditation, :exercise, :timestamp, :self_care_lookback_period, :capture_source)
+  end
 
-    def track_self_care_created
-      # Track Self Care Creation for Segment.io Analytics
-      Analytics.track(
-        user_id: current_user.id,
-        event: 'Self Care Entry Created',
-        properties: {
-          self_care_id: @self_care.id,
-          counseling: @self_care.counseling,
-          medication: @self_care.medication,
-          meditation: @self_care.meditation,
-          exercise: @self_care.exercise,
-          timestamp: @self_care.timestamp,
-          self_care_user_id: @self_care.user_id
-        }
-      )
-    end
+  def track_self_care_created
+    # Track Self Care Creation for Segment.io Analytics
+    Analytics.track(
+      user_id: current_user.id,
+      event: 'Self Care Entry Created',
+      properties: {
+        self_care_id: @self_care.id,
+        counseling: @self_care.counseling,
+        medication: @self_care.medication,
+        meditation: @self_care.meditation,
+        exercise: @self_care.exercise,
+        timestamp: @self_care.timestamp,
+        self_care_user_id: @self_care.user_id
+      }
+    )
+  end
 
-    def track_self_care_updated
-      # Track Self Care Update for Segment.io Analytics
-      Analytics.track(
-        user_id: current_user.id,
-        event: 'Self Care Entry Updated',
-        properties: {
-          self_care_id: @self_care.id,
-          counseling: @self_care.counseling,
-          medication: @self_care.medication,
-          meditation: @self_care.meditation,
-          exercise: @self_care.exercise,
-          timestamp: @self_care.timestamp,
-          self_care_user_id: @self_care.user_id
-        }
-      )
-    end
+  def track_self_care_updated
+    # Track Self Care Update for Segment.io Analytics
+    Analytics.track(
+      user_id: current_user.id,
+      event: 'Self Care Entry Updated',
+      properties: {
+        self_care_id: @self_care.id,
+        counseling: @self_care.counseling,
+        medication: @self_care.medication,
+        meditation: @self_care.meditation,
+        exercise: @self_care.exercise,
+        timestamp: @self_care.timestamp,
+        self_care_user_id: @self_care.user_id
+      }
+    )
+  end
 
-    def track_self_care_deleted
-      # Track Self Care Deletion for Segment.io Analytics
-      Analytics.track(
-        user_id: current_user.id,
-        event: 'Self Care Entry Deleted',
-        properties: {
-        }
-      )
-    end
+  def track_self_care_deleted
+    # Track Self Care Deletion for Segment.io Analytics
+    Analytics.track(
+      user_id: current_user.id,
+      event: 'Self Care Entry Deleted',
+      properties: {
+      }
+    )
+  end
 end

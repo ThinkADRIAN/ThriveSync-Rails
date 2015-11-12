@@ -2,48 +2,50 @@
 
 <% todays_moods = Mood.where(user_id: current_user.id, timestamp: (Date.today.in_time_zone.at_beginning_of_day..Date.today.in_time_zone.end_of_day)) %>
 <div class="container">
-    <div>
-      <% if (@user == nil || @user.id == current_user.id) && todays_moods.count < MAX_MOOD_ENTRIES %>
-        <h1><%= current_user.first_name.to_s + " " + current_user.last_name.to_s %><h1>
-          <%= link_to 'Add a new Mood Entry', new_mood_path(modal_enabled: 'true'), remote: true, class: "btn btn-primary" %>
-      <% else %>
-          <% if @user == nil %>
-              <% user = current_user %>
-          <% else %>
-              <% user = @user %>
-          <% end %>
-          <h1><%= user.first_name.to_s + " " + user.last_name.to_s %><h1>
-      <% end %>
+  <div>
+    <% if (@user == nil || @user.id == current_user.id) && todays_moods.count < MAX_MOOD_ENTRIES %>
+        <h1><%= current_user.first_name.to_s + " " + current_user.last_name.to_s %>
+          <h1>
+            <%= link_to 'Add a new Mood Entry', new_mood_path(modal_enabled: 'true'), remote: true, class: "btn btn-primary" %>
+    <% else %>
+        <% if @user == nil %>
+            <% user = current_user %>
+        <% else %>
+            <% user = @user %>
+        <% end %>
+        <h1><%= user.first_name.to_s + " " + user.last_name.to_s %>
+          <h1>
+    <% end %>
 
-      <div class="btn-group">
-        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Change View Period <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu">
-          <% if params.has_key?(:user_id) %>
-            <li><%= link_to 'Last Year', user_moods_path(@user, mood_lookback_period: 'last_year')%></li>
+    <div class="btn-group">
+      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Change View Period <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu">
+        <% if params.has_key?(:user_id) %>
+            <li><%= link_to 'Last Year', user_moods_path(@user, mood_lookback_period: 'last_year') %></li>
             <li><%= link_to 'Last Month', user_moods_path(@user, mood_lookback_period: 'last_month') %></li>
             <li><%= link_to 'Last Week', user_moods_path(@user, mood_lookback_period: 'last_week') %></li>
             <li><%= link_to 'This Week', user_moods_path(@user, mood_lookback_period: 'week') %></li>
             <li><%= link_to 'This Month', user_moods_path(@user, mood_lookback_period: 'month') %></li>
-            <li><%= link_to 'This Year', user_moods_path(@user, mood_lookback_period: 'year')%></li>
-          <% else %>
-            <li><%= link_to 'Last Year', moods_path(mood_lookback_period: 'last_year')%></li>
+            <li><%= link_to 'This Year', user_moods_path(@user, mood_lookback_period: 'year') %></li>
+        <% else %>
+            <li><%= link_to 'Last Year', moods_path(mood_lookback_period: 'last_year') %></li>
             <li><%= link_to 'Last Month', moods_path(mood_lookback_period: 'last_month') %></li>
             <li><%= link_to 'Last Week', moods_path(mood_lookback_period: 'last_week') %></li>
             <li><%= link_to 'This Week', moods_path(mood_lookback_period: 'week') %></li>
             <li><%= link_to 'This Month', moods_path(mood_lookback_period: 'month') %></li>
-            <li><%= link_to 'This Year', moods_path(mood_lookback_period: 'year')%></li>
-          <% end %>
-        </ul>
-      </div>
+            <li><%= link_to 'This Year', moods_path(mood_lookback_period: 'year') %></li>
+        <% end %>
+      </ul>
     </div>
+  </div>
 
-    <div>
-      <%= render "shared/chart_mood" %>
-    </div>
+  <div>
+    <%= render "shared/chart_mood" %>
+  </div>
 
-    <div>
-      <%= render "details" %>
-    </div>
+  <div>
+    <%= render "details" %>
+  </div>
 </div>

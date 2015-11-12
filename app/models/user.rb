@@ -16,7 +16,7 @@ class User < ActiveRecord::Base
 
   has_many :relationships
   has_many :relations, :through => :relationships
-  
+
   has_many :inverse_relationships, :class_name => "Relationship", :foreign_key => "relation_id"
   has_many :inverse_relations, :through => :inverse_relationships, :source => :user
 
@@ -44,7 +44,7 @@ class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :lockable, :timeoutable
   devise :invitable, :database_authenticatable, :registerable,
-    :recoverable, :rememberable, :trackable, :validatable, :omniauthable, :confirmable
+         :recoverable, :rememberable, :trackable, :validatable, :omniauthable, :confirmable
 
   validates_presence_of :first_name, :last_name
 
@@ -81,7 +81,7 @@ class User < ActiveRecord::Base
           first_name: auth.extra.raw_info.first_name,
           last_name: auth.extra.raw_info.last_name,
           email: email ? email : "#{TEMP_EMAIL_PREFIX}-#{auth.uid}-#{auth.provider}.com",
-          password: Devise.friendly_token[0,20]
+          password: Devise.friendly_token[0, 20]
         )
         user.skip_confirmation!
         user.save!
@@ -119,7 +119,7 @@ class User < ActiveRecord::Base
   end
 
   def set_default_role
-    self.roles = [ "user" ]
+    self.roles = ["user"]
   end
 
   def authorize

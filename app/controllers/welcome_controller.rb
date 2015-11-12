@@ -7,7 +7,7 @@ class WelcomeController < ApplicationController
         # redirect_to :controller => 'moods', :action => 'index'
         render "/superusers/index.html", :layout => "application"
       elsif user_signed_in? && (current_user.is? :admin)
-        render "/admins/index.html",:layout => "application"
+        render "/admins/index.html", :layout => "application"
       elsif user_signed_in? && (current_user.is? :pro)
         redirect_to pros_path, :layout => "application"
       elsif user_signed_in? && (current_user.is? :supporter)

@@ -10,29 +10,33 @@
         <div class="col-sm-6">
           <div class="signup-form">
             <%= render "devise/shared/omniauth_buttons" %>
-            <%= form_for(resource, as: resource_name, url: session_path(resource_name), :html => {:class => "clearfix"})  do |f| %>
+            <%= form_for(resource, as: resource_name, url: session_path(resource_name), :html => {:class => "clearfix"}) do |f| %>
                 <%= devise_error_messages! %>
                 <br>
+
                 <div class="form-group">
                   <label>Email</label>
                   <%= f.email_field :email, autofocus: true, class: "form-control" %>
                 </div>
                 <div class="clearfix">
                   <div class="form-group pull-left">
-                    <label>Password <% if @validatable %><i>(<%= @minimum_password_length %> characters minimum)</i><% end %></label>
+                    <label>Password
+                      <% if @validatable %><i>(<%= @minimum_password_length %> characters minimum)</i>
+                      <% end %></label>
                     <%= f.password_field :password, autocomplete: "off", class: "form-control" %>
                   </div>
                 </div>
                 <% if devise_mapping.rememberable? -%>
                     <div class="form-group"><%= f.check_box :remember_me %> <%= f.label :remember_me %></div>
                 <% end -%>
-                <div class="actions"><%= f.submit "Login", class: "btn btn-huge btn-default" %></div>
+                <div class="actions"><%= f.submit "Login", class: "btn btn-huge btn-info" %></div>
                 <%= render "devise/shared/links" %>
             <% end %>
           </div>
         </div>
         <div class="col-sm-4 col-sm-offset-1 features">
           <big>The most important part of the Startup Design Framework is the samples</big>
+
           <div class="row">
             <div class="col-sm-8">
               <h6>Easy to use</h6>
@@ -50,3 +54,5 @@
     </div>
   </div>
 </section>
+
+<%= render "pages/footer" %>

@@ -24,43 +24,50 @@
 @import "@{startup-basePath}ui-kit/ui-kit-footer/less/footer-9.less";
 
 body > section, footer {
+  padding-top: 80px;
+  padding-bottom: 80px;
+}
+
+.content-12 {
+  padding-bottom: 0;
+}
+
+.content-12 .btn-wide {
+  background-color: @clouds;
+}
+
+.content-12 .btn-wide:hover, .content-12 .btn-wide:active, .content-12 .btn-wide.active {
+  background-color: @wet-asphalt;
+}
+
+.blog-2 .background .col-sm-4 > div {
+  background-image: none;
+  width: 1130px;
+}
+
+.content-6 {
+  padding-top: 200px;
+  padding-bottom: 80px;
+  @media (max-width: 768px) {
     padding-top: 80px;
     padding-bottom: 80px;
+  }
 }
-.content-12 {
-    padding-bottom: 0;
+
+.content-17 {
+  padding-top: 200px;
+  padding-bottom: 200px;
+  @media (max-width: 768px) {
+    padding-top: auto;
+    padding-bottom: auto;
+  }
 }
-.content-12 .btn-wide {
-    background-color:@clouds;
-}
-.content-12 .btn-wide:hover, .content-12 .btn-wide:active, .content-12 .btn-wide.active {
-    background-color:@wet-asphalt;
-}
-.blog-2 .background .col-sm-4 > div {
-    background-image: none;
-    width:1130px;
-}
-.content-6 {
-	padding-top:200px;
-	padding-bottom:80px;
-	@media (max-width: 768px) { 
-		padding-top: 80px;
-		padding-bottom: 80px;
-	}
-}
-.content-17{  
-	padding-top:200px;
-	padding-bottom:200px;
-	@media (max-width: 768px) { 
-		padding-top: auto;
-		padding-bottom: auto;
-	}
-}
+
 .footer-9 {
-	padding-top: 120px;
-	padding-bottom: 120px;
-	@media (max-width: 768px) {
-		padding-top: 80px;
-		padding-bottom: 80px;
-	}
+  padding-top: 120px;
+  padding-bottom: 120px;
+  @media (max-width: 768px) {
+    padding-top: 80px;
+    padding-bottom: 80px;
+  }
 }

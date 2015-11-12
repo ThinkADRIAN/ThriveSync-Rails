@@ -1,0 +1,205 @@
+@import "twitter/bootstrap/bootstrap";
+
+// Set the correct sprite paths
+@iconSpritePath: image-url("twitter/bootstrap/glyphicons-halflings.png");
+@iconWhiteSpritePath: image-url("twitter/bootstrap/glyphicons-halflings-white.png");
+
+// Set the Font Awesome (Font Awesome is default. You can disable by commenting below lines)
+@fontAwesomeEotPath: font-url("fontawesome-webfont.eot");
+@fontAwesomeEotPath_iefix: font-url("fontawesome-webfont.eot?#iefix");
+@fontAwesomeWoffPath: font-url("fontawesome-webfont.woff");
+@fontAwesomeTtfPath: font-url("fontawesome-webfont.ttf");
+@fontAwesomeSvgPath: font-url("fontawesome-webfont.svg#fontawesomeregular");
+
+// Font Awesome
+@import "fontawesome/font-awesome";
+
+// Glyphicons
+//@import "twitter/bootstrap/glyphicons.less";
+
+// Your custom LESS stylesheets goes here
+//
+// Since bootstrap was imported above you have access to its mixins which
+// you may use and inherit here
+//
+// If you'd like to override bootstrap's own variables, you can do so here as well
+// See http://twitter.github.com/bootstrap/customize.html#variables for their names and documentation
+//
+// Example:
+// @link-color: #ff0000;
+
+//@import "../startup-framework/flat-ui/less/variables.less";
+//@import "../startup-framework/flat-ui/less/mixins.less";
+
+// == Colors
+//
+//##
+
+// Color swatches
+@turquoise: #1abc9c;
+@green-sea: #16a085;
+
+@emerald: #2ecc71;
+@nephritis: #27ae60;
+
+@peter-river: #3498db;
+@belize-hole: #2980b9;
+
+@amethyst: #9b59b6;
+@wisteria: #8e44ad;
+
+@wet-asphalt: #34495e;
+@midnight-blue: #2c3e50;
+
+@sun-flower: #f1c40f;
+@orange: #f39c12;
+
+@carrot: #e67e22;
+@pumpkin: #d35400;
+
+@alizarin: #e74c3c;
+@pomegranate: #c0392b;
+
+@clouds: #ecf0f1;
+@silver: #bdc3c7;
+
+@concrete: #95a5a6;
+@asbestos: #7f8c8d;
+
+// Grays
+@gray: @concrete;
+@gray-light: @silver;
+@inverse: white;
+
+// Brand colors
+@brand-primary: @wet-asphalt;
+@brand-secondary: @turquoise;
+@brand-success: @emerald;
+@brand-warning: @sun-flower;
+@brand-danger: @alizarin;
+@brand-info: @peter-river;
+
+//== Scaffolding
+//
+//## Settings for some of the most global styles.
+
+@body-bg: #fff;
+@text-color: @brand-primary;
+
+//** Global textual link color.
+@link-color: @green-sea;
+@link-hover-color: @turquoise;
+
+@font-family-base: "Open Sans", Helvetica, Arial, sans-serif;
+
+.header-10 .navbar .brand {
+  padding-top: 32px;
+}
+
+.header-10-sub .background {
+  background-image: url('iPhone6-hand.png');
+  .opacity(0.30);
+}
+
+.content-20 {
+  padding: 50px 50px;
+}
+
+.footer-1 {
+  .lead {
+    color: @clouds;
+  }
+  nav h6 {
+    color: @clouds;
+  }
+  padding-top: 50px;
+  padding-bottom: 20px;
+}
+
+.navbar-text {
+  color: #ecf0f1;
+  padding-top: 14px;
+  padding-bottom: 0px;
+}
+
+.crew-4 {
+  .members {
+    .overlay {
+      line-height: 300px;
+    }
+    .member {
+      width: 300px;
+    }
+    .photo-wrapper {
+      width: 300px;
+      height: 300px;
+    }
+  }
+  h3 {
+    margin: 0 0 50px;
+  }
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+
+.footer-12 {
+  padding-top: 25px;
+  padding-bottom: 25px;
+}
+
+.footer-12:before {
+  background: #ffffff;
+}
+
+.capture-window {
+  margin-bottom: 100px;
+}
+
+.capture-self-care-bottom {
+  padding-bottom: 50px;
+}
+
+.slick-slider {
+  .capture-show {
+    margin-top: 0px;
+  }
+  .capture_button.slick-slide.slick-current.slick-active{
+    margin-top: 100px;
+    margin-bottom: 135px;
+  }
+}
+
+.slider-timestamp {
+  margin-top: 20px;
+}
+
+#delorean {
+  margin-left: 50px;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .navbar-collapse.collapse {
+    display: none !important;
+  }
+  .navbar-collapse.collapse.in {
+    display: block !important;
+  }
+  .navbar-header .collapse, .navbar-toggle {
+    display:block !important;
+  }
+  .navbar-header {
+    float:none;
+  }
+  .navbar-text {
+    padding-left: 35px;
+    padding-right: 20px;
+  }
+  body > .navbar-collapse .navbar-form .btn,
+  body > .navbar-collapse .navbar-search .btn,
+  body > .navbar-collapse .navbar-form .btn-primary,
+  body > .navbar-collapse .navbar-search .btn-primary {
+    color: #ffffff;
+    padding: 3px 10px;
+    margin: 5px;
+  }
+}

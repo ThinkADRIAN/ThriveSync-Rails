@@ -1,0 +1,40 @@
+// Your custom LESS stylesheets goes here
+//
+// Since bootstrap was imported above you have access to its mixins which
+// you may use and inherit here
+//
+// If you'd like to override bootstrap's own variables, you can do so here as well
+// See http://twitter.github.com/bootstrap/customize.html#variables for their names and documentation
+//
+// Example:
+// @link-color: #ff0000;
+
+// Dropdown Disappearing Fix
+.dropdown-backdrop {
+  position: static;
+}
+
+// Vertically Center Menu Toggle
+.navbar .navbar-toggle {
+  margin: 15px 0 15px;
+}
+
+// Capture Screen Blanked Out in Non-Mobile View
+// Overwrites less/_button.less
+.btn {
+  margin: 0px 0px;
+}
+
+// Override @primary color with one took from _colors.less
+//@primary: @black;
+
+// To override color, change variables.less or "../bootstrap-material-design/less/_variables.less"
+
+.navbar-form {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+.open > .dropdown-menu {
+  margin-top: 0px !important;
+}

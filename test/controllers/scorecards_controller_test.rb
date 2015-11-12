@@ -18,7 +18,7 @@ class ScorecardsControllerTest < ActionController::TestCase
 
   test "should create scorecard" do
     assert_difference('Scorecard.count') do
-      post :create, scorecard: { checkin_count: @scorecard.checkin_count, journals_score: @scorecard.journals_score, last_checkin_date: @scorecard.last_checkin_date, moods_score: @scorecard.moods_score, perfect_checkin_count: @scorecard.perfect_checkin_count, self_cares_score: @scorecard.self_cares_score, sleeps_score: @scorecard.sleeps_score, streak_count: @scorecard.streak_count, streak_record: @scorecard.streak_record }
+      post :create, scorecard: {checkin_count: @scorecard.checkin_count, journals_score: @scorecard.journals_score, last_checkin_date: @scorecard.last_checkin_date, moods_score: @scorecard.moods_score, perfect_checkin_count: @scorecard.perfect_checkin_count, self_cares_score: @scorecard.self_cares_score, sleeps_score: @scorecard.sleeps_score, streak_count: @scorecard.streak_count, streak_record: @scorecard.streak_record}
     end
 
     assert_redirected_to scorecard_path(assigns(:scorecard))
@@ -35,7 +35,7 @@ class ScorecardsControllerTest < ActionController::TestCase
   end
 
   test "should update scorecard" do
-    patch :update, id: @scorecard, scorecard: { checkin_count: @scorecard.checkin_count, journals_score: @scorecard.journals_score, last_checkin_date: @scorecard.last_checkin_date, moods_score: @scorecard.moods_score, perfect_checkin_count: @scorecard.perfect_checkin_count, self_cares_score: @scorecard.self_cares_score, sleeps_score: @scorecard.sleeps_score, streak_count: @scorecard.streak_count, streak_record: @scorecard.streak_record }
+    patch :update, id: @scorecard, scorecard: {checkin_count: @scorecard.checkin_count, journals_score: @scorecard.journals_score, last_checkin_date: @scorecard.last_checkin_date, moods_score: @scorecard.moods_score, perfect_checkin_count: @scorecard.perfect_checkin_count, self_cares_score: @scorecard.self_cares_score, sleeps_score: @scorecard.sleeps_score, streak_count: @scorecard.streak_count, streak_record: @scorecard.streak_record}
     assert_redirected_to scorecard_path(assigns(:scorecard))
   end
 

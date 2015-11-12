@@ -1,6 +1,6 @@
-require 'rails_helper' 
+require 'rails_helper'
 
-describe SelfCare do 
+describe SelfCare do
   it "has a valid factory" do
     expect(FactoryGirl.create(:self_care)).to be_valid
   end

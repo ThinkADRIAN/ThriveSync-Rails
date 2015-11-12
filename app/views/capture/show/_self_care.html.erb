@@ -1,85 +1,82 @@
 <% if @user == nil %>
-  <% user = current_user %>
+    <% user = current_user %>
 <% else %>
-  <% user = @user%>
+    <% user = @user %>
 <% end %>
 
 <% if @capture_date == nil %>
-  <% @capture_date = Date.today %>
+    <% @capture_date = Date.today %>
 <% end %>
 
 <% @capture_self_cares = SelfCare.where(user_id: user.id, timestamp: ($capture_date.at_beginning_of_day.in_time_zone..$capture_date.end_of_day.in_time_zone)) %>
 
-<% (1..8).each do %>
-  <br>
-<% end %>
+<br>
+
 <div class="scroller">
-<% if !@capture_self_cares.nil? %>
-  <% @capture_self_cares.each do |self_care| %>
-    <div>
-      <p>
-        <strong>Counseling:</strong>
-        <% if self_care.counseling == false %>
-          <%= "No" %>
-        <% elsif self_care.counseling == true %>
-          <%= "Yes" %>
-        <% end %>
-      </p> 
+  <% if !@capture_self_cares.nil? %>
+      <% @capture_self_cares.each do |self_care| %>
+          <div>
+            <p>
+              <strong>Counseling:</strong>
+              <% if self_care.counseling == false %>
+                  <%= "No" %>
+              <% elsif self_care.counseling == true %>
+                  <%= "Yes" %>
+              <% end %>
+            </p>
 
-      <p>
-        <strong>Medication:</strong>
-        <% if self_care.medication == false %>
-          <%= "No" %>
-        <% elsif self_care.medication == true %>
-          <%= "Yes" %>
-        <% end %>
-      </p> 
+            <p>
+              <strong>Medication:</strong>
+              <% if self_care.medication == false %>
+                  <%= "No" %>
+              <% elsif self_care.medication == true %>
+                  <%= "Yes" %>
+              <% end %>
+            </p>
 
-      <p>
-        <strong>Meditation:</strong>
-        <% if self_care.meditation == false %>
-          <%= "No" %>
-        <% elsif self_care.meditation == true %>
-          <%= "Yes" %>
-        <% end %>
-      </p> 
+            <p>
+              <strong>Meditation:</strong>
+              <% if self_care.meditation == false %>
+                  <%= "No" %>
+              <% elsif self_care.meditation == true %>
+                  <%= "Yes" %>
+              <% end %>
+            </p>
 
-      <p>
-        <strong>Exercise:</strong>
-        <% if self_care.exercise == false %>
-          <%= "No" %>
-        <% elsif self_care.exercise == true %>
-          <%= "Yes" %>
-        <% end %>
-      </p> 
-      <% (1..7).each do %>
-        <br>
+            <p class="capture-self-care-bottom">
+              <strong>Exercise:</strong>
+              <% if self_care.exercise == false %>
+                  <%= "No" %>
+              <% elsif self_care.exercise == true %>
+                  <%= "Yes" %>
+              <% end %>
+            </p>
+
+            <br>
+
+            <div class="slider-timestamp">
+              <center>
+                <%= self_care.timestamp.strftime("%I:%M %p") %><br>
+                <%= link_to 'Edit', edit_self_care_path(id: self_care.id), remote: true, class: "btn btn-sm" %><br>
+              </center>
+            </div>
+          </div>
       <% end %>
-      <center>
-        <%= self_care.timestamp.strftime("%I:%M %p") %><br>
-        <%= link_to 'Edit', edit_self_care_path(id: self_care.id), remote: true, class: "btn btn-sm" %><br>
-      </center>
-    </div>
   <% end %>
-<% end %>
-<% if @capture_self_cares.nil? || @capture_self_cares.count < MAX_SELF_CARE_ENTRIES %>
-  <div>
-    <center>
-      <% (1..8).each do %>
-        <br>
-      <% end %>
-      <%= link_to 'Add Self Care', new_self_care_path(capture_source: 'self_care'), remote: true, class: "btn btn-primary btn-lg" %><br>
-      <% (1..8).each do %>
-        <br>
-      <% end %>
-    </center>
-  </div>
-<% end %>
+  <% if @capture_self_cares.nil? || @capture_self_cares.count < MAX_SELF_CARE_ENTRIES %>
+      <div class="capture_button">
+        <center>
+          <br>
+          <%= link_to 'Add Self Care', new_self_care_path(capture_source: 'self_care'), remote: true, class: "btn btn-primary btn-lg" %><br>
+          <br>
+        </center>
+      </div>
+  <% end %>
 </div>
 
 
 <script type="text/javascript">
-  $('.scroller').slick({
-    dots: true
-  })
+    $('.scroller').slick({
+        dots: true
+    })
 </script>

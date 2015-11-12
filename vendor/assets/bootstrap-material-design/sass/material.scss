@@ -1,23 +1,22 @@
 // Material Theme 0.0.1
 // -----------------------------------------------------
-
 @import "_variables.scss";
 @import "_mixins.scss";
 @import "_shadows.scss";
 @import "_icons-material-design.scss";
 
 body {
-    background-color: #EEEEEE;
-    &.inverse {
-        background: #333333;
-        &, .form-control {
-            color: $darkbg-text;
-        }
+  background-color: #EEEEEE;
+  &.inverse {
+    background: #333333;
+    &, .form-control {
+      color: $darkbg-text;
     }
+  }
 }
 
 body, h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
-    font-family: "Roboto Condensed", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Roboto Condensed", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 // Well and Jumbotrons
@@ -36,22 +35,22 @@ body, h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 @import "_inputs.scss";
 
 legend {
-    border-bottom: 0;
+  border-bottom: 0;
 }
 
 .modal-content {
-    @extend .shadow-z-2;
-    border-radius: 0;
-    border: 0;
-    .modal-header {
-        border-bottom: 0;
+  @extend .shadow-z-2;
+  border-radius: 0;
+  border: 0;
+  .modal-header {
+    border-bottom: 0;
+  }
+  .modal-footer {
+    border-top: 0;
+    .btn + .btn {
+      margin-bottom: 10px;
     }
-    .modal-footer {
-        border-top: 0;
-        .btn+.btn {
-            margin-bottom: 10px;
-        }
-    }
+  }
 }
 
 // Lists
@@ -61,18 +60,18 @@ legend {
 @import "_navbar.scss";
 
 .dropdown-menu {
-    border: 0;
-    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
-    .divider {
-        background-color: rgba(229, 229, 229, 0.12);
+  border: 0;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+  .divider {
+    background-color: rgba(229, 229, 229, 0.12);
+  }
+  li {
+    overflow: hidden;
+    position: relative;
+    a:hover {
+      background: rgba(0, 0, 0, 0.08);
     }
-    li {
-        overflow: hidden;
-        position: relative;
-        a:hover {
-            background: rgba(0,0,0,0.08);
-        }
-    }
+  }
 }
 
 // Alerts
@@ -86,19 +85,23 @@ legend {
 
 // Typography
 .text-warning {
-    color: $btn-warning;
+  color: $btn-warning;
 }
+
 .text-primary {
-    color: $btn-primary;
+  color: $btn-primary;
 }
+
 .text-danger {
-    color: $btn-danger;
+  color: $btn-danger;
 }
+
 .text-success {
-    color: $btn-success;
+  color: $btn-success;
 }
+
 .text-info {
-    color: $btn-info;
+  color: $btn-info;
 }
 
 @import "_tabs.scss";
@@ -106,7 +109,6 @@ legend {
 @import "_popups.scss";
 
 @import "_icons.scss";
-
 
 // External plugins
 @import "_plugin-snackbarjs.scss";

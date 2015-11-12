@@ -1,79 +1,76 @@
 <% if @user == nil %>
-  <% user = current_user %>
+    <% user = current_user %>
 <% else %>
-  <% user = @user%>
+    <% user = @user %>
 <% end %>
 
 <% if $capture_date == nil %>
-  <% $capture_date = Date.today %>
+    <% $capture_date = Date.today %>
 <% end %>
 
 <% @capture_sleeps = Sleep.where(user_id: user.id, finish_time: ($capture_date.at_beginning_of_day.in_time_zone..$capture_date.end_of_day.in_time_zone)) %>
 
-<% (1..8).each do %>
-  <br>
-<% end %>
+<br>
+
 <div class="scroller">
-<% if !@capture_sleeps.nil? %>
-  <% @capture_sleeps.each do |sleep| %>
-    <div>
-      <p>
-        <strong>Sleep Start Time:</strong>
-        <br>
-        <center>
-          <%= sleep.start_time.strftime("%l:%M %p - %A, %b %d, %Y") %>
-        </center>
-      </p> 
-      <p>
-        <strong>Sleep Finish Time:</strong>
-        <br>
-        <center>
-          <%= sleep.finish_time.strftime("%l:%M %p - %A, %b %d, %Y")  %>
-        </center>
-      </p> 
-      <p>
-        <strong>Sleep Quality:</strong>
-        <br>
-        <center>
-          <% if sleep.quality == 1 %>
-            <%= "Broken" %>
-          <% elsif sleep.quality == 2 %>
-            <%= "Light" %>
-          <% elsif sleep.quality == 3 %>
-            <%= "Normal" %>
-          <% elsif sleep.quality == 4 %>
-            <%= "Deep" %>
-          <% end %>
-        </center>
-      </p>
-      <% (1..7).each do %>
-        <br>
+  <% if !@capture_sleeps.nil? %>
+      <% @capture_sleeps.each do |sleep| %>
+          <div class="capture_show">
+            <p>
+              <strong>Sleep Start Time:</strong>
+              <br>
+            <center>
+              <%= sleep.start_time.strftime("%l:%M %p - %A, %b %d, %Y") %>
+            </center>
+            </p>
+            <p>
+              <strong>Sleep Finish Time:</strong>
+              <br>
+            <center>
+              <%= sleep.finish_time.strftime("%l:%M %p - %A, %b %d, %Y") %>
+            </center>
+            </p>
+            <p>
+              <strong>Sleep Quality:</strong>
+              <br>
+            <center>
+              <% if sleep.quality == 1 %>
+                  <%= "Broken" %>
+              <% elsif sleep.quality == 2 %>
+                  <%= "Light" %>
+              <% elsif sleep.quality == 3 %>
+                  <%= "Normal" %>
+              <% elsif sleep.quality == 4 %>
+                  <%= "Deep" %>
+              <% end %>
+            </center>
+            </p>
+
+            <br>
+
+            <div class="slider-timestamp">
+              <center>
+                <%= sleep.created_at.strftime("%I:%M %p") %><br>
+                <%= link_to 'Edit', edit_sleep_path(id: sleep.id), remote: true, class: "btn btn-sm" %><br>
+              </center>
+            </div>
+          </div>
       <% end %>
-      <center>
-        <%= sleep.created_at.strftime("%I:%M %p") %><br>
-        <%= link_to 'Edit', edit_sleep_path(id: sleep.id), remote: true, class: "btn btn-sm" %><br>
-      </center>
-    </div>
   <% end %>
-<% end %>
-<% if @capture_sleeps.nil? || @capture_sleeps.count < MAX_SLEEP_ENTRIES %>
-  <div>
-    <center>
-      <% (1..8).each do %>
-        <br>
-      <% end %>
-      <%= link_to 'Add Sleep', new_sleep_path, remote: true, class: "btn btn-primary btn-lg" %><br>
-      <% (1..8).each do %>
-        <br>
-      <% end %>
-    </center>
-  </div>
-<% end %>
+  <% if @capture_sleeps.nil? || @capture_sleeps.count < MAX_SLEEP_ENTRIES %>
+      <div class="capture_button">
+        <center>
+          <br>
+          <%= link_to 'Add Sleep', new_sleep_path, remote: true, class: "btn btn-primary btn-lg" %><br>
+          <br>
+        </center>
+      </div>
+  <% end %>
 </div>
 
 
 <script type="text/javascript">
-  $('.scroller').slick({
-    dots: true
-  })
+    $('.scroller').slick({
+        dots: true
+    })
 </script>

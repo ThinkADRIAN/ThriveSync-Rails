@@ -1,58 +1,58 @@
 <div class="col-md-12">
   <center>
-  	<div class="dropdown">
+    <div class="dropdown">
       <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
         <% if $capture_date == Date.today || $capture_date == nil %>
-          <%= "Today, " + Date.today.strftime("%m/%d/%Y").to_s  %>
+            <%= "Today, " + Date.today.strftime("%m/%d/%Y").to_s %>
         <% elsif $capture_date == Date.yesterday %>
-          <%= "Yesterday, " + Date.yesterday.strftime("%m/%d/%Y").to_s  %>
+            <%= "Yesterday, " + Date.yesterday.strftime("%m/%d/%Y").to_s %>
         <% else %>
-          <%= $capture_date.strftime("%A").to_s+ ", " + $capture_date.strftime("%m/%d/%Y").to_s %>
+            <%= $capture_date.strftime("%A").to_s+ ", " + $capture_date.strftime("%m/%d/%Y").to_s %>
         <% end %>
         <span class="caret"></span>
       </button>
-      <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+      <ul class="dropdown-menu" id="delorean" role="menu" aria-labelledby="dropdownMenu1">
         <li role="presentation">
-          <% 
-            capture_today = Date.today
-            capture_link_today = "Today, " + capture_today.strftime("%m/%d/%Y").to_s
+          <%
+             capture_today = Date.today
+             capture_link_today = "Today, " + capture_today.strftime("%m/%d/%Y").to_s
           %>
           <%= link_to capture_link_today, update_capture_path(:capture_date => capture_today), "role" => "menuitem", "tabindex" => "-1", :remote => true %>
         </li>
         <li role="presentation">
-          <% 
-            capture_yesterday = Date.yesterday
-            capture_link_yesterday = "Yesterday, " + capture_yesterday.strftime("%m/%d/%Y").to_s
+          <%
+             capture_yesterday = Date.yesterday
+             capture_link_yesterday = "Yesterday, " + capture_yesterday.strftime("%m/%d/%Y").to_s
           %>
           <%= link_to capture_link_yesterday, update_capture_path(:capture_date => capture_yesterday), "role" => "menuitem", "tabindex" => "-1", :remote => true %>
         </li>
         <li role="presentation">
-          <% 
-            capture_today_minus_2 = Date.today-2
+          <%
+             capture_today_minus_2 = Date.today-2
           %>
           <%= link_to (capture_today_minus_2.strftime("%A").to_s + ", " + capture_today_minus_2.strftime("%m/%d/%Y").to_s), update_capture_path(:capture_date => capture_today_minus_2), "role" => "menuitem", "tabindex" => "-1", :remote => true %>
         </li>
         <li role="presentation">
-          <% 
-            capture_today_minus_3 = Date.today-3
+          <%
+             capture_today_minus_3 = Date.today-3
           %>
           <%= link_to (capture_today_minus_3.strftime("%A").to_s + ", " + capture_today_minus_3.strftime("%m/%d/%Y").to_s), update_capture_path(:capture_date => capture_today_minus_3), "role" => "menuitem", "tabindex" => "-1", :remote => true %>
         </li>
         <li role="presentation">
-          <% 
-            capture_today_minus_4 = Date.today-4
+          <%
+             capture_today_minus_4 = Date.today-4
           %>
           <%= link_to (capture_today_minus_4.strftime("%A").to_s + ", " + capture_today_minus_4.strftime("%m/%d/%Y").to_s), update_capture_path(:capture_date => capture_today_minus_4), "role" => "menuitem", "tabindex" => "-1", :remote => true %>
         </li>
         <li role="presentation">
-          <% 
-            capture_today_minus_5 = Date.today-5
+          <%
+             capture_today_minus_5 = Date.today-5
           %>
           <%= link_to (capture_today_minus_5.strftime("%A").to_s + ", " + capture_today_minus_5.strftime("%m/%d/%Y").to_s), update_capture_path(:capture_date => capture_today_minus_5), "role" => "menuitem", "tabindex" => "-1", :remote => true %>
         </li>
         <li role="presentation">
-          <% 
-            capture_today_minus_6 = Date.today-6
+          <%
+             capture_today_minus_6 = Date.today-6
           %>
           <%= link_to (capture_today_minus_6.strftime("%A").to_s + ", " + capture_today_minus_6.strftime("%m/%d/%Y").to_s), update_capture_path(:capture_date => capture_today_minus_6), "role" => "menuitem", "tabindex" => "-1", :remote => true %>
         </li>

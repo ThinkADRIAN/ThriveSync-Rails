@@ -1,6 +1,6 @@
-require 'rails_helper' 
+require 'rails_helper'
 
-describe Mood do 
+describe Mood do
   it "has a valid factory" do
     expect(FactoryGirl.create(:mood)).to be_valid
   end

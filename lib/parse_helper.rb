@@ -4,9 +4,9 @@ module ParseHelper
   # "Status: 404 Parse::ParseProtocolError: 101: invalid login parameters"
   def login_to_parse(parse_email, parse_password)
     @parse_user = Parse::User.authenticate(parse_email, parse_password)
-    
-    rescue Parse::ParseProtocolError
-      puts "Status: 404 Parse::ParseProtocolError: 101: invalid login parameters"
+
+  rescue Parse::ParseProtocolError
+    puts "Status: 404 Parse::ParseProtocolError: 101: invalid login parameters"
   end
 
   def retrieve_parse_user(parse_email)
@@ -81,7 +81,7 @@ module ParseHelper
         q.limit = 0
         q.count
       end.get
-    end 
+    end
   end
 
   def initialize_parse_instance_variables
@@ -165,8 +165,8 @@ module ParseHelper
         extract_parse_data(parse_data_type, user_id, last_object_limit + 100, key_data_count)
       end
     end
-      
-    
+
+
   end
 
   def combine_date_and_time(date, time)
@@ -178,9 +178,9 @@ module ParseHelper
   def find_timestamp(data_type, object_id)
     if data_type == "Mood"
       mood_pointer = Parse::Pointer.new({
-        "className" => "Mood",
-        "objectId"  => object_id
-      })
+                                          "className" => "Mood",
+                                          "objectId" => object_id
+                                        })
 
       @parse_user_datas.each do |user_data|
         if user_data["Mood"] != nil
@@ -190,13 +190,13 @@ module ParseHelper
         end
       end
 
-      @key_data = @parse_moods.detect {|parse_mood| parse_mood["objectId"].include? object_id }
-    
+      @key_data = @parse_moods.detect { |parse_mood| parse_mood["objectId"].include? object_id }
+
     elsif data_type == "SelfCare"
       self_care_pointer = Parse::Pointer.new({
-        "className" => "SelfCare",
-        "objectId"  => object_id
-      })
+                                               "className" => "SelfCare",
+                                               "objectId" => object_id
+                                             })
 
       @parse_user_datas.each do |user_data|
         if user_data["SelfCare"] != nil
@@ -206,13 +206,13 @@ module ParseHelper
         end
       end
 
-      @key_data = @parse_self_cares.detect {|parse_self_care| parse_self_care["objectId"] == object_id }
-    
+      @key_data = @parse_self_cares.detect { |parse_self_care| parse_self_care["objectId"] == object_id }
+
     elsif data_type == "Journal"
       journal_pointer = Parse::Pointer.new({
-        "className" => "Journal",
-        "objectId"  => object_id
-      })
+                                             "className" => "Journal",
+                                             "objectId" => object_id
+                                           })
 
       @parse_user_datas.each do |user_data|
         if user_data["Journal"] != nil
@@ -222,8 +222,8 @@ module ParseHelper
         end
       end
 
-      @key_data = @parse_journals.detect {|parse_journal| parse_journal["objectId"] == object_id }
-    
+      @key_data = @parse_journals.detect { |parse_journal| parse_journal["objectId"] == object_id }
+
     end
 
     time = @key_data["updatedAt"].to_datetime.to_s
@@ -240,7 +240,7 @@ module ParseHelper
   def transform_and_load_parse_data(data_type, user_id)
     if data_type == "Mood"
       @parse_moods.each do |parse_mood|
-        
+
         find_timestamp("Mood", parse_mood["objectId"])
         if @timestamp != nil
           mood_timestamp = @timestamp
@@ -279,7 +279,7 @@ module ParseHelper
         end
       end
 
-    elsif data_type == "Sleep"  
+    elsif data_type == "Sleep"
       @parse_sleeps.each do |parse_sleep|
         if !duplicate_entry_exists?(data_type, parse_sleep["objectId"], user_id)
           sleep = Sleep.new(
@@ -314,14 +314,14 @@ module ParseHelper
 
     elsif data_type == "SelfCare"
       @parse_self_cares.each do |parse_self_care|
-        
+
         find_timestamp("SelfCare", parse_self_care["objectId"])
         if @timestamp != nil
           self_care_timestamp = @timestamp
         else
           self_care_timestamp = parse_self_care["createdAt"]
         end
-        
+
         if !duplicate_entry_exists?(data_type, parse_self_care["objectId"], user_id)
           self_care = SelfCare.new(
             :counseling => parse_self_care["counseling"],
@@ -430,7 +430,7 @@ module ParseHelper
       extract_parse_data("Sleep", @parse_user["objectId"], 0, @parse_sleep_count)
       extract_parse_data("SelfCare", @parse_user["objectId"], 0, @parse_self_care_count)
       extract_parse_data("Journal", @parse_user["objectId"], 0, @parse_journal_count)
-      
+
       transform_and_load_parse_data("Mood", user_id)
       transform_and_load_parse_data("Sleep", user_id)
       transform_and_load_parse_data("SelfCare", user_id)

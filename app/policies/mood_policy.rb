@@ -8,7 +8,7 @@ class MoodPolicy < ApplicationPolicy
         true
       else
         false
-      end 
+      end
     end
   end
 
@@ -46,8 +46,8 @@ class MoodPolicy < ApplicationPolicy
           scope
         else
           scope = nil
-        end 
-      else 
+        end
+      else
         scope
       end
     end

@@ -1,27 +1,27 @@
-require 'rails_helper' 
+require 'rails_helper'
 
 describe JournalsController, :type => :controller do
   include Devise::TestHelpers
 
-  describe "GET #index" do 
+  describe "GET #index" do
     context "with anonymous user" do
       before :each do
         # This simulates an anonymous user
         login_with nil
       end
-      
+
       it "redirects to signin" do
         get :index
-        expect( response ).to redirect_to( new_user_session_path )
+        expect(response).to redirect_to(new_user_session_path)
       end
     end
-    
+
     context "with authenticated user" do
       before :each do
         # This simulates an authenticated user
         @spec_user = FactoryGirl.create(:user)
         login_with @spec_user
-        
+
         @spec_journals = FactoryGirl.create_list(:journal, 5, user: @spec_user)
       end
 
@@ -33,11 +33,11 @@ describe JournalsController, :type => :controller do
         it "returns a successful 200 response" do
           expect(response).to be_success
         end
-        
-        it "populates an array of journals" do 
+
+        it "populates an array of journals" do
           expect(assigns(:journals).to_a).to eq(@spec_journals)
         end
-        
+
         it "renders the :index view" do
           expect(response).to render_template :index
         end
@@ -64,7 +64,7 @@ describe JournalsController, :type => :controller do
         end
       end
     end
-  end 
+  end
 
   describe "GET #show" do
     context "with anonymous user" do
@@ -72,13 +72,13 @@ describe JournalsController, :type => :controller do
         # This simulates an anonymous user
         login_with nil
       end
-      
+
       it "redirects to signin" do
-        get :show, id: 1 
-        expect( response ).to redirect_to( new_user_session_path )
+        get :show, id: 1
+        expect(response).to redirect_to(new_user_session_path)
       end
     end
-    
+
     context "with authenticated user" do
       before :each do
         # This simulates an authenticated user
@@ -88,10 +88,10 @@ describe JournalsController, :type => :controller do
 
       context "with HTML request" do
         before :each do
-          @spec_journal = FactoryGirl.create(:journal, user: @spec_user) 
+          @spec_journal = FactoryGirl.create(:journal, user: @spec_user)
           get :show, id: @spec_journal.id
         end
-        
+
         it "assigns the requested journal to @journal" do
           expect(assigns(:journal)).to eq(@spec_journal)
         end
@@ -120,19 +120,19 @@ describe JournalsController, :type => :controller do
     end
   end
 
-  describe "GET #new" do 
+  describe "GET #new" do
     context "with anonymous user" do
       before :each do
         # This simulates an anonymous user
         login_with nil
       end
-      
+
       it "redirects to signin" do
         get :new
-        expect( response ).to redirect_to( new_user_session_path )
+        expect(response).to redirect_to(new_user_session_path)
       end
     end
-    
+
     context "with authenticated user" do
       before :each do
         # This simulates an authenticated user
@@ -142,9 +142,9 @@ describe JournalsController, :type => :controller do
 
       context "with HTML request" do
         before :each do
-          get :new 
+          get :new
         end
-        
+
         it "assigns a new Journal to @journal" do
           expect(assigns(:journal)).to be_a_new(Journal)
         end
@@ -171,28 +171,28 @@ describe JournalsController, :type => :controller do
         end
       end
     end
-  end 
+  end
 
-  describe "GET #edit" do 
+  describe "GET #edit" do
     context "with anonymous user" do
       before :each do
         # This simulates an anonymous user
         login_with nil
       end
-      
+
       it "redirects to signin" do
         get :edit, id: 1
-        expect( response ).to redirect_to( new_user_session_path )
+        expect(response).to redirect_to(new_user_session_path)
       end
     end
-    
+
     context "with authenticated user" do
       before :each do
         # This simulates an authenticated user
         @spec_user = FactoryGirl.create(:user)
         login_with @spec_user
 
-        @spec_journal = FactoryGirl.create(:journal, user: @spec_user) 
+        @spec_journal = FactoryGirl.create(:journal, user: @spec_user)
       end
 
       context "with HTML request" do
@@ -228,19 +228,19 @@ describe JournalsController, :type => :controller do
     end
   end
 
-  describe "POST #create" do 
+  describe "POST #create" do
     context "with anonymous user" do
       before :each do
         # This simulates an anonymous user
         login_with nil
       end
-      
+
       it "redirects to signin" do
         post :create
-        expect( response ).to redirect_to( new_user_session_path )
+        expect(response).to redirect_to(new_user_session_path)
       end
     end
-    
+
     context "with authenticated user" do
       before :each do
         # This simulates an authenticated user
@@ -252,11 +252,11 @@ describe JournalsController, :type => :controller do
         @spec_journal_attrs = FactoryGirl.attributes_for(:journal, user: @spec_user).as_json
       end
 
-      context "with valid JS request(:context)" do 
-        it "creates a new journal" do 
-          expect{
+      context "with valid JS request(:context)" do
+        it "creates a new journal" do
+          expect {
             xhr :post, :create, :journal => @spec_journal_attrs
-          }.to change(Journal,:count).by(1) 
+          }.to change(Journal, :count).by(1)
         end
 
         it "returns a created 201 response" do
@@ -264,21 +264,21 @@ describe JournalsController, :type => :controller do
           expect(response).to be_success
           #expect(response).to redirect_to Journal.last
         end
-      end 
+      end
 
-      context "with valid JSON attributes(:context)" do 
-        it "creates a new journal" do 
-          expect{
+      context "with valid JSON attributes(:context)" do
+        it "creates a new journal" do
+          expect {
             post :create, :journal => @spec_journal_attrs, format: :json
-          }.to change(Journal,:count).by(1) 
+          }.to change(Journal, :count).by(1)
         end
 
-        it "returns a created 201 response" do 
+        it "returns a created 201 response" do
           post :create, :journal => @spec_journal_attrs, format: :json
           expect(response).to have_http_status(:created)
           #expect(response).to redirect_to Journal.last 
-        end 
-      end 
+        end
+      end
 =begin
       context "with invalid JS request" do 
         it "does not save the new journal" do
@@ -319,13 +319,13 @@ describe JournalsController, :type => :controller do
         # This simulates an anonymous user
         login_with nil
       end
-      
+
       it "redirects to signin" do
         put :update, id: 1
-        expect( response ).to redirect_to( new_user_session_path )
+        expect(response).to redirect_to(new_user_session_path)
       end
     end
-    
+
     context "with authenticated user" do
       before :each do
         # This simulates an authenticated user
@@ -347,23 +347,23 @@ describe JournalsController, :type => :controller do
           expect(assigns(:journal)).to eq(@spec_journal)
         end
 
-        it "updates an existing journal" do 
+        it "updates an existing journal" do
           xhr :put, :update, :id => @spec_journal.as_json["id"], journal: @spec_updated_journal_attrs
           @spec_journal.reload
           expect(@spec_journal.journal_entry).to eq(@spec_updated_journal_attrs["journal_entry"])
         end
 
-        it "returns a updated 200 response" do 
+        it "returns a updated 200 response" do
           xhr :put, :update, :id => @spec_journal.as_json["id"], journal: @spec_updated_journal_attrs
           expect(response).to be_success
           #expect(response).to redirect_to Journal.last 
-        end 
+        end
 
         it "gives a success flash message" do
           xhr :put, :update, :id => @spec_journal.as_json["id"], journal: @spec_updated_journal_attrs
           expect(flash[:success]).to eq("Journal Entry was successfully updated.")
         end
-      end 
+      end
 
       context "with valid JSON attributes" do
         it "located the requested @journal" do
@@ -372,23 +372,23 @@ describe JournalsController, :type => :controller do
           expect(assigns(:journal).as_json).to eq(@spec_journal.as_json)
         end
 
-        it "updates an existing journal" do 
+        it "updates an existing journal" do
           put :update, :id => @spec_journal.as_json["id"], journal: {:journal_entry => @spec_updated_journal_attrs["journal_entry"]}, format: :json
           @spec_journal.reload
           expect(@spec_journal.journal_entry).to eq(@spec_updated_journal_attrs["journal_entry"])
         end
 
-        it "returns a created 200 response" do 
+        it "returns a created 200 response" do
           put :update, :id => @spec_journal.as_json["id"], journal: {:journal_entry => @spec_updated_journal_attrs["journal_entry"]}, format: :json
           expect(response).to be_success
           #expect(response).to redirect_to Journal.last 
-        end 
+        end
 
         it "gives a success flash message" do
           put :update, :id => @spec_journal.as_json["id"], journal: {:journal_entry => @spec_updated_journal_attrs["journal_entry"]}, format: :json
           expect(flash[:success]).to eq("Journal Entry was successfully updated.")
         end
-      end 
+      end
 =begin
       context "with invalid JSON attributes" do 
         it "does not update the new mood" do
@@ -420,10 +420,10 @@ describe JournalsController, :type => :controller do
         # This simulates an anonymous user
         login_with nil
       end
-      
+
       it "redirects to signin" do
         get :cancel
-        expect( response ).to redirect_to( new_user_session_path )
+        expect(response).to redirect_to(new_user_session_path)
       end
     end
 
@@ -434,13 +434,13 @@ describe JournalsController, :type => :controller do
         login_with @spec_user
       end
 
-      before :each do 
+      before :each do
         @spec_journal_attrs = FactoryGirl.attributes_for(:journal, user: @spec_user).as_json
         @spec_journal = FactoryGirl.create(:journal, @spec_journal_attrs)
       end
 
       context "with JS request" do
-        it "re-renders JS for index method" do 
+        it "re-renders JS for index method" do
           xhr :get, :delete, journal_id: @spec_journal.as_json["id"], format: :js
           xhr :get, :index
         end
@@ -448,16 +448,16 @@ describe JournalsController, :type => :controller do
     end
   end
 
-  describe "DELETE #destroy" do 
+  describe "DELETE #destroy" do
     context "with anonymous user" do
       before :each do
         # This simulates an anonymous user
         login_with nil
       end
-      
+
       it "redirects to signin" do
         delete :destroy, id: 1
-        expect( response ).to redirect_to( new_user_session_path )
+        expect(response).to redirect_to(new_user_session_path)
       end
     end
 
@@ -468,37 +468,37 @@ describe JournalsController, :type => :controller do
         login_with @spec_user
       end
 
-      before :each do 
+      before :each do
         @spec_journal_attrs = FactoryGirl.attributes_for(:journal, user: @spec_user).as_json
         @spec_journal = FactoryGirl.create(:journal, @spec_journal_attrs)
-      end 
+      end
 
       context "with JS request" do
-        it "deletes the journal" do 
-          expect{ 
+        it "deletes the journal" do
+          expect {
             xhr :delete, :destroy, id: @spec_journal.as_json["id"]
-          }.to change(Journal,:count).by(-1) 
-        end 
+          }.to change(Journal, :count).by(-1)
+        end
 
-        it "re-renders JS for index method" do 
+        it "re-renders JS for index method" do
           xhr :delete, :destroy, id: @spec_journal.as_json["id"]
           xhr :get, :index, @params
         end
 
-        it "gives a success flash message" do 
+        it "gives a success flash message" do
           xhr :delete, :destroy, id: @spec_journal.as_json["id"], format: :js
           expect(flash[:success]).to eq("Journal Entry was successfully deleted.")
         end
       end
 
       context "with JSON request" do
-        it "deletes the journal" do 
-          expect{ 
+        it "deletes the journal" do
+          expect {
             delete :destroy, id: @spec_journal.as_json["id"], format: :json
-          }.to change(Journal,:count).by(-1) 
-        end 
+          }.to change(Journal, :count).by(-1)
+        end
 
-        it "returns a no content 204 response" do 
+        it "returns a no content 204 response" do
           delete :destroy, id: @spec_journal.as_json["id"], format: :json
           expect(response).to have_http_status(:no_content)
         end
@@ -506,16 +506,16 @@ describe JournalsController, :type => :controller do
     end
   end
 
-  describe "GET #cancel" do 
+  describe "GET #cancel" do
     context "with anonymous user" do
       before :each do
         # This simulates an anonymous user
         login_with nil
       end
-      
+
       it "redirects to signin" do
         get :cancel
-        expect( response ).to redirect_to( new_user_session_path )
+        expect(response).to redirect_to(new_user_session_path)
       end
     end
 
@@ -527,7 +527,7 @@ describe JournalsController, :type => :controller do
       end
 
       context "with JS request" do
-        it "re-renders JS for index method" do 
+        it "re-renders JS for index method" do
           xhr :get, :cancel, format: :js
           xhr :get, :index
         end

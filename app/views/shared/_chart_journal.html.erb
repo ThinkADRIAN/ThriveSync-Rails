@@ -1,71 +1,71 @@
 <% if @user == nil %>
-  <% user = current_user %>
+    <% user = current_user %>
 <% else %>
-  <% user = @user%>
+    <% user = @user %>
 <% end %>
 
 <% @journals = Journal.where(user_id: user.id) %>
 
-<% 
-if @journal_lookback_period == 'week' 
-  journal_chart_data = @journals.group_by_day(:timestamp, range: DATE_RANGE_THIS_WEEK).count(:journal_entry)
-  y_axis_ticks = [{v:0, f:'No'}, {v:1, f:'Yes'}]
-elsif @journal_lookback_period == 'last_week'
-  journal_chart_data = @journals.group_by_day(:timestamp, range: DATE_RANGE_LAST_WEEK).count(:journal_entry)
-  y_axis_ticks = [{v:0, f:'No'}, {v:1, f:'Yes'}]
-elsif @journal_lookback_period == 'month'
-  journal_chart_data = @journals.group_by_day(:timestamp, range: DATE_RANGE_THIS_MONTH).count(:journal_entry)
-  y_axis_ticks = [{v:0, f:'No'}, {v:1, f:'Yes'}]
-elsif @journal_lookback_period == 'last_month'
-  journal_chart_data = @journals.group_by_day(:timestamp, range: DATE_RANGE_LAST_MONTH).count(:journal_entry)
-  y_axis_ticks = [{v:0, f:'No'}, {v:1, f:'Yes'}]
-elsif @journal_lookback_period == 'year'
-  journal_chart_data = @journals.group_by_month(:timestamp, range: DATE_RANGE_THIS_YEAR).count(:journal_entry)
-elsif @journal_lookback_period == 'last_year'
-  journal_chart_data = @journals.group_by_month(:timestamp, range: DATE_RANGE_LAST_YEAR).count(:journal_entry)
-end
+<%
+   if @journal_lookback_period == 'week'
+     journal_chart_data = @journals.group_by_day(:timestamp, range: DATE_RANGE_THIS_WEEK).count(:journal_entry)
+     y_axis_ticks = [{v: 0, f: 'No'}, {v: 1, f: 'Yes'}]
+   elsif @journal_lookback_period == 'last_week'
+     journal_chart_data = @journals.group_by_day(:timestamp, range: DATE_RANGE_LAST_WEEK).count(:journal_entry)
+     y_axis_ticks = [{v: 0, f: 'No'}, {v: 1, f: 'Yes'}]
+   elsif @journal_lookback_period == 'month'
+     journal_chart_data = @journals.group_by_day(:timestamp, range: DATE_RANGE_THIS_MONTH).count(:journal_entry)
+     y_axis_ticks = [{v: 0, f: 'No'}, {v: 1, f: 'Yes'}]
+   elsif @journal_lookback_period == 'last_month'
+     journal_chart_data = @journals.group_by_day(:timestamp, range: DATE_RANGE_LAST_MONTH).count(:journal_entry)
+     y_axis_ticks = [{v: 0, f: 'No'}, {v: 1, f: 'Yes'}]
+   elsif @journal_lookback_period == 'year'
+     journal_chart_data = @journals.group_by_month(:timestamp, range: DATE_RANGE_THIS_YEAR).count(:journal_entry)
+   elsif @journal_lookback_period == 'last_year'
+     journal_chart_data = @journals.group_by_month(:timestamp, range: DATE_RANGE_LAST_YEAR).count(:journal_entry)
+   end
 %>
 <%= line_chart [
-  {name: "Journal", data: journal_chart_data} 
-    ], colors: [JOURNAL_PRIMARY_COLOR],
-  library: {
-      title: "Journal",
-      titlePosition: 'out',
-      titleTextStyle: {
-        color: JOURNAL_PRIMARY_COLOR
-      },
-      backgroundColor: {
-        fill: JOURNAL_BACKGROUND_COLOR,
-        stroke: JOURNAL_PRIMARY_COLOR,
-        strokeWidth: JOURNAL_STROKE_WIDTH
-      },
-      animation: {
-        duration: 1000,
-        startup: true,
-        easing: JOURNAL_ANIMATION_EASING
-      },
-      hAxis: {
-        textStyle: {
-          color: JOURNAL_PRIMARY_COLOR
-        },
-        gridlines: {
-          color: JOURNAL_BACKGROUND_COLOR
-        }
-      },
-      legend: {
-        textStyle: {
-          color: JOURNAL_BACKGROUND_COLOR
-        },
-        position: JOURNAL_LEGEND_POSITION
-      },
-      vAxis: {
-        ticks: y_axis_ticks,
-        textStyle: {
-          color: JOURNAL_PRIMARY_COLOR
-        },
-        gridlines: {
-          color: JOURNAL_BACKGROUND_COLOR
-        }
-      }
-  }
+                       {name: "Journal", data: journal_chart_data}
+               ], colors: [JOURNAL_PRIMARY_COLOR],
+               library: {
+                       title: "Journal",
+                       titlePosition: 'out',
+                       titleTextStyle: {
+                               color: JOURNAL_PRIMARY_COLOR
+                       },
+                       backgroundColor: {
+                               fill: JOURNAL_BACKGROUND_COLOR,
+                               stroke: JOURNAL_PRIMARY_COLOR,
+                               strokeWidth: JOURNAL_STROKE_WIDTH
+                       },
+                       animation: {
+                               duration: 1000,
+                               startup: true,
+                               easing: JOURNAL_ANIMATION_EASING
+                       },
+                       hAxis: {
+                               textStyle: {
+                                       color: JOURNAL_PRIMARY_COLOR
+                               },
+                               gridlines: {
+                                       color: JOURNAL_BACKGROUND_COLOR
+                               }
+                       },
+                       legend: {
+                               textStyle: {
+                                       color: JOURNAL_BACKGROUND_COLOR
+                               },
+                               position: JOURNAL_LEGEND_POSITION
+                       },
+                       vAxis: {
+                               ticks: y_axis_ticks,
+                               textStyle: {
+                                       color: JOURNAL_PRIMARY_COLOR
+                               },
+                               gridlines: {
+                                       color: JOURNAL_BACKGROUND_COLOR
+                               }
+                       }
+               }
 %>

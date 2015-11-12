@@ -5,7 +5,7 @@ class RewardsController < ApplicationController
     desc <<-EOS
       == Long description
         Store data for Mobile App Reward Cues
-      EOS
+    EOS
 
     api_base_url ""
     formats ['html', 'json']
@@ -37,6 +37,7 @@ class RewardsController < ApplicationController
   # GET /rewards
   # GET /rewards.json
   api! "Show Rewards Record"
+
   def index
     authorize :reminder, :index?
     @user = User.find_by_id(params[:user_id])
@@ -57,7 +58,7 @@ class RewardsController < ApplicationController
   # GET /rewards/1.json
   def show
     authorize :reminder, :show?
-    
+
     respond_to do |format|
       format.html
       format.json { render :json => @reward, status: 200 }
@@ -68,7 +69,7 @@ class RewardsController < ApplicationController
   def new
     authorize :reminder, :new?
     @reward = Reward.new
-    
+
     respond_to do |format|
       format.html
       format.json { render :json => @reward, status: 200 }
@@ -89,6 +90,7 @@ class RewardsController < ApplicationController
   # POST /rewards.json
   api! "Create Reward Record"
   param_group :create_rewards_data
+
   def create
     authorize :reminder, :create?
     @reward = Reward.new(reward_params)
@@ -98,7 +100,7 @@ class RewardsController < ApplicationController
         track_reward_created
         flash[:success] = 'Reward record was successfully created.'
         format.html { redirect_to rewards_path }
-        format.json  { render json: @reward, status: :created }
+        format.json { render json: @reward, status: :created }
       else
         flash[:error] = 'Reward record was not created... Try again???'
         format.html { render :new }
@@ -111,6 +113,7 @@ class RewardsController < ApplicationController
   # PATCH/PUT /rewards/1.json
   api! "Update Reward Record"
   param_group :update_rewards_data
+
   def update
     authorize :reminder, :update?
 
@@ -119,7 +122,7 @@ class RewardsController < ApplicationController
         track_reward_updated
         flash[:success] = 'Reward record was successfully updated.'
         format.html { redirect_to rewards_path }
-        format.json  { render json: @reward, status: 200 }
+        format.json { render json: @reward, status: 200 }
       else
         flash[:error] = 'Reward record was not updated... Try again???'
         format.html { render :edit }
@@ -132,6 +135,7 @@ class RewardsController < ApplicationController
   # DELETE /rewards/1.json
   api! "Delete Reward Record"
   param_group :destroy_rewards_data
+
   def destroy
     authorize :reminder, :destroy?
 
@@ -157,40 +161,40 @@ class RewardsController < ApplicationController
   def reward_params
     params.fetch(:reward, {}).permit(:user_id, :rewards_enabled)
   end
-  
+
   def track_reward_created
     # Track Reward Creation for Segment.io Analytics
     Analytics.track(
-        user_id: current_user.id,
-        event: 'Reward Created',
-        properties: {
-            reward_id: @reward.id,
-            reward_user_id: @reward.rewards_enabled,
-            reward_user_id: @reward.user_id
-        }
+      user_id: current_user.id,
+      event: 'Reward Created',
+      properties: {
+        reward_id: @reward.id,
+        reward_user_id: @reward.rewards_enabled,
+        reward_user_id: @reward.user_id
+      }
     )
   end
 
   def track_reward_updated
     # Track Reward Update for Segment.io Analytics
     Analytics.track(
-        user_id: current_user.id,
-        event: 'Reward Updated',
-        properties: {
-            reward_id: @reward.id,
-            reward_user_id: @reward.rewards_enabled,
-            reward_user_id: @reward.user_id
-        }
+      user_id: current_user.id,
+      event: 'Reward Updated',
+      properties: {
+        reward_id: @reward.id,
+        reward_user_id: @reward.rewards_enabled,
+        reward_user_id: @reward.user_id
+      }
     )
   end
 
   def track_reward_deleted
     # Track Reward Deletion for Segment.io Analytics
     Analytics.track(
-        user_id: current_user.id,
-        event: 'Reward Deleted',
-        properties: {
-        }
+      user_id: current_user.id,
+      event: 'Reward Deleted',
+      properties: {
+      }
     )
   end
 end

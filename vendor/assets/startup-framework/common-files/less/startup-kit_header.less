@@ -1,6 +1,6 @@
-.nav-visible{
-  .read-man{
-    display:none;
+.nav-visible {
+  .read-man {
+    display: none;
   }
 }
 
@@ -13,39 +13,40 @@
   margin: 0;
   overflow: visible;
   font-family: @font-family-demo;
-  &.navbar-fixed-top{
+  &.navbar-fixed-top {
     @media (max-width: 1200px) {
-      position:fixed;
-      .container{
-        width:auto;
+      position: fixed;
+      .container {
+        width: auto;
       }
     }
   }
-  .menu-btn{
-    display:none;
+  .menu-btn {
+    display: none;
     @media (max-width: 1200px) {
       display: inline-block;
       float: right;
       position: relative;
       .box-sizing(border-box);
-      width:66px;
+      width: 66px;
       height: 66px;
       background: none #1b1f23;
       border: 0 none;
       border-left: 1px solid #272b2f;
       color: #919497;
-      &:hover, &:focus{
+      &:hover, &:focus {
         border: 0 none;
         border-left: 1px solid #272b2f;
         color: #ffffff;
       }
-      span{
+
+      span {
         content: '';
         background-image: url("/assets/common-files/icons/menu-icon@2x.png");
         .background-size(17px 12px);
         width: 17px;
         height: 12px;
-        &:before{
+        &:before {
           content: '';
         }
       }
@@ -67,7 +68,7 @@
     }
     a.man-brand {
       display: inline-block;
-      float:left;
+      float: left;
       text-decoration: none;
       .line-height(65px);
 
@@ -92,13 +93,13 @@
       display: inline-block;
       margin: 0;
       @media (max-width: 1200px) {
-        display:none;
+        display: none;
 
       }
 
       dd {
         margin: 0;
-        padding:17px 0;
+        padding: 17px 0;
         .line-height(31px);
         display: inline-block;
 
@@ -106,12 +107,11 @@
           .font(12px, #919497);
           font-family: @font-family-demo;
           font-weight: 500;
-          padding-right:22px;
+          padding-right: 22px;
           text-transform: uppercase;
           text-decoration: underline;
           .a-color(#919497, white);
-          display:block;
-
+          display: block;
 
           &.active {
             text-decoration: none;
@@ -123,23 +123,24 @@
   }
 }
 
-body{
+body {
   padding-top: 66px;
-  position:relative;
-  font-family:@font-family-demo;
-  &.hovered{
+  position: relative;
+  font-family: @font-family-demo;
+  &.hovered {
     background-color: @clouds;
   }
-  .delimiter-big{
+  .delimiter-big {
     margin-top: 180px;
   }
-  .delimiter{
+  .delimiter {
     margin-top: 30px;
   }
-  section[class*=content-]{
-    margin-top: 0; margin-bottom: 0;
+  section[class*=content-] {
+    margin-top: 0;
+    margin-bottom: 0;
   }
-  .colapsed-menu{
+  .colapsed-menu {
     display: none;
     width: 230px;
     position: fixed;
@@ -150,33 +151,33 @@ body{
     margin: 0;
     overflow: auto;
     background-color: #222527;
-    dl{
-      position:relative;
-      display:block;
-      margin:0;
-      dd{
-        border-bottom:1px solid #24292D;
+    dl {
+      position: relative;
+      display: block;
+      margin: 0;
+      dd {
+        border-bottom: 1px solid #24292D;
         .line-height(45px);
-        margin:0;
+        margin: 0;
         .box-sizing('border-box');
-        width:100%;
-        text-transform:uppercase;
-        dd{
-          padding:0 0 0 20px;
-          font-size:12px;
-          border-top:1px solid #24292D;
-          border-bottom:0;
+        width: 100%;
+        text-transform: uppercase;
+        dd {
+          padding: 0 0 0 20px;
+          font-size: 12px;
+          border-top: 1px solid #24292D;
+          border-bottom: 0;
           line-height: 30px;
         }
-        > a{
-          display:block;
-          padding:0 0 0 35px;
+        > a {
+          display: block;
+          padding: 0 0 0 35px;
           .a-color(#5B5E61, white);
-          &.active{
-            text-decoration:none;
-            color:white;
-            &:after{
-              display:none;
+          &.active {
+            text-decoration: none;
+            color: white;
+            &:after {
+              display: none;
             }
           }
         }

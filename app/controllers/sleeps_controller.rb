@@ -24,13 +24,13 @@ class SleepsController < ApplicationController
               }
             ]
           }
-      EOS
+    EOS
     api_base_url ""
     formats ['html', 'json']
   end
 
   def_param_group :sleeps_data do
-    param :sleep, Hash , :desc => "Sleep", :required => false do
+    param :sleep, Hash, :desc => "Sleep", :required => false do
       param :start_time, :undef, :desc => "Sleep Start Time [DateTime(UTC)]", :required => true
       param :finish_time, :undef, :desc => "Sleep Finish Time [DateTime(UTC)]", :required => true
       param :quality, :number, :desc => "[['Broken', 1], ['Light', 2], ['Normal', 3], ['Deep',4]]", :required => true
@@ -51,14 +51,15 @@ class SleepsController < ApplicationController
   before_action :set_lookback_period, only: [:index]
   before_action :authenticate_user!
 
-  after_filter :verify_authorized,  except: [:index]
+  after_filter :verify_authorized, except: [:index]
   #after_filter :verify_policy_scoped, only: [:index]
 
   respond_to :html, :js, :json
-  
+
   # GET /sleeps
   # GET /sleeps.json
   api! "Show Sleep Entries"
+
   def index
     @user = User.find_by_id(params[:user_id])
 
@@ -91,7 +92,7 @@ class SleepsController < ApplicationController
 
     respond_to do |format|
       format.js { render :nothing => true }
-      format.json { render :json =>  @sleep, status: 200 }
+      format.json { render :json => @sleep, status: 200 }
     end
   end
 
@@ -114,7 +115,7 @@ class SleepsController < ApplicationController
     respond_to do |format|
       format.html { render :nothing => true }
       format.js
-      format.json { render :json =>  @sleep, status: 200 }
+      format.json { render :json => @sleep, status: 200 }
     end
   end
 
@@ -135,7 +136,7 @@ class SleepsController < ApplicationController
     respond_to do |format|
       format.html { render :nothing => true }
       format.js
-      format.json { render :json =>  @sleep, status: 200 }
+      format.json { render :json => @sleep, status: 200 }
     end
   end
 
@@ -143,6 +144,7 @@ class SleepsController < ApplicationController
   # POST /sleeps.json
   api! "Create Sleep Entry"
   param_group :sleeps_data
+
   def create
     @user = User.find_by_id(params[:user_id])
 
@@ -187,6 +189,7 @@ class SleepsController < ApplicationController
   # PATCH/PUT /sleeps/1.json
   api! "Update Sleep Entry"
   param_group :sleeps_all
+
   def update
     @user = User.find_by_id(params[:user_id])
 
@@ -246,6 +249,7 @@ class SleepsController < ApplicationController
   # DELETE /sleeps/1.json
   api! "Delete Sleep Entry"
   param_group :destroy_sleeps_data
+
   def destroy
     @user = User.find_by_id(params[:user_id])
 
@@ -296,61 +300,61 @@ class SleepsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_sleep
-      @sleep = Sleep.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_sleep
+    @sleep = Sleep.find(params[:id])
+  end
 
-    def set_lookback_period
-      if params.has_key? :sleep_lookback_period
-        @sleep_lookback_period = params[:sleep_lookback_period]
-      else
-        @sleep_lookback_period = DEFAULT_LOOKBACK_PERIOD
-      end
+  def set_lookback_period
+    if params.has_key? :sleep_lookback_period
+      @sleep_lookback_period = params[:sleep_lookback_period]
+    else
+      @sleep_lookback_period = DEFAULT_LOOKBACK_PERIOD
     end
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def sleep_params
-      params.fetch(:sleep, {}).permit(:start_time, :finish_time, :quality, :sleep_lookback_period)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def sleep_params
+    params.fetch(:sleep, {}).permit(:start_time, :finish_time, :quality, :sleep_lookback_period)
+  end
 
-    def track_sleep_created
-      # Track Sleep Creation for Segment.io Analytics
-      Analytics.track(
-        user_id: current_user.id,
-        event: 'Sleep Entry Created',
-        properties: {
-          sleep_id: @sleep.id,
-          start_time: @sleep.start_time,
-          finish_time: @sleep.finish_time,
-          quality: @sleep.quality,
-          sleep_user_id: @sleep.user_id
-        }
-      )
-    end
+  def track_sleep_created
+    # Track Sleep Creation for Segment.io Analytics
+    Analytics.track(
+      user_id: current_user.id,
+      event: 'Sleep Entry Created',
+      properties: {
+        sleep_id: @sleep.id,
+        start_time: @sleep.start_time,
+        finish_time: @sleep.finish_time,
+        quality: @sleep.quality,
+        sleep_user_id: @sleep.user_id
+      }
+    )
+  end
 
-    def track_sleep_updated
-      # Track Sleep Update for Segment.io Analytics
-      Analytics.track(
-        user_id: current_user.id,
-        event: 'Sleep Entry Updated',
-        properties: {
-          sleep_id: @sleep.id,
-          start_time: @sleep.start_time,
-          finish_time: @sleep.finish_time,
-          quality: @sleep.quality,
-          sleep_user_id: @sleep.user_id
-        }
-      )
-    end
+  def track_sleep_updated
+    # Track Sleep Update for Segment.io Analytics
+    Analytics.track(
+      user_id: current_user.id,
+      event: 'Sleep Entry Updated',
+      properties: {
+        sleep_id: @sleep.id,
+        start_time: @sleep.start_time,
+        finish_time: @sleep.finish_time,
+        quality: @sleep.quality,
+        sleep_user_id: @sleep.user_id
+      }
+    )
+  end
 
-    def track_sleep_deleted
-      # Track Sleep Deletion for Segment.io Analytics
-      Analytics.track(
-        user_id: current_user.id,
-        event: 'Sleep Entry Deleted',
-        properties: {
-        }
-      )
-    end
+  def track_sleep_deleted
+    # Track Sleep Deletion for Segment.io Analytics
+    Analytics.track(
+      user_id: current_user.id,
+      event: 'Sleep Entry Deleted',
+      properties: {
+      }
+    )
+  end
 end

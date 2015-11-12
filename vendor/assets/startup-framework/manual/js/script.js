@@ -13,24 +13,24 @@
                 $('body').addClass('hovered');
                 var id = $(this).attr('id');
                 var heightMask = 0;
-                if(id.indexOf('header') != -1) {
-                    if(id.indexOf('header-13') != -1) {
+                if (id.indexOf('header') != -1) {
+                    if (id.indexOf('header-13') != -1) {
                         heightMask += $('.' + id + '-sub').outerHeight();
-                    } else if(id.indexOf('header-7') != -1) {
+                    } else if (id.indexOf('header-7') != -1) {
                         heightMask += $('.' + id + '-sub').outerHeight();
                     } else {
                         heightMask += $('header.' + id + ':not(.hidden)').outerHeight();
                         heightMask += $('.' + id + '-sub').outerHeight();
                     }
-                } else if(id.indexOf('footer') != -1) {
-                    $('footer.' + id).each(function() {
+                } else if (id.indexOf('footer') != -1) {
+                    $('footer.' + id).each(function () {
                         heightMask += $(this).outerHeight();
                     })
-                    if(id.indexOf('footer-9') != -1) {
+                    if (id.indexOf('footer-9') != -1) {
                         heightMask += $('section.' + id + '-map').outerHeight();
                     }
                 } else {
-                    $('section.' + id).each(function() {
+                    $('section.' + id).each(function () {
                         heightMask += $(this).outerHeight();
                     })
                 }
@@ -79,14 +79,14 @@
         });
 
         var manualArrHref = window.location.pathname.split('/'),
-            targetHref = manualArrHref[manualArrHref.length -1].toLowerCase(),
+            targetHref = manualArrHref[manualArrHref.length - 1].toLowerCase(),
             overviewLink = $('#header-dockbar a[href="index.html"], body .colapsed-menu a[href="index.html"]'),
-            item  = $('#header-dockbar a[href="' + targetHref  + '"], body .colapsed-menu a[href="' + targetHref  + '"]');
+            item = $('#header-dockbar a[href="' + targetHref + '"], body .colapsed-menu a[href="' + targetHref + '"]');
 
-        if(item.length){
+        if (item.length) {
             item.addClass("active");
         }
-        if(!targetHref) {
+        if (!targetHref) {
             highlightLink();
         }
         switch (targetHref) {

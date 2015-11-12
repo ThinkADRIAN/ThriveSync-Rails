@@ -4,7 +4,7 @@ class Api::V1::PasswordsController < Devise::PasswordsController
     desc <<-EOS
       == Long description
         Used for managing password credentials.
-      EOS
+    EOS
     api_base_url "/api"
     # api_version "v1"
     formats ['html', 'json']
@@ -23,9 +23,10 @@ class Api::V1::PasswordsController < Devise::PasswordsController
 
   # POST /resource/password
   api :POST, "/passwords", "Reset Password via Email"
-  param :user, Hash , :desc => "User", :required => true do
+  param :user, Hash, :desc => "User", :required => true do
     param :email, String, :desc => "Email Address for Thriver Requesting Password Reset"
   end
+
   def create
     super
   end
@@ -56,13 +57,13 @@ class Api::V1::PasswordsController < Devise::PasswordsController
 
   protected
 
-    def after_resetting_password_path_for(resource)
-      # super(resource)
-      new_session_path(resource)
-    end
+  def after_resetting_password_path_for(resource)
+    # super(resource)
+    new_session_path(resource)
+  end
 
-    # The path used after sending reset password instructions
-    def after_sending_reset_password_instructions_path_for(resource_name)
-      super(resource_name)
-    end
+  # The path used after sending reset password instructions
+  def after_sending_reset_password_instructions_path_for(resource_name)
+    super(resource_name)
+  end
 end
