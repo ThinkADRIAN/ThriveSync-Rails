@@ -28493,6 +28493,9 @@ button.close {
 .capture-self-care-bottom {
   padding-bottom: 50px;
 }
+.slick-slider {
+  margin-top: 100px;
+}
 .slick-slider .capture-show {
   margin-top: 0px;
 }
@@ -28531,6 +28534,28 @@ button.close {
     color: #ffffff;
     padding: 3px 10px;
     margin: 5px;
+  }
+  .slick-slider {
+    margin-top: 0px;
+  }
+  .slick-slider .capture-show {
+    margin-top: 0px;
+  }
+  .slick-slider .capture_button.slick-slide.slick-current.slick-active {
+    margin-top: 100px;
+    margin-bottom: 135px;
+  }
+}
+@media (min-width: 64px) and (max-width: 991px) {
+  .slick-slider {
+    margin-top: 0px;
+  }
+  .slick-slider .capture-show {
+    margin-top: 0px;
+  }
+  .slick-slider .capture_button.slick-slide.slick-current.slick-active {
+    margin-top: 100px;
+    margin-bottom: 135px;
   }
 }
 .content-11 {
