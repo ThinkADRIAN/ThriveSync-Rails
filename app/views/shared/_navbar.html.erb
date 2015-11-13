@@ -13,8 +13,9 @@
                   <!--
                   <li><%= link_to 'Individuals', page_path('individuals') %></li>
                   <li><%= link_to 'Providers', page_path('providers') %></li>
-                  <li><%= link_to 'Pricing', page_path('pricing') %></li>
                 -->
+                  <li><%= link_to 'Research Study', page_path('research/study') %></li>
+                  <li><%= link_to 'Pricing', page_path('pricing') %></li>
                 </ul>
             <% end %>
             <% if user_signed_in? && (current_user.is? :superuser) %>
