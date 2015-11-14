@@ -91,6 +91,7 @@ gem 'designmodo-startup_framework-rails', '~> 1.1.3.10'
 gem 'font-awesome-rails'
 gem 'will_paginate'
 gem 'chosen-rails'
+gem 'bootstrap_form'
 gem 'bootstrap-material-design'
 
 # Interface
