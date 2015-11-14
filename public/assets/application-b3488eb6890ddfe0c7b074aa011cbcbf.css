@@ -26,6 +26,8 @@
 
  *
 
+ *
+
 
  */
 /*!
@@ -20646,6 +20648,16 @@ you can use the generic selector below, but it's slower:
     margin-top: 80px;
   }
 }
+.rails-bootstrap-forms-date-select select,
+.rails-bootstrap-forms-time-select select,
+.rails-bootstrap-forms-datetime-select select {
+  display: inline-block;
+  width: auto;
+}
+
+.rails-bootstrap-forms-error-summary {
+  margin-top: 10px;
+}
 /*!
  *  Font Awesome 4.1.0 by @davegandy - http://fontawesome.io - @fontawesome
  *  License - http://fontawesome.io/license (Font: SIL OFL 1.1, CSS: MIT License)
@@ -22363,4 +22375,61 @@ you can use the generic selector below, but it's slower:
 }
 .open > .dropdown-menu {
   margin-top: 0px !important;
+}
+.card {
+  /***** Make height equal to width (http://stackoverflow.com/a/6615994) ****/
+  display: inline-block;
+  position: relative;
+  width: 100%;
+  /**************************************************************************/
+  border-radius: 2px;
+  color: #34495e;
+  background: #ecf0f1;
+}
+.card .card-height-indicator {
+  margin-top: 100%;
+}
+.card .card-content {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+.card .card-image {
+  height: 60%;
+  position: relative;
+  overflow: hidden;
+}
+.card .card-image img {
+  width: 100%;
+  height: 100%;
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px;
+  pointer-events: none;
+}
+.card .card-image .card-image-headline {
+  position: absolute;
+  bottom: 16px;
+  left: 18px;
+  color: #ecf0f1;
+  font-size: 2em;
+}
+.card .card-body {
+  height: 30%;
+  padding: 18px;
+}
+.card .card-footer {
+  height: 10%;
+  padding: 18px;
+  margin-top: 120px;
+}
+.card .card-footer button {
+  margin: 0 !important;
+  position: relative;
+  bottom: 25px;
+  width: auto;
+}
+.card .card-footer button:first-child {
+  left: -15px;
 }
