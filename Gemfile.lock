@@ -49,6 +49,7 @@ GEM
     bootstrap-sass (3.3.5)
       autoprefixer-rails (>= 5.0.0.1)
       sass (>= 3.2.19)
+    bootstrap_form (2.3.0)
     builder (3.2.2)
     cancancan (1.13.1)
     capybara (2.5.0)
@@ -390,6 +391,7 @@ DEPENDENCIES
   analytics-ruby (~> 2.0.0)
   apipie-rails!
   bootstrap-material-design
+  bootstrap_form
   cancancan (~> 1.10)
   capybara
   chartkick

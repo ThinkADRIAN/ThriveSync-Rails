@@ -31,8 +31,8 @@ class SleepsController < ApplicationController
 
   def_param_group :sleeps_data do
     param :sleep, Hash, :desc => "Sleep", :required => false do
-      param :start_time, :undef, :desc => "Sleep Start Time [DateTime(UTC)]", :required => true
-      param :finish_time, :undef, :desc => "Sleep Finish Time [DateTime(UTC)]", :required => true
+      param :start_time, :undef, :desc => "Sleep Start Time [DateTime(UTC)]", :required => false
+      param :finish_time, :undef, :desc => "Sleep Finish Time [DateTime(UTC)]", :required => false
       param :quality, :number, :desc => "[['Broken', 1], ['Light', 2], ['Normal', 3], ['Deep',4]]", :required => true
     end
   end
@@ -162,7 +162,7 @@ class SleepsController < ApplicationController
     @sleep.user_id = current_user.id
     @sleep.time = (@sleep.finish_time.to_i - @sleep.start_time.to_i) / 3600
 
-    todays_sleeps = Sleep.where(user_id: current_user.id, finish_time: (Date.today.in_time_zone.at_beginning_of_day..Date.today.in_time_zone.end_of_day))
+    todays_sleeps = Sleep.where(user_id: current_user.id, finish_time: ($capture_date.in_time_zone.at_beginning_of_day..$capture_date.in_time_zone.end_of_day))
 
     respond_to do |format|
       if todays_sleeps.count < MAX_SLEEP_ENTRIES

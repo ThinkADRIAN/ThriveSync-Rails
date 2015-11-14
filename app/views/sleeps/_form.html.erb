@@ -1,8 +1,8 @@
-<%= form_for @sleep, remote: true do |f| %>
+<%= bootstrap_form_for @sleep, layout: :inline, remote: true do |f| %>
     <div class="modal-body">
       <% if @sleep.errors.any? %>
           <div id="error_explanation">
-            <h2><%= pluralize(@sleep.errors.count, "error") %> prohibited this sleep entry from being saved:</h2>
+            <h2><%= pluralize(@sleep.errors.count, 'error') %> prohibited this sleep entry from being saved:</h2>
             <ul>
               <% @sleep.errors.full_messages.each do |message| %>
                   <li><%= message %></li>
@@ -11,24 +11,37 @@
           </div>
       <% end %>
 
-      <div class="form-group">
-        <%= f.label "Sleep Start Time:" %> <br>
-        <%= f.datetime_local_field :start_time %>
-      </div>
+      <% if $capture_date == Date.today || $capture_date == nil %>
+          <%  sleep_entry_day = Date.today %>
+      <% else %>
+          <%  sleep_entry_day = $capture_date %>
+      <% end %>
+
+      <%
+         d = sleep_entry_day.to_date
+         t = Time.now
+         dt = DateTime.new(d.year, d.month, d.day, t.hour, t.min, t.sec, t.zone)
+         dt_minus_8 = (dt.to_time - 8.hours).to_datetime
+      %>
 
       <div class="form-group">
-        <%= f.label "Sleep Finish Time:" %> <br>
-        <%= f.datetime_local_field :finish_time %>
+        <%= f.label 'Sleep Start Time:' %> <br>
+        <%= f.datetime_select :start_time, ampm: true, hide_label: true, default: dt_minus_8 %>
       </div>
-
+      <br><br>
+      <div class="form-group">
+        <%= f.label 'Sleep Finish Time:' %> <br>
+        <%= f.datetime_select :finish_time, ampm: true, hide_label: true, default: dt  %>
+      </div>
+      <br><br>
       <div class="form-group">
         <% if !@sleep.quality.nil? %>
             <% selected_quality = @sleep.quality %>
         <% else %>
             <% selected_quality = 1 %>
         <% end %>
-        <%= f.label "Sleep Quality:" %><br>
-        <%= f.select(:quality, options_for_select([['Broken', 1], ['Light', 2], ['Normal', 3], ['Deep', 4]], selected_quality)) %>
+        <%= f.label 'Sleep Quality:' %><br>
+        <%= f.select :quality, options_for_select([['Broken', 1], ['Light', 2], ['Normal', 3], ['Deep', 4]], selected_quality), hide_label: true %>
       </div>
     </div>
 
