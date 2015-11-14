@@ -237,6 +237,7 @@ module ParseHelper
     end
   end
 
+  # Note: Set update_scores = true for manual scorecard update... Only do this once!!!
   def transform_and_load_parse_data(data_type, user_id, update_scores)
     if data_type == "Mood"
       @parse_moods.each do |parse_mood|
@@ -511,6 +512,16 @@ module ParseHelper
 
   def update_user_scorecard(data_type, user_id)
     user = User.where(id: user_id).first
-    user.scorecard.update_scorecard(data_type)
+
+    if data_type == "Mood"
+      data_type_adjusted = 'moods'
+    elsif data_type == "Sleep"
+      data_type_adjusted = 'sleeps'
+    elsif data_type == "SelfCare"
+      data_type_adjusted = 'self_cares'
+    elsif data_type == "Journal"
+      data_type_adjusted = 'journals'
+    end
+    user.scorecard.update_scorecard(data_type_adjusted)
   end
 end
