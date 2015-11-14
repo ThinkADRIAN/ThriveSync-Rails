@@ -1,6 +1,9 @@
 <% render "shared/set_lookback" %>
 
-<% todays_sleeps = Sleep.where(user_id: current_user.id, finish_time: (Date.today.in_time_zone.at_beginning_of_day..Date.today.in_time_zone.end_of_day)) %>
+<%
+   $capture_date = Date.today
+   todays_sleeps = Sleep.where(user_id: current_user.id, finish_time: (Date.today.in_time_zone.at_beginning_of_day..Date.today.in_time_zone.end_of_day))
+%>
 
 <div class="container">
   <div>
