@@ -166,7 +166,7 @@ class JournalsController < ApplicationController
     @journal = Journal.new(journal_params)
     @journal.user_id = current_user.id
 
-    todays_journals = Journal.where(user_id: current_user.id, timestamp: (Date.today.in_time_zone.at_beginning_of_day..Date.today.in_time_zone.end_of_day))
+    todays_journals = Journal.where(user_id: current_user.id, timestamp: (Time.zone.now.to_date.in_time_zone.at_beginning_of_day..Time.zone.now.to_date.in_time_zone.end_of_day))
 
     if params[:timestamp].nil?
       if $capture_source == 'journal'

@@ -11,8 +11,8 @@
           </div>
       <% end %>
 
-      <% if $capture_date == Date.today || $capture_date == nil %>
-          <%  sleep_entry_day = Date.today %>
+      <% if $capture_date == Time.zone.now.to_date || $capture_date == nil %>
+          <%  sleep_entry_day = Time.zone.now.to_date %>
       <% else %>
           <%  sleep_entry_day = $capture_date %>
       <% end %>
@@ -26,12 +26,14 @@
 
       <div class="form-group">
         <%= f.label 'Sleep Start Time:' %> <br>
-        <%= f.datetime_select :start_time, ampm: true, hide_label: true, default: dt_minus_8 %>
+        <%= f.datetime_local_field :start_time, hide_label: true, default: dt_minus_8 %>
+        <% #f.datetime_select :start_time, ampm: true, hide_label: true, default: dt_minus_8 %>
       </div>
       <br><br>
       <div class="form-group">
         <%= f.label 'Sleep Finish Time:' %> <br>
-        <%= f.datetime_select :finish_time, ampm: true, hide_label: true, default: dt  %>
+        <%= f.datetime_local_field :finish_time, hide_label: true, default: dt_minus_8 %>
+        <% #f.datetime_select :finish_time, ampm: true, hide_label: true, default: dt  %>
       </div>
       <br><br>
       <div class="form-group">

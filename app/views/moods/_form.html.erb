@@ -1,4 +1,4 @@
-<%= form_for @mood, remote: true do |f| %>
+<%= bootstrap_form_for @mood, remote: true do |f| %>
     <div class="modal-body">
       <% if @mood.errors.any? %>
           <ul class="errors"></ul>
@@ -37,7 +37,7 @@
         </script>
 
         <%= f.label "Mood Level:" %> <br>
-        <%= f.select(:mood_rating, options_for_select([['Severely Depressed', 1], ['Moderately Depressed', 2], ['Mildly Depressed', 3], ['Baseline', 4], ['Mildly Elevated', 5], ['Moderately Elevated', 6], ['Severely Elevated', 7]], selected_mood)) %>
+        <%= f.select_without_bootstrap(:mood_rating, options_for_select([['Severely Depressed', 1], ['Moderately Depressed', 2], ['Mildly Depressed', 3], ['Baseline', 4], ['Mildly Elevated', 5], ['Moderately Elevated', 6], ['Severely Elevated', 7]], selected_mood), hide_label: true) %>
       </div>
 
       <div class="form-group">
@@ -65,7 +65,7 @@
         </script>
 
         <%= f.label "Anxiety Level:" %><br>
-        <%= f.select(:anxiety_rating, options_for_select([['None', 1], ['Mild', 2], ['Moderate', 3], ['Severe', 4]], selected_anxiety)) %>
+        <%= f.select_without_bootstrap(:anxiety_rating, options_for_select([['None', 1], ['Mild', 2], ['Moderate', 3], ['Severe', 4]], selected_anxiety), hide_label: true) %>
       </div>
 
       <div class="form-group">
@@ -93,14 +93,14 @@
         </script>
 
         <%= f.label "Irritability Level:" %><br>
-        <%= f.select(:irritability_rating, options_for_select([['None', 1], ['Mild', 2], ['Moderate', 3], ['Severe', 4]], selected_irritability)) %>
+        <%= f.select_without_bootstrap(:irritability_rating, options_for_select([['None', 1], ['Mild', 2], ['Moderate', 3], ['Severe', 4]], selected_irritability), hide_label: true) %>
       </div>
     </div>
 
     <% if !current_page?(action: 'new') %>
         <div class="form-group">
           <%= f.label "Timestamp:" %> <br>
-          <%= f.datetime_local_field :timestamp %>
+          <%= f.datetime_local_field :timestamp, hide_label: true %>
         </div>
     <% end %>
 
