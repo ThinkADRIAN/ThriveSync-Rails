@@ -1,4 +1,4 @@
-<%= form_for(@pre_defined_card) do |f| %>
+<%= bootstrap_form_for(@pre_defined_card) do |f| %>
     <% if @pre_defined_card.errors.any? %>
         <div id="error_explanation">
           <h2><%= pluralize(@pre_defined_card.errors.count, "error") %> prohibited this pre_defined_card from being

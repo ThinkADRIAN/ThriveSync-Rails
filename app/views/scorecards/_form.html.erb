@@ -1,4 +1,4 @@
-<%= form_for(@scorecard) do |f| %>
+<%= bootstrap_form_for(@scorecard) do |f| %>
     <% if @scorecard.errors.any? %>
         <div id="error_explanation">
           <h2><%= pluralize(@scorecard.errors.count, "error") %> prohibited this scorecard from being saved:</h2>
@@ -13,7 +13,7 @@
 
     <div class="field">
       <%= f.label "Checkin Goal" %><br>
-      <%= f.select :checkin_goal, (1..7) %>
+      <%= f.select :checkin_goal, (1..7), hide_label: true , inline: true %>
     </div>
     <div class="actions">
       <%= f.submit %>

@@ -1,6 +1,6 @@
 <h2>Edit Access: <%= @user.first_name + " " + @user.last_name %></h2>
 
-<%= form_for(@user) do |f| %>
+<%= bootstrap_form_for(@user) do |f| %>
 
     <% if can? :assign_roles, current_user %>
         <div class="form-group">

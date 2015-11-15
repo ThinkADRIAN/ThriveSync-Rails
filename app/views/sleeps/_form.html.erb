@@ -26,12 +26,14 @@
 
       <div class="form-group">
         <%= f.label 'Sleep Start Time:' %> <br>
-        <%= f.datetime_select :start_time, ampm: true, hide_label: true, default: dt_minus_8 %>
+        <%= f.datetime_local_field :start_time, hide_label: true, default: dt_minus_8 %>
+        <% #f.datetime_select :start_time, ampm: true, hide_label: true, default: dt_minus_8 %>
       </div>
       <br><br>
       <div class="form-group">
         <%= f.label 'Sleep Finish Time:' %> <br>
-        <%= f.datetime_select :finish_time, ampm: true, hide_label: true, default: dt  %>
+        <%= f.datetime_local_field :finish_time, hide_label: true, default: dt_minus_8 %>
+        <% #f.datetime_select :finish_time, ampm: true, hide_label: true, default: dt  %>
       </div>
       <br><br>
       <div class="form-group">
