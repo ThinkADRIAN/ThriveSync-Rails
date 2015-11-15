@@ -167,7 +167,7 @@ class SelfCaresController < ApplicationController
     @self_care = SelfCare.new(self_care_params)
     @self_care.user_id = current_user.id
 
-    todays_self_cares = SelfCare.where(user_id: current_user.id, timestamp: (Date.today.in_time_zone.at_beginning_of_day..Date.today.in_time_zone.end_of_day))
+    todays_self_cares = SelfCare.where(user_id: current_user.id, timestamp: (Time.zone.now.to_date.in_time_zone.at_beginning_of_day..Time.zone.now.to_date.in_time_zone.end_of_day))
 
     if params[:timestamp].nil?
       if $capture_source == 'self_care'

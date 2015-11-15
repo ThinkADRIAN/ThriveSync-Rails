@@ -4,8 +4,8 @@
       <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
         <% if $capture_date == Time.zone.now.to_date || $capture_date == nil %>
             <%= "Today, " + Time.zone.now.to_date.strftime("%m/%d/%Y").to_s %>
-        <% elsif $capture_date == Time.zone.yesterday %>
-            <%= "Yesterday, " + Time.zone.yesterday.strftime("%m/%d/%Y").to_s %>
+        <% elsif $capture_date == Time.zone.yesterday.to_date %>
+            <%= "Yesterday, " + Time.zone.yesterday.to_date.strftime("%m/%d/%Y").to_s %>
         <% else %>
             <%= $capture_date.strftime("%A").to_s+ ", " + $capture_date.strftime("%m/%d/%Y").to_s %>
         <% end %>

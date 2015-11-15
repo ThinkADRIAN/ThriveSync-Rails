@@ -11,8 +11,8 @@
           </div>
       <% end %>
 
-      <% if $capture_date == Date.today || $capture_date == nil %>
-          <%  sleep_entry_day = Date.today %>
+      <% if $capture_date == Time.zone.now.to_date || $capture_date == nil %>
+          <%  sleep_entry_day = Time.zone.now.to_date %>
       <% else %>
           <%  sleep_entry_day = $capture_date %>
       <% end %>
