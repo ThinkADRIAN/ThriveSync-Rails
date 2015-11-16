@@ -232,34 +232,34 @@ class Scorecard < ActiveRecord::Base
   end
 
   def set_level_multiplier(data_type)
-    data_type_streak_count = self.get_data_type_streak_count(data_type)
+    data_type_checkin_count = self.get_data_type_checkin_count(data_type)
 
-    if data_type_streak_count < 7
+    if data_type_checkin_count < 7
       self.increment_level_multiplier(data_type, 1)
-    elsif data_type_streak_count >= 7 && data_type_streak_count < 14
+    elsif data_type_checkin_count >= 7 && data_type_checkin_count < 14
       self.increment_level_multiplier(data_type, 2)
-    elsif data_type_streak_count >= 14 && data_type_streak_count < 21
+    elsif data_type_checkin_count >= 14 && data_type_checkin_count < 21
       self.increment_level_multiplier(data_type, 4)
-    elsif data_type_streak_count >= 21 && data_type_streak_count < 90
+    elsif data_type_checkin_count >= 21 && data_type_checkin_count < 90
       self.increment_level_multiplier(data_type, 6)
-    elsif data_type_streak_count >= 90 && data_type_streak_count < 120
+    elsif data_type_checkin_count >= 90 && data_type_checkin_count < 120
       self.increment_level_multiplier(data_type, 8)
-    elsif data_type_streak_count >= 120
+    elsif data_type_checkin_count >= 120
       self.increment_level_multiplier(data_type, 10)
     end
     self.level_multiplier = ((self.mood_level_multiplier + self.sleep_level_multiplier + self.self_care_level_multiplier + self.journal_level_multiplier) / 4.to_f).ceil
     self.save
   end
 
-  def get_data_type_streak_count(data_type)
+  def get_data_type_checkin_count(data_type)
     if data_type == 'moods'
-      self.mood_streak_count
+      self.mood_checkin_count
     elsif data_type == 'sleeps'
-      self.sleep_streak_count
+      self.sleep_checkin_count
     elsif data_type == 'self_cares'
-      self.self_care_streak_count
+      self.self_care_checkin_count
     elsif data_type == 'journals'
-      self.journal_streak_count
+      self.journal_checkin_count
     end
   end
 
