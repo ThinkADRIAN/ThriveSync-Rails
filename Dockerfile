@@ -17,6 +17,9 @@ WORKDIR /app
 RUN bundle install
 
 ADD . /app
+# RUN bundle exec rake assets:clobber
+# RUN bundle exec rake assets:clean
+# RUN bundle exec rake assets:precompile
 
 ENV PORT 3000
 EXPOSE 3000
