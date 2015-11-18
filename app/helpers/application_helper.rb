@@ -30,4 +30,8 @@ module ApplicationHelper
       (Time.zone.now.to_date.last_year.at_beginning_of_year.in_time_zone)..(Time.zone.now.to_date.last_year.at_end_of_year.in_time_zone.end_of_day)
     end
   end
+
+  def default_capture_date
+  default_capture_date = Time.zone.now.to_date
+  end
 end

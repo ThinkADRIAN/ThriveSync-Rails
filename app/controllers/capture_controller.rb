@@ -27,7 +27,7 @@ class CaptureController < ApplicationController
     if (params.has_key?(:capture_date))
       $capture_date = Date.parse(params[:capture_date])
     else
-      $capture_date = Date.parse(DEFAULT_CAPTURE_DATE)
+      $capture_date = Date.parse(default_capture_date)
     end
   end
 end
