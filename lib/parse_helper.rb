@@ -263,11 +263,11 @@ module ParseHelper
           if !mood.save!
             @unsaved_mood_ids << parse_mood["objectId"]
           else
-            update_user_scorecard(data_type, user_id)
+            update_user_scorecard(data_type, user_id, mood_timestamp)
           end
         else
           if update_scores
-            update_user_scorecard(data_type, user_id)
+            update_user_scorecard(data_type, user_id, mood_timestamp)
           end
           if duplicate_entry_updated?(data_type, parse_mood["objectId"], parse_mood, user_id)
             mood = Mood.where(parse_object_id: parse_mood["objectId"]).where(user_id: user_id).first
@@ -281,7 +281,7 @@ module ParseHelper
             if !mood.save!
               @unsaved_mood_ids << parse_mood["objectId"]
             else
-              update_user_scorecard(data_type, user_id)
+              update_user_scorecard(data_type, user_id, mood_timestamp)
             end
           end
         end
@@ -303,11 +303,11 @@ module ParseHelper
           if !sleep.save!
             @unsaved_sleep_ids << parse_sleep["objectId"]
           else
-            update_user_scorecard(data_type, user_id)
+            update_user_scorecard(data_type, user_id, parse_sleep["finishTime"])
           end
         else
           if update_scores
-            update_user_scorecard(data_type, user_id)
+            update_user_scorecard(data_type, user_id, parse_sleep["finishTime"])
           end
           if duplicate_entry_updated?(data_type, parse_sleep["objectId"], parse_sleep, user_id)
             sleep = Sleep.where(parse_object_id: parse_sleep["objectId"]).where(user_id: user_id).first
@@ -321,7 +321,7 @@ module ParseHelper
             if !sleep.save!
               @unsaved_sleep_ids << parse_sleep["objectId"]
             else
-              update_user_scorecard(data_type, user_id)
+              update_user_scorecard(data_type, user_id, parse_sleep["finishTime"])
             end
           end
         end
@@ -352,11 +352,11 @@ module ParseHelper
           if !self_care.save!
             @unsaved_self_care_ids << parse_self_care["objectId"]
           else
-            update_user_scorecard(data_type, user_id)
+            update_user_scorecard(data_type, user_id, self_care_timestamp)
           end
         else
           if update_scores
-            update_user_scorecard(data_type, user_id)
+            update_user_scorecard(data_type, user_id, self_care_timestamp)
           end
           if duplicate_entry_updated?(data_type, parse_self_care["objectId"], parse_self_care, user_id)
             self_care = SelfCare.where(parse_object_id: parse_self_care["objectId"]).where(user_id: user_id).first
@@ -371,7 +371,7 @@ module ParseHelper
             if !self_care.save!
               @unsaved_self_care_ids << parse_self_care["objectId"]
             else
-              update_user_scorecard(data_type, user_id)
+              update_user_scorecard(data_type, user_id, self_care_timestamp)
             end
           end
         end
@@ -399,11 +399,11 @@ module ParseHelper
           if !journal.save!
             @unsaved_journal_ids << parse_journal["objectId"]
           else
-            update_user_scorecard(data_type, user_id)
+            update_user_scorecard(data_type, user_id, journal_timestamp)
           end
         else
           if update_scores
-            update_user_scorecard(data_type, user_id)
+            update_user_scorecard(data_type, user_id, journal_timestamp)
           end
           if duplicate_entry_updated?(data_type, parse_journal["objectId"], parse_journal, user_id)
             journal = Journal.where(parse_object_id: parse_journal["objectId"]).where(user_id: user_id).first
@@ -415,7 +415,7 @@ module ParseHelper
             if !journal.save!
               @unsaved_journal_ids << parse_journal["objectId"]
             else
-              update_user_scorecard(data_type, user_id)
+              update_user_scorecard(data_type, user_id, journal_timestamp)
             end
           end
         end
@@ -510,7 +510,7 @@ module ParseHelper
     end
   end
 
-  def update_user_scorecard(data_type, user_id)
+  def update_user_scorecard(data_type, user_id, checkin_datetime)
     user = User.where(id: user_id).first
 
     if data_type == "Mood"
@@ -522,6 +522,6 @@ module ParseHelper
     elsif data_type == "Journal"
       data_type_adjusted = 'journals'
     end
-    user.scorecard.update_scorecard(data_type_adjusted)
+    user.scorecard.update_scorecard(data_type_adjusted, checkin_datetime)
   end
 end
