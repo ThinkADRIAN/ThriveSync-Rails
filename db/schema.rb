@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151118150036) do
+ActiveRecord::Schema.define(version: 20151118153148) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -218,6 +218,30 @@ ActiveRecord::Schema.define(version: 20151118150036) do
     t.boolean  "checkin_friday"
     t.boolean  "checkin_saturday"
     t.integer  "checkins_to_reach_goal"
+    t.integer  "player_rank"
+    t.integer  "mood_base_value"
+    t.integer  "mood_base_perk_register"
+    t.integer  "mood_multiplier_perk_register"
+    t.integer  "mood_streak_base_value"
+    t.integer  "mood_streak_perk_register"
+    t.integer  "sleep_base_value"
+    t.integer  "sleep_base_perk_register"
+    t.integer  "sleep_multiplier_perk_register"
+    t.integer  "sleep_streak_base_value"
+    t.integer  "sleep_streak_perk_register"
+    t.integer  "self_care_base_value"
+    t.integer  "self_care_base_perk_register"
+    t.integer  "self_care_multiplier_perk_register"
+    t.integer  "self_care_streak_base_value"
+    t.integer  "self_care_streak_perk_register"
+    t.integer  "journal_base_value"
+    t.integer  "journal_base_perk_register"
+    t.integer  "journal_multiplier_perk_register"
+    t.integer  "journal_streak_base_value"
+    t.integer  "journal_streak_perk_register"
+    t.integer  "player_perk_trigger"
+    t.integer  "player_perks_earned"
+    t.integer  "player_perks_available"
   end
 
   create_table "self_cares", force: true do |t|
