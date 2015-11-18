@@ -326,10 +326,10 @@ class Scorecard < ActiveRecord::Base
     self.checkin_saturday = false
 
     # Load current week data
-    moods_this_week = Mood.where(user_id: self.user_id).where(:timestamp => DATE_RANGE_THIS_WEEK)
-    sleeps_this_week = Sleep.where(user_id: self.user_id).where(:finish_time => DATE_RANGE_THIS_WEEK)
-    self_cares_this_week = SelfCare.where(user_id: self.user_id).where(:timestamp => DATE_RANGE_THIS_WEEK)
-    journals_this_week = Journal.where(user_id: self.user_id).where(:timestamp => DATE_RANGE_THIS_WEEK)
+    moods_this_week = Mood.where(user_id: self.user_id).where(:timestamp => date_range_for('this_week'))
+    sleeps_this_week = Sleep.where(user_id: self.user_id).where(:finish_time => date_range_for('this_week'))
+    self_cares_this_week = SelfCare.where(user_id: self.user_id).where(:timestamp => date_range_for('this_week'))
+    journals_this_week = Journal.where(user_id: self.user_id).where(:timestamp => date_range_for('this_week'))
 
     # Check flag if timestamp present
     moods_this_week.each do |mood|

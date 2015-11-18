@@ -1,14 +1,6 @@
 # Devise
 INVITATION_LIMIT = 5
 
-# Date Ranges
-DATE_RANGE_THIS_WEEK = (Time.zone.now.to_date.beginning_of_week(:sunday).in_time_zone)..((Time.zone.now.to_date.beginning_of_week(:sunday)+6).in_time_zone.end_of_day)
-DATE_RANGE_THIS_MONTH = (Time.zone.now.to_date.at_beginning_of_month.in_time_zone)..((Time.zone.now.to_date.at_end_of_month).in_time_zone.end_of_day)
-DATE_RANGE_THIS_YEAR = (Time.zone.now.to_date.at_beginning_of_year.in_time_zone)..((Time.zone.now.to_date.at_end_of_year).in_time_zone.end_of_day)
-DATE_RANGE_LAST_WEEK = ((Time.zone.now.to_date.beginning_of_week(:sunday)-7).in_time_zone)..((Time.zone.now.to_date.beginning_of_week(:sunday)-1).in_time_zone.end_of_day)
-DATE_RANGE_LAST_MONTH = (Time.zone.now.to_date.last_month.at_beginning_of_month.in_time_zone)..(Time.zone.now.to_date.last_month.at_end_of_month.in_time_zone.end_of_day)
-DATE_RANGE_LAST_YEAR = (Time.zone.now.to_date.last_year.at_beginning_of_year.in_time_zone)..(Time.zone.now.to_date.last_year.at_end_of_year.in_time_zone.end_of_day)
-
 # Capture Settings
 DEFAULT_CAPTURE_SCREEN = "Mood"
 DEFAULT_CAPTURE_DATE = Time.zone.now.to_date
