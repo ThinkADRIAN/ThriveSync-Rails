@@ -185,7 +185,7 @@ class SelfCaresController < ApplicationController
       if todays_self_cares.count < MAX_SELF_CARE_ENTRIES
         if @self_care.save
           track_self_care_created
-          current_user.scorecard.update_scorecard('self_cares')
+          current_user.scorecard.update_scorecard('self_cares', Time.zone.now)
           flash.now[:success] = 'Self Entry was successfully tracked.'
           format.js
           format.json { render :json => @self_care, status: :created }

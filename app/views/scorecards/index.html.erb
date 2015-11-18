@@ -72,7 +72,7 @@
       <thead>
       <tr>
         <th>Total Score</th>
-        <th>Level Multiplier</th>
+        <th>Streak Multiplier</th>
         <th>Checkin Count</th>
         <th>Last Checkin</th>
         <th>Streak Count</th>
@@ -87,7 +87,7 @@
       <% @scorecards.each do |scorecard| %>
           <tr>
             <td><%= scorecard.total_score %></td>
-            <td><%= scorecard.level_multiplier %></td>
+            <td><%= scorecard.streak_multiplier %></td>
             <td><%= scorecard.checkin_count %></td>
             <td>
               <% if scorecard.last_checkin_date != nil %>
@@ -120,11 +120,12 @@
       <thead>
       <tr>
         <th>Score</th>
-        <th>Level Multiplier</th>
+        <th>Streak Multiplier</th>
         <th>Checkin Count</th>
         <th>Last Checkin</th>
         <th>Streak Count</th>
         <th>Streak Record</th>
+        <th>Next Move Value</th>
       </tr>
       </thead>
 
@@ -132,7 +133,7 @@
       <% @scorecards.each do |scorecard| %>
           <tr>
             <td><%= scorecard.moods_score %></td>
-            <td><%= scorecard.mood_level_multiplier %></td>
+            <td><%= scorecard.mood_streak_multiplier %></td>
             <td><%= scorecard.mood_checkin_count %></td>
             <td>
               <% if scorecard.mood_last_checkin_date != nil %>
@@ -143,6 +144,7 @@
             </td>
             <td><%= scorecard.mood_streak_count %></td>
             <td><%= scorecard.mood_streak_record %></td>
+            <td><%= scorecard.calculate_next_move_value('moods') %></td>
           </tr>
       <% end %>
       </tbody>
@@ -156,11 +158,12 @@
       <thead>
       <tr>
         <th>Score</th>
-        <th>Level Multiplier</th>
+        <th>Streak Multiplier</th>
         <th>Checkin Count</th>
         <th>Last Checkin</th>
         <th>Streak Count</th>
         <th>Streak Record</th>
+        <th>Next Move Value</th>
       </tr>
       </thead>
 
@@ -168,7 +171,7 @@
       <% @scorecards.each do |scorecard| %>
           <tr>
             <td><%= scorecard.sleeps_score %></td>
-            <td><%= scorecard.sleep_level_multiplier %></td>
+            <td><%= scorecard.sleep_streak_multiplier %></td>
             <td><%= scorecard.sleep_checkin_count %></td>
             <td>
               <% if scorecard.sleep_last_checkin_date != nil %>
@@ -179,6 +182,7 @@
             </td>
             <td><%= scorecard.sleep_streak_count %></td>
             <td><%= scorecard.sleep_streak_record %></td>
+            <td><%= scorecard.calculate_next_move_value('sleeps') %></td>
           </tr>
       <% end %>
       </tbody>
@@ -192,11 +196,12 @@
       <thead>
       <tr>
         <th>Score</th>
-        <th>Level Multiplier</th>
+        <th>Streak Multiplier</th>
         <th>Checkin Count</th>
         <th>Last Checkin</th>
         <th>Streak Count</th>
         <th>Streak Record</th>
+        <th>Next Move Value</th>
       </tr>
       </thead>
 
@@ -204,7 +209,7 @@
       <% @scorecards.each do |scorecard| %>
           <tr>
             <td><%= scorecard.self_cares_score %></td>
-            <td><%= scorecard.self_care_level_multiplier %></td>
+            <td><%= scorecard.self_care_streak_multiplier %></td>
             <td><%= scorecard.self_care_checkin_count %></td>
             <td>
               <% if scorecard.self_care_last_checkin_date != nil %>
@@ -215,6 +220,7 @@
             </td>
             <td><%= scorecard.self_care_streak_count %></td>
             <td><%= scorecard.self_care_streak_record %></td>
+            <td><%= scorecard.calculate_next_move_value('self_cares') %></td>
           </tr>
       <% end %>
       </tbody>
@@ -228,11 +234,12 @@
       <thead>
       <tr>
         <th>Score</th>
-        <th>Level Multiplier</th>
+        <th>Streak Multiplier</th>
         <th>Checkin Count</th>
         <th>Last Checkin</th>
         <th>Streak Count</th>
         <th>Streak Record</th>
+        <th>Next Move Value</th>
       </tr>
       </thead>
 
@@ -240,7 +247,7 @@
       <% @scorecards.each do |scorecard| %>
           <tr>
             <td><%= scorecard.journals_score %></td>
-            <td><%= scorecard.journal_level_multiplier %></td>
+            <td><%= scorecard.journal_streak_multiplier %></td>
             <td><%= scorecard.journal_checkin_count %></td>
             <td>
               <% if scorecard.journal_last_checkin_date != nil %>
@@ -251,6 +258,7 @@
             </td>
             <td><%= scorecard.journal_streak_count %></td>
             <td><%= scorecard.journal_streak_record %></td>
+            <td><%= scorecard.calculate_next_move_value('journals') %></td>
           </tr>
       <% end %>
       </tbody>
