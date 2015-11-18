@@ -7,17 +7,17 @@
         <div class="panel-body">
           <%
              if @mood_lookback_period == 'week'
-               lookback_range = DATE_RANGE_THIS_WEEK
+               lookback_range = date_range_for('this_week')
              elsif @mood_lookback_period == 'last_week'
-               lookback_range = DATE_RANGE_LAST_WEEK
+               lookback_range = date_range_for('last_week')
              elsif @mood_lookback_period == 'month'
-               lookback_range = DATE_RANGE_THIS_MONTH
+               lookback_range = date_range_for('this_month')
              elsif @mood_lookback_period == 'last_month'
-               lookback_range = DATE_RANGE_LAST_MONTH
+               lookback_range = date_range_for('last_month')
              elsif @mood_lookback_period == 'year'
-               lookback_range = DATE_RANGE_THIS_YEAR
+               lookback_range = date_range_for('this_year')
              elsif @mood_lookback_period == 'last_year'
-               lookback_range = DATE_RANGE_LAST_YEAR
+               lookback_range = date_range_for('last_year')
              end
 
              moods_for_lookback_period = @moods.where(timestamp: lookback_range)
