@@ -184,7 +184,7 @@ class JournalsController < ApplicationController
       if todays_journals.count < MAX_JOURNAL_ENTRIES
         if @journal.save
           track_journal_created
-          current_user.scorecard.update_scorecard('journals')
+          current_user.scorecard.update_scorecard('journals', Time.zone.now)
           flash.now[:success] = 'Journal Entry was successfully tracked.'
           format.js
           format.json { render json: @journal, status: :created }

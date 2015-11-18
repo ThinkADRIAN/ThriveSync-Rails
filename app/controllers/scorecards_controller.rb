@@ -42,7 +42,7 @@ class ScorecardsController < ApplicationController
       @scorecards = Scorecard.where(user_id: @user.id)
     end
 
-    current_user.scorecard.refresh_scorecard
+    current_user.scorecard.refresh_scorecard(Time.zone.now)
 
     respond_to do |format|
       format.html

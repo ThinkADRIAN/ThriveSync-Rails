@@ -168,7 +168,7 @@ class SleepsController < ApplicationController
       if todays_sleeps.count < MAX_SLEEP_ENTRIES
         if @sleep.save
           track_sleep_created
-          current_user.scorecard.update_scorecard('sleeps')
+          current_user.scorecard.update_scorecard('sleeps', Time.zone.now)
           flash.now[:success] = 'Sleep Entry was successfully tracked.'
           format.js
           format.json { render :json => @sleep, status: :created }
