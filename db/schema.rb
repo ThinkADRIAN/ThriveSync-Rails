@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151116142628) do
+ActiveRecord::Schema.define(version: 20151118150036) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -184,29 +184,29 @@ ActiveRecord::Schema.define(version: 20151116142628) do
     t.integer  "journals_score"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "streak_multiplier"
+    t.integer  "multiplier"
     t.integer  "days_since_signup"
     t.integer  "user_id"
     t.integer  "mood_checkin_count"
     t.datetime "mood_last_checkin_date"
     t.integer  "mood_streak_count"
     t.integer  "mood_streak_record"
-    t.integer  "mood_streak_multiplier"
+    t.integer  "mood_multiplier"
     t.integer  "sleep_checkin_count"
     t.datetime "sleep_last_checkin_date"
     t.integer  "sleep_streak_count"
     t.integer  "sleep_streak_record"
-    t.integer  "sleep_streak_multiplier"
+    t.integer  "sleep_multiplier"
     t.integer  "self_care_checkin_count"
     t.datetime "self_care_last_checkin_date"
     t.integer  "self_care_streak_count"
     t.integer  "self_care_streak_record"
-    t.integer  "self_care_streak_multiplier"
+    t.integer  "self_care_multiplier"
     t.integer  "journal_checkin_count"
     t.datetime "journal_last_checkin_date"
     t.integer  "journal_streak_count"
     t.integer  "journal_streak_record"
-    t.integer  "journal_streak_multiplier"
+    t.integer  "journal_multiplier"
     t.integer  "total_score"
     t.datetime "last_perfect_checkin_date"
     t.integer  "checkin_goal"

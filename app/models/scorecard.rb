@@ -15,24 +15,24 @@ class Scorecard < ActiveRecord::Base
     self.journals_score ||= 0
     self.total_score ||= 0
     self.streak_record ||= 0
-    self.streak_multiplier ||= 1
+    self.multiplier ||= 1
     self.days_since_signup ||= 0
     self.mood_checkin_count ||= 0
     self.mood_streak_count ||= 0
     self.mood_streak_record ||= 0
-    self.mood_streak_multiplier ||= 1
+    self.mood_multiplier ||= 1
     self.sleep_checkin_count ||= 0
     self.sleep_streak_count ||= 0
     self.sleep_streak_record ||= 0
-    self.sleep_streak_multiplier ||= 1
+    self.sleep_multiplier ||= 1
     self.self_care_checkin_count ||= 0
     self.self_care_streak_count ||= 0
     self.self_care_streak_record ||= 0
-    self.self_care_streak_multiplier ||= 1
+    self.self_care_multiplier ||= 1
     self.journal_checkin_count ||= 0
     self.journal_streak_count ||= 0
     self.journal_streak_record ||= 0
-    self.journal_streak_multiplier ||= 1
+    self.journal_multiplier ||= 1
     self.checkin_goal ||= 4
     self.checkins_to_reach_goal ||= 4
   end
@@ -46,13 +46,13 @@ class Scorecard < ActiveRecord::Base
     signup_bonus = 0.1
 
     if data_type == 'moods'
-      1 + (((self.days_since_signup * signup_bonus ) + 1 ) * self.mood_streak_multiplier).round
+      1 + (((self.days_since_signup * signup_bonus ) + 1 ) * self.mood_multiplier).round
     elsif data_type == 'sleeps'
-      1 + (((self.days_since_signup * signup_bonus ) + 1 ) * self.sleep_streak_multiplier).round
+      1 + (((self.days_since_signup * signup_bonus ) + 1 ) * self.sleep_multiplier).round
     elsif data_type == 'self_cares'
-      1 + (((self.days_since_signup * signup_bonus ) +1 )  * self.self_care_streak_multiplier).round
+      1 + (((self.days_since_signup * signup_bonus ) +1 )  * self.self_care_multiplier).round
     elsif data_type == 'journals'
-      1 + (((self.days_since_signup * signup_bonus ) + 1 ) * self.journal_streak_multiplier).round
+      1 + (((self.days_since_signup * signup_bonus ) + 1 ) * self.journal_multiplier).round
     end
   end
 
@@ -100,11 +100,11 @@ class Scorecard < ActiveRecord::Base
     !self.checkin_day_before?(data_type, checkin_datetime) && (last_entry_date != Time.zone.now.to_date)
   end
 
-  def decrement_streak_multiplier?(data_type, decrement_value)
-    ((data_type == 'moods' && ((self.mood_streak_multiplier - decrement_value) >= 1)) ||
-      (data_type == 'sleeps' && ((self.sleep_streak_multiplier - decrement_value) >= 1)) ||
-      (data_type == 'self_cares' && ((self.self_care_streak_multiplier - decrement_value) >= 1)) ||
-      (data_type == 'journals' && ((self.journal_streak_multiplier - decrement_value) >= 1)))
+  def decrement_multiplier?(data_type, decrement_value)
+    ((data_type == 'moods' && ((self.mood_multiplier - decrement_value) >= 1)) ||
+      (data_type == 'sleeps' && ((self.sleep_multiplier - decrement_value) >= 1)) ||
+      (data_type == 'self_cares' && ((self.self_care_multiplier - decrement_value) >= 1)) ||
+      (data_type == 'journals' && ((self.journal_multiplier - decrement_value) >= 1)))
   end
 
   def checkin_day_before?(data_type, checkin_datetime)
@@ -484,15 +484,15 @@ class Scorecard < ActiveRecord::Base
     self.save
   end
 
-  def set_streak_multiplier(data_type, new_value)
+  def set_multiplier(data_type, new_value)
     if data_type == 'moods'
-      self.mood_streak_multiplier = new_value
+      self.mood_multiplier = new_value
     elsif data_type == 'sleeps'
-      self.sleep_streak_multiplier = new_value
+      self.sleep_multiplier = new_value
     elsif data_type == 'self_cares'
-      self.self_care_streak_multiplier = new_value
+      self.self_care_multiplier = new_value
     elsif data_type == 'journals'
-      self.journal_streak_multiplier = new_value
+      self.journal_multiplier = new_value
     end
     self.save
   end
@@ -554,24 +554,24 @@ class Scorecard < ActiveRecord::Base
     self.save
   end
 
-  def increment_streak_multiplier(data_type, increment)
+  def increment_multiplier(data_type, increment)
     if data_type == 'moods'
-      self.mood_streak_multiplier += increment
+      self.mood_multiplier += increment
     elsif data_type == 'sleeps'
-      self.sleep_streak_multiplier += increment
+      self.sleep_multiplier += increment
     elsif data_type == 'self_cares'
-      self.self_care_streak_multiplier += increment
+      self.self_care_multiplier += increment
     elsif data_type == 'journals'
-      self.journal_streak_multiplier += increment
+      self.journal_multiplier += increment
     end
     self.save
   end
 
-  def decrement_streak_multiplier(data_type)
+  def decrement_multiplier(data_type)
     decrement_value = -0.15
 
-    if decrement_streak_multiplier?(data_type,decrement_value)
-      increment_streak_multiplier(data_type, decrement_value)
+    if decrement_multiplier?(data_type,decrement_value)
+      increment_multiplier(data_type, decrement_value)
     end
   end
 
@@ -592,17 +592,17 @@ class Scorecard < ActiveRecord::Base
     self.set_streak_count(data_type, 0)
   end
 
-  def reset_streak_multiplier(data_type)
-    self.set_streak_multiplier(data_type, 0)
+  def reset_multiplier(data_type)
+    self.set_multiplier(data_type, 0)
   end
 
-  def update_main_streak_multiplier
-    streak_multipliers = []
-    streak_multipliers.push(self.mood_streak_multiplier)
-    streak_multipliers.push(self.sleep_streak_multiplier)
-    streak_multipliers.push(self.self_care_streak_multiplier)
-    streak_multipliers.push(self.journal_streak_multiplier)
-    self.streak_multiplier = streak_multipliers.max
+  def update_main_multiplier
+    multipliers = []
+    multipliers.push(self.mood_multiplier)
+    multipliers.push(self.sleep_multiplier)
+    multipliers.push(self.self_care_multiplier)
+    multipliers.push(self.journal_multiplier)
+    self.multiplier = multipliers.max
     self.save
   end
 
@@ -627,7 +627,7 @@ class Scorecard < ActiveRecord::Base
     key_data_types.each do |data_type|
       if self.reset_streak?(data_type, update_datetime)
         self.reset_streak_count(data_type)
-        self.reset_streak_multiplier(data_type)
+        self.reset_multiplier(data_type)
       end
     end
   end
@@ -654,8 +654,8 @@ class Scorecard < ActiveRecord::Base
     if self.increment_streak?(data_type, checkin_datetime)
       self.increment_streak_count(data_type, 1)
       self.update_main_streak_count
-      self.increment_streak_multiplier(data_type, 1)
-      self.update_main_streak_multiplier
+      self.increment_multiplier(data_type, 1)
+      self.update_main_multiplier
       self.update_streak_record(data_type)
       self.update_main_streak_record
     end
