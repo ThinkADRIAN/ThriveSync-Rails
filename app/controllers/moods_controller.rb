@@ -183,7 +183,7 @@ class MoodsController < ApplicationController
       if todays_moods.count < MAX_MOOD_ENTRIES
         if @mood.save
           track_mood_created
-          current_user.scorecard.update_scorecard('moods')
+          current_user.scorecard.update_scorecard('moods', Time.zone.now)
           flash.now[:success] = 'Mood Entry was successfully tracked.'
           format.js { render status: :created }
           format.json { render json: @mood, status: :created }
