@@ -17,39 +17,39 @@ class Scorecard < ActiveRecord::Base
     self.streak_record ||= 0
     self.multiplier ||= 1
     self.days_since_signup ||= 0
-    self.mood_base_value ||= 0.01
+    self.mood_base_value ||= 1
     self.mood_base_perk_register ||= 0
     self.mood_multiplier ||= 1
     self.mood_multiplier_perk_register ||= 0
     self.mood_streak_count ||= 0
-    self.mood_streak_base_value ||= 0.01
+    self.mood_streak_base_value ||= 1
     self.mood_streak_perk_register ||= 0
     self.mood_streak_record ||= 0
     self.mood_checkin_count ||= 0
-    self.sleep_base_value ||= 0.01
+    self.sleep_base_value ||= 1
     self.sleep_base_perk_register ||= 0
     self.sleep_multiplier ||= 1
     self.sleep_multiplier_perk_register ||= 0
     self.sleep_streak_count ||= 0
-    self.sleep_streak_base_value ||= 0.01
+    self.sleep_streak_base_value ||= 1
     self.sleep_streak_perk_register ||= 0
     self.sleep_streak_record ||= 0
     self.sleep_checkin_count ||= 0
-    self.self_care_base_value ||= 0.01
+    self.self_care_base_value ||= 1
     self.self_care_base_perk_register ||= 0
     self.self_care_multiplier ||= 1
     self.self_care_multiplier_perk_register ||= 0
     self.self_care_streak_count ||= 0
-    self.self_care_streak_base_value ||= 0.01
+    self.self_care_streak_base_value ||= 1
     self.self_care_streak_perk_register ||= 0
     self.self_care_streak_record ||= 0
     self.self_care_checkin_count ||= 0
-    self.journal_base_value ||= 0.01
+    self.journal_base_value ||= 1
     self.journal_base_perk_register ||= 0
     self.journal_multiplier ||= 1
     self.journal_multiplier_perk_register ||= 0
     self.journal_streak_count ||= 0
-    self.journal_streak_base_value ||= 0.01
+    self.journal_streak_base_value ||= 1
     self.journal_streak_perk_register ||= 0
     self.journal_streak_record ||= 0
     self.journal_checkin_count ||= 0
@@ -59,42 +59,54 @@ class Scorecard < ActiveRecord::Base
 
   def calculate_checkin_count
     self.checkin_count = self.mood_checkin_count + self.sleep_checkin_count + self.self_care_checkin_count + self.journal_checkin_count
-    self.save
+  end
+
+  def calculate_base_value(data_type)
+    if data_type == 'moods'
+      mood_base_value + (MOOD_BASE_PERK_VALUE * mood_base_perk_register)
+    elsif data_type == 'sleeps'
+      sleep_base_value + (SLEEP_BASE_PERK_VALUE * sleep_base_perk_register)
+    elsif data_type == 'self_cares'
+      self_care_base_value + (SELFCARE_BASE_PERK_VALUE * self_care_base_perk_register)
+    elsif data_type == 'journals'
+      journal_base_value + (JOURNAL_BASE_PERK_VALUE * journal_base_perk_register)
+    end
+  end
+
+  def calculate_multiplier(data_type)
+    if data_type == 'moods'
+      mood_multiplier + (MOOD_MULTIPLIER_PERK_VALUE * mood_multiplier_perk_register)
+    elsif data_type == 'sleeps'
+      sleep_multiplier + (SLEEP_MULTIPLIER_PERK_VALUE * sleep_multiplier_perk_register)
+    elsif data_type == 'self_cares'
+      self_care_multiplier + (SELFCARE_MULTIPLIER_PERK_VALUE * self_care_multiplier_perk_register)
+    elsif data_type == 'journals'
+      journal_multiplier + (JOURNAL_MULTIPLIER_PERK_VALUE * journal_multiplier_perk_register)
+    end
+  end
+
+  def calculate_streak_base_value(data_type)
+    if data_type == 'moods'
+      mood_streak_base_value + (MOOD_STREAK_PERK_VALUE * mood_streak_perk_register)
+    elsif data_type == 'sleeps'
+      sleep_streak_base_value + (SLEEP_STREAK_PERK_VALUE * sleep_streak_perk_register)
+    elsif data_type == 'self_cares'
+      self_care_streak_base_value + (SELFCARE_STREAK_PERK_VALUE * self_care_streak_perk_register)
+    elsif data_type == 'journals'
+      journal_streak_base_value + (JOURNAL_STREAK_PERK_VALUE * journal_streak_perk_register)
+    end
   end
 
   def calculate_next_move_value(data_type)
-    signup_bonus = 0.1
-
-    if data_type == 'moods'
-      1 + (((self.days_since_signup * signup_bonus ) + 1 ) * self.mood_multiplier).round
-    elsif data_type == 'sleeps'
-      1 + (((self.days_since_signup * signup_bonus ) + 1 ) * self.sleep_multiplier).round
-    elsif data_type == 'self_cares'
-      1 + (((self.days_since_signup * signup_bonus ) +1 )  * self.self_care_multiplier).round
-    elsif data_type == 'journals'
-      1 + (((self.days_since_signup * signup_bonus ) + 1 ) * self.journal_multiplier).round
-    end
+    (calculate_base_value(data_type) * calculate_multiplier(data_type)) + ((calculate_streak_base_value(data_type)) * get_streak_count(data_type))
   end
 
   def calculate_score(data_type)
-    if data_type == 'moods'
-      self.moods_score = self.moods_score + calculate_next_move_value(data_type)
-      self.save
-    elsif data_type == 'sleeps'
-      self.sleeps_score = self.sleeps_score + calculate_next_move_value(data_type)
-      self.save
-    elsif data_type == 'self_cares'
-      self.self_cares_score = self.self_cares_score + calculate_next_move_value(data_type)
-      self.save
-    elsif data_type == 'journals'
-      self.journals_score = self.journals_score + calculate_next_move_value(data_type)
-      self.save
-    end
+    get_score(data_type) + calculate_next_move_value(data_type)
   end
 
   def calculate_total_score
     self.total_score = self.moods_score + self.sleeps_score + self.self_cares_score + self.journals_score
-    self.save
   end
 
   def current_streak_count_is_zero?(data_type)
@@ -275,6 +287,18 @@ class Scorecard < ActiveRecord::Base
     end
 
     data_count_for_date == 1
+  end
+
+  def get_score(data_type)
+    if data_type == 'moods'
+      self.moods_score
+    elsif data_type == 'sleeps'
+      self.sleeps_score
+    elsif data_type == 'self_cares'
+      self.self_cares_score
+    elsif data_type == 'journals'
+      self.journals_score
+    end
   end
 
   def get_checkin_count(data_type)
@@ -504,6 +528,31 @@ class Scorecard < ActiveRecord::Base
     self.save
   end
 
+  def set_streak_record(data_type, streak_value)
+    if data_type == 'moods'
+      self.mood_streak_record = streak_value
+    elsif data_type == 'sleeps'
+      self.sleep_streak_record = streak_value
+    elsif data_type == 'self_cares'
+      self.self_care_streak_record = streak_value
+    elsif data_type == 'journals'
+      self.journal_streak_record = streak_value
+    end
+    self.save
+  end
+
+  def set_base_value(data_type, new_value)
+    if data_type == 'moods'
+      self.mood_base_value = new_value
+    elsif data_type == 'sleeps'
+      self.sleep_base_value = new_value
+    elsif data_type == 'self_cares'
+      self.self_care_base_value = new_value
+    elsif data_type == 'journals'
+      self.journal_base_value = new_value
+    end
+  end
+
   def set_multiplier(data_type, new_value)
     if data_type == 'moods'
       self.mood_multiplier = new_value
@@ -517,16 +566,37 @@ class Scorecard < ActiveRecord::Base
     self.save
   end
 
-  def set_streak_record(data_type, streak_value)
+  def set_streak_base_value(data_type, new_value)
     if data_type == 'moods'
-      self.mood_streak_record = streak_value
+      self.mood_streak_base_value = new_value
     elsif data_type == 'sleeps'
-      self.sleep_streak_record = streak_value
+      self.sleep_streak_base_value = new_value
     elsif data_type == 'self_cares'
-      self.self_care_streak_record = streak_value
+      self.self_care_streak_base_value = new_value
     elsif data_type == 'journals'
-      self.journal_streak_record = streak_value
+      self.journal_streak_base_value = new_value
     end
+  end
+
+  def set_score(data_type, new_value)
+    if data_type == 'moods'
+      self.moods_score = new_value
+    elsif data_type == 'sleeps'
+      self.sleeps_score = new_value
+    elsif data_type == 'self_cares'
+      self.self_cares_score = new_value
+    elsif data_type == 'journals'
+      self.journals_score = new_value
+    end
+  end
+
+  def set_total_score(new_value)
+    self.total_score = new_value
+    self.save
+  end
+
+  def set_checkin_count(new_value)
+    self.checkin_count = new_value
     self.save
   end
 
@@ -668,6 +738,18 @@ class Scorecard < ActiveRecord::Base
     self.save
   end
 
+  def update_score(data_type)
+    set_score(data_type, calculate_score(data_type))
+  end
+
+  def update_checkin_count
+    set_checkin_count(calculate_checkin_count)
+  end
+
+  def update_total_score
+    set_total_score(calculate_total_score)
+  end
+
   def update_scorecard(data_type, checkin_datetime)
     self.update_streak_metrics(checkin_datetime)
 
@@ -689,19 +771,17 @@ class Scorecard < ActiveRecord::Base
 
     self.increment_checkin_count(data_type, 1)
     self.set_last_checkin_date(data_type, checkin_datetime)
-
     self.set_days_since_signup(checkin_datetime)
-    self.calculate_score(data_type)
-
+    self.update_score(data_type)
     self.refresh_scorecard(checkin_datetime)
     self.save
   end
 
   def refresh_scorecard(refresh_datetime)
-    self.calculate_checkin_count
     self.update_streak_metrics(refresh_datetime)
+    self.update_checkin_count
     self.update_goals
-    self.calculate_total_score
+    self.update_total_score
     self.save
   end
 end
