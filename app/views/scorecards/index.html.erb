@@ -125,7 +125,6 @@
         <th>Last Checkin</th>
         <th>Streak Count</th>
         <th>Streak Record</th>
-        <th>Next Move Value</th>
       </tr>
       </thead>
 
@@ -144,7 +143,6 @@
             </td>
             <td><%= scorecard.mood_streak_count %></td>
             <td><%= scorecard.mood_streak_record %></td>
-            <td><%= scorecard.calculate_next_move_value('moods') %></td>
           </tr>
       <% end %>
       </tbody>
@@ -163,7 +161,6 @@
         <th>Last Checkin</th>
         <th>Streak Count</th>
         <th>Streak Record</th>
-        <th>Next Move Value</th>
       </tr>
       </thead>
 
@@ -182,7 +179,6 @@
             </td>
             <td><%= scorecard.sleep_streak_count %></td>
             <td><%= scorecard.sleep_streak_record %></td>
-            <td><%= scorecard.calculate_next_move_value('sleeps') %></td>
           </tr>
       <% end %>
       </tbody>
@@ -201,7 +197,6 @@
         <th>Last Checkin</th>
         <th>Streak Count</th>
         <th>Streak Record</th>
-        <th>Next Move Value</th>
       </tr>
       </thead>
 
@@ -220,7 +215,6 @@
             </td>
             <td><%= scorecard.self_care_streak_count %></td>
             <td><%= scorecard.self_care_streak_record %></td>
-            <td><%= scorecard.calculate_next_move_value('self_cares') %></td>
           </tr>
       <% end %>
       </tbody>
@@ -239,7 +233,6 @@
         <th>Last Checkin</th>
         <th>Streak Count</th>
         <th>Streak Record</th>
-        <th>Next Move Value</th>
       </tr>
       </thead>
 
@@ -258,7 +251,6 @@
             </td>
             <td><%= scorecard.journal_streak_count %></td>
             <td><%= scorecard.journal_streak_record %></td>
-            <td><%= scorecard.calculate_next_move_value('journals') %></td>
           </tr>
       <% end %>
       </tbody>

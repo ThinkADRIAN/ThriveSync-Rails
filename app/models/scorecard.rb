@@ -97,12 +97,12 @@ class Scorecard < ActiveRecord::Base
     end
   end
 
-  def calculate_next_move_value(data_type)
+  def calculate_move_value(data_type)
     (calculate_base_value(data_type) * calculate_multiplier(data_type)) + ((calculate_streak_base_value(data_type)) * get_streak_count(data_type))
   end
 
   def calculate_score(data_type)
-    get_score(data_type) + calculate_next_move_value(data_type)
+    get_score(data_type) + calculate_move_value(data_type)
   end
 
   def calculate_total_score
@@ -551,6 +551,7 @@ class Scorecard < ActiveRecord::Base
     elsif data_type == 'journals'
       self.journal_base_value = new_value
     end
+    self.save
   end
 
   def set_multiplier(data_type, new_value)
@@ -576,6 +577,7 @@ class Scorecard < ActiveRecord::Base
     elsif data_type == 'journals'
       self.journal_streak_base_value = new_value
     end
+    self.save
   end
 
   def set_score(data_type, new_value)
@@ -588,6 +590,7 @@ class Scorecard < ActiveRecord::Base
     elsif data_type == 'journals'
       self.journals_score = new_value
     end
+    self.save
   end
 
   def set_total_score(new_value)
@@ -655,14 +658,6 @@ class Scorecard < ActiveRecord::Base
       self.journal_multiplier += increment
     end
     self.save
-  end
-
-  def decrement_multiplier(data_type)
-    decrement_value = -0.15
-
-    if decrement_multiplier?(data_type,decrement_value)
-      increment_multiplier(data_type, decrement_value)
-    end
   end
 
   def reset_checkin_count(data_type)
