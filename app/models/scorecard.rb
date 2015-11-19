@@ -59,11 +59,6 @@ class Scorecard < ActiveRecord::Base
     self.checkins_to_reach_goal ||= 4
   end
 
-  def nullify_and_init
-    self.nilify_attributes!
-    self.init
-  end
-
   def calculate_checkin_count
     self.checkin_count = self.mood_checkin_count + self.sleep_checkin_count + self.self_care_checkin_count + self.journal_checkin_count
   end
@@ -116,6 +111,69 @@ class Scorecard < ActiveRecord::Base
     self.total_score = self.moods_score + self.sleeps_score + self.self_cares_score + self.journals_score
   end
 
+  def calculate_streak_count(data_type, streak_datetime)
+    # Initialize vars
+    user_data_to_streakdatetime = []
+    last_checked_date = nil
+    streak_count = 0
+
+    # Get User Data for User
+    user_data = get_user_data(data_type, 'desc')
+
+    # Remove data after streak_datetime
+    user_data.each do |data|
+      if data_type == 'sleeps'
+        current_checkin_date = data.finish_time.to_date
+      else
+        current_checkin_date = data.timestamp.to_date
+      end
+
+      if current_checkin_date <= streak_datetime
+        user_data_to_streakdatetime << data
+      end
+    end
+
+    # If data set is not empty then compare latest entry with next entry
+    if !user_data_to_streakdatetime.empty?
+      if data_type == 'sleeps'
+        last_checked_date = user_data_to_streakdatetime.first.finish_time.to_date
+      else
+        last_checked_date = user_data_to_streakdatetime.first.timestamp.to_date
+      end
+      date_before_last_checked_date = (last_checked_date - 1.day).to_date
+    else
+      return 0
+    end
+
+    if last_checked_date != streak_datetime.to_date
+      return 0
+    end
+
+    user_data_to_streakdatetime.each do |data|
+      if data_type == 'sleeps'
+        data_checkin_date = data.finish_time.to_date
+      else
+        data_checkin_date = data.timestamp.to_date
+      end
+
+      if data_checkin_date == last_checked_date
+        streak_count = streak_count
+      else
+        if data_checkin_date == date_before_last_checked_date
+          streak_count += 1
+        elsif data_checkin_date != date_before_last_checked_date
+          return streak_count
+        end
+      end
+
+      last_checked_date = data_checkin_date
+
+      date_before_last_checked_date = (last_checked_date - 1.day).to_date
+    end
+
+    return streak_count
+  end
+
   def current_streak_count_is_zero?(data_type)
     ((data_type == 'moods' && self.mood_streak_count == 0) ||
       (data_type == 'sleeps' && self.sleep_streak_count == 0) ||
@@ -124,29 +182,26 @@ class Scorecard < ActiveRecord::Base
   end
 
   def increment_streak?(data_type, checkin_datetime)
-    self.checkin_day_before?(data_type, checkin_datetime+1.day) && first_checkin_entered_on_date?(data_type, checkin_datetime)
-=begin
     ((current_streak_count_is_zero?(data_type) || checkin_day_before?(data_type, checkin_datetime)) &&
       ((get_last_entry_date(data_type).in_time_zone.to_date == checkin_datetime.in_time_zone.to_date) &&
         first_checkin_entered_on_date?(data_type, checkin_datetime.to_date)))
-=end
   end
 
   def reset_streak?(data_type, checkin_datetime)
-    checkin_exists_for_checkin_datetime = self.checkin_day_before?(data_type, checkin_datetime+1.day)
-    checkin_exists_for_day_before = self.checkin_day_before?(data_type, checkin_datetime)
-
-    return (checkin_exists_for_day_before == false) && (checkin_exists_for_checkin_datetime == false)
-=begin
-
     last_entry_date = self.get_last_entry_date(data_type)
 
     if last_entry_date != nil
       last_entry_date = last_entry_date.in_time_zone.to_date
     end
 
-    !self.checkin_day_before?(data_type, checkin_datetime) || (last_entry_date != checkin_datetime.to_date)
-=end
+    !self.checkin_day_before?(data_type, checkin_datetime) && (last_entry_date != Time.zone.now.to_date)
+  end
+
+  def decrement_multiplier?(data_type, decrement_value)
+    ((data_type == 'moods' && ((self.mood_multiplier - decrement_value) >= 1)) ||
+      (data_type == 'sleeps' && ((self.sleep_multiplier - decrement_value) >= 1)) ||
+      (data_type == 'self_cares' && ((self.self_care_multiplier - decrement_value) >= 1)) ||
+      (data_type == 'journals' && ((self.journal_multiplier - decrement_value) >= 1)))
   end
 
   def checkin_day_before?(data_type, checkin_datetime)
@@ -299,6 +354,30 @@ class Scorecard < ActiveRecord::Base
     data_count_for_date == 1
   end
 
+  def get_user_data(data_type, order)
+    if order == 'asc'
+      if data_type == 'moods'
+        Mood.where(user_id: self.user_id).order( 'timestamp ASC' )
+      elsif data_type == 'sleeps'
+        Sleep.where(user_id: self.user_id).order( 'finish_time ASC' )
+      elsif data_type == 'self_cares'
+        SelfCare.where(user_id: self.user_id).order( 'timestamp ASC' )
+      elsif data_type == 'journals'
+        Journal.where(user_id: self.user_id).order( 'timestamp ASC' )
+      end
+    elsif order == 'desc'
+      if data_type == 'moods'
+        Mood.where(user_id: self.user_id).order( 'timestamp DESC' )
+      elsif data_type == 'sleeps'
+        Sleep.where(user_id: self.user_id).order( 'finish_time DESC' )
+      elsif data_type == 'self_cares'
+        SelfCare.where(user_id: self.user_id).order( 'timestamp DESC' )
+      elsif data_type == 'journals'
+        Journal.where(user_id: self.user_id).order( 'timestamp DESC' )
+      end
+    end
+  end
+
   def get_score(data_type)
     if data_type == 'moods'
       self.moods_score
@@ -348,21 +427,13 @@ class Scorecard < ActiveRecord::Base
   end
 
   def get_last_entry_date(data_type)
-    if data_type == 'moods'
-      last_entry_date = Mood.where(user_id: self.user_id).order( 'timestamp ASC' ).last
-    elsif data_type == 'sleeps'
-      last_entry_date = Sleep.where(user_id: self.user_id).order( 'finish_time ASC' ).last
-    elsif data_type == 'self_cares'
-      last_entry_date = SelfCare.where(user_id: self.user_id).order( 'timestamp ASC' ).last
-    elsif data_type == 'journals'
-      last_entry_date = Journal.where(user_id: self.user_id).order( 'timestamp ASC' ).last
-    end
+    last_entry_data = get_user_data(data_type, 'asc').last
 
-    if last_entry_date != nil
+    if last_entry_data != nil
       if data_type == 'sleeps'
-        last_entry_date = last_entry_date.finish_time
+        last_entry_date = last_entry_data.finish_time
       else
-        last_entry_date = last_entry_date.timestamp
+        last_entry_date = last_entry_data.timestamp
       end
     end
 
@@ -383,7 +454,15 @@ class Scorecard < ActiveRecord::Base
     elsif data_type == 'journals'
       self.update_attribute(:journal_last_checkin_date, checkin_datetime)
     end
-    self.update_attribute(:last_checkin_date, checkin_datetime)
+
+    if self.last_checkin_date.nil?
+      self.update_attribute(:last_checkin_date, checkin_datetime)
+    else
+      if self.last_checkin_date < checkin_datetime
+        self.update_attribute(:last_checkin_date, checkin_datetime)
+      end
+    end
+
     self.save
   end
 
@@ -657,6 +736,19 @@ class Scorecard < ActiveRecord::Base
     self.save
   end
 
+  def increment_multiplier(data_type, increment)
+    if data_type == 'moods'
+      self.mood_multiplier += increment
+    elsif data_type == 'sleeps'
+      self.sleep_multiplier += increment
+    elsif data_type == 'self_cares'
+      self.self_care_multiplier += increment
+    elsif data_type == 'journals'
+      self.journal_multiplier += increment
+    end
+    self.save
+  end
+
   def reset_checkin_count(data_type)
     if data_type == 'moods'
       self.mood_checkin_count = 0
@@ -674,8 +766,8 @@ class Scorecard < ActiveRecord::Base
     self.set_streak_count(data_type, 0)
   end
 
-  def update_multiplier(data_type)
-    set_multiplier(data_type, calculate_multiplier(data_type))
+  def reset_multiplier(data_type)
+    self.set_multiplier(data_type, 0)
   end
 
   def update_main_multiplier
@@ -707,10 +799,11 @@ class Scorecard < ActiveRecord::Base
     key_data_types = ['moods', 'sleeps', 'self_cares', 'journals']
 
     key_data_types.each do |data_type|
-      if self.reset_streak?(data_type, update_datetime)
-        self.reset_streak_count(data_type)
-      end
+      self.set_streak_count(data_type, self.calculate_streak_count(data_type, update_datetime))
+      self.update_streak_record(data_type)
     end
+    self.update_main_streak_count
+    self.update_main_streak_record
   end
 
   def update_streak_record(data_type)
@@ -744,17 +837,6 @@ class Scorecard < ActiveRecord::Base
   def update_scorecard(data_type, checkin_datetime)
     self.update_streak_metrics(checkin_datetime)
 
-    self.increment_checkin_count(data_type, 1)
-    self.set_last_checkin_date(data_type, checkin_datetime)
-    self.set_days_since_signup(checkin_datetime)
-
-    if self.increment_streak?(data_type, checkin_datetime)
-      self.increment_streak_count(data_type, 1)
-      self.update_main_streak_count
-      self.update_streak_record(data_type)
-      self.update_main_streak_record
-    end
-
     if perfect_checkin_on_date?(checkin_datetime)
       if first_perfect_checkin?(checkin_datetime)
         self.increment_perfect_checkin_count(1)
@@ -762,6 +844,9 @@ class Scorecard < ActiveRecord::Base
       end
     end
 
+    self.increment_checkin_count(data_type, 1)
+    self.set_last_checkin_date(data_type, checkin_datetime)
+    self.set_days_since_signup(Time.zone.now)
     self.update_score(data_type)
     self.refresh_scorecard(checkin_datetime)
     self.save
@@ -775,33 +860,31 @@ class Scorecard < ActiveRecord::Base
     self.save
   end
 
-  def rebase
-    self.nullify_and_init
-
-    moods = Mood.where(user_id: self.user_id).order( 'timestamp ASC' )
-    sleeps = Sleep.where(user_id: self.user_id).order( 'finish_time ASC' )
-    self_cares = SelfCare.where(user_id: self.user_id).order( 'timestamp ASC' )
-    journals = Journal.where(user_id: self.user_id).order( 'timestamp ASC' )
-
-    moods.each do |mood|
-      update_scorecard('moods', mood.timestamp)
-    end
-
-    sleeps.each do |sleep|
-      update_scorecard('sleeps', sleep.finish_time)
-    end
-
-    self_cares.each do |self_care|
-      update_scorecard('self_cares', self_care.timestamp)
-    end
-
-    journals.each do |journal|
-      update_scorecard('journals', journal.timestamp)
-    end
-  end
-
   def nilify_attributes!(except = nil)
     except ||= %w{id created_at updated_at user_id}
     attribute_names.reject { |attr| except.include?(attr) }.each { |attr| self[attr] = nil }
+  end
+
+  def rebase
+    user_data = []
+
+    self.nilify_attributes!
+    self.init
+
+    key_data_types = ['moods', 'sleeps', 'self_cares', 'journals']
+
+    key_data_types.each do |data_type|
+      user_data = self.get_user_data(data_type, 'asc')
+
+      user_data.each do |data|
+        if data_type == 'sleeps'
+          self.update_scorecard(data_type, data.finish_time)
+        else
+          self.update_scorecard(data_type, data.timestamp)
+        end
+      end
+    end
+
+    self.set_days_since_signup(Time.zone.now)
   end
 end
