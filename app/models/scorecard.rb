@@ -111,6 +111,69 @@ class Scorecard < ActiveRecord::Base
     self.total_score = self.moods_score + self.sleeps_score + self.self_cares_score + self.journals_score
   end
 
+  def calculate_streak_count(data_type, streak_datetime)
+    # Initialize vars
+    user_data_to_streakdatetime = []
+    last_checked_date = nil
+    streak_count = 0
+
+    # Get User Data for User
+    user_data = get_user_data(data_type, 'desc')
+
+    # Remove data after streak_datetime
+    user_data.each do |data|
+      if data_type == 'sleeps'
+        current_checkin_date = data.finish_time.to_date
+      else
+        current_checkin_date = data.timestamp.to_date
+      end
+
+      if current_checkin_date <= streak_datetime
+        user_data_to_streakdatetime << data
+      end
+    end
+
+    # If data set is not empty then compare latest entry with next entry
+    if !user_data_to_streakdatetime.empty?
+      if data_type == 'sleeps'
+        last_checked_date = user_data_to_streakdatetime.first.finish_time.to_date
+      else
+        last_checked_date = user_data_to_streakdatetime.first.timestamp.to_date
+      end
+      date_before_last_checked_date = (last_checked_date - 1.day).to_date
+    else
+      return 0
+    end
+
+    if last_checked_date != streak_datetime.to_date
+      return 0
+    end
+
+    user_data_to_streakdatetime.each do |data|
+      if data_type == 'sleeps'
+        data_checkin_date = data.finish_time.to_date
+      else
+        data_checkin_date = data.timestamp.to_date
+      end
+
+      if data_checkin_date == last_checked_date
+        streak_count = streak_count
+      else
+        if data_checkin_date == date_before_last_checked_date
+          streak_count += 1
+        elsif data_checkin_date != date_before_last_checked_date
+          return streak_count
+        end
+      end
+
+      last_checked_date = data_checkin_date
+
+      date_before_last_checked_date = (last_checked_date - 1.day).to_date
+    end
+
+    return streak_count
+  end
+
   def current_streak_count_is_zero?(data_type)
     ((data_type == 'moods' && self.mood_streak_count == 0) ||
       (data_type == 'sleeps' && self.sleep_streak_count == 0) ||
@@ -291,6 +354,30 @@ class Scorecard < ActiveRecord::Base
     data_count_for_date == 1
   end
 
+  def get_user_data(data_type, order)
+    if order == 'asc'
+      if data_type == 'moods'
+        Mood.where(user_id: self.user_id).order( 'timestamp ASC' )
+      elsif data_type == 'sleeps'
+        Sleep.where(user_id: self.user_id).order( 'finish_time ASC' )
+      elsif data_type == 'self_cares'
+        SelfCare.where(user_id: self.user_id).order( 'timestamp ASC' )
+      elsif data_type == 'journals'
+        Journal.where(user_id: self.user_id).order( 'timestamp ASC' )
+      end
+    elsif order == 'desc'
+      if data_type == 'moods'
+        Mood.where(user_id: self.user_id).order( 'timestamp DESC' )
+      elsif data_type == 'sleeps'
+        Sleep.where(user_id: self.user_id).order( 'finish_time DESC' )
+      elsif data_type == 'self_cares'
+        SelfCare.where(user_id: self.user_id).order( 'timestamp DESC' )
+      elsif data_type == 'journals'
+        Journal.where(user_id: self.user_id).order( 'timestamp DESC' )
+      end
+    end
+  end
+
   def get_score(data_type)
     if data_type == 'moods'
       self.moods_score
@@ -340,21 +427,13 @@ class Scorecard < ActiveRecord::Base
   end
 
   def get_last_entry_date(data_type)
-    if data_type == 'moods'
-      last_entry_date = Mood.where(user_id: self.user_id).order( 'timestamp ASC' ).last
-    elsif data_type == 'sleeps'
-      last_entry_date = Sleep.where(user_id: self.user_id).order( 'finish_time ASC' ).last
-    elsif data_type == 'self_cares'
-      last_entry_date = SelfCare.where(user_id: self.user_id).order( 'timestamp ASC' ).last
-    elsif data_type == 'journals'
-      last_entry_date = Journal.where(user_id: self.user_id).order( 'timestamp ASC' ).last
-    end
+    last_entry_data = get_user_data(data_type, 'asc').last
 
-    if last_entry_date != nil
+    if last_entry_data != nil
       if data_type == 'sleeps'
-        last_entry_date = last_entry_date.finish_time
+        last_entry_date = last_entry_data.finish_time
       else
-        last_entry_date = last_entry_date.timestamp
+        last_entry_date = last_entry_data.timestamp
       end
     end
 
