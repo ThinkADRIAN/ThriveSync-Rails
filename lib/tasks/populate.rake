@@ -13,7 +13,7 @@ namespace :db do
 
     number_of_pros = 1
     number_of_test_users = 1
-    number_of_entries = 100
+    number_of_entries = 10
 
     random_mood_entries = true
     random_sleep_entries = true
