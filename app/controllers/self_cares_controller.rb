@@ -167,8 +167,6 @@ class SelfCaresController < ApplicationController
     @self_care = SelfCare.new(self_care_params)
     @self_care.user_id = current_user.id
 
-    todays_self_cares = SelfCare.where(user_id: current_user.id, timestamp: (Time.zone.now.to_date.in_time_zone.at_beginning_of_day..Time.zone.now.to_date.in_time_zone.end_of_day))
-
     if params[:timestamp].nil?
       if $capture_source == 'self_care'
         d = $capture_date
@@ -179,10 +177,14 @@ class SelfCaresController < ApplicationController
       else
         @self_care.timestamp = DateTime.now.in_time_zone
       end
+      days_self_cares = SelfCare.where(user_id: current_user.id, timestamp: (Time.zone.now.to_date.in_time_zone.at_beginning_of_day..Time.zone.now.to_date.in_time_zone.end_of_day))
+    else
+      @self_care.timestamp = params[:timestamp]
+      days_self_cares = SelfCare.where(user_id: current_user.id, timestamp: (params[:timestamp].to_time.in_time_zone.to_date.at_beginning_of_day..params[:timestamp].to_time.in_time_zone.to_date.in_time_zone.end_of_day))
     end
 
     respond_to do |format|
-      if todays_self_cares.count < MAX_SELF_CARE_ENTRIES
+      if days_self_cares.count < MAX_SELF_CARE_ENTRIES
         if @self_care.save
           track_self_care_created
           current_user.scorecard.update_scorecard('self_cares', Time.zone.now)

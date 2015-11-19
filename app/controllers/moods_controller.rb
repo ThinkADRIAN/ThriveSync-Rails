@@ -164,9 +164,6 @@ class MoodsController < ApplicationController
     @mood = Mood.new(mood_params)
     @mood.user_id = current_user.id
 
-    todays_moods = Mood.where(user_id: current_user.id, timestamp: (Time.zone.now.to_date.in_time_zone.at_beginning_of_day..Time.zone.now.to_date.in_time_zone.end_of_day))
-
-
     if params[:timestamp].nil?
       if $capture_source == 'mood'
         d = $capture_date
@@ -177,10 +174,14 @@ class MoodsController < ApplicationController
       else
         @mood.timestamp = DateTime.now.in_time_zone
       end
+      days_moods = Mood.where(user_id: current_user.id, timestamp: (Time.zone.now.to_date.in_time_zone.at_beginning_of_day..Time.zone.now.to_date.in_time_zone.end_of_day))
+    else
+      @mood.timestamp = params[:timestamp]
+      days_moods = Mood.where(user_id: current_user.id, timestamp: (params[:timestamp].to_time.in_time_zone.to_date.at_beginning_of_day..params[:timestamp].to_time.in_time_zone.to_date.in_time_zone.end_of_day))
     end
 
     respond_to do |format|
-      if todays_moods.count < MAX_MOOD_ENTRIES
+      if days_moods.count < MAX_MOOD_ENTRIES
         if @mood.save
           track_mood_created
           current_user.scorecard.update_scorecard('moods', Time.zone.now)

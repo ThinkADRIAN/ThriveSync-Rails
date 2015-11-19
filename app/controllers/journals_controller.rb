@@ -166,8 +166,6 @@ class JournalsController < ApplicationController
     @journal = Journal.new(journal_params)
     @journal.user_id = current_user.id
 
-    todays_journals = Journal.where(user_id: current_user.id, timestamp: (Time.zone.now.to_date.in_time_zone.at_beginning_of_day..Time.zone.now.to_date.in_time_zone.end_of_day))
-
     if params[:timestamp].nil?
       if $capture_source == 'journal'
         d = $capture_date
@@ -178,10 +176,14 @@ class JournalsController < ApplicationController
       else
         @journal.timestamp = DateTime.now.in_time_zone
       end
+      days_journals = Journal.where(user_id: current_user.id, timestamp: (Time.zone.now.to_date.in_time_zone.at_beginning_of_day..Time.zone.now.to_date.in_time_zone.end_of_day))
+    else
+      @journal.timestamp = params[:timestamp]
+      days_journals = Journal.where(user_id: current_user.id, timestamp: (params[:timestamp].to_time.in_time_zone.to_date.at_beginning_of_day..params[:timestamp].to_time.in_time_zone.to_date.in_time_zone.end_of_day))
     end
 
     respond_to do |format|
-      if todays_journals.count < MAX_JOURNAL_ENTRIES
+      if days_journals.count < MAX_JOURNAL_ENTRIES
         if @journal.save
           track_journal_created
           current_user.scorecard.update_scorecard('journals', Time.zone.now)
