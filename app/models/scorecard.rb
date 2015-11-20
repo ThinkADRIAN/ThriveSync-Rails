@@ -473,7 +473,7 @@ class Scorecard < ActiveRecord::Base
     self.save
   end
 
-  def set_checkin_flags
+  def set_checkin_flags(time_period)
     # Clear Flags
     self.checkin_sunday = false
     self.checkin_monday = false
@@ -484,10 +484,10 @@ class Scorecard < ActiveRecord::Base
     self.checkin_saturday = false
 
     # Load current week data
-    moods_this_week = Mood.where(user_id: self.user_id).where(:timestamp => date_range_for('this_week'))
-    sleeps_this_week = Sleep.where(user_id: self.user_id).where(:finish_time => date_range_for('this_week'))
-    self_cares_this_week = SelfCare.where(user_id: self.user_id).where(:timestamp => date_range_for('this_week'))
-    journals_this_week = Journal.where(user_id: self.user_id).where(:timestamp => date_range_for('this_week'))
+    moods_this_week = Mood.where(user_id: self.user_id).where(:timestamp => time_period)
+    sleeps_this_week = Sleep.where(user_id: self.user_id).where(:finish_time => time_period)
+    self_cares_this_week = SelfCare.where(user_id: self.user_id).where(:timestamp => time_period)
+    journals_this_week = Journal.where(user_id: self.user_id).where(:timestamp => time_period)
 
     # Check flag if timestamp present
     moods_this_week.each do |mood|
@@ -791,7 +791,7 @@ class Scorecard < ActiveRecord::Base
   end
 
   def update_goals
-    self.set_checkin_flags
+    self.set_checkin_flags(date_range_for('this_week'))
     self.set_checkins_to_reach_goal
   end
 
