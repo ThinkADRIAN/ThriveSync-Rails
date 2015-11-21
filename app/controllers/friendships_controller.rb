@@ -155,7 +155,7 @@ class FriendshipsController < ApplicationController
     invitee = User.find_by_id(params[:user_id])
     if ((current_user.is? :pro) || (invitee.is? :pro))
       if current_user.friend_request(invitee)
-        track_connnection_created(invitee)
+        track_connection_created(invitee)
         redirect_to connections_path, :notice => "Successfully sent connection request!"
       else
         redirect_to new_connection_path, :notice => "Sorry! You can't invite that user!"
@@ -399,7 +399,7 @@ class FriendshipsController < ApplicationController
     ]
   end
 
-  def track_connnection_created(invitee)
+  def track_connection_created(invitee)
     # Track Connection Creation for Segment.io Analytics
     Analytics.track(
       user_id: current_user.id,
