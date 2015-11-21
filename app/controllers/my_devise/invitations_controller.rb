@@ -11,11 +11,13 @@ class MyDevise::InvitationsController < Devise::InvitationsController
 
     # Handle if invitee account already exists and is not already an existing supporter
     if invitee != nil && !(invitee.is? :pro) && !(current_user.supporters.include? invitee.id.to_i)
+      invitee.roles += ["supporter"]
+      invitee.thrivers += [current_user.id.to_i]
+      invitee.save!
+
       current_user.supporters += [invitee.id.to_i]
       current_user.save!
       current_user.friend_request(invitee)
-      invitee.roles += ["supporter"]
-      invitee.save!
 
       respond_to do |format|
         format.html { redirect_to after_invite_path_for(current_user), :flash => {:success => "Supporter Invititation sent to #{(params[:user][:email])}"} }
@@ -53,10 +55,17 @@ class MyDevise::InvitationsController < Devise::InvitationsController
       inviter = current_user.invited_by
       inviter.supporters += [current_user.id.to_i]
       inviter.save!
+
       # Add Supporter Role to user and remove User Role
+      #current_user.roles += ["supporter"]
+      #current_user.roles -= ["user"]
+      #current_user.save!
+
+      # Add Supporter Role to user and add inviter to Supporters thriver list
       current_user.roles += ["supporter"]
-      current_user.roles -= ["user"]
+      current_user.thrivers += [inviter.id.to_i]
       current_user.save!
+
       # Create Supporter Relationship
       current_user.friend_request(inviter)
       inviter.accept_request(current_user)
