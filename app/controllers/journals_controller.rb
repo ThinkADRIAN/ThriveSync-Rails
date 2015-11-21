@@ -182,7 +182,7 @@ class JournalsController < ApplicationController
       #days_journals = Journal.where(user_id: current_user.id, timestamp: (params[:timestamp].to_time.in_time_zone.to_date.at_beginning_of_day..params[:timestamp].to_time.in_time_zone.to_date.in_time_zone.end_of_day))
     end
 
-    days_journals = Journal.where(user_id: current_user.id, timestamp: ((@journal.timestamp - 24.hours)..@journal.timestamp)
+    days_journals = Journal.where(user_id: current_user.id, timestamp: ((@journal.timestamp - 24.hours)..@journal.timestamp))
 
     respond_to do |format|
       if days_journals.count < MAX_JOURNAL_ENTRIES
