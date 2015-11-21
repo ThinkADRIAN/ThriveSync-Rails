@@ -216,6 +216,28 @@ class FriendshipsController < ApplicationController
         current_user.save!
       end
 
+      # Remove Supporter from Thrivers supporters list and remove supporter role as necessary
+      if (current_user.is? :supporter) && (current_user.thrivers.include? user.id.to_i)
+        user.supporters -= [current_user.id.to_i]
+        user.save!
+        current_user.thrivers -= [user.id.to_i]
+
+        if current_user.thrivers.empty?
+          current_user.roles -= ['supporter']
+        end
+      elsif (user.is? :supporter) && (user.thrivers.include? current_user.id.to_i)
+        current_user.supporters -= [user.id.to_i]
+        current_user.save!
+        user.thrivers -= [current_user.id.to_i]
+
+        if user.thrivers.empty?
+          user.roles -= ['supporter']
+        end
+      end
+
+      current_user.save!
+      user.save!
+
       track_connection_deleted(user)
 
       respond_to do |format|
