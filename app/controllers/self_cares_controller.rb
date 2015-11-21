@@ -177,11 +177,13 @@ class SelfCaresController < ApplicationController
       else
         @self_care.timestamp = DateTime.now.in_time_zone
       end
-      days_self_cares = SelfCare.where(user_id: current_user.id, timestamp: (Time.zone.now.to_date.in_time_zone.at_beginning_of_day..Time.zone.now.to_date.in_time_zone.end_of_day))
+      #days_self_cares = SelfCare.where(user_id: current_user.id, timestamp: (Time.zone.now.to_date.in_time_zone.at_beginning_of_day..Time.zone.now.to_date.in_time_zone.end_of_day))
     else
       @self_care.timestamp = params[:timestamp]
-      days_self_cares = SelfCare.where(user_id: current_user.id, timestamp: (params[:timestamp].to_time.in_time_zone.to_date.at_beginning_of_day..params[:timestamp].to_time.in_time_zone.to_date.in_time_zone.end_of_day))
+      #days_self_cares = SelfCare.where(user_id: current_user.id, timestamp: (params[:timestamp].to_time.in_time_zone.to_date.at_beginning_of_day..params[:timestamp].to_time.in_time_zone.to_date.in_time_zone.end_of_day))
     end
+
+    days_self_cares = SelfCare.where(user_id: current_user.id, timestamp: ((@self_care.timestamp - 24.hours)..@self_care.timestamp))
 
     respond_to do |format|
       if days_self_cares.count < MAX_SELF_CARE_ENTRIES
@@ -223,7 +225,8 @@ class SelfCaresController < ApplicationController
     end
 
     timestamp = self_care_params[:timestamp].to_datetime
-    days_self_cares = SelfCare.where(user_id: current_user.id, timestamp: (timestamp.in_time_zone.at_beginning_of_day..timestamp.in_time_zone.end_of_day))
+    #days_self_cares = SelfCare.where(user_id: current_user.id, timestamp: (timestamp.in_time_zone.at_beginning_of_day..timestamp.in_time_zone.end_of_day))
+    days_self_cares = SelfCare.where(user_id: current_user.id, timestamp: ((timestamp.in_time_zone- 24.hours)..timestamp.in_time_zone))
 
     respond_to do |format|
       if days_self_cares.count < MAX_SELF_CARE_ENTRIES - 1

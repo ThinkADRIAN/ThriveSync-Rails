@@ -162,7 +162,8 @@ class SleepsController < ApplicationController
     @sleep.user_id = current_user.id
     @sleep.time = (@sleep.finish_time.to_i - @sleep.start_time.to_i) / 3600
 
-    days_sleeps = Sleep.where(user_id: current_user.id, finish_time: (@sleep.finish_time.to_time.in_time_zone.at_beginning_of_day..@sleep.finish_time.to_time.in_time_zone.end_of_day))
+    #days_sleeps = Sleep.where(user_id: current_user.id, finish_time: (@sleep.finish_time.to_time.in_time_zone.at_beginning_of_day..@sleep.finish_time.to_time.in_time_zone.end_of_day))
+    days_sleeps = Sleep.where(user_id: current_user.id, finish_time: ((@sleep.finish_time.to_time.in_time_zone.- 24.hours)..@sleep.finish_time.to_time.in_time_zone))
 
     respond_to do |format|
       if days_sleeps.count < MAX_SLEEP_ENTRIES
@@ -204,7 +205,8 @@ class SleepsController < ApplicationController
     end
 
     finish_time = sleep_params[:finish_time].to_datetime
-    days_sleeps = Sleep.where(user_id: current_user.id, finish_time: (finish_time.in_time_zone.at_beginning_of_day..finish_time.in_time_zone.end_of_day))
+    #days_sleeps = Sleep.where(user_id: current_user.id, finish_time: (finish_time.in_time_zone.at_beginning_of_day..finish_time.in_time_zone.end_of_day))
+    days_sleeps = Sleep.where(user_id: current_user.id, finish_time: ((finish_time.to_time.in_time_zone.- 24.hours)..finish_time.to_time.in_time_zone))
 
     respond_to do |format|
       if days_sleeps.count < MAX_SLEEP_ENTRIES - 1
