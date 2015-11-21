@@ -174,11 +174,13 @@ class MoodsController < ApplicationController
       else
         @mood.timestamp = DateTime.now.in_time_zone
       end
-      days_moods = Mood.where(user_id: current_user.id, timestamp: (Time.zone.now.to_date.in_time_zone.at_beginning_of_day..Time.zone.now.to_date.in_time_zone.end_of_day))
+      #days_moods = Mood.where(user_id: current_user.id, timestamp: (Time.zone.now.to_date.in_time_zone.at_beginning_of_day..Time.zone.now.to_date.in_time_zone.end_of_day))
     else
       @mood.timestamp = params[:timestamp]
-      days_moods = Mood.where(user_id: current_user.id, timestamp: (params[:timestamp].to_time.in_time_zone.to_date.at_beginning_of_day..params[:timestamp].to_time.in_time_zone.to_date.in_time_zone.end_of_day))
+      #days_moods = Mood.where(user_id: current_user.id, timestamp: (params[:timestamp].to_time.in_time_zone.to_date.at_beginning_of_day..params[:timestamp].to_time.in_time_zone.to_date.in_time_zone.end_of_day))
     end
+
+    days_moods = Mood.where(user_id: current_user.id, timestamp: ((@mood.timestamp - 24.hours)..@mood.timestamp))
 
     respond_to do |format|
       if days_moods.count < MAX_MOOD_ENTRIES
@@ -220,7 +222,8 @@ class MoodsController < ApplicationController
     end
 
     timestamp = mood_params[:timestamp].to_datetime
-    days_moods = Mood.where(user_id: current_user.id, timestamp: (timestamp.in_time_zone.at_beginning_of_day..timestamp.in_time_zone.end_of_day))
+    #days_moods = Mood.where(user_id: current_user.id, timestamp: (timestamp.in_time_zone.at_beginning_of_day..timestamp.in_time_zone.end_of_day))
+    days_moods = Mood.where(user_id: current_user.id, timestamp: ((timestamp.in_time_zone - 24.hours)..timestamp.in_time_zone))
 
     respond_to do |format|
       mood_count = days_moods.count
