@@ -1,6 +1,6 @@
 # Preview all emails at http://localhost:3000/rails/mailers/main_mailer
 class MainMailerPreview < ActionMailer::Preview
-  def invitation_from_pro_preview
+  def invitation_to_connect_preview
     users = User.all
     recipient = User.find(3)
     sender = User.find(2)
@@ -17,6 +17,6 @@ class MainMailerPreview < ActionMailer::Preview
       end
     end
 
-    MainMailer.invitation_from_pro(recipient, sender)
+    MainMailer.invitation_to_connect(recipient, sender)
   end
 end

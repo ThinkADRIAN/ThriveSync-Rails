@@ -159,13 +159,7 @@ class FriendshipsController < ApplicationController
     if ((current_user.is? :pro) || (invitee.is? :pro))
       if current_user.friend_request(invitee)
         track_connection_created(invitee)
-
-        if current_user.is? :pro
-          MainMailer.invitation_from_pro(invitee, current_user).deliver
-        elsif invitee.is? :pro
-          MainMailer.invitation_from_pro(current_user, invitee).deliver
-        end
-
+        MainMailer.invitation_to_connect(invitee, current_user).deliver
         redirect_to connections_path, :notice => "Successfully sent connection request!"
       else
         redirect_to new_connection_path, :notice => "Sorry! You can't invite that user!"
