@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+</head>
+<body>
+<p>Hi <%= @thriver.name %>,</p>
+<p>
+  <%= "#{@pro.first_name} #{@pro.last_name} has invited you to connect on ThriveSync.  You can accept it through the link below." %>
+</p>
+<p>
+  <%# link_to "Accept Invitation", accept_invitation_from_pro_url(connect_uuid: @pro.connect_uuid) %>
+</p>
+<p>
+  If you don't want to accept the invitation, please ignore this email.
+</p>
+<p>
+  This connection will not be created until you access the link above and approve it.
+</p>
+<p>
+  Keep thriving,
+</p>
+
+<p>
+  - The ThriveStreams Team
+</p>
+</body>
+</html>
