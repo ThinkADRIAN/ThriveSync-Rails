@@ -2,11 +2,13 @@ Hi <%= @thriver.name %>
 
 <%= "#{@pro.first_name} #{@pro.last_name} has invited you to connect on ThriveSync.  You can accept it through the link below." %>
 
-<%# link_to "Accept Invitation", connections_path(connect_uuid: @pro.connect_uuid) %>
+<%= link_to "Manage Connections", connections_path %>
 
-If you don't want to accept the invitation, please ignore this email.
+If you want to accept the invitation, please click the link above and click the "Accept" button.
 
 This connection will not be created until you access the link above and approve it.
+
+Otherwise, you can click the "Reject" button to reject the invitation to connect.
 
 Keep thriving,
 

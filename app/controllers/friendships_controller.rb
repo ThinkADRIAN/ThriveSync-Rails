@@ -161,9 +161,9 @@ class FriendshipsController < ApplicationController
         track_connection_created(invitee)
 
         if current_user.is? :pro
-          MainMailer.deliver_invitation_from_pro(current_user, invitee)
+          MainMailer.invitation_from_pro(invitee, current_user).deliver
         elsif invitee.is? :pro
-          MainMailer.deliver_invitation_from_pro(invitee, current_user)
+          MainMailer.invitation_from_pro(current_user, invitee).deliver
         end
 
         redirect_to connections_path, :notice => "Successfully sent connection request!"
