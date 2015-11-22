@@ -134,6 +134,7 @@ Rpush.reflect do |on|
   # end
 
   # Embed Rpush in existing process
+=begin
   if defined?(Rails)
     ActiveSupport.on_load(:after_initialize) do
       Rpush.embed
@@ -141,4 +142,5 @@ Rpush.reflect do |on|
   else
     Rpush.embed
   end
+=end
 end
