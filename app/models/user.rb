@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
   acts_as_messageable
   include Tokenable
+  include Connectable
 
   has_many :moods
   has_many :sleeps
