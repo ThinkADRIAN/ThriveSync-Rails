@@ -145,6 +145,9 @@ class FriendshipsController < ApplicationController
   def new
     authorize :friendship, :new?
     @connections = User.where(email: params[:search]).to_a
+    if @connections.empty? && !params[:search].nil?
+      flash[:error] = "Sorry!  Cannot find user with that email address"
+    end
   end
 
   api! "Create Connection"
@@ -156,6 +159,7 @@ class FriendshipsController < ApplicationController
     if ((current_user.is? :pro) || (invitee.is? :pro))
       if current_user.friend_request(invitee)
         track_connection_created(invitee)
+        MainMailer.invitation_to_connect(invitee, current_user).deliver
         redirect_to connections_path, :notice => "Successfully sent connection request!"
       else
         redirect_to new_connection_path, :notice => "Sorry! You can't invite that user!"
