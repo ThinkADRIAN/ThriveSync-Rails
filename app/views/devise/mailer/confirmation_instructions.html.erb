@@ -1,11 +1,15 @@
 <p>Hi <%= @resource.first_name %>,</p>
 
-<p>Thanks for signing up for ThriveSync and welcome to our incredible community of Thrivers.</p>
+<p>Your user account with the e-mail address <%= @resource.email %> has been created.</p>
 
-<p>You can verify your email address through the link below:</p>
+<p>Please follow the link below to confirm your account.</p>
 
-<p><%= link_to 'Verify my account', confirmation_url(@resource, confirmation_token: @token) %></p>
+<p><%= link_to 'Confirm my account', confirmation_url(@resource, confirmation_token: @token) %></p>
+
+<p>You will be able to change your settings (password, timezone, etc.) once your account is activated.</p>
 
 <p>A big warm welcome.</p>
 
 <p>- The ThriveStreams Team</p>
+
+<p>If you have not requested the creation of a ThriveSync account or if you think this is an unauthorized use of your e-mail address, please forward this e-mail to <%= mail_to "support@thrivestreams.com" %>.</p>

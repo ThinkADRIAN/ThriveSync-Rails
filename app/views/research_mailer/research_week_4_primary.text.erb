@@ -1,0 +1,15 @@
+Hi <%= @recipient.name %>,
+
+<%= "Congratulations on checking in #{@recipient.scorecard.checkin_count} times since #{@recipient.research_started_at.to_date.strftime("%m/%d/%Y")}!" %>
+
+You have officially reached the 30 day mark and you're ready to start Phase II.  Please click on the following link to complete your next survey.
+
+<%= link_to "ThriveSync Research Survey - Week 4", 'https://www.thrivesync.com/research/survey/week-4/primary' %>
+
+Also, you will notice that new features have been enabled for peer and provider support.
+
+Thank you for participating in this research study!
+
+Keep thriving,
+
+- The ThriveStreams Team

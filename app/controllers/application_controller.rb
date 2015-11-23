@@ -117,19 +117,7 @@ class ApplicationController < ActionController::Base
 
   # Overwriting the sign_out redirect path method
   def after_sign_out_path_for(resource_or_scope)
-    track_user_logout
+    analytics.track_user_logout
     root_path
-  end
-
-  def track_user_logout
-    # Track User Logout for Segment.io Analytics
-    if current_user != nil
-      Analytics.track(
-        user_id: current_user.id,
-        event: 'Logged Out',
-        properties: {
-        }
-      )
-    end
   end
 end
