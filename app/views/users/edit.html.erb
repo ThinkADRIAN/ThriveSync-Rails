@@ -1,17 +1,19 @@
-<h2>Edit Access: <%= @user.first_name + " " + @user.last_name %></h2>
+<div class="container">
+  <h2>Edit Access: <%= @user.first_name + " " + @user.last_name %></h2>
 
-<%= bootstrap_form_for(@user) do |f| %>
+  <%= bootstrap_form_for(@user) do |f| %>
 
-    <% if can? :assign_roles, current_user %>
-        <div class="form-group">
-          <% for role in User::ROLES %>
-              <%= check_box_tag "user[roles][#{role}]", role, @user.roles.include?(role), {:name => "user[roles][]"} %>
-              <%= label_tag "user_roles_#{role}", role.humanize %><br/>
-          <% end %>
-          <%= hidden_field_tag "user[roles][]", "" %>
-        </div>
-        <div class="actions"><%= f.submit "Update" %></div>
-    <% end %>
-<% end %>
-<br>
-<%= link_to "Back", :back %>
+      <% if can? :assign_roles, current_user %>
+          <div class="form-group">
+            <% for role in User::ROLES %>
+                <%= check_box_tag "user[roles][#{role}]", role, @user.roles.include?(role), {:name => "user[roles][]"} %>
+                <%= label_tag "user_roles_#{role}", role.humanize %><br/>
+            <% end %>
+            <%= hidden_field_tag "user[roles][]", "" %>
+          </div>
+          <div class="actions"><%= f.submit "Update" %></div>
+      <% end %>
+  <% end %>
+  <br>
+  <%= link_to "Back", :back %>
+</div>
