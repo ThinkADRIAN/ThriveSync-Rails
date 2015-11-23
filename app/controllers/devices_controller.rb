@@ -103,7 +103,7 @@ class DevicesController < ApplicationController
         format.json { render json: @device.errors, status: :unprocessable_entity }
       end
     end
-  endk
+  end
 
   # PATCH/PUT /devices/1
   # PATCH/PUT /devices/1.json
