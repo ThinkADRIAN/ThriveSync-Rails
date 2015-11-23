@@ -120,22 +120,4 @@ class ApplicationController < ActionController::Base
     analytics.track_user_logout
     root_path
   end
-
-  # Segment for Google Analytics - Begin
-  def current_user
-    super #|| Guest.new
-  end
-
-  def analytics
-    @analytics ||= Analytics.new(current_user, google_analytics_client_id)
-  end
-
-  def google_analytics_client_id
-    google_analytics_cookie.gsub(/^GA\d\.\d\./, '')
-  end
-
-  def google_analytics_cookie
-    cookies['_ga'] || ''
-  end
-  # Segment for Google Analytics - End
 end
