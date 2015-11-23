@@ -1,4 +1,28 @@
-<p id="notice"><%= notice %></p>
+<div class="container">
+  <h1>Show Device</h1>
+  <p>
+    <strong>Device Enabled:</strong>
+    <% if @device.enabled %>
+        Yes
+    <% else %>
+        No
+    <% end %>
+  </p>
 
-<%= link_to 'Edit', edit_device_path(@device) %> |
-<%= link_to 'Back', devices_path %>
+  <p>
+    <strong>Device Token:</strong>
+    <%= @device.token %>
+  </p>
+
+  <p>
+    <strong>Device Platform:</strong>
+    <% if @device.platform == 'iOS' %>
+        Apple
+    <% elsif @device.platform == 'Android' %>
+        Android
+    <% end %>
+  </p>
+
+  <%= link_to 'Edit', edit_device_path(@device) %> |
+  <%= link_to 'Back', devices_path %>
+</div>
