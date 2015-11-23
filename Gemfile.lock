@@ -154,6 +154,9 @@ GEM
       activerecord (>= 3.0.0)
     formatador (0.2.5)
     fssm (0.2.10)
+    gibbon (2.1.2)
+      faraday (>= 0.9.1)
+      multi_json (>= 1.11.0)
     groupdate (2.5.0)
       activesupport (>= 3)
     guard (2.13.0)
@@ -417,6 +420,7 @@ DEPENDENCIES
   flipper-activerecord3dot2
   flipper-ui
   font-awesome-rails
+  gibbon
   groupdate
   guard-rspec
   has_friendship
