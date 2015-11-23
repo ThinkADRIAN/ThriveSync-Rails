@@ -1,27 +1,30 @@
-<div class="col-sm-12">
-  <% @users = User.where.not(:last_name => nil).sort_by { |r| r.last_name.downcase }
-     if !@users.empty? %>
-      <div class="panel panel-primary">
-        <div class="panel-heading">
-          <h3 class="panel-title">Users List</h3>
-        </div>
-        <div class="panel-body">
-          <% @users.each do |user| %>
-              <div class="col-md-4">
-                <h3><%= user.first_name + " " + user.last_name %></h3>
+<div class="container">
+  <br>
+  <div class="col-sm-12">
+    <% @users = User.where.not(:last_name => nil).sort_by { |r| r.last_name.downcase }
+       if !@users.empty? %>
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <h3 class="panel-title">Users List</h3>
+          </div>
+          <div class="panel-body">
+            <% @users.each do |user| %>
+                <div class="col-md-4">
+                  <h3><%= user.first_name + " " + user.last_name %></h3>
 
-                <p><%= user.email %></p>
-              </div>
-              <div class="col-md-8">
-                <h3></h3>
-                <%= link_to 'Show Details', user, class: "btn-primary btn-xs" %>
-                <%= link_to 'Edit Access', edit_user_path(user), class: "btn-default btn-xs" %>
-              </div>
-              <div class="col-md-12">
-                <hr>
-              </div>
-          <% end %>
+                  <p><%= user.email %></p>
+                </div>
+                <div class="col-md-8">
+                  <h3></h3>
+                  <%= link_to 'Show Details', user, class: "btn-primary btn-xs" %>
+                  <%= link_to 'Edit Access', edit_user_path(user), class: "btn-default btn-xs" %>
+                </div>
+                <div class="col-md-12">
+                  <hr>
+                </div>
+            <% end %>
+          </div>
         </div>
-      </div>
-  <% end %>
+    <% end %>
+  </div>
 </div>

@@ -1,6 +1,10 @@
 class UserPolicy < ApplicationPolicy
   def index?
-    false
+    if user.is? :superuser
+      true
+    else
+      false
+    end
   end
 
   def show?
@@ -16,7 +20,11 @@ class UserPolicy < ApplicationPolicy
   end
 
   def update?
-    false
+    if user.is? :superuser
+      true
+    else
+      false
+    end
   end
 
   def edit?
