@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+</head>
+<body>
+<p>Hi <%= @recipient.name %>,</p>
+<p>
+  <%= "Congratulations on checking in #{@recipient.scorecard.checkin_count} times since #{@recipient.research_started_at.to_date.strftime("%m/%d/%Y")}!" %>
+</p>
+<p>
+  You have officially reached the 30 day mark and you're ready to start Phase II.  Please click on the following link to complete your next survey.
+</p>
+<p>
+  <%= link_to 'ThriveSync Research Survey - Week 4', 'https://www.thrivesync.com/research/survey/week-4/primary' %>
+</p>
+<p>
+  Also, you will notice that new features have been enabled for peer and provider support.
+</p>
+<p>
+  Thank you for participating in this research study!
+</p>
+<p>
+  Keep thriving,
+</p>
+<p>
+  - The ThriveStreams Team
+</p>
+</body>
+</html>
