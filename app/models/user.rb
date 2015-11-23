@@ -29,6 +29,7 @@ class User < ActiveRecord::Base
   after_create :create_reward
   after_create :create_reminders
   after_create :create_review
+  after_create :subscribe_user_to_mailing_list
 
   after_create :identify_user_for_analytics
   after_create :track_user_sign_up
@@ -226,5 +227,11 @@ class User < ActiveRecord::Base
       properties: {
       }
     )
+  end
+
+  private
+
+  def subscribe_user_to_mailing_list
+    SubscribeJob.new.async.perform(self)
   end
 end
