@@ -123,7 +123,7 @@ class ApplicationController < ActionController::Base
 
   # Segment for Google Analytics - Begin
   def current_user
-    super || Guest.new
+    super #|| Guest.new
   end
 
   def analytics
