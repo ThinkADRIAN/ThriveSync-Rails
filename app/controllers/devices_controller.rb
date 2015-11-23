@@ -93,7 +93,7 @@ class DevicesController < ApplicationController
 
     respond_to do |format|
       if @device.save
-        track_device_created
+        analytics.track_device_created(@device)
         flash.now[:success] = 'Device was successfully created.'
         format.html { redirect_to devices_path }
         format.json { render json: @device, status: :created }
@@ -103,7 +103,7 @@ class DevicesController < ApplicationController
         format.json { render json: @device.errors, status: :unprocessable_entity }
       end
     end
-  end
+  endk
 
   # PATCH/PUT /devices/1
   # PATCH/PUT /devices/1.json
@@ -122,7 +122,7 @@ class DevicesController < ApplicationController
 
     respond_to do |format|
       if @device.update(device_params)
-        track_device_updated
+        analytics.track_device_updated(@device)
         flash.now[:success] = 'Device was successfully updated.'
         format.html { redirect_to @device, notice: 'Device was successfully updated.' }
 
@@ -152,7 +152,7 @@ class DevicesController < ApplicationController
 
     respond_to do |format|
       if @device.destroy
-        track_device_deleted
+        analytics.track_device_deleted
         flash[:success] = 'Device was successfully deleted.'
         format.html { redirect_to devices_path }
         format.json { head :no_content }
@@ -174,42 +174,4 @@ class DevicesController < ApplicationController
     def device_params
       params.fetch(:device, {}).permit(:enabled, :token, :user_id, :platform)
     end
-
-  def track_device_created
-    # Track Device Creation for Segment.io Analytics
-    Analytics.track(
-      user_id: current_user.id,
-      event: 'Device Entry Created',
-      properties: {
-        device_id: @device.id,
-        device_enabled: @device_enabled,
-        device_user_id: @device.user_id,
-        device_platform: @device.platform
-      }
-    )
-  end
-
-  def track_device_updated
-    # Track Device Update for Segment.io Analytics
-    Analytics.track(
-      user_id: current_user.id,
-      event: 'Device Entry Updated',
-      properties: {
-        device_id: @device.id,
-        device_enabled: @device_enabled,
-        device_user_id: @device.user_id,
-        device_platform: @device.platform
-      }
-    )
-  end
-
-  def track_device_deleted
-    # Track Device Deletion for Segment.io Analytics
-    Analytics.track(
-      user_id: current_user.id,
-      event: 'Device Entry Deleted',
-      properties: {
-      }
-    )
-  end
 end

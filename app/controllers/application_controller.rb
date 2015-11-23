@@ -117,19 +117,25 @@ class ApplicationController < ActionController::Base
 
   # Overwriting the sign_out redirect path method
   def after_sign_out_path_for(resource_or_scope)
-    track_user_logout
+    analytics.track_user_logout
     root_path
   end
 
-  def track_user_logout
-    # Track User Logout for Segment.io Analytics
-    if current_user != nil
-      Analytics.track(
-        user_id: current_user.id,
-        event: 'Logged Out',
-        properties: {
-        }
-      )
-    end
+  # Segment for Google Analytics - Begin
+  def current_user
+    super || Guest.new
   end
+
+  def analytics
+    @analytics ||= Analytics.new(current_user, google_analytics_client_id)
+  end
+
+  def google_analytics_client_id
+    google_analytics_cookie.gsub(/^GA\d\.\d\./, '')
+  end
+
+  def google_analytics_cookie
+    cookies['_ga'] || ''
+  end
+  # Segment for Google Analytics - End
 end
