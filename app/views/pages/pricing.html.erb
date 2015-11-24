@@ -5,7 +5,7 @@
         <div class="title">
           BASIC PLAN
           <div class="price"><span class="currency">$</span>39<span class="period">/ MO</span></div>
-          <a class="typeform-share btn btn-clear btn-small" href="https://thrivestreams.typeform.com/to/cbgTTo" data-mode="1" target="_blank">START 30-DAY FREE TRIAL</a>
+          <%= render 'payola/subscriptions/checkout', plan: SubscriptionPlan.where(stripe_id: 'BASIC-PLAN').first, button_text: "START 30-DAY FREE TRIAL", button_class: 'btn btn-clear btn-small' %>
         </div>
         <div class="description">
           <div class="description-box">
@@ -29,7 +29,7 @@
         <div class="title">
           PROFESSIONAL PLAN
           <div class="price"><span class="currency">$</span>99<span class="period">/ MO</span></div>
-          <a class="typeform-share btn btn-clear btn-small" href="https://thrivestreams.typeform.com/to/cbgTTo" data-mode="1" target="_blank">START 30-DAY FREE TRIAL</a>
+          <%= render 'payola/subscriptions/checkout', plan: SubscriptionPlan.where(stripe_id: 'PRO-PLAN').first, button_text: "START 30-DAY FREE TRIAL", button_class: 'btn btn-clear btn-small' %>
           <div class="ribbon">NEW</div>
         </div>
         <div class="description">
@@ -54,7 +54,7 @@
         <div class="title">
           PREMIUM PLAN
           <div class="price"><span class="currency">$</span>199<span class="period">/ MO</span></div>
-          <a class="typeform-share btn btn-clear btn-small" href="https://thrivestreams.typeform.com/to/cbgTTo" data-mode="1" target="_blank">START 30-DAY FREE TRIAL</a>
+          <%= render 'payola/subscriptions/checkout', plan: SubscriptionPlan.where(stripe_id: 'PREMIUM-PLAN').first, button_text: "START 30-DAY FREE TRIAL", button_class: 'btn btn-clear btn-small' %>
         </div>
         <div class="description">
           <div class="description-box">
