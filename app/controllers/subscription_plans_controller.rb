@@ -1,11 +1,20 @@
 class SubscriptionPlansController < ApplicationController
+  acts_as_token_authentication_handler_for User
+  before_action :authenticate_user!
   before_action :set_subscription_plan, only: [:show, :edit, :update, :destroy]
 
-  respond_to :html
+  after_action :verify_authorized, except: [:index]
+
+  respond_to :html, :json
 
   def index
     @subscription_plans = SubscriptionPlan.all
-    respond_with(@subscription_plans)
+    authorize @subscription_plans
+
+    respond_to do |format|
+      format.html
+      format.json { render json: @subscription_plans, status: 200 }
+    end
   end
 
   def show
