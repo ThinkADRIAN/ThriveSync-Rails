@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :subscription_plans
+
   mount Payola::Engine => '/payola', as: :payola
   apipie
 
@@ -96,6 +98,7 @@ Rails.application.routes.draw do
 
   resources :devices
 
+  resources :subscription_plans
   resources :subscriptions
 
   flipper_constraint = lambda { |request| request.remote_ip == '127.0.0.1' }
