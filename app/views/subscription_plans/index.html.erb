@@ -12,26 +12,32 @@
           </div>
           <div class="panel-body">
             <% @subscription_plans.each do |subscription_plan| %>
-
-                    <div class="col-md-12">
-                      <h4><%= subscription_plan.stripe_id %>: <%= subscription_plan.name %></h4>
-                    </div>
-                    <div class="col-md-8">
-                      <p>
-                        $<%= subscription_plan.amount / 100 %> =
-                        <%= subscription_plan.interval_count %>
+                <div class="col-md-12">
+                  <h4><%= subscription_plan.stripe_id %>: <%= subscription_plan.name %></h4>
+                </div>
+                <div class="col-md-12">
+                  <p><%= subscription_plan.description %></p>
+                </div>
+                <div class="col-md-8">
+                  <p>
+                    $<%= subscription_plan.amount / 100 %> =
+                    <%= subscription_plan.interval_count %>
+                    <% if subscription_plan.interval_count > 1 %>
                         <%= subscription_plan.interval.capitalize %>s +
-                        <%= subscription_plan.trial_period_days %> Day Trial Period
-                      </p>
-                    </div>
-                    <div class="col-md-4">
-                      <td><%= link_to 'Show', subscription_plan, class: "btn-primary btn-xs" %></td>
-                      <td><%= link_to 'Edit', edit_subscription_plan_path(subscription_plan), class: "btn-default btn-xs" %></td>
-                      <td><%= link_to 'Destroy', subscription_plan, method: :delete, class: "btn-danger btn-xs", data: { confirm: 'Are you sure?' } %></td>
-                    </div>
-                    <div class="col-md-12">
-                      <hr>
-                    </div>
+                    <% else %>
+                        <%= subscription_plan.interval.capitalize %> +
+                    <% end %>
+                    <%= subscription_plan.trial_period_days %> Day Trial Period
+                  </p>
+                </div>
+                <div class="col-md-4">
+                  <td><%= link_to 'Show', subscription_plan, class: "btn-primary btn-xs" %></td>
+                  <td><%= link_to 'Edit', edit_subscription_plan_path(subscription_plan), class: "btn-default btn-xs" %></td>
+                  <td><%= link_to 'Destroy', subscription_plan, method: :delete, class: "btn-danger btn-xs", data: { confirm: 'Are you sure?' } %></td>
+                </div>
+                <div class="col-md-12">
+                  <hr>
+                </div>
             <% end %>
           </div>
         </div>

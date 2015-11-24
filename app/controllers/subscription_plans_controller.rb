@@ -94,7 +94,7 @@ class SubscriptionPlansController < ApplicationController
     end
 
     def subscription_plan_params
-      params.fetch(:subscription_plan, {}).permit(:amount, :interval, :stripe_id, :name, :interval_count, :trial_period_days)
+      params.fetch(:subscription_plan, {}).permit(:amount, :interval, :stripe_id, :name, :interval_count, :trial_period_days, :description)
     end
 
   def track_subscription_plan_created
@@ -109,7 +109,8 @@ class SubscriptionPlansController < ApplicationController
         subscription_plan_stripe_id: @subscription_plan.stripe_id,
         subscription_plan_name: @subscription_plan.name,
         subscription_plan_interval_count: @subscription_plan.interval_count,
-        subscription_plan_trial_period_days: @subscription_plan.trial_period_days
+        subscription_plan_trial_period_days: @subscription_plan.trial_period_days,
+        subscription_plan_description: @subscription_plan.description
       }
     )
   end
@@ -126,7 +127,8 @@ class SubscriptionPlansController < ApplicationController
         subscription_plan_stripe_id: @subscription_plan.stripe_id,
         subscription_plan_name: @subscription_plan.name,
         subscription_plan_interval_count: @subscription_plan.interval_count,
-        subscription_plan_trial_period_days: @subscription_plan.trial_period_days
+        subscription_plan_trial_period_days: @subscription_plan.trial_period_days,
+        subscription_plan_description: @subscription_plan.description
       }
     )
   end

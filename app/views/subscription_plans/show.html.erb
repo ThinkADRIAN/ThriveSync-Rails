@@ -1,13 +1,18 @@
 <div class="container">
   <h1>Show Subscription Plan</h1>
   <p>
+    <strong>Stripe ID:</strong>
+    <%= @subscription_plan.stripe_id %>
+  </p>
+
+  <p>
     <strong>Plan Name:</strong>
     <%= @subscription_plan.name %>
   </p>
 
   <p>
-    <strong>Stripe ID:</strong>
-    <%= @subscription_plan.stripe_id %>
+    <strong>Description:</strong>
+    <%= @subscription_plan.description %>
   </p>
 
   <p>
