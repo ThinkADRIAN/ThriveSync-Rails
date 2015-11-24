@@ -21,7 +21,7 @@ class SubscriptionPlansController < ApplicationController
     authorize @subscription_plan
 
     respond_to do |format|
-      format.html { render nothing: true }
+      format.html
       format.json { render json: @subscription_plan, status: 200 }
     end
   end
@@ -33,6 +33,7 @@ class SubscriptionPlansController < ApplicationController
   end
 
   def edit
+    authorize @subscription_plan
   end
 
   def create
