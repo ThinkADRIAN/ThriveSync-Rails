@@ -13,25 +13,15 @@
           <div class="panel-body">
             <% @subscription_plans.each do |subscription_plan| %>
 
-                    <div class="col-md-4">
-                      <h4><%= subscription_plan.name %> | <%= subscription_plan.stripe_id %></h4>
+                    <div class="col-md-12">
+                      <h4><%= subscription_plan.stripe_id %>: <%= subscription_plan.name %></h4>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-8">
                       <p>
-                        <strong>Amount:</strong>
-                        <%= subscription_plan.amount %>
-                      </p>
-                      <p>
-                        <strong>Interval:</strong>
-                        <%= subscription_plan.interval %>
-                      </p>
-                      <p>
-                        <strong>Interval Count:</strong>
-                        <%= subscription_plan.interval %>
-                      </p>
-                      <p>
-                        <strong>Trial Period (Days):</strong>
-                        <%= subscription_plan.trial_period_days %>
+                        $<%= subscription_plan.amount / 100 %> =
+                        <%= subscription_plan.interval_count %>
+                        <%= subscription_plan.interval.capitalize %>s +
+                        <%= subscription_plan.trial_period_days %> Day Trial Period
                       </p>
                     </div>
                     <div class="col-md-4">

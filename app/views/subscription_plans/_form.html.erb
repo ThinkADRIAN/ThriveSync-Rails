@@ -1,4 +1,4 @@
-<%= form_for(@subscription_plan) do |f| %>
+<%= bootstrap_form_for(@subscription_plan) do |f| %>
   <% if @subscription_plan.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@subscription_plan.errors.count, "error") %> prohibited this subscription_plan from being saved:</h2>
@@ -11,31 +11,36 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :amount %><br>
-    <%= f.number_field :amount %>
-  </div>
-  <div class="field">
-    <%= f.label :interval %><br>
-    <%= f.text_field :interval %>
-  </div>
-  <div class="field">
-    <%= f.label :stripe_id %><br>
-    <%= f.text_field :stripe_id %>
-  </div>
-  <div class="field">
-    <%= f.label :name %><br>
-    <%= f.text_field :name %>
-  </div>
-  <div class="field">
-    <%= f.label :interval_count %><br>
-    <%= f.number_field :interval_count %>
-  </div>
-  <div class="field">
-    <%= f.label :trial_period_days %><br>
-    <%= f.number_field :trial_period_days %>
-  </div>
+    <div class="form-group">
+      <%= f.label :name, "Plan Name:" %><br>
+      <%= f.text_field :name, hide_label: true %>
+    </div>
+    <div class="form-group">
+      <%= f.label :stripe_id, "Stripe ID:" %><br>
+      <%= f.text_field :stripe_id, hide_label: true %>
+    </div>
+    <div class="form-group">
+      <%= f.label :amount, "Amount in USD cents:" %><br>
+      <%= f.number_field :amount, hide_label: true %>
+    </div>
+    <div class="form-group">
+      <% if !@subscription_plan.interval.nil? %>
+        <% plan_interval = @subscription_plan.interval %>
+      <% else %>
+        <% plan_interval = 'day' %>
+      <% end %>
+      <%= f.label :interval, "Interval:" %><br>
+      <%= f.select(:interval, options_for_select([['Day', 'day'], ['Week', 'week'], ['Month', 'month'], ['Year', 'year']], plan_interval), hide_label: true) %>
+    </div>
+    <div class="form-group">
+      <%= f.label :interval_count, "Interval Count:" %><br>
+      <%= f.number_field :interval_count, hide_label: true %>
+    </div>
+    <div class="form-group">
+      <%= f.label :trial_period_days, "Trial Period (Days):" %><br>
+      <%= f.number_field :trial_period_days, hide_label: true %>
+    </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit class: "btn btn-primary" %>
   </div>
 <% end %>

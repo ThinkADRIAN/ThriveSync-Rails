@@ -1,34 +1,35 @@
-<p id="notice"><%= notice %></p>
+<div class="container">
+  <h1>Show Subscription Plan</h1>
+  <p>
+    <strong>Plan Name:</strong>
+    <%= @subscription_plan.name %>
+  </p>
 
-<p>
-  <strong>Amount:</strong>
-  <%= @subscription_plan.amount %>
-</p>
+  <p>
+    <strong>Stripe ID:</strong>
+    <%= @subscription_plan.stripe_id %>
+  </p>
 
-<p>
-  <strong>Interval:</strong>
-  <%= @subscription_plan.interval %>
-</p>
+  <p>
+    <strong>Amount:</strong>
+    <%= @subscription_plan.amount %>
+  </p>
 
-<p>
-  <strong>Stripe:</strong>
-  <%= @subscription_plan.stripe_id %>
-</p>
+  <p>
+    <strong>Interval:</strong>
+    <%= @subscription_plan.interval.capitalize %>
+  </p>
 
-<p>
-  <strong>Name:</strong>
-  <%= @subscription_plan.name %>
-</p>
+  <p>
+    <strong>Interval Count:</strong>
+    <%= @subscription_plan.interval_count %>
+  </p>
 
-<p>
-  <strong>Interval count:</strong>
-  <%= @subscription_plan.interval_count %>
-</p>
+  <p>
+    <strong>Trial Period (Days):</strong>
+    <%= @subscription_plan.trial_period_days %>
+  </p>
 
-<p>
-  <strong>Trial period days:</strong>
-  <%= @subscription_plan.trial_period_days %>
-</p>
-
-<%= link_to 'Edit', edit_subscription_plan_path(@subscription_plan) %> |
-<%= link_to 'Back', subscription_plans_path %>
+  <%= link_to 'Edit', edit_subscription_plan_path(@subscription_plan) %> |
+  <%= link_to 'Back', subscription_plans_path %>
+</div>
