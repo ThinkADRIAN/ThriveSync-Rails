@@ -182,7 +182,7 @@ class DevicesController < ApplicationController
       event: 'Device Entry Created',
       properties: {
         device_id: @device.id,
-        device_enabled: @device_enabled,
+        device_enabled: @device.enabled,
         device_user_id: @device.user_id,
         device_platform: @device.platform
       }
@@ -196,7 +196,7 @@ class DevicesController < ApplicationController
       event: 'Device Entry Updated',
       properties: {
         device_id: @device.id,
-        device_enabled: @device_enabled,
+        device_enabled: @device.enabled,
         device_user_id: @device.user_id,
         device_platform: @device.platform
       }
