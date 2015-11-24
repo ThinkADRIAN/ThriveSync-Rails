@@ -141,6 +141,9 @@ gem "gibbon"
 # Scheduled Cron Jobs
 gem 'whenever', require: false
 
+# Stripe Payments
+gem 'payola-payments'
+
 #Api gems
 gem 'active_model_serializers'
 gem 'apipie-rails', github: 'Apipie/apipie-rails', ref: '928bd858fd14ec67eeb9483ba0d43b3be8339608'
