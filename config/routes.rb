@@ -94,8 +94,9 @@ Rails.application.routes.draw do
     get "providers", :on => :collection
   end
 
-  resources :devices do
-  end
+  resources :devices
+
+  resources :subscriptions
 
   flipper_constraint = lambda { |request| request.remote_ip == '127.0.0.1' }
   constraints flipper_constraint do
