@@ -12,6 +12,7 @@
 //
 //= require chartkick
 //= require jquery
+//= require payola
 //= require jquery-ui
 //= require jquery_ujs
 //= require sharrre

@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  mount Payola::Engine => '/payola', as: :payola
   apipie
 
   resources :pre_defined_cards
