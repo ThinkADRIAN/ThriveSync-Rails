@@ -25,4 +25,8 @@ Payola.configure do |config|
     sale = Payola::Sale.find_by(stripe_id: event.data.object.id)
     sale.refund!
   end
+
+  config.background_worker = :sucker_punch
+
+  config.send_email_for :receipt, :refund, :admin_receipt, :admin_dispute, :admin_refund, :admin_failure
 end
