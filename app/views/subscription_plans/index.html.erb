@@ -1,35 +1,50 @@
-<h1>Listing subscription_plans</h1>
+<div class="container">
+  <div>
+    <h1>Subscription Plans</h1>
+    <%= link_to 'Add a new Subscription Plan', new_subscription_plan_path, class: "btn btn-primary" %>
+  </div>
+  <br>
+  <div class="col-sm-12">
+    <% if !@subscription_plans.empty? %>
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <h3 class="panel-title">Subscription Plans</h3>
+          </div>
+          <div class="panel-body">
+            <% @subscription_plans.each do |subscription_plan| %>
 
-<table>
-  <thead>
-    <tr>
-      <th>Amount</th>
-      <th>Interval</th>
-      <th>Stripe</th>
-      <th>Name</th>
-      <th>Interval count</th>
-      <th>Trial period days</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @subscription_plans.each do |subscription_plan| %>
-      <tr>
-        <td><%= subscription_plan.amount %></td>
-        <td><%= subscription_plan.interval %></td>
-        <td><%= subscription_plan.stripe_id %></td>
-        <td><%= subscription_plan.name %></td>
-        <td><%= subscription_plan.interval_count %></td>
-        <td><%= subscription_plan.trial_period_days %></td>
-        <td><%= link_to 'Show', subscription_plan %></td>
-        <td><%= link_to 'Edit', edit_subscription_plan_path(subscription_plan) %></td>
-        <td><%= link_to 'Destroy', subscription_plan, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
+                    <div class="col-md-4">
+                      <h4><%= subscription_plan.name %> | <%= subscription_plan.stripe_id %></h4>
+                    </div>
+                    <div class="col-md-4">
+                      <p>
+                        <strong>Amount:</strong>
+                        <%= subscription_plan.amount %>
+                      </p>
+                      <p>
+                        <strong>Interval:</strong>
+                        <%= subscription_plan.interval %>
+                      </p>
+                      <p>
+                        <strong>Interval Count:</strong>
+                        <%= subscription_plan.interval %>
+                      </p>
+                      <p>
+                        <strong>Trial Period (Days):</strong>
+                        <%= subscription_plan.trial_period_days %>
+                      </p>
+                    </div>
+                    <div class="col-md-4">
+                      <td><%= link_to 'Show', subscription_plan, class: "btn-primary btn-xs" %></td>
+                      <td><%= link_to 'Edit', edit_subscription_plan_path(subscription_plan), class: "btn-default btn-xs" %></td>
+                      <td><%= link_to 'Destroy', subscription_plan, method: :delete, class: "btn-danger btn-xs", data: { confirm: 'Are you sure?' } %></td>
+                    </div>
+                    <div class="col-md-12">
+                      <hr>
+                    </div>
+            <% end %>
+          </div>
+        </div>
     <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to 'New Subscription plan', new_subscription_plan_path %>
+  </div>
+</div>
