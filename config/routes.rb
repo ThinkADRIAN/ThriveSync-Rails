@@ -62,6 +62,8 @@ Rails.application.routes.draw do
 
   get "/app_constants" => 'application#app_constants', as: 'app_constants'
 
+  get "/feature_flags" => 'feature_flags#feature_flags', as: 'feature_flags'
+
   resources :conversations, :path => 'cards_stack', only: [:index, :show, :destroy] do
     member do
       post :reply
