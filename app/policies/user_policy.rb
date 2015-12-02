@@ -62,4 +62,12 @@ class UserPolicy < ApplicationPolicy
       false
     end
   end
+
+  def feature_flags?
+    if user
+      true
+    else
+      false
+    end
+  end
 end
