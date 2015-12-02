@@ -474,6 +474,34 @@ module ParseHelper
     end
   end
 
+  def etl_for_parse_admin(user_id, user_email, update_scores)
+    initialize_parse_instance_variables
+    @parse_user = retrieve_parse_user(user_email)
+    if @parse_user != nil
+      get_data_count("UserData")
+      get_data_count("Mood")
+      get_data_count("Sleep")
+      get_data_count("SelfCare")
+      get_data_count("Journal")
+
+      extract_parse_data("UserData", @parse_user["objectId"], 0, @parse_user_data_count)
+      extract_parse_data("Mood", @parse_user["objectId"], 0, @parse_mood_count)
+      extract_parse_data("Sleep", @parse_user["objectId"], 0, @parse_sleep_count)
+      extract_parse_data("SelfCare", @parse_user["objectId"], 0, @parse_self_care_count)
+      extract_parse_data("Journal", @parse_user["objectId"], 0, @parse_journal_count)
+
+      transform_and_load_parse_data("Mood", user_id, update_scores)
+      transform_and_load_parse_data("Sleep", user_id, update_scores)
+      transform_and_load_parse_data("SelfCare", user_id, update_scores)
+      transform_and_load_parse_data("Journal", user_id, update_scores)
+
+      output_data_migration_results("Mood")
+      output_data_migration_results("Sleep")
+      output_data_migration_results("SelfCare")
+      output_data_migration_results("Journal")
+    end
+  end
+
   def duplicate_entry_exists?(data_type, parse_object_id, user_id)
     if data_type == "Mood"
       duplicate_entry = Mood.where('parse_object_id = ? and user_id = ?', parse_object_id, user_id).first
