@@ -22,6 +22,10 @@ class UsersController < ApplicationController
     param :password, :undef, :desc => "Password of Thriver [String]", :required => true
   end
 
+  def_param_group :thrivers_migration_data_admin do
+    param :email, :undef, :desc => "Email Address of Thriver [String]", :required => true
+  end
+
   include ParseHelper
 
   acts_as_token_authentication_handler_for User
@@ -178,6 +182,20 @@ class UsersController < ApplicationController
   def migrate_from_thrivetracker
     authorize :user, :migrate_from_thrivetracker?
     ParseMigrater.new.async.perform(current_user.id, params[:email], params[:password])
+    track_migration_from_parse
+    respond_to do |format|
+      format.html { redirect_to root_path }
+      format.json { head :no_content }
+    end
+  end
+
+  api! "Migrate from ThriverTracker - Admin"
+  param_group :thrivers_migration_data_admin
+
+  def migrate_from_thrivetracker_admin
+    authorize :user, :migrate_from_thrivetracker_admin?
+    user_to_migrate = User.where(email: params[:email]).first
+    ParseMigrater.new.async.perform_admin(user_to_migrate.id, user_to_migrate.email)
     track_migration_from_parse
     respond_to do |format|
       format.html { redirect_to root_path }

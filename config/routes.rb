@@ -79,6 +79,7 @@ Rails.application.routes.draw do
 
   resources :users, :path => 'thrivers' do
     post "migrate_from_thrivetracker", :on => :collection
+    post "migrate_from_thrivetracker_admin", :on => :collection
     post "request_password_reset_from_thrivetracker", :on => :collection
     resources :moods
     resources :sleeps

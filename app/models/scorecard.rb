@@ -128,7 +128,7 @@ class Scorecard < ActiveRecord::Base
         current_checkin_date = data.timestamp.to_date
       end
 
-      if current_checkin_date <= streak_datetime
+      if current_checkin_date <= streak_datetime.to_date
         user_data_to_streakdatetime << data
       end
     end
