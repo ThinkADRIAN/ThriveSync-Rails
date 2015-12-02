@@ -16,6 +16,7 @@
                 -->
                   <li><%= link_to 'Research Study', page_path('research/study') %></li>
                   <li><%= link_to 'Pricing', page_path('pricing') %></li>
+                  <li><%= link_to 'Support', "https://thrivestreams.freshdesk.com", target: '_blank' %></li>
                 </ul>
             <% end %>
             <% if user_signed_in? && (current_user.is? :superuser) %>
@@ -113,6 +114,7 @@
                         <li><a href="<%= scorecards_path %>">Scorecard</a></li>
                         <li><a href="<%= reminders_path %>">Reminders</a></li>
                     <% end %>
+                    <li><%= link_to 'Support', "https://thrivestreams.freshdesk.com", target: '_blank' %></li>
                     <li><%= link_to "Logout", destroy_user_session_path, method: :delete %></li>
                   </ul>
                 </li>
