@@ -47,6 +47,14 @@ class UserPolicy < ApplicationPolicy
     end
   end
 
+  def migrate_from_thrivetracker_admin?
+    if user.is? :superuser
+      true
+    else
+      false
+    end
+  end
+
   def request_password_reset_from_thrivetracker?
     if user
       true
