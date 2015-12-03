@@ -110,7 +110,6 @@ class UsersController < ApplicationController
     authorize :user, :create?
     @user = User.new(user_params)
     @user.save
-    track_user_created
 
     respond_to do |format|
       format.html
@@ -258,17 +257,6 @@ class UsersController < ApplicationController
     accessible = [:first_name, :last_name, :email, roles: [], clients: [], supporters: []] # extend with your own params
     accessible << [:password, :password_confirmation] unless params[:user][:password].blank?
     params.fetch(:user, {}).permit(accessible)
-  end
-
-  def track_user_created
-    # Track User Creation for Segment.io Analytics
-    Analytics.track(
-      user_id: current_user.id,
-      event: 'User Created',
-      properties: {
-        user_id: @user.id
-      }
-    )
   end
 
   def track_user_updated
