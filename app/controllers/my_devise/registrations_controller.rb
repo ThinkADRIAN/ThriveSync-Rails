@@ -78,6 +78,7 @@ class MyDevise::RegistrationsController < Devise::RegistrationsController
 
   # The path used after sign up.
   def after_sign_up_path_for(resource)
+    self.track_user_created
     super(resource)
   end
 
@@ -125,6 +126,17 @@ class MyDevise::RegistrationsController < Devise::RegistrationsController
       user_id: resource.id,
       traits: {
         created_at: resource.created_at
+      }
+    )
+  end
+
+  def track_user_created
+    # Track User Creation for Segment.io Analytics
+    Analytics.track(
+      user_id: current_user.id,
+      event: 'User Created',
+      properties: {
+        user_id: @user.id
       }
     )
   end
