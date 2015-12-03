@@ -1,13 +1,13 @@
 module RpushHelper
 
-  def rpush_apn_create_app(device_token, alert, data)
+  def rpush_apn_create_app
     app = Rpush::Apns::App.new
     app.name = "thrivesync_ios_app"
 
     if (ENV['RAILS_ENV'] == 'development') || (ENV['RAILS_ENV'] == 'staging')
-      app.certificate = File.read(Rails.root.join('app', 'config', 'certs', 'development.pem').to_s)
+      app.certificate = File.read(Rails.root.join('config', 'certs', 'apns-dev.pem').to_s)
     elsif ENV['RAILS_ENV'] == 'production'
-      app.certificate = File.read(Rails.root.join('app', 'config', 'certs', 'production.pem').to_s)
+      app.certificate = File.read(Rails.root.join('config', 'certs', 'apns-prod.pem').to_s)
     end
 
     app.environment = ENV['RAILS_ENV']
