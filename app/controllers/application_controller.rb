@@ -130,7 +130,7 @@ class ApplicationController < ActionController::Base
   def track_user_login
     # Track User Login for Segment.io Analytics
     Analytics.track(
-      user_id: user.id,
+      user_id: current_user.id,
       event: 'Logged In',
       properties: {
       }

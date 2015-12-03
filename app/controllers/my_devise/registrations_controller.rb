@@ -133,10 +133,10 @@ class MyDevise::RegistrationsController < Devise::RegistrationsController
   def track_user_created
     # Track User Creation for Segment.io Analytics
     Analytics.track(
-      user_id: current_user.id,
+      user_id: resource.id,
       event: 'User Created',
       properties: {
-        user_id: @user.id
+        user_id: resource.id
       }
     )
   end
