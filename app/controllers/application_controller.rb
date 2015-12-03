@@ -115,10 +115,26 @@ class ApplicationController < ActionController::Base
     Time.zone = tz || ActiveSupport::TimeZone["Eastern Time (US & Canada)"]
   end
 
+  # Overwriting the sign_in redirect path method
+  def after_sign_in_path_for(resource_or_scope)
+    track_user_login
+    root_path
+  end
+
   # Overwriting the sign_out redirect path method
   def after_sign_out_path_for(resource_or_scope)
     track_user_logout
     root_path
+  end
+
+  def track_user_login
+    # Track User Login for Segment.io Analytics
+    Analytics.track(
+      user_id: user.id,
+      event: 'Logged In',
+      properties: {
+      }
+    )
   end
 
   def track_user_logout
