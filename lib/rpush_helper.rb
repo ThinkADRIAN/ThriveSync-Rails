@@ -10,7 +10,12 @@ module RpushHelper
       app.certificate = File.read(Rails.root.join('config', 'certs', 'apns-prod.pem').to_s)
     end
 
-    app.environment = ENV['RAILS_ENV']
+    if (ENV['RAILS_ENV'] == 'development') || (ENV['RAILS_ENV'] == 'staging')
+      app.environment = 'development'
+    elsif ENV['RAILS_ENV'] == 'production'
+      app.environment = 'production'
+    end
+
     app.password = ENV['RPUSH_CERT_PASSWORD']
     app.connections = 1
     app.save!
