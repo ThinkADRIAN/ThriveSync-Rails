@@ -35553,6 +35553,16 @@ return $.widget( "ui.tooltip", {
   });
 
 }).call(this);
+(function() {
+  $(document).on('page:change', function() {
+    if (window._gaq != null) {
+      return _gaq.push(['_trackPageview']);
+    } else if (window.pageTracker != null) {
+      return pageTracker._trackPageview();
+    }
+  });
+
+}).call(this);
 // Dropdown Menu Fix for Mobile
 // https://github.com/designmodo/startup-support/issues/43
 $('a.dropdown-toggle').click('button', function () {
@@ -35583,6 +35593,7 @@ $('a.dropdown-toggle').click('button', function () {
 
 
 // require bootstrap-material-design
+
 
 
 (function () {
