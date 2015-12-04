@@ -42,8 +42,8 @@ Rails.application.configure do
     :authentication => :plain,
     :address => "smtp.mailgun.org",
     :port => 587,
-    :user_name => ENV['EMAIL_USERNAME'],
-    :password => ENV['EMAIL_PASSWORD']
+    :user_name => ENV['MAILGUN_USERNAME'],
+    :password => ENV['MAILGUN_PASSWORD']
   }
 
   config.serve_static_assets = true
