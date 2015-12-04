@@ -96,13 +96,14 @@ Rails.application.routes.draw do
     get "providers", :on => :collection
   end
 
-  resources :devices do
-  end
+  resources :devices
 
   flipper_constraint = lambda { |request| request.remote_ip == '127.0.0.1' }
   constraints flipper_constraint do
     mount Flipper::UI.app($flipper) => '/flipper'
   end
+
+  get '/start' => 'high_voltage/pages#show', id: 'pricing'
 
   require 'api_constraints'
 
