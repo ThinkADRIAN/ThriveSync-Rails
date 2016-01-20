@@ -231,6 +231,9 @@ class User < ActiveRecord::Base
 
   private
 
+  def after_password_reset
+  end
+
   def subscribe_user_to_mailing_list
     SubscribeJob.new.async.perform(self)
   end
