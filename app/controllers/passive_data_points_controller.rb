@@ -66,9 +66,29 @@ class PassiveDataPointsController < ApplicationController
 
   respond_to :html, :json
 
+  # GET /passive_data_points
+  # GET /passive_data_points.json
+  api! "Show Passive Data Points"
+
   def index
-    @passive_data_points = PassiveDataPoint.all
-    respond_with(@passive_data_points)
+    @user = User.find_by_id(params[:user_id])
+
+    if @user == nil
+      @passive_data_points = PassiveDataPoint.where(user_id: current_user.id)
+      skip_authorization
+    elsif @user != nil
+      @passive_data_points = PassiveDataPoint.where(user_id: @user.id)
+      if @user.id == current_user.id
+        skip_authorization
+      else
+        authorize @passive_data_points
+      end
+    end
+
+    respond_to do |format|
+      format.html
+      format.json { render :json => @passive_data_points, status: 200 }
+    end
   end
 
   def show
