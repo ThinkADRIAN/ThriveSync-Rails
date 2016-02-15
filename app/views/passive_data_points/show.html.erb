@@ -46,7 +46,11 @@
 
     <p>
       <strong>Effective date time:</strong>
-      <%= @passive_data_point.effective_date_time %>
+      <% if @passive_data_point.effective_date_time.nil? %>
+          <%= 'NA' %>
+      <% else %>
+        <%= @passive_data_point.effective_date_time %>
+      <% end %>
     </p>
 
     <p>
