@@ -37,7 +37,7 @@ class PassiveDataPointsController < ApplicationController
     formats ['html', 'json']
   end
 
-  def_param_group :passive_data_point_data do
+  def_param_group :passive_data_points_data do
     param :passive_data_point, Hash, :desc => "Passive Data Point", :required => false do
       param :source_uuid, :number, :desc => "Source Identification of Passive Data Point", :required => true
       param :creation_date_time, :undef, :desc => "Creation Date as defined from Source", :required => true
@@ -48,7 +48,7 @@ class PassiveDataPointsController < ApplicationController
   end
 
   def_param_group :passive_data_points_all do
-    param_group :passive_data_point_data
+    param_group :passive_data_points_data
     param :was_user_entered, :undef, :desc => "User Entered Flag [Boolean]", :required => false
     param :timezone, :undef, :desc => "Timezone [String]", :required => false
     param :external_uuid, :undef, :desc => "External Source Identification of Passive Data Point [String]", :required => false
@@ -91,32 +91,126 @@ class PassiveDataPointsController < ApplicationController
     end
   end
 
+  # GET /passive_data_points/1
+  # GET /passive_data_points/1.json
   def show
-    respond_with(@passive_data_point)
+    authorize! :manage, PassiveDataPoint
+    authorize! :read, PassiveDataPoint
+
+    respond_to do |format|
+      format.html
+      format.json { render :json => @passive_data_point, status: 200 }
+    end
   end
 
+  # GET /passive_data_points/new
   def new
+    @user = User.find_by_id(params[:user_id])
+
+    if @user == nil
+      skip_authorization
+    elsif @user != nil
+      if @user.id == current_user.id
+        skip_authorization
+      else
+        authorize @passive_data_points
+      end
+    end
+
     @passive_data_point = PassiveDataPoint.new
-    respond_with(@passive_data_point)
+
+    respond_to do |format|
+      format.html
+      format.json { render :json => @passive_data_point, status: 200 }
+    end
   end
 
+  # GET /passive_data_points/1/edit
   def edit
+    @user = User.find_by_id(params[:user_id])
+
+    if @user == nil
+      skip_authorization
+    elsif @user != nil
+      if @user.id == current_user.id
+        skip_authorization
+      else
+        authorize @passive_data_points
+      end
+    end
+
+    respond_to do |format|
+      format.html
+      format.json { render :json => @passive_data_point, status: 200 }
+    end
   end
+
+  # POST /passive_data_points
+  # POST /passive_data_points.json
+  api! "Create Passive Data Point"
+  param_group :passive_data_points_data
 
   def create
+    authorize :review, :create?
     @passive_data_point = PassiveDataPoint.new(passive_data_point_params)
-    @passive_data_point.save
-    respond_with(@passive_data_point)
+
+    respond_to do |format|
+      if @passive_data_point.save
+        track_passive_data_point_created
+        flash[:success] = 'Passive Data Point was successfully created.'
+        format.html { redirect_to passive_data_points_path }
+        format.json { render json: @passive_data_point, status: :created }
+      else
+        flash[:error] = 'Passive Data Point was not created... Try again???'
+        format.html { render :new }
+        format.json { render json: @passive_data_points.errors, status: :unprocessable_entity }
+      end
+    end
   end
+
+  # PATCH/PUT /passive_data_points/1
+  # PATCH/PUT /passive_data_points/1.json
+  api! "Update Passive Data Point"
+  param_group :passive_data_points_data
 
   def update
-    @passive_data_point.update(passive_data_point_params)
-    respond_with(@passive_data_point)
+    authorize :review, :update?
+
+    respond_to do |format|
+      if @passive_data_point.update(passive_data_point_params)
+        @passive_data_point.update_goals
+        track_passive_data_point_updated
+
+        flash.now[:success] = 'Passive Data Point was successfully updated.'
+        format.html { redirect_to passive_data_points_url, notice: 'Passive Data Point was successfully updated.' }
+        format.json { render :json => @passive_data_point, status: :created }
+      else
+        flash.now[:error] = 'Passive Data Point was not updated... Try again???'
+        format.json { render json: @passive_data_point.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
+  # DELETE /passive_data_points/1
+  # DELETE /passive_data_points/1.json
+  api! "Delete Passive Data Point"
+  param_group :destroy_passive_data_point_data
+
   def destroy
-    @passive_data_point.destroy
-    respond_with(@passive_data_point)
+    authorize :review, :destroy?
+
+    respond_to do |format|
+      if @passive_data_point.destroy
+        track_passive_data_point_deleted
+        flash[:success] = 'Passive Data Point was successfully deleted.'
+        format.html { redirect_to passive_data_points_path }
+        format.json { head :no_content }
+      else
+        flash[:error] = 'Passive Data Point was not deleted... Try again???'
+        format.html { redirect passive_data_points_path }
+        format.json { render json: @passive_data_points.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   private
@@ -125,6 +219,58 @@ class PassiveDataPointsController < ApplicationController
     end
 
     def passive_data_point_params
-      params.require(:passive_data_point).permit(:user_id, :integer, :was_user_entered, :boolean, :timezone, :string, :source_uuid, :string, :external_uuid, :string, :creation_date_time, :date, :schema_namespace, :string, :schema_name, :string, :schema_version, :string)
+      params.fetch(:passive_data_point, {}).permit(:user_id, :was_user_entered, :timezone,  :source_uuid, :external_uuid, :creation_date_time, :schema_namespace, :schema_name,  :schema_version)
     end
+
+  def track_passive_data_created
+    # Track Passive Data Point Creation for Segment.io Analytics
+    Analytics.track(
+      user_id: current_user.id,
+      event: 'Passive Data Point Created',
+      properties: {
+        passive_data_point_id: @passive_data_point.id,
+        was_user_entered: @passive_data_point.was_user_entered,
+        timezone: @passive_data_point.timezone,
+        source_uuid: @passive_data_point.source_uuid,
+        external_uuid: @passive_data_point.external_uuid,
+        creation_date_time: @passive_data_point.creation_date_time,
+        schema_namespace: @passive_data_point.schema_namespace,
+        schema_name: @passive_data_point.schema_name,
+        schema_version: @passive_data_point.schema_version,
+        updated_at: @passive_data_point.updated_at,
+        passive_data_point_user_id: @passive_data_point.user_id
+      }
+    )
+  end
+
+  def track_passive_data_point_updated
+    # Track Passive Data Point Update for Segment.io Analytics
+    Analytics.track(
+      user_id: current_user.id,
+      event: 'Passive Data Point Updated',
+      properties: {
+        passive_data_point_id: @passive_data_point.id,
+        was_user_entered: @passive_data_point.was_user_entered,
+        timezone: @passive_data_point.timezone,
+        source_uuid: @passive_data_point.source_uuid,
+        external_uuid: @passive_data_point.external_uuid,
+        creation_date_time: @passive_data_point.creation_date_time,
+        schema_namespace: @passive_data_point.schema_namespace,
+        schema_name: @passive_data_point.schema_name,
+        schema_version: @passive_data_point.schema_version,
+        updated_at: @passive_data_point.updated_at,
+        passive_data_point_user_id: @passive_data_point.user_id
+      }
+    )
+  end
+
+  def track_passive_data_point_deleted
+    # Track Passive Data Point Deletion for Segment.io Analytics
+    Analytics.track(
+      user_id: @passive_data_point.user_id,
+      event: 'Passive Data Point Deleted',
+      properties: {
+      }
+    )
+  end
 end
