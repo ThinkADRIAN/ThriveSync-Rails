@@ -1,8 +1,8 @@
 Rails.application.routes.draw do
 
-  resources :effective_time_intervals
-
   apipie
+
+  resources :effective_time_intervals
 
   resources :passive_data_points
 
