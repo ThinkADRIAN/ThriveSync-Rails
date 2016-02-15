@@ -136,16 +136,12 @@ ActiveRecord::Schema.define(version: 20160215113748) do
   end
 
   create_table "passive_data_points", force: true do |t|
-    t.string   "user_id"
-    t.string   "integer"
-    t.string   "was_user_entered"
-    t.string   "boolean"
+    t.integer  "user_id"
+    t.boolean  "was_user_entered"
     t.string   "timezone"
-    t.string   "string"
     t.string   "source_uuid"
     t.string   "external_uuid"
-    t.string   "creation_date_time"
-    t.string   "date"
+    t.datetime "creation_date_time"
     t.string   "schema_namespace"
     t.string   "schema_name"
     t.string   "schema_version"
