@@ -1,41 +1,43 @@
-<h1>Listing passive_data_points</h1>
+<div class="container">
+    <h1>Passive Data Points</h1>
 
-<table>
-  <thead>
-    <tr>
-      <th>User</th>
-      <th>Was user entered</th>
-      <th>Timezone</th>
-      <th>Source uuid</th>
-      <th>External uuid</th>
-      <th>Creation date time</th>
-      <th>Schema namespace</th>
-      <th>Schema name</th>
-      <th>Schema version</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+    <table>
+      <thead>
+        <tr>
+          <th>User</th>
+          <th>Was user entered</th>
+          <th>Timezone</th>
+          <th>Source uuid</th>
+          <th>External uuid</th>
+          <th>Creation date time</th>
+          <th>Schema namespace</th>
+          <th>Schema name</th>
+          <th>Schema version</th>
+          <th colspan="3"></th>
+        </tr>
+      </thead>
 
-  <tbody>
-    <% @passive_data_points.each do |passive_data_point| %>
-      <tr>
-        <td><%= passive_data_point.user_id %></td>
-        <td><%= passive_data_point.was_user_entered %></td>
-        <td><%= passive_data_point.timezone %></td>
-        <td><%= passive_data_point.source_uuid %></td>
-        <td><%= passive_data_point.external_uuid %></td>
-        <td><%= passive_data_point.creation_date_time %></td>
-        <td><%= passive_data_point.schema_namespace %></td>
-        <td><%= passive_data_point.schema_name %></td>
-        <td><%= passive_data_point.schema_version %></td>
-        <td><%= link_to 'Show', passive_data_point %></td>
-        <td><%= link_to 'Edit', edit_passive_data_point_path(passive_data_point) %></td>
-        <td><%= link_to 'Destroy', passive_data_point, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+      <tbody>
+        <% @passive_data_points.each do |passive_data_point| %>
+          <tr>
+            <td><%= passive_data_point.user_id %></td>
+            <td><%= passive_data_point.was_user_entered %></td>
+            <td><%= passive_data_point.timezone %></td>
+            <td><%= passive_data_point.source_uuid %></td>
+            <td><%= passive_data_point.external_uuid %></td>
+            <td><%= passive_data_point.creation_date_time %></td>
+            <td><%= passive_data_point.schema_namespace %></td>
+            <td><%= passive_data_point.schema_name %></td>
+            <td><%= passive_data_point.schema_version %></td>
+            <td><%= link_to 'Show', passive_data_point %></td>
+            <td><%= link_to 'Edit', edit_passive_data_point_path(passive_data_point) %></td>
+            <td><%= link_to 'Destroy', passive_data_point, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
 
-<br>
+    <br>
 
-<%= link_to 'New Passive data point', new_passive_data_point_path %>
+    <%= link_to 'New Passive data point', new_passive_data_point_path %>
+</div>
