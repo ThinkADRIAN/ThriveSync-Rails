@@ -7,7 +7,7 @@ class PassiveDataPointsController < ApplicationController
           Required Fields:
             user_id: integer
             source_uuid: string
-            creation_date_time: date
+            creation_date_time: datetime
             schema_namespace: string
             schema_name: string
             schema_version: string
@@ -15,6 +15,7 @@ class PassiveDataPointsController < ApplicationController
             was_user_entered: boolean
             timezone: string
             external_uuid: string
+            effective_date_time: datetime
 
       ===Sample JSON Output:
           {
