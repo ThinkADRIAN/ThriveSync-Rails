@@ -1,5 +1,4 @@
 class PassiveDataPointsController < ApplicationController
-  # TODO - Update Sample JSON Output
   resource_description do
     short 'Passive Data Point Entries'
     desc <<-EOS
@@ -19,16 +18,18 @@ class PassiveDataPointsController < ApplicationController
 
       ===Sample JSON Output:
           {
-            "moods": [
+            "passive_data_points": [
               {
-                "id": 2712,
-                "mood_rating": 4,
-                "anxiety_rating": 1,
-                "irritability_rating": 1,
-                "timestamp": "2014-10-27 09:59:00 -0400",
-                "created_at": "2014-10-27 05:59:41 -0400",
-                "updated_at": "2014-10-27 05:59:41 -0400",
-                "user_id": 24
+                "id": 1,
+                "user_id": 3,
+                "was_user_entered": true,
+                "timezone": "EST",
+                "source_uuid": "abc1234",
+                "external_uuid": "xyz7890",
+                "creation_date_time": "2016-02-15 08:35:00 -0500",
+                "schema_namespace": "test_namespace",
+                "schema_name": "test_name",
+                "schema_version": "test_version"
               }
             ]
           }
@@ -39,8 +40,8 @@ class PassiveDataPointsController < ApplicationController
 
   def_param_group :passive_data_points_data do
     param :passive_data_point, Hash, :desc => "Passive Data Point", :required => false do
-      param :source_uuid, :number, :desc => "Source Identification of Passive Data Point", :required => true
-      param :creation_date_time, :undef, :desc => "Creation Date as defined from Source", :required => true
+      param :source_uuid, :undef, :desc => "Source Identification of Passive Data Point [String]", :required => true
+      param :creation_date_time, :undef, :desc => "Creation Date as defined from Source [Timestamp]", :required => false
       param :schema_namespace, :undef, :desc => "Schema Namespace [String]", :required => true
       param :schema_name, :undef, :desc => "Schema Name [String]", :required => true
       param :schema_version, :undef, :desc => "Schema Version [String]", :required => true
@@ -94,8 +95,17 @@ class PassiveDataPointsController < ApplicationController
   # GET /passive_data_points/1
   # GET /passive_data_points/1.json
   def show
-    authorize! :manage, PassiveDataPoint
-    authorize! :read, PassiveDataPoint
+    @user = User.find_by_id(params[:user_id])
+
+    if @user == nil
+      skip_authorization
+    elsif @user != nil
+      if @user.id == current_user.id
+        skip_authorization
+      else
+        authorize @passive_data_points
+      end
+    end
 
     respond_to do |format|
       format.html
@@ -151,8 +161,20 @@ class PassiveDataPointsController < ApplicationController
   param_group :passive_data_points_data
 
   def create
-    authorize :review, :create?
+    @user = User.find_by_id(params[:user_id])
+
+    if @user == nil
+      skip_authorization
+    elsif @user != nil
+      if @user.id == current_user.id
+        skip_authorization
+      else
+        authorize @passive_data_points
+      end
+    end
+
     @passive_data_point = PassiveDataPoint.new(passive_data_point_params)
+    @passive_data_point.user_id = current_user.id
 
     respond_to do |format|
       if @passive_data_point.save
@@ -174,11 +196,20 @@ class PassiveDataPointsController < ApplicationController
   param_group :passive_data_points_data
 
   def update
-    authorize :review, :update?
+    @user = User.find_by_id(params[:user_id])
+
+    if @user == nil
+      skip_authorization
+    elsif @user != nil
+      if @user.id == current_user.id
+        skip_authorization
+      else
+        authorize @passive_data_points
+      end
+    end
 
     respond_to do |format|
       if @passive_data_point.update(passive_data_point_params)
-        @passive_data_point.update_goals
         track_passive_data_point_updated
 
         flash.now[:success] = 'Passive Data Point was successfully updated.'
@@ -197,7 +228,17 @@ class PassiveDataPointsController < ApplicationController
   param_group :destroy_passive_data_point_data
 
   def destroy
-    authorize :review, :destroy?
+    @user = User.find_by_id(params[:user_id])
+
+    if @user == nil
+      skip_authorization
+    elsif @user != nil
+      if @user.id == current_user.id
+        skip_authorization
+      else
+        authorize @passive_data_points
+      end
+    end
 
     respond_to do |format|
       if @passive_data_point.destroy
@@ -222,7 +263,7 @@ class PassiveDataPointsController < ApplicationController
       params.fetch(:passive_data_point, {}).permit(:user_id, :was_user_entered, :timezone,  :source_uuid, :external_uuid, :creation_date_time, :schema_namespace, :schema_name,  :schema_version)
     end
 
-  def track_passive_data_created
+  def track_passive_data_point_created
     # Track Passive Data Point Creation for Segment.io Analytics
     Analytics.track(
       user_id: current_user.id,
