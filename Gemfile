@@ -93,6 +93,7 @@ gem 'will_paginate'
 gem 'chosen-rails'
 gem 'bootstrap_form'
 gem 'bootstrap-material-design'
+gem 'haml'
 
 # Interface
 gem 'jquery-ui-rails'

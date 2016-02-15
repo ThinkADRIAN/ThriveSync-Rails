@@ -175,6 +175,8 @@ GEM
       guard (~> 2.1)
       guard-compat (~> 1.1)
       rspec (>= 2.99.0, < 4.0)
+    haml (4.0.7)
+      tilt
     has_friendship (0.0.3)
       rails (~> 4.1.8)
     hashdiff (0.2.3)
@@ -428,6 +430,7 @@ DEPENDENCIES
   gibbon
   groupdate
   guard-rspec
+  haml
   has_friendship
   high_voltage (~> 2.4.0)
   jbuilder (~> 2.0)
