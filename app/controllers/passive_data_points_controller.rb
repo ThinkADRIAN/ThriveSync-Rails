@@ -46,6 +46,7 @@ class PassiveDataPointsController < ApplicationController
       param :schema_name, :undef, :desc => "Schema Name [String]", :required => true
       param :schema_version, :undef, :desc => "Schema Version [String]", :required => true
       param :effective_date_time, :undef, :desc => "Effective Date Time [Timestamp]", :required => false
+      param :effective_time_intervals_attributes, :undef, :desc => "Effective Time Interval [{start_date_time, end_date_time}]", :required => false
     end
   end
 
