@@ -43,6 +43,10 @@
     <%= f.label :schema_version %><br>
     <%= f.text_field :schema_version, hide_label: true %>
   </div>
+  <div class="field">
+    <%= f.label :effective_date_time %><br>
+    <%= f.datetime_select :effective_date_time, hide_label: true %>
+  </div>
   <div class="actions">
     <%= f.submit %>
   </div>

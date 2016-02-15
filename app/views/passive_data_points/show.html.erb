@@ -44,6 +44,11 @@
       <%= @passive_data_point.schema_version %>
     </p>
 
+    <p>
+      <strong>Effective date time:</strong>
+      <%= @passive_data_point.effective_date_time %>
+    </p>
+
     <%= link_to 'Edit', edit_passive_data_point_path(@passive_data_point) %> |
     <%= link_to 'Back', passive_data_points_path %>
 </div>

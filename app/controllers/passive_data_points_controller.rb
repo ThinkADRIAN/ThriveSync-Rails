@@ -18,20 +18,19 @@ class PassiveDataPointsController < ApplicationController
 
       ===Sample JSON Output:
           {
-            "passive_data_points": [
-              {
-                "id": 1,
-                "user_id": 3,
-                "was_user_entered": true,
-                "timezone": "EST",
-                "source_uuid": "abc1234",
-                "external_uuid": "xyz7890",
-                "creation_date_time": "2016-02-15 08:35:00 -0500",
-                "schema_namespace": "test_namespace",
-                "schema_name": "test_name",
-                "schema_version": "test_version"
-              }
-            ]
+            "passive_data_point": {
+              "id": 1,
+              "user_id": 3,
+              "was_user_entered": true,
+              "timezone": "EST",
+              "source_uuid": "abc1234",
+              "external_uuid": "xyz7890",
+              "creation_date_time": "2016-02-15 08:35:00 -0500",
+              "schema_namespace": "test_namespace",
+              "schema_name": "test_name",
+              "schema_version": "test_version",
+              "effective_date_time": "2016-02-15 09:34:00 -0500"
+            }
           }
     EOS
     api_base_url ""
@@ -45,6 +44,7 @@ class PassiveDataPointsController < ApplicationController
       param :schema_namespace, :undef, :desc => "Schema Namespace [String]", :required => true
       param :schema_name, :undef, :desc => "Schema Name [String]", :required => true
       param :schema_version, :undef, :desc => "Schema Version [String]", :required => true
+      param :effective_date_time, :undef, :desc => "Effective Date Time [Timestamp]", :required => false
     end
   end
 
@@ -260,7 +260,7 @@ class PassiveDataPointsController < ApplicationController
     end
 
     def passive_data_point_params
-      params.fetch(:passive_data_point, {}).permit(:user_id, :was_user_entered, :timezone,  :source_uuid, :external_uuid, :creation_date_time, :schema_namespace, :schema_name,  :schema_version)
+      params.fetch(:passive_data_point, {}).permit(:user_id, :was_user_entered, :timezone,  :source_uuid, :external_uuid, :creation_date_time, :schema_namespace, :schema_name,  :schema_version, :effective_date_time)
     end
 
   def track_passive_data_point_created
@@ -278,6 +278,7 @@ class PassiveDataPointsController < ApplicationController
         schema_namespace: @passive_data_point.schema_namespace,
         schema_name: @passive_data_point.schema_name,
         schema_version: @passive_data_point.schema_version,
+        effective_date_time: @passive_data_point.effective_date_time,
         updated_at: @passive_data_point.updated_at,
         passive_data_point_user_id: @passive_data_point.user_id
       }
@@ -299,6 +300,7 @@ class PassiveDataPointsController < ApplicationController
         schema_namespace: @passive_data_point.schema_namespace,
         schema_name: @passive_data_point.schema_name,
         schema_version: @passive_data_point.schema_version,
+        effective_date_time: @passive_data_point.effective_date_time,
         updated_at: @passive_data_point.updated_at,
         passive_data_point_user_id: @passive_data_point.user_id
       }
