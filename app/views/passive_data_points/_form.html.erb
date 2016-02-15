@@ -1,0 +1,89 @@
+<%= form_for(@passive_data_point) do |f| %>
+  <% if @passive_data_point.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@passive_data_point.errors.count, "error") %> prohibited this passive_data_point from being saved:</h2>
+
+      <ul>
+      <% @passive_data_point.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :user_id %><br>
+    <%= f.text_field :user_id %>
+  </div>
+  <div class="field">
+    <%= f.label :integer %><br>
+    <%= f.text_field :integer %>
+  </div>
+  <div class="field">
+    <%= f.label :was_user_entered %><br>
+    <%= f.text_field :was_user_entered %>
+  </div>
+  <div class="field">
+    <%= f.label :boolean %><br>
+    <%= f.text_field :boolean %>
+  </div>
+  <div class="field">
+    <%= f.label :timezone %><br>
+    <%= f.text_field :timezone %>
+  </div>
+  <div class="field">
+    <%= f.label :string %><br>
+    <%= f.text_field :string %>
+  </div>
+  <div class="field">
+    <%= f.label :source_uuid %><br>
+    <%= f.text_field :source_uuid %>
+  </div>
+  <div class="field">
+    <%= f.label :string %><br>
+    <%= f.text_field :string %>
+  </div>
+  <div class="field">
+    <%= f.label :external_uuid %><br>
+    <%= f.text_field :external_uuid %>
+  </div>
+  <div class="field">
+    <%= f.label :string %><br>
+    <%= f.text_field :string %>
+  </div>
+  <div class="field">
+    <%= f.label :creation_date_time %><br>
+    <%= f.text_field :creation_date_time %>
+  </div>
+  <div class="field">
+    <%= f.label :date %><br>
+    <%= f.text_field :date %>
+  </div>
+  <div class="field">
+    <%= f.label :schema_namespace %><br>
+    <%= f.text_field :schema_namespace %>
+  </div>
+  <div class="field">
+    <%= f.label :string %><br>
+    <%= f.text_field :string %>
+  </div>
+  <div class="field">
+    <%= f.label :schema_name %><br>
+    <%= f.text_field :schema_name %>
+  </div>
+  <div class="field">
+    <%= f.label :string %><br>
+    <%= f.text_field :string %>
+  </div>
+  <div class="field">
+    <%= f.label :schema_version %><br>
+    <%= f.text_field :schema_version %>
+  </div>
+  <div class="field">
+    <%= f.label :string %><br>
+    <%= f.text_field :string %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

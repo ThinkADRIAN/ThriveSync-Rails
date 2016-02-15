@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :passive_data_points
+
   apipie
 
   resources :pre_defined_cards
