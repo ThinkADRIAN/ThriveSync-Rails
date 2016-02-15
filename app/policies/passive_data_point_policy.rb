@@ -1,14 +1,23 @@
 class PassiveDataPointPolicy < ApplicationPolicy
   def index?
-    authorize_current_user_and_super_user
+    if user.is? :superuser
+      true
+    elsif user.is? :pro
+      client_id = record.first.user_id
+      if user.clients.include? client_id
+        true
+      else
+        false
+      end
+    end
   end
 
   def show?
-    index?
+    scope.where(:id => record.id).exists?
   end
 
   def create?
-    authorize_super_user
+    false
   end
 
   def new?
@@ -16,7 +25,7 @@ class PassiveDataPointPolicy < ApplicationPolicy
   end
 
   def update?
-    authorize_current_user_and_super_user
+    false
   end
 
   def edit?
@@ -24,6 +33,23 @@ class PassiveDataPointPolicy < ApplicationPolicy
   end
 
   def destroy?
-    authorize_super_user
+    false
+  end
+
+  class Scope < Scope
+    def resolve
+      if user.is? :superuser
+        scope.all
+      elsif user.is? :pro
+        client_id = scope.first.user_id
+        if user.clients.include? client_id
+          scope
+        else
+          scope = nil
+        end
+      else
+        scope
+      end
+    end
   end
 end
