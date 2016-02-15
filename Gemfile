@@ -99,6 +99,9 @@ gem 'jquery-ui-rails'
 gem 'jquery-slick-rails'
 gem 'touchpunch-rails'
 
+# Nested Forms
+gem 'cocoon'
+
 # Messaging
 gem 'mailboxer'
 
@@ -136,7 +139,7 @@ gem 'high_voltage', '~> 2.4.0'
 gem 'rpush'
 
 # Mailchimp API Integration
-gem "gibbon"
+gem 'gibbon'
 
 # Scheduled Cron Jobs
 gem 'whenever', require: false
