@@ -24,6 +24,8 @@ class User < ActiveRecord::Base
 
   has_many :invitations, :class_name => self.to_s, :as => :invited_by
 
+  has_many :passive_data_points, dependent: :destroy
+
   before_create :set_default_role
   after_create :create_scorecard
   after_create :create_reward
