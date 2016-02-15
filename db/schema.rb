@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151122181904) do
+ActiveRecord::Schema.define(version: 20160215113748) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -133,6 +133,24 @@ ActiveRecord::Schema.define(version: 20151122181904) do
     t.datetime "updated_at"
     t.integer  "user_id"
     t.string   "parse_object_id"
+  end
+
+  create_table "passive_data_points", force: true do |t|
+    t.string   "user_id"
+    t.string   "integer"
+    t.string   "was_user_entered"
+    t.string   "boolean"
+    t.string   "timezone"
+    t.string   "string"
+    t.string   "source_uuid"
+    t.string   "external_uuid"
+    t.string   "creation_date_time"
+    t.string   "date"
+    t.string   "schema_namespace"
+    t.string   "schema_name"
+    t.string   "schema_version"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "pre_defined_cards", force: true do |t|
