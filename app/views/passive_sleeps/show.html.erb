@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Passive data:</strong>
+  <%= @passive_sleep.passive_data_id %>
+</p>
+
+<p>
+  <strong>Category type:</strong>
+  <%= @passive_sleep.category_type %>
+</p>
+
+<p>
+  <strong>Category value:</strong>
+  <%= @passive_sleep.category_value %>
+</p>
+
+<p>
+  <strong>Value:</strong>
+  <%= @passive_sleep.value %>
+</p>
+
+<p>
+  <strong>Unit:</strong>
+  <%= @passive_sleep.unit %>
+</p>
+
+<%= link_to 'Edit', edit_passive_sleep_path(@passive_sleep) %> |
+<%= link_to 'Back', passive_sleeps_path %>

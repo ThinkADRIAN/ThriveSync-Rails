@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  resources :passive_sleeps
+
   apipie
 
   resources :effective_time_intervals
