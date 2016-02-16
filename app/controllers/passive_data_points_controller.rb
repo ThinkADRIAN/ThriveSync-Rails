@@ -56,10 +56,15 @@ class PassiveDataPointsController < ApplicationController
     param :timezone, :undef, :desc => "Timezone [String]", :required => false
     param :external_uuid, :undef, :desc => "External Source Identification of Passive Data Point [String]", :required => false
     param_group :passive_sleep
+    param_group :passive_activity
   end
 
   def_param_group :passive_sleep do
-    param :passive_sleeps_attributes, :undef, :desc => "Array of Passive Sleeps [{passive_data_id, category_type, category_value, value, unit }]", :required => false
+    param :passive_sleeps_attributes, :undef, :desc => "Array of Passive Sleeps [{passive_data_id, category_type, category_value, value, unit}]", :required => false
+  end
+
+  def_param_group :passive_activity do
+    param :passive_activities_attributes, :undef, :desc => "Array of Passive Activities [{passive_data_id, type, value, unit, kcal_burned_value, kcal_burned_unit,step_count}]", :required => false
   end
 
   def_param_group :destroy_passive_data_point_data do
