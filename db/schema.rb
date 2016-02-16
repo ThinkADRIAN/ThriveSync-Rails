@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160216015120) do
+ActiveRecord::Schema.define(version: 20160216153433) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -141,6 +141,18 @@ ActiveRecord::Schema.define(version: 20160216015120) do
     t.datetime "updated_at"
     t.integer  "user_id"
     t.string   "parse_object_id"
+  end
+
+  create_table "passive_activities", force: true do |t|
+    t.integer  "passive_data_point_id"
+    t.string   "type"
+    t.float    "value"
+    t.string   "unit"
+    t.float    "kcal_burned_value"
+    t.string   "kcal_burned_unit"
+    t.float    "step_count"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "passive_data_points", force: true do |t|
