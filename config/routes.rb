@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :passive_activities
+
   apipie
 
   resources :passive_sleeps
