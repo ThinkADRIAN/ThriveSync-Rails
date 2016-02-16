@@ -113,6 +113,42 @@
     </table>
     </p>
 
+    <p>
+      <strong>Passive Activity Entries:</strong>
+
+    <table>
+      <thead>
+      <tr>
+        <th>Id</th>
+        <th>Type</th>
+        <th>Value</th>
+        <th>Unit</th>
+        <th>Kcal Burned Value</th>
+        <th>Kcal Burned Unit</th>
+        <th>Step Count</th>
+        <th colspan="3"></th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <% @passive_data_point.passive_activities.each do |passive_activity| %>
+        <tr>
+          <td><%= passive_activity.id %></td>
+          <td><%= passive_activity.type  %></td>
+          <td><%= passive_activity.value %></td>
+          <td><%= passive_activity.unit %></td>
+          <td><%= passive_activity.kcal_burned_value %></td>
+          <td><%= passive_activity.kcal_burned_unit %></td>
+          <td><%= passive_activity.step_count %></td>
+          <td><%= link_to 'Show', passive_activity%></td>
+          <td><%= link_to 'Edit', edit_passive_activity_path(passive_activity) %></td>
+          <td><%= link_to 'Destroy', passive_activity, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+    </p>
+
     <%= link_to 'Edit', edit_passive_data_point_path(@passive_data_point) %> |
     <%= link_to 'Back', passive_data_points_path %>
 </div>
