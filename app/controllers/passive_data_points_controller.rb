@@ -306,6 +306,16 @@ class PassiveDataPointsController < ApplicationController
                                                      :kcal_burned_unit,
                                                      :step_count,
                                                      :_destroy
+                                                   ],
+                                                   passive_workouts_attributes: [
+                                                     :id,
+                                                     :passive_data_point_id,
+                                                     :workout_type,
+                                                     :kcal_burned_value,
+                                                     :kcal_burned_unit,
+                                                     :distance_value,
+                                                     :distance_unit,
+                                                     :_destroy
                                                    ]
       )
     end
