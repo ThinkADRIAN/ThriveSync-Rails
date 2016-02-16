@@ -1,0 +1,2 @@
+module PassiveWorkoutsHelper
+end

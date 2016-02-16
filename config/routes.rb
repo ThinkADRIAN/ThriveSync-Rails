@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :passive_workouts
+
   apipie
 
   resources :passive_activities
