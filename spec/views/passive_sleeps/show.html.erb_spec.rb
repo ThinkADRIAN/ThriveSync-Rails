@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe "passive_sleeps/show", type: :view do
   before(:each) do
     @passive_sleep = assign(:passive_sleep, PassiveSleep.create!(
-      :passive_data_id => 1,
+      :passive_data_point_id => 1,
       :category_type => "Category Type",
       :category_value => "Category Value",
       :value => "",

@@ -4,14 +4,14 @@ RSpec.describe "passive_sleeps/index", type: :view do
   before(:each) do
     assign(:passive_sleeps, [
       PassiveSleep.create!(
-        :passive_data_id => 1,
+        :passive_data_point_id => 1,
         :category_type => "Category Type",
         :category_value => "Category Value",
         :value => "",
         :unit => "Unit"
       ),
       PassiveSleep.create!(
-        :passive_data_id => 1,
+        :passive_data_point_id => 1,
         :category_type => "Category Type",
         :category_value => "Category Value",
         :value => "",

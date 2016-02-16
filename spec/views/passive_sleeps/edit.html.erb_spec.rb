@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe "passive_sleeps/edit", type: :view do
   before(:each) do
     @passive_sleep = assign(:passive_sleep, PassiveSleep.create!(
-      :passive_data_id => 1,
+      :passive_data_point_id => 1,
       :category_type => "MyString",
       :category_value => "MyString",
       :value => "",
@@ -16,7 +16,7 @@ RSpec.describe "passive_sleeps/edit", type: :view do
 
     assert_select "form[action=?][method=?]", passive_sleep_path(@passive_sleep), "post" do
 
-      assert_select "input#passive_sleep_passive_data_id[name=?]", "passive_sleep[passive_data_id]"
+      assert_select "input#passive_sleep_passive_data_point_id[name=?]", "passive_sleep[passive_data_point_id]"
 
       assert_select "input#passive_sleep_category_type[name=?]", "passive_sleep[category_type]"
 
