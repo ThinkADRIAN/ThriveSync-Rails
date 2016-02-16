@@ -1,39 +1,41 @@
-<p id="notice"><%= notice %></p>
+<div class="container">
+  <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Passive data point:</strong>
-  <%= @passive_activity.passive_data_point_id %>
-</p>
+  <p>
+    <strong>Passive data point:</strong>
+    <%= @passive_activity.passive_data_point_id %>
+  </p>
 
-<p>
-  <strong>Type:</strong>
-  <%= @passive_activity.type %>
-</p>
+  <p>
+    <strong>Type:</strong>
+    <%= @passive_activity.type %>
+  </p>
 
-<p>
-  <strong>Value:</strong>
-  <%= @passive_activity.value %>
-</p>
+  <p>
+    <strong>Value:</strong>
+    <%= @passive_activity.value %>
+  </p>
 
-<p>
-  <strong>Unit:</strong>
-  <%= @passive_activity.unit %>
-</p>
+  <p>
+    <strong>Unit:</strong>
+    <%= @passive_activity.unit %>
+  </p>
 
-<p>
-  <strong>Kcal burned value:</strong>
-  <%= @passive_activity.kcal_burned_value %>
-</p>
+  <p>
+    <strong>Kcal burned value:</strong>
+    <%= @passive_activity.kcal_burned_value %>
+  </p>
 
-<p>
-  <strong>Kcal burned unit:</strong>
-  <%= @passive_activity.kcal_burned_unit %>
-</p>
+  <p>
+    <strong>Kcal burned unit:</strong>
+    <%= @passive_activity.kcal_burned_unit %>
+  </p>
 
-<p>
-  <strong>Step count:</strong>
-  <%= @passive_activity.step_count %>
-</p>
+  <p>
+    <strong>Step count:</strong>
+    <%= @passive_activity.step_count %>
+  </p>
 
-<%= link_to 'Edit', edit_passive_activity_path(@passive_activity) %> |
-<%= link_to 'Back', passive_activities_path %>
+  <%= link_to 'Edit', edit_passive_activity_path(@passive_activity) %> |
+  <%= link_to 'Back', passive_activities_path %>
+</div>
