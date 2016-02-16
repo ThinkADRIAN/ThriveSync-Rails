@@ -294,7 +294,7 @@ class PassiveDataPointsController < ApplicationController
                                                    passive_activities_attributes: [
                                                      :id,
                                                      :passive_data_point_id,
-                                                     :type,
+                                                     :activity_type,
                                                      :value,
                                                      :unit,
                                                      :kcal_burned_value,

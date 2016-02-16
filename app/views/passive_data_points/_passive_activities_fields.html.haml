@@ -1,8 +1,8 @@
 .nested-fields
   .field
-    = f.label :type
+    = f.label :activity_type
     %br
-    = f.text_field :type, hide_label: true
+    = f.text_field :activity_type, hide_label: true
   .field
     = f.label :value
     %br
@@ -23,4 +23,4 @@
     = f.label :step_count
     %br
     = f.text_field :step_count, hide_label: true
-  = link_to_remove_association "Remove Passive Sleep", f
+  = link_to_remove_association "Remove Passive Activity", f

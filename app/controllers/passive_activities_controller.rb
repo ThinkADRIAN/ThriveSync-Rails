@@ -42,6 +42,6 @@ class PassiveActivitiesController < ApplicationController
     end
 
     def passive_activity_params
-      params.require(:passive_activity).permit(:passive_data_point_id, :type, :value, :unit, :kcal_burned_value, :kcal_burned_unit, :step_count)
+      params.require(:passive_activity).permit(:passive_data_point_id, :activity_type, :value, :unit, :kcal_burned_value, :kcal_burned_unit, :step_count)
     end
 end
