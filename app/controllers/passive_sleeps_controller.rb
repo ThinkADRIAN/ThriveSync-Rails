@@ -42,6 +42,6 @@ class PassiveSleepsController < ApplicationController
     end
 
     def passive_sleep_params
-      params.require(:passive_sleep).permit(:passive_data_id, :category_type, :category_value, :value, :unit)
+      params.require(:passive_sleep).permit(:passive_data_point_id, :category_type, :category_value, :value, :unit)
     end
 end
