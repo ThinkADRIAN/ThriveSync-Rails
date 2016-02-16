@@ -10,7 +10,6 @@ class CreatePassiveDataPoints < ActiveRecord::Migration
       t.string :schema_namespace
       t.string :schema_name
       t.string :schema_version
-      t.datetime :effective_date_time
 
       t.timestamps
     end
