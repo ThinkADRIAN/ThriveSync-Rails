@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160216161846) do
+ActiveRecord::Schema.define(version: 20160216165711) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -176,6 +176,17 @@ ActiveRecord::Schema.define(version: 20160216161846) do
     t.string   "category_value"
     t.float    "value"
     t.string   "unit"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "passive_workouts", force: true do |t|
+    t.integer  "passive_data_point_id"
+    t.string   "workout_type"
+    t.float    "kcal_burned_value"
+    t.string   "kcal_burned_unit"
+    t.float    "distance_value"
+    t.string   "distance_unit"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
