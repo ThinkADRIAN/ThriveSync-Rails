@@ -4,7 +4,7 @@ class CreatePassiveSleeps < ActiveRecord::Migration
       t.integer :passive_data_id
       t.string :category_type
       t.string :category_value
-      t.double :value
+      t.float :value
       t.string :unit
 
       t.timestamps
