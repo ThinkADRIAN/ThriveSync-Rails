@@ -3,7 +3,7 @@
 <table>
   <thead>
     <tr>
-      <th>Passive data</th>
+      <th>Passive data point</th>
       <th>Category type</th>
       <th>Category value</th>
       <th>Value</th>
@@ -15,7 +15,7 @@
   <tbody>
     <% @passive_sleeps.each do |passive_sleep| %>
       <tr>
-        <td><%= passive_sleep.passive_data_id %></td>
+        <td><%= passive_sleep.passive_data_point_id %></td>
         <td><%= passive_sleep.category_type %></td>
         <td><%= passive_sleep.category_value %></td>
         <td><%= passive_sleep.value %></td>
