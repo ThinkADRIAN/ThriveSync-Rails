@@ -267,7 +267,26 @@ class PassiveDataPointsController < ApplicationController
     end
 
     def passive_data_point_params
-      params.fetch(:passive_data_point, {}).permit(:user_id, :was_user_entered, :timezone,  :source_uuid, :external_uuid, :creation_date_time, :schema_namespace, :schema_name,  :schema_version, :effective_date_time, effective_time_intervals_attributes: [:id, :passive_data_point_id, :start_date_time, :end_date_time, :_destroy])
+      params.fetch(:passive_data_point, {}).permit(:user_id, :was_user_entered, :timezone,  :source_uuid, :external_uuid,
+                                                   :creation_date_time, :schema_namespace, :schema_name,  :schema_version,
+                                                   :effective_date_time,
+                                                   effective_time_intervals_attributes: [
+                                                     :id,
+                                                     :passive_data_point_id,
+                                                     :start_date_time,
+                                                     :end_date_time,
+                                                     :_destroy
+                                                   ],
+                                                   passive_sleeps_attributes: [
+                                                     :id,
+                                                     :passive_data_point_id,
+                                                     :category_type,
+                                                     :category_value,
+                                                     :value,
+                                                     :unit,
+                                                     :_destroy
+                                                   ]
+      )
     end
 
   def track_passive_data_point_created
