@@ -55,5 +55,12 @@
     .links
       = link_to_add_association 'Add Passive Sleep', f, :passive_sleeps, :partial => 'passive_sleeps_fields'
   %br
+  %h5 Passive Activity Entries
+  #passive_sleeps
+    = f.fields_for :passive_activities do |passive_activity|
+      = render 'passive_activities_fields', f: passive_activity
+    .links
+      = link_to_add_association 'Add Passive Activity', f, :passive_activities, :partial => 'passive_activities_fields'
+  %br
   .actions
     = f.submit
