@@ -46,7 +46,7 @@ class PassiveDataPointsController < ApplicationController
       param :schema_name, :undef, :desc => "Schema Name [String]", :required => true
       param :schema_version, :undef, :desc => "Schema Version [String]", :required => true
       param :effective_date_time, :undef, :desc => "Effective Date Time [Timestamp]", :required => false
-      param :effective_time_intervals_attributes, :undef, :desc => "Effective Time Interval [{start_date_time, end_date_time}]", :required => false
+      param :effective_time_intervals_attributes, :undef, :desc => "Array of Effective Time Intervals [{start_date_time, end_date_time}]", :required => false
     end
   end
 
@@ -55,6 +55,11 @@ class PassiveDataPointsController < ApplicationController
     param :was_user_entered, :undef, :desc => "User Entered Flag [Boolean]", :required => false
     param :timezone, :undef, :desc => "Timezone [String]", :required => false
     param :external_uuid, :undef, :desc => "External Source Identification of Passive Data Point [String]", :required => false
+    param_group :passive_sleep
+  end
+
+  def_param_group :passive_sleep do
+    param :passive_sleeps_attributes, :undef, :desc => "Array of Passive Sleeps [{passive_data_id, category_type, category_value, value, unit }]", :required => false
   end
 
   def_param_group :destroy_passive_data_point_data do
