@@ -1,0 +1,37 @@
+<div class="container">
+  <h1>Listing passive_workouts</h1>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Passive data point</th>
+        <th>Workout type</th>
+        <th>Kcal burned value</th>
+        <th>Kcal burned unit</th>
+        <th>Distance value</th>
+        <th>Distance unit</th>
+        <th colspan="3"></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @passive_workouts.each do |passive_workout| %>
+        <tr>
+          <td><%= passive_workout.passive_data_point_id %></td>
+          <td><%= passive_workout.workout_type %></td>
+          <td><%= passive_workout.kcal_burned_value %></td>
+          <td><%= passive_workout.kcal_burned_unit %></td>
+          <td><%= passive_workout.distance_value %></td>
+          <td><%= passive_workout.distance_unit %></td>
+          <td><%= link_to 'Show', passive_workout %></td>
+          <td><%= link_to 'Edit', edit_passive_workout_path(passive_workout) %></td>
+          <td><%= link_to 'Destroy', passive_workout, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <br>
+
+  <%= link_to 'New Passive workout', new_passive_workout_path %>
+</div>

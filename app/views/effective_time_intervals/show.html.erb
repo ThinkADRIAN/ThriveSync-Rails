@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Passive data point:</strong>
+  <%= @effective_time_interval.passive_data_point_id %>
+</p>
+
+<p>
+  <strong>Start date time:</strong>
+  <%= @effective_time_interval.start_date_time %>
+</p>
+
+<p>
+  <strong>End date time:</strong>
+  <%= @effective_time_interval.end_date_time %>
+</p>
+
+<%= link_to 'Edit', edit_effective_time_interval_path(@effective_time_interval) %> |
+<%= link_to 'Back', effective_time_intervals_path %>

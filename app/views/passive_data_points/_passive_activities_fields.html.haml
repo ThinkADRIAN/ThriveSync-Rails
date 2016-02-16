@@ -1,0 +1,26 @@
+.nested-fields
+  .field
+    = f.label :activity_type
+    %br
+    = f.text_field :activity_type, hide_label: true
+  .field
+    = f.label :value
+    %br
+    = f.text_field :value, hide_label: true
+  .field
+    = f.label :unit
+    %br
+    = f.text_field :unit, hide_label: true
+  .field
+    = f.label :kcal_burned_value
+    %br
+    = f.text_field :kcal_burned_value, hide_label: true
+  .field
+    = f.label :kcal_burned_unit
+    %br
+    = f.text_field :kcal_burned_unit, hide_label: true
+  .field
+    = f.label :step_count
+    %br
+    = f.text_field :step_count, hide_label: true
+  = link_to_remove_association "Remove Passive Activity", f
