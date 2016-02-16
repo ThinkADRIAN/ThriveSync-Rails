@@ -57,6 +57,7 @@ class PassiveDataPointsController < ApplicationController
     param :external_uuid, :undef, :desc => "External Source Identification of Passive Data Point [String]", :required => false
     param_group :passive_sleep
     param_group :passive_activity
+    param_group :passive_workout
   end
 
   def_param_group :passive_sleep do
@@ -64,7 +65,11 @@ class PassiveDataPointsController < ApplicationController
   end
 
   def_param_group :passive_activity do
-    param :passive_activities_attributes, :undef, :desc => "Array of Passive Activities [{passive_data_id, type, value, unit, kcal_burned_value, kcal_burned_unit,step_count}]", :required => false
+    param :passive_activities_attributes, :undef, :desc => "Array of Passive Activities [{passive_data_id, activity_type, value, unit, kcal_burned_value, kcal_burned_unit, step_count}]", :required => false
+  end
+
+  def_param_group :passive_workout do
+    param :passive_workouts_attributes, :undef, :desc => "Array of Passive Workouts [{passive_data_id, workout_type, kcal_burned_value, kcal_burned_unit,distance_value, distance_unit}]", :required => false
   end
 
   def_param_group :destroy_passive_data_point_data do
