@@ -4,4 +4,5 @@ class PassiveDataPointSerializer < ActiveModel::Serializer
   has_many :effective_time_intervals, include_nested_associations: true
   has_many :passive_sleeps, include_nested_associations: true
   has_many :passive_activities, include_nested_associations: true
+  has_many :passive_workouts, include_nested_associations: true
 end
