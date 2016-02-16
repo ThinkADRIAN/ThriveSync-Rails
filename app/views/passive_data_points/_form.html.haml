@@ -64,7 +64,7 @@
   %br
   %h5 Passive Workout Entries
   #passive_workouts
-    = f.fields_for :passive_workouts do |passive_workoout|
+    = f.fields_for :passive_workouts do |passive_workout|
       = render 'passive_workouts_fields', f: passive_workout
     .links
       = link_to_add_association 'Add Passive Workout', f, :passive_workouts, :partial => 'passive_workouts_fields'
