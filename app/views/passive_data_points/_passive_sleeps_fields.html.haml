@@ -1,0 +1,18 @@
+.nested-fields
+  .field
+    = f.label :category_type
+    %br
+    = f.text_field :category_type, hide_label: true
+  .field
+    = f.label :category_value
+    %br
+    = f.text_field :category_value, hide_label: true
+  .field
+    = f.label :value
+    %br
+    = f.text_field :value, hide_label: true
+  .field
+    = f.label :unit
+    %br
+    = f.text_field :unit, hide_label: true
+  = link_to_remove_association "Remove Passive Sleep", f

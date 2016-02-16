@@ -48,5 +48,12 @@
     .links
       = link_to_add_association 'Add Effective Time Interval', f, :effective_time_intervals, :partial => 'effective_time_intervals_fields'
   %br
+  %h5 Passive Sleep Entries
+  #passive_sleeps
+    = f.fields_for :passive_sleeps do |passive_sleep|
+      = render 'passive_sleeps_fields', f: passive_sleep
+    .links
+      = link_to_add_association 'Add Passive Sleep', f, :passive_sleeps, :partial => 'passive_sleeps_fields'
+  %br
   .actions
     = f.submit
