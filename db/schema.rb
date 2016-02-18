@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160216190336) do
+ActiveRecord::Schema.define(version: 20160218222302) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -189,6 +189,8 @@ ActiveRecord::Schema.define(version: 20160216190336) do
     t.string   "distance_unit"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.float    "duration_value"
+    t.string   "duration_unit"
   end
 
   create_table "pre_defined_cards", force: true do |t|

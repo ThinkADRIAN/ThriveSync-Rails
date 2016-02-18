@@ -315,6 +315,8 @@ class PassiveDataPointsController < ApplicationController
                                                      :kcal_burned_unit,
                                                      :distance_value,
                                                      :distance_unit,
+                                                     :duration_value,
+                                                     :duration_unit,
                                                      :_destroy
                                                    ]
       )

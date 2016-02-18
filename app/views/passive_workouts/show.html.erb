@@ -31,6 +31,16 @@
     <%= @passive_workout.distance_unit %>
   </p>
 
+  <p>
+    <strong>Duration value:</strong>
+    <%= @passive_workout.duration_value %>
+  </p>
+
+  <p>
+    <strong>Duration unit:</strong>
+    <%= @passive_workout.duration_unit %>
+  </p>
+
   <%= link_to 'Edit', edit_passive_workout_path(@passive_workout) %> |
   <%= link_to 'Back', passive_workouts_path %>
 </div>

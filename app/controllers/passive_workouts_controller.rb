@@ -42,6 +42,6 @@ class PassiveWorkoutsController < ApplicationController
     end
 
     def passive_workout_params
-      params.require(:passive_workout).permit(:passive_data_point_id, :workout_type, :kcal_burned_value, :kcal_burned_unit, :distance_value, :distance_unit)
+      params.require(:passive_workout).permit(:passive_data_point_id, :workout_type, :kcal_burned_value, :kcal_burned_unit, :distance_value, :distance_unit, :duration_value, :duration_unit)
     end
 end
