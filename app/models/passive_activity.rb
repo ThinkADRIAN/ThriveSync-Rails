@@ -4,5 +4,5 @@ class PassiveActivity < ActiveRecord::Base
   validates :value, numericality: {only_float: true, greater_than_or_equal_to: 0}
   validates :kcal_burned_value, numericality: {only_float: true, greater_than_or_equal_to: 0}
   validates :step_count, numericality: {only_float: true, greater_than_or_equal_to: 0}
-  validates_presence_of :activity_type
+  #validates_presence_of :activity_type
 end

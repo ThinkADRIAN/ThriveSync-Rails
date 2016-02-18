@@ -10,5 +10,5 @@ class PassiveDataPoint < ActiveRecord::Base
   accepts_nested_attributes_for :passive_activities, reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :passive_workouts, reject_if: :all_blank, allow_destroy: true
 
-  validates_presence_of :source_uuid, :creation_date_time, :schema_namespace, :schema_name, :schema_version
+  #validates_presence_of :source_uuid, :creation_date_time, :schema_namespace, :schema_name, :schema_version
 end
