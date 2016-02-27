@@ -11,4 +11,7 @@ class PassiveDataPoint < ActiveRecord::Base
   accepts_nested_attributes_for :passive_workouts, reject_if: :all_blank, allow_destroy: true
 
   #validates_presence_of :source_uuid, :creation_date_time, :schema_namespace, :schema_name, :schema_version
+
+  scope :by_source_uuid, -> source_uuid { where(:source_uuid => source_uuid) }
+  scope :by_external_uuid, -> external_uuid { where(:external_uuid => external_uuid) }
 end
