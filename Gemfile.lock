@@ -179,6 +179,9 @@ GEM
       tilt
     has_friendship (0.0.3)
       rails (~> 4.1.8)
+    has_scope (0.7.0)
+      actionpack (>= 4.1, < 5.1)
+      activesupport (>= 4.1, < 5.1)
     hashdiff (0.2.3)
     hashie (3.4.3)
     high_voltage (2.4.0)
@@ -432,6 +435,7 @@ DEPENDENCIES
   guard-rspec
   haml
   has_friendship
+  has_scope
   high_voltage (~> 2.4.0)
   jbuilder (~> 2.0)
   jquery-rails

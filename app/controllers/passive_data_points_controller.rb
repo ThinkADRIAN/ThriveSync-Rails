@@ -84,6 +84,9 @@ class PassiveDataPointsController < ApplicationController
 
   respond_to :html, :json
 
+  has_scope :by_source_uuid
+  has_scope :by_external_uuid
+
   # GET /passive_data_points
   # GET /passive_data_points.json
   api! "Show Passive Data Points"
@@ -92,10 +95,10 @@ class PassiveDataPointsController < ApplicationController
     @user = User.find_by_id(params[:user_id])
 
     if @user == nil
-      @passive_data_points = PassiveDataPoint.where(user_id: current_user.id)
+      @passive_data_points = apply_scopes(PassiveDataPoint).where(user_id: current_user.id)
       skip_authorization
     elsif @user != nil
-      @passive_data_points = PassiveDataPoint.where(user_id: @user.id)
+      @passive_data_points = apply_scopes(PassiveDataPoint).where(user_id: @user.id)
       if @user.id == current_user.id
         skip_authorization
       else
