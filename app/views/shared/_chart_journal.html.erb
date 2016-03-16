@@ -9,16 +9,16 @@
 <%
    if @journal_lookback_period == 'week'
      journal_chart_data = @journals.group_by_day(:timestamp, range: date_range_for('this_week')).count(:journal_entry)
-     y_axis_ticks = [{v: 0, f: 'No'}, {v: 1, f: 'Yes'}]
+     y_axis_ticks = [{v: 0, f: t("n")}, {v: 1, f: t("y")}]
    elsif @journal_lookback_period == 'last_week'
      journal_chart_data = @journals.group_by_day(:timestamp, range: date_range_for('last_week')).count(:journal_entry)
-     y_axis_ticks = [{v: 0, f: 'No'}, {v: 1, f: 'Yes'}]
+     y_axis_ticks = [{v: 0, f: t("n")}, {v: 1, f: t("y")}]
    elsif @journal_lookback_period == 'month'
      journal_chart_data = @journals.group_by_day(:timestamp, range: date_range_for('this_month')).count(:journal_entry)
-     y_axis_ticks = [{v: 0, f: 'No'}, {v: 1, f: 'Yes'}]
+     y_axis_ticks = [{v: 0, f: t("n")}, {v: 1, f: t("y")}]
    elsif @journal_lookback_period == 'last_month'
      journal_chart_data = @journals.group_by_day(:timestamp, range: date_range_for('last_month')).count(:journal_entry)
-     y_axis_ticks = [{v: 0, f: 'No'}, {v: 1, f: 'Yes'}]
+     y_axis_ticks = [{v: 0, f: t("n")}, {v: 1, f: t("y")}]
    elsif @journal_lookback_period == 'year'
      journal_chart_data = @journals.group_by_month(:timestamp, range: date_range_for('this_year')).count(:journal_entry)
    elsif @journal_lookback_period == 'last_year'
@@ -26,10 +26,10 @@
    end
 %>
 <%= line_chart [
-                       {name: "Journal", data: journal_chart_data}
+                       {name: t("repeat.categories.journal"), data: journal_chart_data}
                ], colors: [JOURNAL_PRIMARY_COLOR],
                library: {
-                       title: "Journal",
+                       title: t("repeat.categories.journal"),
                        titlePosition: 'out',
                        titleTextStyle: {
                                color: JOURNAL_PRIMARY_COLOR

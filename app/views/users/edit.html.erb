@@ -1,5 +1,5 @@
 <div class="container">
-  <h2>Edit User Data: <%= @user.first_name + " " + @user.last_name %></h2>
+  <h2><%= t "users.edit" %><%= @user.first_name + " " + @user.last_name %></h2>
 
   <%= bootstrap_form_for(@user) do |f| %>
 
@@ -10,10 +10,6 @@
                 <%= label_tag "user_roles_#{role}", role.humanize %><br/>
             <% end %>
             <%= hidden_field_tag "user[roles][]", "" %>
-          </div>
-          <div class="form-group">
-            <%= f.label 'Research Start Date:' %> <br>
-            <%= f.date_select :research_started_at, hide_label: true, :include_blank => true, default: Time.zone.now.to_date %>
           </div>
           <div class="actions"><%= f.submit "Update" %></div>
       <% end %>

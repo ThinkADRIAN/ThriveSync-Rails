@@ -4,11 +4,10 @@
   <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
 </head>
 <body>
-<h1>You have a new
-  notification: <%= @notification.subject.html_safe? ? @notification.subject : strip_tags(@notification.subject) %></h1>
+<h1><%= t "mailboxer.mailer.notification.have" %> <%= @notification.subject.html_safe? ? @notification.subject : strip_tags(@notification.subject) %></h1>
 
 <p>
-  You have received a new notification:
+  <%= t "mailboxer.mailer.notification.received" %>
 </p>
 <blockquote>
   <p>
@@ -16,7 +15,7 @@
   </p>
 </blockquote>
 <p>
-  Visit <%= link_to root_url, root_url %> and go to your notifications for more info.
+  <%= t("mailboxer.mailer.notification.visit_html", :link => link_to(root_url, root_url)) %>
 </p>
 </body>
 </html>

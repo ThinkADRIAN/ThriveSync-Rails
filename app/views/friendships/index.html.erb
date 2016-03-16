@@ -3,9 +3,9 @@
 
   <div class="col-md-12">
     <% if (current_user.is? :user) || (current_user.is? :client) %>
-        <%= link_to 'Add New Provider Connection', new_connection_path, class: "btn btn-primary" %>
+        <%= link_to t("friendships.index.addpro"), new_connection_path, class: "btn btn-primary" %>
     <% elsif current_user.is? :pro %>
-        <%= link_to 'Add New Patient Connection', new_connection_path, class: "btn btn-primary" %>
+        <%= link_to t("friendships.index.addpat"), new_connection_path, class: "btn btn-primary" %>
     <% end %>
     <br><br>
   </div>
@@ -14,10 +14,10 @@
         <div class="panel panel-info">
           <div class="panel-heading">
             <% if current_user.is? :user %>
-                <h3 class="panel-title">Pending Provider Connections</h3>
+                <h3 class="panel-title"><%= t "friendships.index.pendingc" %></h3>
                 <% pending_connections = @pending_providers %>
             <% elsif current_user.is? :pro %>
-                <h3 class="panel-title">Pending Patient Connections</h3>
+                <h3 class="panel-title"><%= t "friendships.index.pendingp" %></h3>
                 <% pending_connections = @pending_patients %>
             <% end %>
           </div>
@@ -31,7 +31,7 @@
                     </div>
                     <div class="col-md-8">
                       <h3></h3>
-                      <%= link_to "Cancel", connection_path(user), :method => "delete", data: {confirm: "Are you sure you want to cancel this request for connection?"}, class: "btn-danger btn-xs" %>
+                      <%= link_to t("menu.cancel"), connection_path(user), :method => "delete", data: {confirm: t("repeat.friendship.surecancel")}, class: "btn-danger btn-xs" %>
                     </div>
                     <div class="col-md-12">
                       <hr>
@@ -45,10 +45,10 @@
         <div class="panel panel-warning">
           <div class="panel-heading">
             <% if current_user.is? :user %>
-                <h3 class="panel-title">Requests for Connection from Provider</h3>
+                <h3 class="panel-title"><%= t "friendships.index.requestpro" %></h3>
                 <% requested_connections = @requested_providers %>
             <% elsif current_user.is? :pro %>
-                <h3 class="panel-title">Requests for Connection from Patient</h3>
+                <h3 class="panel-title"><%= t "friendships.index.requestpat" %></h3>
                 <% requested_connections = @requested_patients %>
             <% end %>
           </div>
@@ -62,8 +62,8 @@
                     </div>
                     <div class="col-md-8">
                       <h3></h3>
-                      <%= link_to "Accept", connection_path(user), :method => "put", class: "btn-primary btn-xs" %>
-                      <%= link_to "Reject", connection_path(user), :method => "delete", data: {confirm: "Are you sure you want to reject this connection?"}, class: "btn-danger btn-xs" %>
+                      <%= link_to t("repeat.accept"), connection_path(user), :method => "put", class: "btn-primary btn-xs" %>
+                      <%= link_to t("repeat.reject"), connection_path(user), :method => "delete", data: {confirm: t("repeat.friendship.surereject")}, class: "btn-danger btn-xs" %>
                     </div>
                     <div class="col-md-12">
                       <hr>
@@ -77,10 +77,10 @@
     <div class="panel panel-default">
       <div class="panel-heading">
         <% if current_user.is? :user %>
-            <h3 class="panel-title">Provider Connections</h3>
+            <h3 class="panel-title"><%= t "friendships.index.procon" %></h3>
             <% connections = @providers %>
         <% elsif current_user.is? :pro %>
-            <h3 class="panel-title">Patient Connections</h3>
+            <h3 class="panel-title"><%= t "friendships.index.patcon" %></h3>
             <% connections = @patients %>
         <% end %>
       </div>
@@ -95,7 +95,7 @@
                     </div>
                     <div class="col-md-8">
                       <h3></h3>
-                      <%= link_to "Disconnect", connection_path(user), :method => "delete", data: {confirm: "Are you sure you want to disconnect this connection?"}, class: "btn-danger btn-xs" %>
+                      <%= link_to t("repeat.friendship.dc"), connection_path(user), :method => "delete", data: {confirm: t("repeat.friendship.suredc")}, class: "btn-danger btn-xs" %>
                     </div>
                     <div class="col-md-12">
                       <hr>
@@ -104,7 +104,7 @@
             <% end %>
         <% else %>
             <div>
-              <h3>No connections available</h3>
+              <h3><% t "repeat.friendship.nocon" %></h3>
             </div>
         <% end %>
       </div>

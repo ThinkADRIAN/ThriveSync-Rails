@@ -23,8 +23,8 @@
         <%= render "shared/chart_mood" %>
       </div>
       <div class="btn-group btn-group-justified">
-        <%= link_to 'Add a new Mood Entry', new_mood_path(modal_enabled: 'true'), remote: true, class: "btn btn-primary btn-xs btn-block" %>
-        <%= link_to 'View Mood Entries', moods_path(mood_lookback_period: @mood_lookback_period), class: "btn btn-default btn-xs btn-block" %>
+        <%= link_to t("shared.index.addm"), new_mood_path(modal_enabled: 'true'), remote: true, class: "btn btn-primary btn-xs btn-block" %>
+        <%= link_to t("shared.index.viewm"), moods_path(mood_lookback_period: @mood_lookback_period), class: "btn btn-default btn-xs btn-block" %>
       </div>
       <hr>
     </div>
@@ -34,8 +34,8 @@
         <%= render "shared/chart_sleep" %>
       </div>
       <div class="btn-group btn-group-justified">
-        <%= link_to 'Add a new Sleep Entry', new_sleep_path(modal_enabled: 'true'), remote: true, class: "btn btn-primary btn-xs btn-block" %>
-        <%= link_to 'View Sleep Entries', sleeps_path(sleep_lookback_period: @sleep_lookback_period), class: "btn btn-default btn-xs btn-block" %>
+        <%= link_to t("shared.index.adds"), new_sleep_path(modal_enabled: 'true'), remote: true, class: "btn btn-primary btn-xs btn-block" %>
+        <%= link_to t("shared.index.views"), sleeps_path(sleep_lookback_period: @sleep_lookback_period), class: "btn btn-default btn-xs btn-block" %>
       </div>
       <hr>
     </div>
@@ -45,8 +45,8 @@
         <%= render "shared/chart_self_care" %>
       </div>
       <div class="btn-group btn-group-justified">
-        <%= link_to 'Add a new Self Care Entry', new_self_care_path(modal_enabled: 'true'), remote: true, class: "btn btn-primary btn-xs btn-block" %>
-        <%= link_to 'View Self Care Entries', self_cares_path(self_care_lookback_period: @self_care_lookback_period), class: "btn btn-default btn-xs btn-block" %>
+        <%= link_to t("shared.index.addsc"), new_self_care_path(modal_enabled: 'true'), remote: true, class: "btn btn-primary btn-xs btn-block" %>
+        <%= link_to t("shared.index.viewsc"), self_cares_path(self_care_lookback_period: @self_care_lookback_period), class: "btn btn-default btn-xs btn-block" %>
       </div>
       <hr>
     </div>
@@ -56,8 +56,8 @@
         <%= render "shared/chart_journal" %>
       </div>
       <div class="btn-group btn-group-justified">
-        <%= link_to 'Add a new Journal Entry', new_journal_path(modal_enabled: 'true'), remote: true, class: "btn btn-primary btn-xs btn-block" %>
-        <%= link_to 'View Journal Entries', journals_path(journal_lookback_period: @journal_lookback_period), class: "btn btn-default btn-xs btn-block" %>
+        <%= link_to t("shared.index.addj"), new_journal_path(modal_enabled: 'true'), remote: true, class: "btn btn-primary btn-xs btn-block" %>
+        <%= link_to t("shared.index.viewj"), journals_path(journal_lookback_period: @journal_lookback_period), class: "btn btn-default btn-xs btn-block" %>
       </div>
       <hr>
     </div>

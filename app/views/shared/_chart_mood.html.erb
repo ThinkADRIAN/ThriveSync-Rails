@@ -36,10 +36,10 @@
 
 <div class="col-md-12">
   <%= line_chart [
-                         {name: "Mood", data: mood_chart_data}
+                         {name: t("shared.chartmood.mood"), data: mood_chart_data}
                  ], colors: [MOOD_PRIMARY_COLOR],
                  library: {
-                         title: "Mood",
+                         title: t("shared.chartmood.mood"),
                          titlePosition: 'out',
                          titleTextStyle: {
                                  color: MOOD_PRIMARY_COLOR
@@ -69,7 +69,7 @@
                                  position: MOOD_LEGEND_POSITION
                          },
                          vAxis: {
-                                 ticks: [{v: 1, f: 'Sev D'}, {v: 2, f: 'Mod D'}, {v: 3, f: 'Mild D'}, {v: 4, f: 'Base'}, {v: 5, f: 'Mild E'}, {v: 6, f: 'Mod E'}, {v: 7, f: 'Sev E'}],
+                                 ticks: [{v: 1, f: t("shared.chartmood.sevd")}, {v: 2, f: t("shared.chartmood.modd")}, {v: 3, f: t("shared.chartmood.mildd")}, {v: 4, f: t("shared.chartmood.base")}, {v: 5, f: t("shared.chartmood.milde")}, {v: 6, f: t("shared.chartmood.mode")}, {v: 7, f: t("shared.chartmood.seve")}],
                                  textStyle: {
                                          color: MOOD_PRIMARY_COLOR
                                  },
@@ -82,10 +82,10 @@
 
 <div class="col-md-12">
   <%= line_chart [
-                         {name: "Anxiety", data: anxiety_chart_data}
+                         {name: t("shared.chartmood.anxiety"), data: anxiety_chart_data}
                  ], colors: [MOOD_PRIMARY_COLOR],
                  library: {
-                         title: "Anxiety",
+                         title: t("shared.chartmood.anxiety"),
                          titlePosition: 'out',
                          titleTextStyle: {
                                  color: MOOD_PRIMARY_COLOR
@@ -115,7 +115,7 @@
                                  position: MOOD_LEGEND_POSITION
                          },
                          vAxis: {
-                                 ticks: [{v: 1, f: 'None'}, {v: 2, f: 'Mild'}, {v: 3, f: 'Mod'}, {v: 4, f: 'Sev'}],
+                                 ticks: [{v: 1, f: t("shared.chartmood.none")}, {v: 2, f: t("shared.chartmood.mild")}, {v: 3, f: t("shared.chartmood.mod")}, {v: 4, f: t("shared.chartmood.sev")}],
                                  textStyle: {
                                          color: MOOD_PRIMARY_COLOR
                                  },
@@ -128,10 +128,10 @@
 
 <div class="col-md-12">
   <%= line_chart [
-                         {name: "Irritability", data: irritability_chart_data}
+                         {name: t("shared.chartmood.irritability"), data: irritability_chart_data}
                  ], colors: [MOOD_PRIMARY_COLOR],
                  library: {
-                         title: "Irritability",
+                         title: t("shared.chartmood.irritability"),
                          titlePosition: 'out',
                          titleTextStyle: {
                                  color: MOOD_PRIMARY_COLOR
@@ -161,7 +161,7 @@
                                  position: MOOD_LEGEND_POSITION
                          },
                          vAxis: {
-                                 ticks: [{v: 1, f: 'None'}, {v: 2, f: 'Mild'}, {v: 3, f: 'Mod'}, {v: 4, f: 'Sev'}],
+                                 ticks: [{v: 1, f: t("shared.chartmood.none")}, {v: 2, f: t("shared.chartmood.mild")}, {v: 3, f: t("shared.chartmood.mod")}, {v: 4, f: t("shared.chartmood.sev")}],
                                  textStyle: {
                                          color: MOOD_PRIMARY_COLOR
                                  },

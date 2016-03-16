@@ -1,13 +1,13 @@
 <div class="modal-header">
-  <h3>Delete Self Care Entry</h3>
+  <h3><%= t "selfcare.delete.header" %></h3>
 </div>
 
 <div class="modal-body">
   <ul class="errors"></ul>
-  Are you sure you wish to delete this self care entry?
+  <%= t "selfcare.delete.sure" %>
 </div>
 
 <div class="modal-footer">
-  <%= link_to "Yes, Delete This Self Care Entry", self_care_path(@self_care), method: :delete, remote: true, class: "btn btn-danger" %>
-  <%= link_to "No, Please Don't", "#", class: "btn btn-default", data: {dismiss: "modal"} %>
+  <%= link_to t("selfcare.delete.yes"), self_care_path(@self_care), method: :delete, remote: true, class: "btn btn-danger" %>
+  <%= link_to t("selfcare.delete.no), "#", class: "btn btn-default", data: {dismiss: "modal"} %>
 </div>

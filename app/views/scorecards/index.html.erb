@@ -1,22 +1,22 @@
 <div class="container">
-  <h1>Scorecard</h1>
+  <h1><%= t "scorecards.index.scorecard" %></h1>
 
   <div class="col-sm-12">
 
-    <h5>Goals</h5>
+    <h5><%= t "scorecards.index.goals" %></h5>
 
     <table class="table table-condensed">
       <thead>
       <tr>
-        <th>Checkin Goal</th>
-        <th>Sunday</th>
-        <th>Monday</th>
-        <th>Tuesday</th>
-        <th>Wednesday</th>
-        <th>Thursday</th>
-        <th>Friday</th>
-        <th>Saturday</th>
-        <th>Checkins To Go</th>
+        <th><%= t "scorecards.index.cigoals" %></th>
+        <th><%= t "repeat.days.sun" %></th>
+        <th><%= t "repeat.days.mon" %></th>
+        <th><%= t "repeat.days.tue" %></th>
+        <th><%= t "repeat.days.wed" %></th>
+        <th><%= t "repeat.days.thur" %></th>
+        <th><%= t "repeat.days.fri" %></th>
+        <th><%= t "repeat.days.sat" %></th>
+        <th><%= t "scorecards.index.togo" %></th>
       </tr>
       </thead>
 
@@ -24,7 +24,7 @@
       <% @scorecards.each do |scorecard| %>
           <tr>
             <td><%= scorecard.checkin_goal %>
-              - <%= link_to 'Edit', edit_scorecard_path(scorecard), class: "btn-default btn-xs" %></td>
+              - <%= link_to t("menu.edit"), edit_scorecard_path(scorecard), class: "btn-default btn-xs" %></td>
             <td>
               <% if scorecard.checkin_sunday %>
                   X
@@ -66,20 +66,20 @@
       </tbody>
     </table>
 
-    <h5>Main</h5>
+    <h5><%= t "scorecards.index.main" %></h5>
 
     <table class="table table-condensed">
       <thead>
       <tr>
-        <th>Total Score</th>
-        <th>Multiplier</th>
-        <th>Checkin Count</th>
-        <th>Last Checkin</th>
-        <th>Streak Count</th>
-        <th>Streak Record</th>
-        <th>Perfect Checkin Count</th>
-        <th>Last Perfect Checkin</th>
-        <th>Days Since Signup</th>
+        <th><%= t "scorecards.index.total" %></th>
+        <th><%= t "scorecards.index.multiplier" %></th>
+        <th><%= t "scorecards.index.ccount" %></th>
+        <th><%= t "scorecards.index.lastc" %></th>
+        <th><%= t "scorecards.index.scount" %></th>
+        <th><%= t "scorecards.index.srecord" %></th>
+        <th><%= t "scorecards.index.perfect" %></th>
+        <th><%= t "scorecards.index.lastp" %></th>
+        <th><%= t "scorecards.index.since" %></th>
       </tr>
       </thead>
 
@@ -114,17 +114,17 @@
 
     <br>
 
-    <h5>Mood</h5>
+    <h5><%= t "scorecards.index.mood" %></h5>
 
     <table class="table table-condensed">
       <thead>
       <tr>
-        <th>Score</th>
-        <th>Multiplier</th>
-        <th>Checkin Count</th>
-        <th>Last Checkin</th>
-        <th>Streak Count</th>
-        <th>Streak Record</th>
+        <th><%= t "scorecards.index.score" %></th>
+        <th><%= t "scorecards.index.multiplier" %></th>
+        <th><%= t "scorecards.index.ccount" %></th>
+        <th><%= t "scorecards.index.lastc" %></th>
+        <th><%= t "scorecards.index.scount" %></th>
+        <th><%= t "scorecards.index.srecord" %></th>
       </tr>
       </thead>
 
@@ -150,17 +150,17 @@
 
     <br>
 
-    <h5>Sleep</h5>
+    <h5><%= t "scorecards.index.sleep" %></h5>
 
     <table class="table table-condensed">
       <thead>
       <tr>
-        <th>Score</th>
-        <th>Multiplier</th>
-        <th>Checkin Count</th>
-        <th>Last Checkin</th>
-        <th>Streak Count</th>
-        <th>Streak Record</th>
+        <th><%= t "scorecards.index.score" %></th>
+        <th><%= t "scorecards.index.multiplier" %></th>
+        <th><%= t "scorecards.index.ccount" %></th>
+        <th><%= t "scorecards.index.lastc" %></th>
+        <th><%= t "scorecards.index.scount" %></th>
+        <th><%= t "scorecards.index.srecord" %></th>
       </tr>
       </thead>
 
@@ -186,17 +186,17 @@
 
     <br>
 
-    <h5>Self Care</h5>
+    <h5><%= t "scorecards.index.selfcare" %></h5>
 
     <table class="table table-condensed">
       <thead>
       <tr>
-        <th>Score</th>
-        <th>Multiplier</th>
-        <th>Checkin Count</th>
-        <th>Last Checkin</th>
-        <th>Streak Count</th>
-        <th>Streak Record</th>
+        <th><%= t "scorecards.index.score" %></th>
+        <th><%= t "scorecards.index.multiplier" %></th>
+        <th><%= t "scorecards.index.ccount" %></th>
+        <th><%= t "scorecards.index.lastc" %></th>
+        <th><%= t "scorecards.index.scount" %></th>
+        <th><%= t "scorecards.index.srecord" %></th>
       </tr>
       </thead>
 
@@ -222,17 +222,17 @@
 
     <br>
 
-    <h5>Journal</h5>
+    <h5><%= t "scorecards.index.journal" %></h5>
 
     <table class="table table-condensed">
       <thead>
       <tr>
-        <th>Score</th>
-        <th>Multiplier</th>
-        <th>Checkin Count</th>
-        <th>Last Checkin</th>
-        <th>Streak Count</th>
-        <th>Streak Record</th>
+        <th><%= t "scorecards.index.score" %></th>
+        <th><%= t "scorecards.index.multiplier" %></th>
+        <th><%= t "scorecards.index.ccount" %></th>
+        <th><%= t "scorecards.index.lastc" %></th>
+        <th><%= t "scorecards.index.scount" %></th>
+        <th><%= t "scorecards.index.srecord" %></th>
       </tr>
       </thead>
 

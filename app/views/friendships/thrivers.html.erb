@@ -6,7 +6,7 @@
         <div class="panel panel-info">
           <div class="panel-heading">
             <% if current_user.is? :supporter %>
-                <h3 class="panel-title">Pending Thriver Connections</h3>
+                <h3 class="panel-title"><%= t "friendships.thrivers.pending" %></h3>
             <% end %>
           </div>
           <div class="panel-body">
@@ -19,7 +19,7 @@
                     </div>
                     <div class="col-md-8">
                       <h3></h3>
-                      <%= link_to "Cancel", connection_path(user), :method => "delete", data: {confirm: "Are you sure you want to cancel this request for connection?"}, class: "btn-danger btn-xs" %>
+                      <%= link_to t("menu.cancel"), connection_path(user), :method => "delete", data: {confirm: t("repeat.friendship.surecancel")}, class: "btn-danger btn-xs" %>
                     </div>
                     <div class="col-md-12">
                       <hr>
@@ -33,7 +33,7 @@
         <div class="panel panel-warning">
           <div class="panel-heading">
             <% if current_user.is? :supporter %>
-                <h3 class="panel-title">Requests for Connection from Peer</h3>
+                <h3 class="panel-title"><%= t "friendships.thrivers.requestpeer" %></h3>
             <% end %>
           </div>
           <div class="panel-body">
@@ -46,8 +46,8 @@
                     </div>
                     <div class="col-md-8">
                       <h3></h3>
-                      <%= link_to "Accept", connection_path(user), :method => "put", class: "btn-primary btn-xs" %>
-                      <%= link_to "Reject", connection_path(user), :method => "delete", data: {confirm: "Are you sure you want to reject this connection?"}, class: "btn-danger btn-xs" %>
+                      <%= link_to t("repeat.accept"), connection_path(user), :method => "put", class: "btn-primary btn-xs" %>
+                      <%= link_to t("repeat.reject"), connection_path(user), :method => "delete", data: {confirm: t("repeat.friendship.surereject")}, class: "btn-danger btn-xs" %>
                     </div>
                     <div class="col-md-12">
                       <hr>
@@ -60,7 +60,7 @@
     <div class="panel panel-default">
       <div class="panel-heading">
         <% if current_user.is? :supporter %>
-            <h3 class="panel-title">Thriver Connections</h3>
+            <h3 class="panel-title"><%= t "friendships.thrivers.tcon" %></h3>
         <% end %>
       </div>
       <div class="panel-body">
@@ -73,7 +73,7 @@
                 </div>
                 <div class="col-md-8">
                   <h3></h3>
-                  <%= link_to "Disconnect", connection_path(user), :method => "delete", data: {confirm: "Are you sure you want to disconnect this connection?"}, class: "btn-danger btn-xs" %>
+                  <%= link_to t("repeat.friendship.dc"), connection_path(user), :method => "delete", data: {confirm: t("repeat.friendship.suredc")}, class: "btn-danger btn-xs" %>
                 </div>
                 <div class="col-md-12">
                   <hr>
@@ -81,7 +81,7 @@
             <% end %>
         <% else %>
             <div>
-              <h3>No connections available</h3>
+              <h3><%= t "repeat.friendship.nocon" %></h3>
             </div>
         <% end %>
       </div>

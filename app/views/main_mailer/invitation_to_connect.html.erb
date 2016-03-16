@@ -4,28 +4,28 @@
   <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
 </head>
 <body>
-<p>Hi <%= @recipient.name %>,</p>
+<p><%= t "repeat.hi" %> <%= @recipient.name %>,</p>
 <p>
-  <%= "#{@sender.first_name} #{@sender.last_name} has invited you to connect on ThriveSync.  You can accept it through the link below." %>
+  <%= "#{@sender.first_name} #{@sender.last_name}" %><%= t "mainmailer.invited" %>
 </p>
 <p>
-  <%= link_to "Manage Connections", connections_path %>
+  <%= link_to t("mainmailer.manage"), connections_path %>
 </p>
 <p>
-  If you want to accept the invitation, please click the link above and click the "Accept" button.
+  <%= t "mainmailer.accept" %>
 </p>
 <p>
-  This connection will not be created until you access the link above and approve it.
+  <%= t "mainmailer.unless" %>
 </p>
 <p>
-  Otherwise, you can click the "Reject" button to reject the invitation to connect.
+  <%= t "mainmailer.reject" %>
 </p>
 <p>
-  Keep thriving,
+  <%= t "repeat.keep" %>
 </p>
 
 <p>
-  - The ThriveStreams Team
+  <%= t "repeat.signature" %>
 </p>
 </body>
 </html>

@@ -1,16 +1,16 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>Journal Creation Date:</strong>
+  <strong><%= t "journals.show" %></strong>
   <%= @journal.created_at %>
 </p>
 
 <p>
-  <strong>Journal Entry:</strong>
+  <strong><%= t "journals.form.entry" %></strong>
   <%= @journal.journal_entry %>
 </p>
 
 <% if can? :manage, @journal %>
-    <%= link_to 'Edit', edit_journal_path(@journal) %> |
+    <%= link_to t("menu.edit"), edit_journal_path(@journal) %> |
 <% end %>
-<%= link_to 'Back', :back %>
+<%= link_to t("menu.back"), :back %>

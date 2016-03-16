@@ -1,13 +1,13 @@
 <div class="modal-header">
-  <h3>Delete Mood Entry</h3>
+  <h3><%= t "moods.delete.header" %></h3>
 </div>
 
 <div class="modal-body">
   <ul class="errors"></ul>
-  Are you sure you wish to delete this mood entry?
+  <%= t "moods.delete.sure" %>
 </div>
 
 <div class="modal-footer">
-  <%= link_to "Yes, Delete This Mood Entry", mood_path(@mood), method: :delete, remote: true, class: "btn btn-danger" %>
-  <%= link_to "No, Please Don't", "#", class: "btn btn-default", data: {dismiss: "modal"} %>
+  <%= link_to t("moods.delete.yes"), mood_path(@mood), method: :delete, remote: true, class: "btn btn-danger" %>
+  <%= link_to t("moods.delete.no"), "#", class: "btn btn-default", data: {dismiss: "modal"} %>
 </div>

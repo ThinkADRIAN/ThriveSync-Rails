@@ -1,4 +1,4 @@
-<center><h2>Send Support to a <%= @thriver.first_name %> <%= @thriver.last_name %></h2></center>
+<center><h2><%= t "messages.new" %><%= @thriver.first_name %> <%= @thriver.last_name %></h2></center>
 
 <br>
 
@@ -26,7 +26,7 @@
                     </div>
                   </div>
                   <footer class="card-footer">
-                    <center><%= submit_tag 'Send', class: 'btn btn-flat btn-primary' %></center>
+                    <center><%= submit_tag t("messages.send"), class: 'btn btn-flat btn-primary' %></center>
                   </footer>
                 </div>
               </div>
@@ -50,7 +50,7 @@
                 </div>
                 <div class="form-group">
                   <%#= label_tag 'message[body]', 'Message' %>
-                  <center><h3>Custom Message</h3></center>
+                  <center><h3><%= t "messages.custom" %></h3></center>
                   <center><%= text_area_tag 'message[body]', nil, cols: 3, class: 'form-control', required: true %></center>
                 </div>
                 <div class="form-group">
@@ -61,7 +61,7 @@
                 </div>
               </div>
               <footer class="card-footer">
-                <center><%= submit_tag 'Send', class: 'btn btn-flat btn-primary' %></center>
+                <center><%= submit_tag t("messages.send"), class: 'btn btn-flat btn-primary' %></center>
               </footer>
             </div>
           </div>

@@ -2,7 +2,7 @@
   <% if !@sleeps.empty? %>
       <div class="panel panel-primary">
         <div class="panel-heading">
-          <h3 class="panel-title">Sleep Entries</h3>
+          <h3 class="panel-title"><%= t "sleeps.details.entries" %></h3>
         </div>
         <div class="panel-body">
           <%
@@ -31,32 +31,32 @@
                   </div>
                   <div class="col-md-4">
                     <p>
-                      <strong>Sleep Start Time:</strong>
+                      <strong><%= t "sleeps.details.start" %></strong>
                       <%= I18n.l sleep.start_time, format: :long_am_pm %>
                     </p>
 
                     <p>
-                      <strong>Sleep Finish Time:</strong>
+                      <strong><%= t "sleeps.details.end" %></strong>
                       <%= I18n.l sleep.finish_time, format: :long_am_pm %>
                     </p>
 
                     <p>
-                      <strong>Sleep Quality:</strong>
+                      <strong><%= t "sleeps.details.quality" %></strong>
                       <% if sleep.quality == 1 %>
-                          <%= "Broken" %>
+                          <%= t "repeat.categories.broken" %>
                       <% elsif sleep.quality == 2 %>
-                          <%= "Light" %>
+                          <%= t "repeat.categories.light" %>
                       <% elsif sleep.quality == 3 %>
-                          <%= "Normal" %>
+                          <%= t "repeat.categories.normal" %>
                       <% elsif sleep.quality == 4 %>
-                          <%= "Deep" %>
+                          <%= t "repeat.categories.deep" %>
                       <% end %>
                       (<%= sleep.quality %>)
                     </p>
                   </div>
                   <div class="col-md-4">
-                    <%= link_to 'Edit', edit_sleep_path(sleep, modal_enabled: 'true'), remote: true, class: "btn-default btn-xs" %>
-                    <%= link_to 'Remove', sleep_delete_path(sleep, modal_enabled: 'true'), class: "btn-danger btn-xs", remote: true, sleep: sleep %>
+                    <%= link_to t("menu.edit"), edit_sleep_path(sleep, modal_enabled: 'true'), remote: true, class: "btn-default btn-xs" %>
+                    <%= link_to t("menu.remove"), sleep_delete_path(sleep, modal_enabled: 'true'), class: "btn-danger btn-xs", remote: true, sleep: sleep %>
                   </div>
                   <div class="col-md-12">
                     <hr>

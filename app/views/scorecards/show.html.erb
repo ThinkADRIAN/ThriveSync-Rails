@@ -1,49 +1,49 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>Checkin count:</strong>
+  <strong><%= t "scorecards.show.ccount" %></strong>
   <%= @scorecard.checkin_count %>
 </p>
 
 <p>
-  <strong>Perfect checkin count:</strong>
+  <strong><%= t "scorecards.show.perfect" %></strong>
   <%= @scorecard.perfect_checkin_count %>
 </p>
 
 <p>
-  <strong>Last checkin date:</strong>
+  <strong><%= t "scorecards.show.lastc" %></strong>
   <%= @scorecard.last_checkin_date %>
 </p>
 
 <p>
-  <strong>Streak count:</strong>
+  <strong><%= t "scorecards.show.scount" %></strong>
   <%= @scorecard.streak_count %>
 </p>
 
 <p>
-  <strong>Streak record:</strong>
+  <strong><%= t "scorecards.show.srecord" %></strong>
   <%= @scorecard.streak_record %>
 </p>
 
 <p>
-  <strong>Moods score:</strong>
+  <strong><%= t "scorecards.show.mscore" %></strong>
   <%= @scorecard.moods_score %>
 </p>
 
 <p>
-  <strong>Sleeps score:</strong>
+  <strong><%= t "scorecards.show.sscore" %></strong>
   <%= @scorecard.sleeps_score %>
 </p>
 
 <p>
-  <strong>Self cares score:</strong>
+  <strong><%= t "scorecards.show.scscore" %></strong>
   <%= @scorecard.self_cares_score %>
 </p>
 
 <p>
-  <strong>Journals score:</strong>
+  <strong><%= t "scorecards.show.jscore" %></strong>
   <%= @scorecard.journals_score %>
 </p>
 
-<%= link_to 'Edit', edit_scorecard_path(@scorecard) %> |
-<%= link_to 'Back', scorecards_path %>
+<%= link_to t("menu.edit"), edit_scorecard_path(@scorecard) %> |
+<%= link_to t("menu.back"), scorecards_path %>

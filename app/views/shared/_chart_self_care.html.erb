@@ -17,46 +17,46 @@
      medication_chart_data = @self_cares_medication.group_by_day(:timestamp, range: date_range_for('this_week'), format: "%b %d, %Y").count(:medication)
      meditation_chart_data = @self_cares_meditation.group_by_day(:timestamp, range: date_range_for('this_week'), format: "%b %d, %Y").count(:meditation)
      exercise_chart_data = @self_cares_exercise.group_by_day(:timestamp, range: date_range_for('this_week'), format: "%b %d, %Y").count(:exercise)
-     y_axis_ticks = [{v: 0, f: 'No'}, {v: 1, f: 'Yes'}]
+     y_axis_ticks = [{v: 0, f: t("n")}, {v: 1, f: t("y")}]
    elsif @self_care_lookback_period == 'last_week'
      counseling_chart_data = @self_cares_counseling.group_by_day(:timestamp, range: date_range_for('last_week'), format: "%b %d, %Y").count(:counseling)
      medication_chart_data = @self_cares_medication.group_by_day(:timestamp, range: date_range_for('last_week'), format: "%b %d, %Y").count(:medication)
      meditation_chart_data = @self_cares_meditation.group_by_day(:timestamp, range: date_range_for('last_week'), format: "%b %d, %Y").count(:meditation)
      exercise_chart_data = @self_cares_exercise.group_by_day(:timestamp, range: date_range_for('last_week'), format: "%b %d, %Y").count(:exercise)
-     y_axis_ticks = [{v: 0, f: 'No'}, {v: 1, f: 'Yes'}]
+     y_axis_ticks = [{v: 0, f: t("n")}, {v: 1, f: t("y")}]
    elsif @self_care_lookback_period == 'month'
      counseling_chart_data = @self_cares_counseling.group_by_day(:timestamp, range: date_range_for('this_month'), format: "%b %d, %Y").count(:counseling)
      medication_chart_data = @self_cares_medication.group_by_day(:timestamp, range: date_range_for('this_month'), format: "%b %d, %Y").count(:medication)
      meditation_chart_data = @self_cares_meditation.group_by_day(:timestamp, range: date_range_for('this_month'), format: "%b %d, %Y").count(:meditation)
      exercise_chart_data = @self_cares_exercise.group_by_day(:timestamp, range: date_range_for('this_month'), format: "%b %d, %Y").count(:exercise)
-     y_axis_ticks = [{v: 0, f: 'No'}, {v: 1, f: 'Yes'}]
+     y_axis_ticks = [{v: 0, f: t("n")}, {v: 1, f: t("y")}]
    elsif @self_care_lookback_period == 'last_month'
      counseling_chart_data = @self_cares_counseling.group_by_day(:timestamp, range: date_range_for('last_month'), format: "%b %d, %Y").count(:counseling)
      medication_chart_data = @self_cares_medication.group_by_day(:timestamp, range: date_range_for('last_month'), format: "%b %d, %Y").count(:medication)
      meditation_chart_data = @self_cares_meditation.group_by_day(:timestamp, range: date_range_for('last_month'), format: "%b %d, %Y").count(:meditation)
      exercise_chart_data = @self_cares_exercise.group_by_day(:timestamp, range: date_range_for('last_month'), format: "%b %d, %Y").count(:exercise)
-     y_axis_ticks = [{v: 0, f: 'No'}, {v: 1, f: 'Yes'}]
+     y_axis_ticks = [{v: 0, f: t("n")}, {v: 1, f: t("y")}]
    elsif @self_care_lookback_period == 'year'
      counseling_chart_data = @self_cares_counseling.group_by_month(:timestamp, range: date_range_for('this_year'), format: "%b %Y").count(:counseling)
      medication_chart_data = @self_cares_medication.group_by_month(:timestamp, range: date_range_for('this_year'), format: "%b %Y").count(:medication)
      meditation_chart_data = @self_cares_meditation.group_by_month(:timestamp, range: date_range_for('this_year'), format: "%b %Y").count(:meditation)
      exercise_chart_data = @self_cares_exercise.group_by_month(:timestamp, range: date_range_for('this_year'), format: "%b %Y").count(:exercise)
-     y_axis_ticks = [{v: 0, f: 'No'}, {v: 1, f: 'Yes'}]
+     y_axis_ticks = [{v: 0, f: t("n")}, {v: 1, f: t("y")}]
    elsif @self_care_lookback_period == 'last_year'
      counseling_chart_data = @self_cares_counseling.group_by_month(:timestamp, range: date_range_for('last_year'), format: "%b %Y").count(:counseling)
      medication_chart_data = @self_cares_medication.group_by_month(:timestamp, range: date_range_for('last_year'), format: "%b %Y").count(:medication)
      meditation_chart_data = @self_cares_meditation.group_by_month(:timestamp, range: date_range_for('last_year'), format: "%b %Y").count(:meditation)
      exercise_chart_data = @self_cares_exercise.group_by_month(:timestamp, range: date_range_for('last_year'), format: "%b %Y").count(:exercise)
-     y_axis_ticks = [{v: 0, f: 'No'}, {v: 1, f: 'Yes'}]
+     y_axis_ticks = [{v: 0, f: t("n")}, {v: 1, f: t("y")}]
    end
 %>
 
 <div class="col-md-12">
   <%= column_chart [
-                           {name: "Counseling", data: counseling_chart_data}
+                           {name: t("shared.chartsc.counseling"), data: counseling_chart_data}
                    ], colors: [SELF_CARE_PRIMARY_COLOR],
                    library: {
-                           title: "Counseling",
+                           title: t("shared.chartsc.counseling"),
                            titlePosition: 'out',
                            titleTextStyle: {
                                    color: SELF_CARE_PRIMARY_COLOR
@@ -99,10 +99,10 @@
 
 <div class="col-md-12">
   <%= column_chart [
-                           {name: "Medication", data: medication_chart_data}
+                           {name: t("shared.chartsc.medication"), data: medication_chart_data}
                    ], colors: [SELF_CARE_PRIMARY_COLOR],
                    library: {
-                           title: "Medication",
+                           title: t("shared.chartsc.medication"),
                            titlePosition: 'out',
                            titleTextStyle: {
                                    color: SELF_CARE_PRIMARY_COLOR
@@ -145,10 +145,10 @@
 
 <div class="col-md-12">
   <%= column_chart [
-                           {name: "Meditation", data: meditation_chart_data}
+                           {name: t("shared.chartsc.meditation"), data: meditation_chart_data}
                    ], colors: [SELF_CARE_PRIMARY_COLOR],
                    library: {
-                           title: "Meditation",
+                           title: t("shared.chartsc.meditation"),
                            titlePosition: 'out',
                            titleTextStyle: {
                                    color: SELF_CARE_PRIMARY_COLOR
@@ -191,10 +191,10 @@
 
 <div class="col-md-12">
   <%= column_chart [
-                           {name: "Exercise", data: exercise_chart_data}
+                           {name: t("shared.chartsc.exercise"), data: exercise_chart_data}
                    ], colors: [SELF_CARE_PRIMARY_COLOR],
                    library: {
-                           title: "Exercise",
+                           title: t("shared.chartsc.exercise"),
                            titlePosition: 'out',
                            titleTextStyle: {
                                    color: SELF_CARE_PRIMARY_COLOR

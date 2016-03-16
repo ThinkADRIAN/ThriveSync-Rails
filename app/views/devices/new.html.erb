@@ -1,9 +1,9 @@
 <div class="container">
-  <h1>New Device</h1>
+  <h1><%= t "devices.new" %></h1>
 
   <%= render 'form' %>
 
   <br>
   
-  <%= link_to 'Back', devices_path %>
+  <%= link_to t("menu.back"), devices_path %>
 </div>

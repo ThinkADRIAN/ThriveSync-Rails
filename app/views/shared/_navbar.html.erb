@@ -14,92 +14,92 @@
                   <li><%= link_to 'Individuals', page_path('individuals') %></li>
                   <li><%= link_to 'Providers', page_path('providers') %></li>
                 -->
-                  <li><%= link_to 'Research Study', page_path('research/study') %></li>
-                  <li><%= link_to 'Pricing', page_path('pricing') %></li>
-                  <li><%= link_to 'Support', "https://thrivestreams.freshdesk.com", target: '_blank' %></li>
+                  <li><%= link_to t("shared.navbar.research"), page_path('research/study') %></li>
+                  <li><%= link_to t("shared.navbar.pricing"), page_path('pricing') %></li>
+                  <li><%= link_to t("shared.navbar.support"), "https://thrivestreams.freshdesk.com", target: '_blank' %></li>
                 </ul>
             <% end %>
             <% if user_signed_in? && (current_user.is? :superuser) %>
                 <li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Super User Tools<b class="caret"></b></a>
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= t "shared.navbar.sutools" %><b class="caret"></b></a>
                   <ul class="dropdown-menu">
-                    <li><a href="/superusers/index">Users</a></li>
-                    <li><a href="#">Professionals</a></li>
-                    <li><a href="#">Organizations</a></li>
+                    <li><a href="/superusers/index"><%= t "shared.navbar.users" %></a></li>
+                    <li><a href="#"><%= t "shared.navbar.pros" %></a></li>
+                    <li><a href="#"><%= t "shared.navbar.orgs" %></a></li>
                   </ul>
                 </li>
             <% end %>
 
             <% if user_signed_in? && (current_user.is? :admin) %>
                 <li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin Tools<b class="caret"></b></a>
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= t "shared.navbar.atools" %><b class="caret"></b></a>
                   <ul class="dropdown-menu">
-                    <li><a href="#">Users</a></li>
-                    <li><a href="#">Professionals</a></li>
-                    <li><a href="#">Organizations</a></li>
+                    <li><a href="#"><%= t "shared.navbar.users" %></a></li>
+                    <li><a href="#"><%= t "shared.navbar.pros" %></a></li>
+                    <li><a href="#"><%= t "shared.navbar.orgs" %></a></li>
                   </ul>
                 </li>
             <% end %>
 
             <% if user_signed_in? && (current_user.is? :pro) %>
                 <li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Pro Tools<b class="caret"></b></a>
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= t "shared.navbar.ptools" %><b class="caret"></b></a>
                   <ul class="dropdown-menu">
-                    <li><a href="<%= pros_path %>">Clients</a></li>
+                    <li><a href="<%= pros_path %>"><%= t "shared.navbar.clients" %></a></li>
                   </ul>
                 </li>
                 <li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Connect<b class="caret"></b></a>
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= t "shared.navbar.connect" %><b class="caret"></b></a>
                   <ul class="dropdown-menu">
-                    <li><a href="<%= connections_path %>">Clients</a></li>
+                    <li><a href="<%= connections_path %>"><%= t "shared.navbar.clients" %></a></li>
                   </ul>
                 </li>
             <% end %>
 
             <% if user_signed_in? && (current_user.is? :supporter) %>
                 <li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Support Tools<b class="caret"></b></a>
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= t "shared.navbar.stools" %><b class="caret"></b></a>
                   <ul class="dropdown-menu">
-                    <li><a href="<%= supporters_path %>">Thrivers</a></li>
-                    <li><a href="<%= thrivers_connections_path %>">Manage Connections</a></li>
+                    <li><a href="<%= supporters_path %>"><%= t "shared.navbar.thrivers" %></a></li>
+                    <li><a href="<%= thrivers_connections_path %>"><%= t "shared.navbar.manage" %></a></li>
                   </ul>
                 </li>
             <% end %>
 
             <% if user_signed_in? && (current_user.is? :client) %>
                 <li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Client Tools<b class="caret"></b></a>
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= t "shared.navbar.ctools" %><b class="caret"></b></a>
                   <ul class="dropdown-menu">
-                    <li><a href="<%= moods_path %>">Mood</a></li>
-                    <li><a href="<%= sleeps_path %>">Sleep</a></li>
-                    <li><a href="<%= self_cares_path %>">Self Care</a></li>
-                    <li><a href="<%= journals_path %>">Journal</a></li>
+                    <li><a href="<%= moods_path %>"><%= t "repeat.categories.mood" %></a></li>
+                    <li><a href="<%= sleeps_path %>"><%= t "repeat.categories.sleep" %></a></li>
+                    <li><a href="<%= self_cares_path %>"><%= t "shared.navbar.selfcare" %></a></li>
+                    <li><a href="<%= journals_path %>"><%= t "shared.navbar.journal" %></a></li>
                   </ul>
                 </li>
             <% end %>
 
             <% if user_signed_in? && (current_user.is? :user) %>
                 <li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Trackers<b class="caret"></b></a>
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= t "shared.navbar.trackers" %><b class="caret"></b></a>
                   <ul class="dropdown-menu">
-                    <li><a href="<%= moods_path %>">Mood</a></li>
-                    <li><a href="<%= sleeps_path %>">Sleep</a></li>
-                    <li><a href="<%= self_cares_path %>">Self Care</a></li>
-                    <li><a href="<%= journals_path %>">Journal</a></li>
+                    <li><a href="<%= moods_path %>"><%= t "repeat.categories.mood" %></a></li>
+                    <li><a href="<%= sleeps_path %>"><%= t "repeat.categories.sleep" %></a></li>
+                    <li><a href="<%= self_cares_path %>"><%= t "shared.navbar.selfcare" %></a></li>
+                    <li><a href="<%= journals_path %>"><%= t "shared.navbar.journal" %></a></li>
                   </ul>
                 </li>
             <% end %>
 
             <% if user_signed_in? && ((current_user.is? :user) || (current_user.is? :client)) && (($flipper[:peer_support].enabled? current_user) || ($flipper[:provider_support].enabled? current_user)) %>
                 <li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Connect<b class="caret"></b></a>
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= t "repeat.connect" %><b class="caret"></b></a>
                   <ul class="dropdown-menu">
                     <% if $flipper[:peer_support].enabled? current_user %>
-                        <li><%= link_to 'Cards', conversations_path %></li>
-                        <li><a href="<%= supporters_connections_path %>">Supporters</a></li>
+                        <li><%= link_to t("shared.navbar.cards"), conversations_path %></li>
+                        <li><a href="<%= supporters_connections_path %>"><%= t "shared.navbar.supporters" %></a></li>
                     <% end %>
                     <% if $flipper[:provider_support].enabled? current_user %>
-                        <li><a href="<%= connections_path %>">Providers</a></li>
+                        <li><a href="<%= connections_path %>"><%= t "shared.navbar.providers" %></a></li>
                     <% end %>
                   </ul>
                 </li>
@@ -107,27 +107,26 @@
 
             <% if user_signed_in? %>
                 <li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Account<b class="caret"></b></a>
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= t "shared.navbar.account" %><b class="caret"></b></a>
                   <ul class="dropdown-menu">
-                    <li><a href="<%= edit_user_registration_path %>">Profile</a></li>
+                    <li><a href="<%= edit_user_registration_path %>"><%= t "shared.navbar.profile" %></a></li>
                     <% if user_signed_in? && ((current_user.is? :user) || (current_user.is? :client)) %>
-                        <li><a href="<%= scorecards_path %>">Scorecard</a></li>
-                        <li><a href="<%= reminders_path %>">Reminders</a></li>
+                        <li><a href="<%= scorecards_path %>"><%= t "shared.navbar.scorecard" %></a></li>
+                        <li><a href="<%= reminders_path %>"><%= t "shared.navbar.reminders" %></a></li>
                     <% end %>
-                    <li><%= link_to 'Support', "https://thrivestreams.freshdesk.com", target: '_blank' %></li>
-                    <li><%= link_to "Logout", destroy_user_session_path, method: :delete %></li>
+                    <li><%= link_to t("shared.navbar.support"), "https://thrivestreams.freshdesk.com", target: '_blank' %></li>
+                    <li><%= link_to t("shared.navbar.logout"), destroy_user_session_path, method: :delete %></li>
                   </ul>
                 </li>
                 <div class="navbar-text pull-left">
-                  Logged in as <strong><%= current_user.first_name + " " + current_user.last_name %></strong>.
+                  <%= t "shared.navbar.loggedin" %><strong><%= current_user.first_name + " " + current_user.last_name %></strong>.
                 </div>
             <% end %>
           </ul>
           <% if !user_signed_in? %>
               <form class="navbar-form pull-left">
-                <a class="btn btn-success" href=<%= start_path %>>Get
-                  Started for Free</a>
-                <a class="btn btn-info" href="<%= new_user_session_path %>">Login</a>
+                <a class="btn btn-success" href=<%= start_path %>><%= t "shared.navbar.getstarted" %></a>
+                <a class="btn btn-info" href="<%= new_user_session_path %>"><%= t "button.login" %></a>
               </form>
           <% end %>
         </div>

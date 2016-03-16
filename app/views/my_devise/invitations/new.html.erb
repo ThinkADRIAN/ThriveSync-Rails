@@ -5,12 +5,12 @@
     <div class="panel panel-default">
       <div class="panel-heading">
         <% if current_user.is? :user %>
-            <h3 class="panel-title">Invite a Peer Supporter</h3>
+            <h3 class="panel-title"><%= t "mydevise.invitations.new.invite" %></h3>
         <% end %>
       </div>
       <div class="panel-body">
         <% if current_user.is? :user %>
-            <p>Enter the email address of the individual you would like to support you:</p>
+            <p><%= t "mydevise.invitations.new.enter" %></p>
         <% end %>
 
         <%= form_for resource, :as => resource_name, :url => invitation_path(resource_name), :html => {:method => :post} do |f| %>

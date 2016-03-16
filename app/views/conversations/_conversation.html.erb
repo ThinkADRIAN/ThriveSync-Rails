@@ -3,13 +3,13 @@
 
   <div class="btn-group-vertical pull-right">
     <% if conversation.is_trashed?(current_user) %>
-        <%= link_to 'Restore', restore_conversation_path(conversation), class: 'btn btn-xs btn-info', method: :post %>
+        <%= link_to t("conversations.convo.restore"), restore_conversation_path(conversation), class: 'btn btn-xs btn-info', method: :post %>
     <% else %>
-        <%= link_to 'Move to trash', conversation_path(conversation), class: 'btn btn-xs btn-danger', method: :delete,
-                    data: {confirm: 'Are you sure?'} %>
+        <%= link_to t("conversations.convo.move", conversation_path(conversation), class: 'btn btn-xs btn-danger', method: :delete,
+                    data: {confirm: t("repeat.sure")} %>
 
         <% if conversation.is_unread?(current_user) %>
-            <%= link_to 'Mark as read', mark_as_read_conversation_path(conversation),
+            <%= link_to t("conversations.convo.read"), mark_as_read_conversation_path(conversation),
                         class: 'btn btn-xs btn-info', method: :post %>
         <% end %>
     <% end %>

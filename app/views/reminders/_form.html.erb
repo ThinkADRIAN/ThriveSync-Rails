@@ -1,7 +1,7 @@
 <%= bootstrap_form_for(@reminder) do |f| %>
     <% if @reminder.errors.any? %>
         <div id="error_explanation">
-          <h2><%= pluralize(@reminder.errors.count, "error") %> prohibited this reminder from being saved:</h2>
+          <h2><%= t("reminders.form.error", :error => pluralize(@reminder.errors.count, "error")) %></h2>
 
           <ul>
             <% @reminder.errors.full_messages.each do |message| %>
@@ -17,19 +17,19 @@
     </div>
     <div class="field">
       <%= f.check_box_without_bootstrap :sunday_enabled %>
-      <%= f.label "Sunday" %>
+      <%= f.label t("repeat.days.sun") %>
       <%= f.check_box_without_bootstrap :monday_enabled %>
-      <%= f.label "Monday" %>
+      <%= f.label t("repeat.days.mon") %>
       <%= f.check_box_without_bootstrap :tuesday_enabled %>
-      <%= f.label "Tuesday" %>
+      <%= f.label t("repeat.days.tue") %>
       <%= f.check_box_without_bootstrap :wednesday_enabled %>
-      <%= f.label "Wednesday" %>
+      <%= f.label t("repeat.days.wed") %>
       <%= f.check_box_without_bootstrap :thursday_enabled %>
-      <%= f.label "Thursday" %>
+      <%= f.label t("repeat.days.thur") %>
       <%= f.check_box_without_bootstrap :friday_enabled %>
-      <%= f.label "Friday" %>
+      <%= f.label t("repeat.days.fri") %>
       <%= f.check_box_without_bootstrap :saturday_enabled %>
-      <%= f.label "Saturday" %>
+      <%= f.label t("repeat.days.sat") %>
     </div>
     <div class="field">
       <%= f.label :alert_time %><br>

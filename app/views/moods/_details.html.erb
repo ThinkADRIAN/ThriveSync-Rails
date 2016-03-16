@@ -2,7 +2,7 @@
   <% if !@moods.empty? %>
       <div class="panel panel-primary">
         <div class="panel-heading">
-          <h3 class="panel-title">Mood Entries</h3>
+          <h3 class="panel-title"><%= t "moods.details.header" %></h3>
         </div>
         <div class="panel-body">
           <%
@@ -31,56 +31,56 @@
                   </div>
                   <div class="col-md-4">
                     <p>
-                      <strong>Mood Level:</strong>
+                      <strong><%= t "repeat.mood.mlevel" %></strong>
                       <% if mood.mood_rating == 1 %>
-                          <%= "Severely Depressed" %>
+                          <%= t "repeat.mood.sdep" %>
                       <% elsif mood.mood_rating == 2 %>
-                          <%= "Moderately Depressed" %>
+                          <%= t "repeat.mood.moddep" %>
                       <% elsif mood.mood_rating == 3 %>
-                          <%= "Mildly Depressed" %>
+                          <%= t "repeat.mood.mildep" %>
                       <% elsif mood.mood_rating == 4 %>
-                          <%= "Baseline" %>
+                          <%= t "repeat.mood.baseline" %>
                       <% elsif mood.mood_rating == 5 %>
-                          <%= "Mildly Elevated" %>
+                          <%= t "repeat.mood.milel" %>
                       <% elsif mood.mood_rating == 6 %>
-                          <%= "Moderately Elevated" %>
+                          <%= t "repeat.mood.model" %>
                       <% elsif mood.mood_rating == 7 %>
-                          <%= "Severely Elevated" %>
+                          <%= t "repeat.mood.sel" %>
                       <% end %>
                       (<%= mood.mood_rating %>)
                     </p>
 
                     <p>
-                      <strong>Anxiety Level:</strong>
+                      <strong><%= t "repeat.mood.alevel" %></strong>
                       <% if mood.anxiety_rating == 1 %>
-                          <%= "None" %>
+                          <%= t "repeat.mood.none" %>
                       <% elsif mood.anxiety_rating == 2 %>
-                          <%= "Mild" %>
+                          <%= t "repeat.mood.mild" %>
                       <% elsif mood.anxiety_rating == 3 %>
-                          <%= "Moderate" %>
+                          <%= t "repeat.mood.mod" %>
                       <% elsif mood.anxiety_rating == 4 %>
-                          <%= "Severe" %>
+                          <%= t "repeat.mood.sev" %>
                       <% end %>
                       (<%= mood.anxiety_rating %>)
                     </p>
 
                     <p>
-                      <strong>Irritability Level:</strong>
+                      <strong><%= t "repeat.mood.ilevel" %></strong>
                       <% if mood.irritability_rating == 1 %>
-                          <%= "None" %>
+                          <%= t "repeat.mood.none" %>
                       <% elsif mood.irritability_rating == 2 %>
-                          <%= "Mild" %>
+                          <%= t "repeat.mood.mild" %>
                       <% elsif mood.irritability_rating == 3 %>
-                          <%= "Moderate" %>
+                          <%= t "repeat.mood.mod" %>
                       <% elsif mood.irritability_rating == 4 %>
-                          <%= "Severe" %>
+                          <%= t "repeat.mood.sev" %>
                       <% end %>
                       (<%= mood.irritability_rating %>)
                     </p>
                   </div>
                   <div class="col-md-4">
-                    <%= link_to 'Edit', edit_mood_path(mood, modal_enabled: 'true'), remote: true, class: "btn-default btn-xs" %>
-                    <%= link_to 'Remove', mood_delete_path(mood, modal_enabled: 'true'), class: "btn-danger btn-xs", remote: true, mood: mood %>
+                    <%= link_to t("menu.edit"), edit_mood_path(mood, modal_enabled: 'true'), remote: true, class: "btn-default btn-xs" %>
+                    <%= link_to t("menu.remove"), mood_delete_path(mood, modal_enabled: 'true'), class: "btn-danger btn-xs", remote: true, mood: mood %>
                   </div>
                   <div class="col-md-12">
                     <hr>

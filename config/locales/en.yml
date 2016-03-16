@@ -20,6 +20,867 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
+  menu:
+    back: "Back"
+    edit: "Edit"
+    cancel: "Cancel"
+    show: "Show"
+    destroy: "Destroy"
+    remove: "Remove"
+  
+  button:
+    login: "Login"
+    
+  label:
+    fn: "First Name"
+    ln: "Last Name"
+    email: "Email"
+    pw: "Password"
+
+  y: "Yes"
+  n: "No"
+    
+  admins:
+    index:
+      header: "Greetings Admin!!!"
+      
+  capture:
+    new:
+      journal: "New Journal Entry"
+      mood: "New Mood Entry"
+      sc: "New Self Care Entry"
+      sleep: "New Sleep Entry"
+    show:
+      journal: "Add Journal"
+      mood:
+        add: "Add Mood"
+      selfcare:
+        add: "Add Self Care"
+      sleep:
+        add: "Add Sleep"
+        start: "Sleep Start Time:"
+        finish: "Sleep Finish Time:"
+        quality: "Sleep Quality:"
+  
+  clients:
+    index:
+      header: "Greetings Client!!!"
+  
+  confirmable:
+    mailer:
+      welcome: "Welcome %{var}!"
+      confirm: "You can confirm your account email through the link below:"
+      hello: "Hello %{var}!"
+      reset1: "Someone has requested a link to change your password. You can do this through the link below."
+      reset2: "If you didn't request this, please ignore this email."
+      reset3: "Your password won't change until you access the link above and create a new one."
+      unlock1: "Your account has been locked due to an excessive number of unsuccessful sign in attempts."
+      unlock2: "Click the link below to unlock your account:"
+    passwords:
+      edit:
+        change1: "Change your password"
+        new: "New password"
+        confirmnew: "Confirm new password"
+        confirmmy: "Confirm my password"
+      new:
+    registrations:
+      edit:
+        header: "Edit %{var}"
+        wait: "Currently waiting confirmation for: %{var}"
+        blank: "(leave blank if you don't want to change it)"
+        need: "(we need your current password to confirm your changes)"
+        unhappy: "Unhappy?"
+    shared:
+      confirmation: "Didn't receive confirmation instructions?"
+      unlock: "Didn't receive unlock instructions?"
+      signinwith: "Sign in with %{var}"
+    unlocks:
+      resend: "Resend unlock instructions"
+
+  conversations:
+    convo:
+      restore: "Restore"
+      move: "Move to trash"
+      read: "Mark as read"
+    show:
+      type: "Type something to reply..."
+      send: "Send message"
+
+  devices:
+    form:
+      error: "%{error} prohibited this device from being saved:"
+      enabled: "Device Enabled:"
+      type: "Device Type:"
+    edit: "Edit Device"
+    index:
+      list: " - Device List"
+      add: "Add a new Device"
+      devices: "Devices"
+      id: "Device ID:"
+      platform: "Device Platform"
+    new: "New Device"
+    show: "Show Device"
+
+  devise:
+    confirmation:
+      resend: "Resend Verification Instructions"
+    invitations:
+      #edit:
+        #header: "<I'm in a different file>"
+        #submit_button: "<I'm in a different file>"
+      #new:
+        #header: "<I'm in a different file>"
+        #submit_button: "<I'm in a different file>"
+    mailer:
+      confirmation:
+        created: "Your user account with the e-mail address %{var} has been created."
+        follow: "Please follow the link below to confirm your account."
+        onceactive: "You will be able to change your settings (password, timezone, etc.) once your account is activated."
+        welcome: "A big warm welcome."
+        forward_html: "If you have not requested the creation of a ThriveSync account or if you think this is an unauthorized use of your e-mail address, please forward this e-mail to %{email}."
+      reset:
+        someone: "Someone has requested a link to change your password. You can do this through the link below."
+        ignore: "If you didn't request this, please ignore this email."
+        unless: "Your password won't change until you access the link above and create a new one."
+      unlock:
+        locked: "Your account has been locked due to an excessive number of unsuccessful sign in attempts."
+        click: "Click the link below to unlock your account:"
+    passwords:
+      edit:
+        change: "Change your password"
+        newpw: "New password"
+        confirmpw: "Confirm new password"
+    registrations:
+      edit:
+        header: "Edit User"
+        waiting: "Currently awaiting confirmation for:"
+        blank: "(leave blank if you don't want to change it)"
+        current: "(we need your current password to confirm your changes)"
+    shared:
+      links:
+        verification: "Didn't receive verification instructions?"
+    unlocks:
+      resend: "Resend unlock instructions"
+      
+  friendships:
+    index:
+      addpro: "Add New Provider Connection"
+      addpat: "Add New Patient Connection"
+      pendingc: "Pending Provider Connections"
+      pendingp: "Pending Patient Connections"
+      requestpro: "Requests for Connection from Provider"
+      requestpat: "Requests for Connection from Patient"
+      procon: "Provider Connections"
+      patcon: "Patient Connections"
+    new:
+      conmhp: "Connect with a Mental Health Professional"
+      conpat: "Connect with a Patient"
+      searchmhp: "To connect to your data, search by your Mental Health Professional's email address:"
+      searchpat: "To connect to your data, search by your Patient's email address:"
+      search: "Search"
+    supporters:
+      invite: "Invite New Supporter"
+      pending: "Pending Supporter Connections"
+      requests: "Requests for Connection from Peer"
+      supcon: "Supporter Connections"
+    thrivers:
+      pending: "Pending Thriver Connections"
+      requestpeer: "Requests for Connection from Peer"
+      tcon: "Thriver Connections"
+
+  journals:
+    delete:
+      delete: "Delete Journal Entry"
+      sure: "Are you sure you wish to delete this journal entry?"
+      yes: "Yes, Delete This Journal Entry"
+      no: "No, Please Don't"
+    edit: "Edit Journal Entry"
+    form:
+      error: "%{error} prohibited this journal entry from being saved:"
+      entry: "Journal Entry:"
+      timestamp: "Timestamp:"
+    index:
+      add: "Add a new Journal Entry"
+      change: "Change View Period "
+    new: "New Journal Entry"
+    show: "Journal Creation Date:"
+
+  mailboxer:
+    mailer:
+      new:
+        have: "You have a new message:"
+        received: "You have received a new message:"
+      reply:
+        have: "You have a new reply:"
+        received: "You have received a new reply:"
+      visit_html: "Visit %{link} and go to your inbox for more info."
+    notification:
+      have: "You have a new notification:"
+      received: "You have received a new notification:"
+      visit_html: "Visit %{link} and go to your notifications for more info."
+
+  mainmailer:
+    invited: " has invited you to connect on ThriveSync. You can accept it through the link below."
+    manage: "Manage Connections"
+    accept: 'If you want to accept the invitation, please click the link above and click the "Accept" button.'
+    unless: "This connection will not be created until you access the link above and approve it."
+    reject: 'Otherwise, you can click the "Reject" button to reject the invitation to connect.'
+
+  messages:
+    new: "Send Support to a "
+    send: "Send"
+    custom: "Custom Message"
+
+  moods:
+    delete:
+      header: "Delete Mood Entry"
+      sure: "Are you sure you wish to delete this mood entry?"
+      yes: "Yes, Delete This Mood Entry"
+      no: "No, Please Don't"
+    details:
+      header: "Mood Entries"
+    edit: "Edit Mood Entry"
+    form:
+      error: "%{error} prohibited this mood entry from being saved:"
+      timestamp: "Timestamp:"
+    index:
+      add: "Add a new Mood Entry"
+      change: "Change View Period"
+    new: "New Mood Entry"
+    
+  mydevise:
+    invitations:
+      new:
+        invite: "Invite a Peer Supporter"
+        enter: "Enter the email address of the individual you would like to support you:"
+    registrations:
+      edit:
+        edit: "Edit Profile"
+        awaiting: "Currently awaiting confirmation for: %{var}"
+        rewards: "Rewards Enabled"
+        blank: "(leave blank if you don't want to change it)"
+        needpw: "(we need your current password to confirm your changes)"
+      new:
+        signup: "Sign Up for a Free Account"
+        confirmation: "Confirmation"
+        agreement_html: "By clicking Sign Up, you agree to our %{termsandcons} and that you have read our %{privacypolicy}."
+    sessions:
+      new:
+        login: "Login to ThriveSync"
+        
+  pages:
+    footer:
+      header: "Technology for Healthy Minds"
+      motto: "We build technology designed to improve the mental wellness and healthcare for every person on the planet."
+      aboutus: "ABOUT US"
+      co: "Company"
+      team: "Team"
+      career: "Career"
+      blog: "Blog"
+      contact: "Contact"
+      tandc: "Terms and Conditions"
+      privacypolicy: "Privacy Policy"
+      copyright: "Copyright © 2015 ThriveStreams Inc. All Rights Reserved."
+    individuals: "Coming Soon..."
+    pricing:
+      getstarted: "Get Started Today"
+      try: "Try ThriveSync now with no contracts, no risk."
+      free: "FREE"
+      freeaccess: "START FREE ACCESS"
+      oneind: "1 Individual"
+      webapp: "Web & Mobile Apps"
+      unlimitedpro: "Unlimited Provider Connections"
+      unlimitedpeer: "Unlimited Peer Connections"
+      support: "Email Support"
+      standard: "STANDARD"
+      permo: "/ MO"
+      start30: "START 30-DAY FREE TRIAL"
+      oneprov: "1 Provider"
+      tenpat: "10 Patients/Clients"
+      dashboard: "Provider Web Dashboard"
+      patientweb: "Patient Web & Mobile Apps"
+      plus: "PLUS"
+      hunpat: "100 Patients/Clients"
+      support2: "Email and Phone Support"
+      currency: "$"
+      39: "39"
+      99: "99"
+      0: "0"
+    privacy:
+      header: "Privacy Policy"
+      effdate: "Effective Date: November 21st 2015"
+      preface: "This privacy policy applies to https://www.thrivesync.com and the ThriveSync service owned and operated by ThriveStreams Inc, (“ThriveStreams”) a Delaware corporation. This privacy policy describes how ThriveStreams collects and uses the personal information you provide on our web site and through our software. The use of information collected through our service shall be limited to the purpose of providing the service for which the Customer has engaged ThriveStreams. It also describes the choices available to you regarding our use of your personal information and how you can access and update this information. This privacy policy agreement does not pertain to protected health information entered by registered users. Our Terms of Service agreement, found www.thrivesync.com/terms defines the privacy of patient information for the treatment clients (Clients) and treatment providers (Providers), both comprising the users and Customers of our tele-health services."
+      sectionone: "1. Information Collection and Use"
+      subtitleonea: "Owner of the Record"
+      s1a: "The service Provider (mental healthcare professional) is the legal owner of the medical records created and generated from treatment (including by not limited by the use of the ThriveSync services). Providers must comply with any medical records release requests by a client or legally authorized entity. Providers must maintain patient records as required by law within their jurisdiction and make available any records if requested by a client. No records shall ever be released without a written release from the client or client’s legally authorized agent."
+      s1b: "If the data Client seeks were not shared with any Provider, ThriveStreams is the owner of the record, and any requests for data should be directed to support@thrivesync.com."
+      subtitleoneb: "Service Provider Data Retention"
+      s1c: "ThriveStreams will retain personal data we process on behalf of our Customers for as long as needed to provide services to our Customer. ThriveStreams will retain and use this personal information as necessary to comply with our legal obligations, resolve disputes, and enforce our agreements."
+      sectiontwo: "2. Information Collection and Use"
+      s2a: "We collect different information from Providers and Clients."
+      s2b: "If you are a treatment provider, we collect the following information from you:"
+      s2c: "Contact Information such as name, email address, mailing address, phone number"
+      s2d: "Billing Information such as transaction ID’s when you pay your bill through a payment gateway (e.g. Paypal)"
+      s2e: "Unique Identifiers such as user name, account number, password"
+      s2f: "We may collect information about the location from which you access our Services"
+      s2g: "We also collect the following information from you:"
+      s2h: "Information about your business such as company name and license number"
+      s2i: "We use this information to:"
+      s2j: "Fulfill your order"
+      s2k: "Send you an order confirmation"
+      s2l: "Send you requested product or service information"
+      s2m: "Send product updates"
+      s2n: "Respond to customer service requests"
+      s2o: "Administer your account"
+      s2p: "Send you a newsletter and marketing communications"
+      s2q: "Respond to your questions and concerns"
+      s2r: "Improve our Web site and marketing efforts"
+      s2s: "If you are a Client, we collect the following information from you:"
+      s2t: "Contact information such as name, email address, phone number as provided by our treatment provider"
+      s2u: "Your responses to, and interactions with, our mobile application(s) on our phone or device"
+      s2v: "Location information"
+      s2w: "We also collect the following information from you:"
+      s2x: "Any notes, comments or other information about your interaction with your treatment provider as provided by your provider"
+      s2y: "We use this information to:"
+      s2z: "When sharing with Provider(s) is enabled, send your responses from our mobile application(s) to your selected Provider"
+      s2aa: "Analyze, present, and otherwise process your information for you and/or your treatment provider"
+      s2ab: "Build an algorithmic understanding of your behavior for the use in providing information about you to you and your treatment provider"
+      s2ac: "Administer, build, and improve our products and service"
+      s2ad: "Research our services, the use of our services, and other related uses."
+      sectionthree: "3. Information Sharing"
+      s3a: "We will share your personal information with third parties only in the ways that are described in this privacy policy. We do not sell your personal information to third parties."
+      subtitlethreea: "Service Providers"
+      s3b: "We may provide your personal information to companies that provide services to help us with our business activities such as an email service provider to send emails on our behalf or payment processing. These companies are authorized to use your personal information only as necessary to provide these services to us."
+      subtitlethreeb: "Legal Disclaimer"
+      s3c: "We may also disclose your personal information:"
+      s3d: "as required by law, such as to comply with a subpoena, or similar legal process"
+      s3e: "when we believe in good faith that disclosure is necessary to protect our rights, protect your safety or the safety of others, investigate fraud, or respond to a government request,"
+      s3f: "if ThriveStreams is involved in a merger, acquisition, or sale of all or a portion of its assets, you will be notified via email and/or a prominent notice on our Web site of any change in ownership or uses of your personal information, as well as any choices you may have regarding your personal information,"
+      s3g: "to any other third party with your prior consent to do so"
+      sectionfour: "4. User Access and Choice"
+      s4a: "If your personal information changes, or if you no longer desire our service, you may correct, update, amend, delete/remove it by emailing our Customer Support at support@thrivesync.com If you are a provider, you can perform these changes by logging into your ThriveSync Provider account. We will respond to your request within 30 days. We will retain your information for as long as your account is active or as needed to provide you services. We will retain and use your information as necessary to comply with our legal obligations, resolve disputes, and enforce our agreements."
+      subtitlefoura: "Opt-out Preferences"
+      s4b: "If you are a Provider, receiving emails from our site is part of our service. If you no longer wish to receive these emails, you may opt out of them by canceling your account. When you sign up for a ThriveSync account we will use your name and email address to send you newsletters. If you no longer wish to receive these emails you may follow the unsubscribe instructions contained in the email you receive or by emailing us at support@thrivesync.com."
+      s4c: "If you are a Client, we will send you only emails on behalf of your treatment provider, or when contacted by you directly."
+      sectionfive: "5. Tracking Technologies / Cookies"
+      s5a: "A cookie is a small text file that is stored on a user’s computer for record-keeping purposes. We use cookies on this site and within our platform. We do not link the information we store in cookies to any personally identifiable information you submit while on our site or when using our platform."
+      s5b: "We use session ID cookies to allow you to access your account and to make it easier for you to navigate our site. A session ID cookie expires when you close your browser."
+      s5c: "If you reject cookies, you may still use our site, but your ability to use some areas of our site will be limited. We do not honor Do Not Track requests."
+      subtitlefivea: "Analytics / Log Files"
+      s5d: "As is true of most web sites, we gather certain information automatically and store it in log files on our site and within our platform. This information includes internet protocol (IP) addresses, browser type, internet service provider (ISP), referring/exit pages, operating system, date/time stamp, and clickstream data."
+      s5e: "We use this information, which does not identify individual users, to analyze trends, to administer the site and platform, to track users’ movements around the site and platform, and to gather demographic information about our user base as a whole."
+      s5f: "We do link this automatically-collected data to personally identifiable information."
+      subtitlefiveb: "3rd Party Tracking"
+      s5g: "Our third party partners employ scripts that help them better manage content on our site and within our platform. We do not tie the information gathered to our Customers’ or Users’ personally identifiable information."
+      s5h: "In addition, our business partners may use Cookies to provide us with anonymous data and information regarding the use of our Services. Specifically, some of our business partners use Cookies to show ThriveSync ads on other sites on the internet as a result of you using the Services. Such Cookies do not contain any Personal Information. You may opt out of receiving Cookies placed by such third party vendors by visiting the Network Advertising Initiative opt out page."
+      s5i: "Other Cookies used by our business partners may collect other non-personally identifying information, such as the computer’s IP address, type of operating system, type of internet browsing software, what web pages were viewed at what time, the geographic location of your internet service provider and demographic information, such as gender and age range. This information is used to provide ThriveStreams with more information about our users’ demographics and internet behaviors."
+      s5j: "We do not link the information stored in these Cookies directly to any of your Personal Information you submit while on the Site."
+      sectionsix: "6. Security"
+      s6a: "The security of your personal information is important to us. When you enter sensitive information (such as treatment progress information, a credit card number and login credentials), we encrypt the transmission of that information using secure socket layer technology (SSL)."
+      s6b: "We follow generally accepted standards to protect the personal information submitted to us, both during transmission and once we receive it. No method of transmission over the Internet, or method of electronic storage, is 100% secure, however. Therefore, we cannot guarantee its absolute security. If you have any questions about security on our Web site, you can contact us at support@thrivesync.com"
+      sectionseven: "7. Additional Information"
+      subtitlesevena: "Social Media Widgets"
+      s7a: "Our Web site may include Social Media Features, such as the Facebook Like button and Widgets, such as the Share this button or interactive mini-programs that run on our site. These Features may collect your IP address, which page you are visiting on our site, and may set a cookie to enable the Feature to function properly. Social Media Features and Widgets are either hosted by a third party or hosted directly on our Site. Your interactions with these Features are governed by the privacy policy of the company providing it."
+      subtitlesevenb: "Changes To This Policy"
+      s7b: "We may update this privacy policy to reflect changes to our information practices. If we make any material changes we will notify you by email (sent to the e-mail address specified in your Provider Account) or by means of a notice on this Site prior to the change becoming effective. We encourage you to periodically review this page for the latest information on our privacy practices. It is the responsibility of the Treatment providers to notify their Clients of material changes to this policy."
+      subtitlesevenc: "Links To Other Sites"
+      s7c: "This Web site contains links to other sites that are not owned or controlled by ThriveStreams. Please be aware that we, ThriveStreams, are not responsible for the privacy practices of such other sites. We encourage you to be aware when you leave our site and to read the privacy statements of each and every Web site that collects personally identifiable information. This privacy statement applies only to information collected by this Web site."
+      sectioneight: "8. Contact Us"
+      s8a: "support@thrivestreams.com "
+    providers: "Coming Soon..."
+    research:
+      poweredby: "Powered By"
+      typeform: "Typeform"
+      study:
+        invitation: "Invitation to Participate in a Research Study About Managing Your Mood"
+        thrivesync: "ThriveSync"
+        transcendentendeavors: "Transcedent Endeavors"
+        nationalinstitutes: "National Institutes of Health"
+        invitedp1_html: "You are invited to participate in a research study examining the usefulness of a mobile application, %{link}, for mood tracking. We aim to develop a system that gives individuals a reliable and rigorous tool to monitor and explore their mood on their personal devices."
+        invitedp2: "Your mood is the temporary state of how you feel, and being aware of how your mood changes can impact your mental wellbeing."
+        invitedp3_html: "The purpose of the study is to assess the use and effect of %{link} for tracking how you feel, as well as any effects on mood stability, and management of mild-to-moderate stress, anxiety, bipolar disorder, and depression."
+        benefits: "What are the benefits of participating?"
+        benefitsp1: "Actively monitoring or self-charting your state of mind is found to make it easier for some people to manage their mood—for example, some may experience fewer mood swings. A number of positive outcomes have been related to successfully managing how you feel, such as good interpersonal and conflict-solving skills."
+        benefitsp2_html: 'Possible benefits of participating in this study include improved ability to manage how you feel, and a  more stable mood. It is also possible you will not benefit from tracking your mood with %{link}. It is up to you whether you want to include another person, and how much data you want to share with that person. After the study period, you can keep using ThriveSync freely for an additional period of 12 months if you would like to.'
+        doing: "What will you be doing as a participant?"
+        doingp1_html: 'As a participant, you will be given access to the %{link} app, which you can use freely on your computer, phone, or other mobile device. At four points during a study period of 12 weeks, you will be asked to complete a survey asking about your experiences using ThriveSync; the surveys will each take a maximum of 15 minutes to complete. Four weeks into the study, you will be given the option of sharing your mood data with someone you know, such as a family member, friend, or mental  health provider. This feature is introduced in order to enable social support for mental wellbeing.'
+        requirements: "What are the requirements for participating?"
+        requirementsp1: "As we are examining a mobile app, you can participate from whatever location you prefer. You must, however, have access to an electronic device where you can use the app, such as a computer or smart-phone, in order to participate (we support both Apple and Android devices). It is further required that participants are 18 years or older. You can participate regardless of what your mental health status is."
+        who: "Who is conducting the study?"
+        whop1_html: "%{link1} is a company dedicated to improving patient-provider communications and quality of care for underserved populations. Our work has been recognized by multiple innovation research awards from the %{link2}."
+        whop2_html: "Please reach out to us if you have any questions at all about the study or about participating. You can contact Anniken Laake, Research Assistant, at %{email}."
+        email: "alaake@t19s.com"
+    team:
+      header: "Meet the Team"
+      adrian: "Adrian Cunanan"
+      atitle: "Founder, CEO"
+      adesc: "who pairs compassionate design with creative technology."
+      aemail: "adrian[at]thrivestreams.com"
+      ryan: "Ryan Bruce Badilla"
+      rtitle: "Founder, CTO"
+      rdesc: "who develops the mobile interface and the game engine that drives it."
+      remail: "ryan[at]thrivestreams.com"
+      built: "Built with"
+      in: "in Brooklyn"
+    terms:
+      header: "TERMS AND CONDITIONS OF SERVICE:"
+      preface: 'THESE TERMS AND CONDITIONS OF SERVICE AGREEMENT (the "Agreement" or "Terms") is made between ThriveStreams Inc. ("ThriveStreams"), a Delaware Corporation and you, the treatment provider (mental healthcare provider) or a treatment client. These terms govern your use of the thrivesync.com Website ("Website"), ThriveSync Software and Servers (hereinafter collectively the "Service"), your rights and obligations with respect to User Data that you place in the Service, and associated Intellectual Property Rights thereto, as well as your creation of an account by which you will access the Service, (hereinafter an "Account") for use in connection with the Service. This Agreement may be changed by ThriveStreams effective immediately by notifying you as provided in Section 23 below.By continuing to access or use the Service after the effective date of any such change, you agree to be bound by the modified Terms of Service. Certain information regarding the data we collect is covered in our Privacy Policy, located at <%= link_to "www.thrivesync.com/privacy", page_path("privacy") %>, to which you also agree'
+      sectionone: "1. Definitions for the purposes of this agreement:"
+      s1a: '"Website" means the Websites and Service available from the domain and subdomains of ThriveSync.com and any related or successor domains from which ThriveStreams may offer Service;'
+      s1b: '"ThriveSync Software" is the software provided to you by ThriveStreams and/or its suppliers under license in connection with the Service;'
+      s1c: '"Servers" are the online environments that support the Service;'
+      s1d: '"User Data" means any data that you upload or submit to the Servers, Website, or other areas of the Service, including but not limited to Protected Health Information as that term is defined below;'
+      s1e: '"Intellectual Property Rights" means copyrights, trademarks, service marks, trade dress, publicity rights, database rights, patent rights, and other intellectual property rights or proprietary rights recognized by law;'
+      s1f: '"HIPAA" means the Health Insurance Portability and Accountability Act of 1996;'
+      s1g: '"Protected Health Information" or "PHI" means protected health information as defined by HIPAA"s Privacy Rule found at 45 C.F.R. " 160.103;'
+      s1h: 'Treatment provider (Provider) is a health care professional (an individual, or an organization of individuals) who provides medical, health, or mental health Service to clients or patients (Client).'
+      s1i: 'Treatment client (Client) is an individual receiving medical, health, or mental health Service from a Provider.'
+      sectiontwo: "2. The Service:"
+      s2a: "ThriveSync is a third-party tele-health platform that connects Providers to Clients in order to:"
+      s2b: "Facilitate exchange of information between end Clients and their treatment providers (Providers)"
+      s2c: "Provide additional Service to both the Provider and the Client such as analysis and processing of the user data uploaded to the Service, note taking, and other Service related to therapy and mental health treatment."
+      s2d: "ThriveStreams does not provide and our Service don't include mental health care or professional Service related to medical care. Rather, we are a technology provider that provides a platform or space in which Providers can provide these Service to Clients. The Providers providing Service through the Service are not employees or agents of ThriveStreams, nor are they associate with ThriveStreams in any way. Each provider is required to obtain the clients informed consent before treatment. ThriveStreams does not endorse any Providers nor any methods or actions that may be found on this Service. It is the responsibility of the Clients to verify the competency of the Providers."
+      sectiontwo_: "2. Business Associate Agreement:"
+      s2_a: 'By agreeing to these terms and conditions you also agree to the terms in ThriveStreams "Business Associate Agreement (See Exhibit A)'
+      sectionthree: "3. Applicability:"
+      s3a: "In order to use the ThriveSync Service you must comply with the Terms and Conditions of Service. Different parts of the Website may also require compliance with additional terms."
+      sectionfour: "4. Medical Advice:"
+      s4a: "The Information contained on our Website or in our Service is not and should not be considered medical advice. No representation or warranty is made that any particular drug or treatment is safe, appropriate or effective, and ThriveStreams does not endorse or advocate any treatment method."
+      sectionfive: "5. Fees and Billing"
+      s5a: "ThriveStreams provides the Service for the fees and other charges set forth on the thrivesync.com Website. ThriveStreams may add new Service for additional fees and charges, or prospectively amend fees and charges for existing Service. You acknowledge that it is your responsibility to ensure payment in advance for all paid aspects of the Service, and to ensure that your credit or debit cards or other payment instruments accepted by ThriveStreams continue to be valid and sufficient for such purposes. ThriveStreams may exercise its suspension or termination rights as provided in Section 14 in the event of any payment delinquency."
+      sectionsix: "6. Registered User Accounts."
+      s6a: 'In order to access the Service you will be required to become a registered user of the Service by creating a ThriveSync account (Account). Only one person may use an Account. If you are a Provider you create an Account at thrivesync.com and provide the required registration information (Registration Data). You agree to provide accurate, current and complete information about yourself as prompted by the registration form ("Registration Data") and to use the account management tools provided to keep your Registration Data accurate, current and complete. You are responsible for safeguarding and maintaining the confidentiality of your password and you agree not to disclose your password to any third party. If you are a Client you create an Account by installing ThriveSync mobile application(s) and agreeing to the terms and conditions therein. To create an Account, you must be of legal age to form a binding contract. If you are not of legal age to form a binding contract, you may not register to use our Service (See Section 8 if the Client is a minor). You will be solely responsible for any activities or actions taken under your Account, whether or not you have authorized such activities or actions. ThriveStreams is not responsible for any unauthorized access to your account. You must notify us immediately if you know or suspect that any unauthorized person is accessing our Account. It is recommended you only use private computers and devices to acces the Service to which you have full control. By creating an Account, you expressly consent to the use of electronic records to store information related to these Terms or your use of the Service. ThriveStreams cannot and will not be liable for any loss or damage arising from your failure to comply with the above requirements.'
+      sectionseven: "7. Protected Health Information, User Data and Use of Your Information"
+      s7a: "ThriveSync Software allows you to enter, store, and access PHI, including medical history, current conditions, symptoms, complaints, allergies and medications, and for this information to be communicated between a Client and a Provider. It is the Provider's responsibility to use and disclose any and all information about the ThriveSync service in accordance with applicable state and federal laws, including, without limitation, obtaining any consents or authorizations that may be required for your information to be shared with third parties and in compliance with all federal regulations related to healthcare and privacy and tele-health services. ThriveStreams disclaims any and all liability in connection with the Provider's disclosure of this information ThriveStreams will make no use of PHI that is not permitted by this Agreement or that is prohibited by applicable law, including but not limited to HIPAA. ThriveStreams will make commercially reasonable efforts to maintain the Service in a manner that includes appropriate administrative, technical and physical security measures designed to protect the confidentiality, availability and integrity of PHI as required by HIPAA. In the event of termination of this Agreement, ThriveStreams will at your written request provide you with a file or files containing the User Data contained within the Service at the date of termination, provided that you make the make the request within 15 days after the date of termination.With respect to User Data other than PHI, ThriveStreams will comply with the terms of its Privacy Policy."
+      sectioneight: "8. Use of the Service by Children."
+      s8a: 'The Service can be used by Providers to serve children age 3 and above (Clients). However, the Providers willing to use the Service with Clients who have not reached the age of maturity in their country must obtain the permission from the Client"s parent or legal guardian, in accordance with all local laws, and professional rules. If you register as the parent or legal guardian on behalf of a minor Client, you will be fully responsible for complying with our Terms and our Privacy Policy.'
+      sectionnine: "9. Restrictions on Conduct."
+      s9a: "The Service may be used and accessed for lawful purposes only. You agree to abide by all applicable local, state, national and foreign laws, treaties and regulations in connection with your use of the Service. Any violation of these restrictions may result in immediate barring from the use of the Service and/or further actions in the sole discretion of ThriveStreams, including the cooperation with the appropriate legal authorities into any investigation and prosecution of your actions. In addition, without limitation, you agree that you will not do any of the following while using or accessing the Service:"
+      s9b: "transmit or upload any information for which you don't have the right to transmit, publish, copy, upload, or disseminate,"
+      s9c: "upload, post, email or otherwise transmit any Content that infringes on the intellectual property rights or violates the privacy rights of any third party (including without limitation copyright, trademark, patent, trade secret, or other intellectual property right, or moral right or right of publicity);"
+      s9d: "use the Service to collect or store personal data about other users without their express permission;"
+      s9e: 'upload, post, email or otherwise transmit any unsolicited or unauthorized advertising, promotional materials, junk mail, spam, chain letters, "pyramid schemes" or any other form of solicitation, as well as viruses or other computer code that may interrupt, destroy, limit the functionality of the Service, or interfere with the access of any other user to the Service;'
+      s9f: "circumvent, disable, or otherwise interfere with security-related features of the Service or features that prevent or restrict use or copying of any content;"
+      s9g: "use any meta tags or other hidden text or metadata utilizing a ThriveStreams name, trademark, URL or product name;"
+      s9h: "attempt to probe, scan or test the vulnerability of any ThriveStreams system or network or breach or impair or circumvent any security or authentication measures protecting the Service;"
+      s9i: "attempt to decipher, decompile, disassemble, reverse engineer, or otherwise attempt to discover or determine the source code of any software or any proprietary algorithm used to provide the Service; or"
+      s9j: "encourage or instruct any other person or entity to do any of the foregoing."
+      sectionten: "10. Interruption of Service"
+      s10a: "ThriveStreams may on occasion need to interrupt the Service with or without prior notice to protect the integrity or functionality of the Service. You agree that ThriveStreams will not be liable for any interruption of the Service (whether intentional or not), and you understand that you will not be entitled to any refunds of fees or other compensation for interruption of service. Likewise, you agree that in the event of loss of any User Data, we will not be liable for any purported damage or harm arising therefrom."
+      sectioneleven: "11. Your Rights and Obligations with Respect to Your Data"
+      s11a: 'You retain any and all Intellectual Property Rights you already hold under applicable law in User Data you upload or submit to the Service, subject to the rights, licenses, and other terms of this Agreement. In connection with User Data you upload or submit to the Service, you affirm, represent, and warrant that you own or have all necessary Intellectual Property Rights, licenses, consents, and permissions to use and authorize ThriveStreams to use the User Data in the manner contemplated by the Service and this Agreement. You agree that by uploading or submitting any Content to or through the Servers, Website, or other areas of the Service, you hereby automatically grant ThriveStreams a non-exclusive, worldwide, royalty-free, sublicenseable, and transferable license to use, reproduce, distribute, prepare derivative works of, and display the User Data non-publicly and internally to ThriveStreams solely for the purposes of providing the Service. You agree that the license includes the right to copy, analyze and use any of your User Data as ThriveStreams may deem necessary or desirable for purposes of debugging, testing, or providing support or development Service in connection with the Service and future improvements to the Service. The license granted in this Section is referred to as the "Service Data License." You also acknowledge that the Service Data License granted to ThriveStreams with respect to your Content will survive the termination of your Account to permit ThriveStreams: (i) to retain server copies of particular instances of your User Data, including copies stored in connection with back-up, debugging, and testing procedures; and (ii) to enable the exercise of the licenses granted in this Section for any other copies or instances of the same User Data that you have not specifically deleted from the Service.'
+      sectiontwelve: "12. ThriveStreams' Intellectual Property Rights and Limited License Granted to You"
+      s12a: 'ThriveStreams owns Intellectual Property Rights in and to the Service, except all User Data, including the ThriveSync Software, the Websites and the Servers, and in and to our trademarks, service marks, trade names, logos, domain names, taglines, and trade dress (collectively, the "ThriveStreams Marks"). You understand that such Intellectual Property Rights are apart from any rights you may have in User Data you upload or submit to the Service, as discussed above. You acknowledge and agree that ThriveStreams and its licensors own all right, title, and interest in and to the Service, including all Intellectual Property Rights therein, other than with respect to User Data. Except as expressly granted in this Agreement, all rights, title, and interest in and to the Service, except all User Data, and in and to the ThriveStreams Marks are reserved by ThriveStreams. Copyright, trademark and other laws of the United States and foreign countries protect the Service and the ThriveStreams Marks.'
+      sectionthirteen: "13. License"
+      s13a: "ThriveStreams hereby grants you a non-exclusive, non-transferable, non-sublicenseable, limited, revocable license to access and use the Service as set forth in these Terms of Service and expressly conditioned upon your Account remaining active, in good standing, and in full compliance with these Terms of Service. You agree that you will not (i) allow any person or entity not authorized by ThriveStreams to use or access the ThriveSync Software, (ii) attempt to copy any ideas, features, functions or graphics contained in the Service; (iii) use the ThriveSync Software in the operation of a service bureau, an application service provider or for any other purpose intended to benefit a party other than you, (iv) alter or modify the ThriveSync Software, (v) sell, assign, sublicense, rent, lease or otherwise transfer the ThriveSync Software or any rights in connection therewith, or (vi) attempt to translate, disassemble, decompile, reverse assemble, reverse engineer all or any part of the Service or otherwise attempt to derive the source code for the ThriveSync Software."
+      sectionfourteen: "14. Termination; Cancellation."
+      s14a: "ThriveSync is continually evolving and innovating. We reserve the right to change the Website, the Content we offer, or our Service, and the products or Service you may access at any time without notice. We may discontinue offering our Service or Website and we may suspend or terminate your right to use our Service or Website at any time, in the event that you breach these Terms, for any reason, or for no reason at all, in our sole discretion, and without prior notice to you. After such termination, ThriveStreams will have no further obligation to provide the Service, except to the extent we are obligated to provide you access to your health records or Providers are required to provide you with continuing care under their applicable legal, ethical and professional obligations to you. Upon termination of your right to use our Service or Website or our termination of the Service or Website, all licenses and other rights granted to you by these Terms will immediately terminate. You may terminate your Account at any time and for any reason by sending ThriveStreams notice in writing or through customer service. Upon any termination by you, your Account will no longer be accessible. Any cancellation request will be handled within 30 days of receipt of such a request by ThriveStreams. Your obligations under this agreement survive and extend past any termination or suspension of our Service to you. Specifically, Section 11, 12, 14, 15, 16, 17, 19, 20 and 21 shall survive and remain in full force and effect, but the provisions of Section 13 shall be suspended, terminated or cancelled, as the case may be."
+      sectionfifteen: "15. Third-Party Websites; Advertisements."
+      s15a: "Links to third-party Websites or resources and advertisements from third parties maybe available and visible in our Service or on our Website. ThriveStreams is not responsible or liable for the availability or accuracy of, and ThriveStreams does not endorse, sponsor, or recommend such Websites, resources, or third-party advertisements or the content, products, or Service on or available from such Websites, resources, or third-party advertisements. When we make available such third-party links, resources, and advertisements on the Website or through the Service, you must look solely to the third party with respect to the content, products, or Service they provide. We do not endorse and are not responsible for any of the content, products, or Service provided or advertised by others. YOUR USE OF THE WEBSITES OR RESOURCES OF THIRD PARTIES IS AT YOUR OWN RISK. THRIVESTREAMS AND ITS AFFILIATES WILL NOT BE LIABLE FOR ANY OF YOUR LOSSES ARISING OUT OF OR RELATING TO THE WEBSITES OR RESOURCES OF THIRD PARTIES."
+      sectionsixteen: "16. Disclaimer of Warranties."
+      s16a: 'Your use of the Service and Content is at your sole discretion and risk. The Service and Content, and all materials, information, products and Service included therein, are provided on an "AS IS" and "AS AVAILABLE" basis without warranties of any kind. THRIVESTREAMS AND ITS LICENSORS AND AFFILIATES EXPRESSLY DISCLAIM ALL WARRANTIES OF ANY KIND, EXPRESS, IMPLIED, OR STATUTORY, RELATING TO THE SERVICE AND CONTENT, INCLUDING WITHOUT LIMITATION THE WARRANTIES OF TITLE, MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, NON-INFRINGEMENT OF PROPRIETARY RIGHTS, COURSE OF DEALING, OR COURSE OF PERFORMANCE. THRIVESTREAMS AND ITS LICENSORS AND AFFILIATES MAKE NO WARRANTY THAT THE CONTENT YOU ACCESS ON OUR WEBSITE OR USING OUR SERVICE SATISFIES THE LAWS AND REGULATIONS REQUIRING THE DISCLOSURE OF INFORMATION FOR PRESCRIPTION DRUGS. IN ADDITION, THRIVESTREAMS AND ITS LICENSORS AND AFFILIATES DISCLAIM ANY WARRANTIES REGARDING SECURITY, ACCURACY, RELIABILITY TIMELINESS AND PERFORMANCE OF THE SERVICE OR THAT THE SERVICE WILL BE ERROR FREE OR THAT ANY ERRORS WILL BE CORRECTED. NO ADVICE OR INFORMATION PROVIDED TO YOU BY THRIVESTREAMS WILL CREATE ANY WARRANTY THAT IS NOT EXPRESSLY STATED IN THESE TERMS OF SERVICE. WE MAKE NO REPRESENTATIONS CONCERNING, AND DO NOT GUARANTEE, THE ACCURACY OF THE SERVICE, INCLUDING, BUT NOT LIMITED TO, ANY INFORMATION PROVIDED THROUGH THE SERVICE OR THEIR APPLICABILITY TO YOUR INDIVIDUAL CIRCUMSTANCES. OUR SERVICE AND WEBSITE CONTENT ARE DEVELOPED FOR USE IN THE UNITED STATES AND THRIVESTREAMS AND ITS LICENSORS AND AFFILIATES MAKE NO REPRESENTATION OR WARRANTY CONCERNING THE SERVICE CONTENT WHEN THEY ARE USED IN ANY OTHER COUNTRY. SOME JURISDICTIONS DO NOT PERMIT US TO EXCLUDE WARRANTIES IN THESE WAYS, SO IT IS POSSIBLE THAT THESE EXCLUSIONS WILL NOT APPLY TO OUR AGREEMENT WITH YOU. IN SUCH EVENT THE EXCLUSIONS SHALL APPLY TO THE FULLEST EXTENT PERMITTED UNDER APPLICABLE LAW.'
+      sectionseventeen: "17. Indemnification."
+      s17a: "You agree to forever indemnify, defend, and hold harmless ThriveStreams, ThriveStream's licensors and affiliates and our respective directors, officers, employees, contractors, agents, and representatives, from and against any and all claims, causes of action, demands, liabilities, losses, costs or expenses (including, but not limited to, reasonable attorneys' fees and expenses) arising out of or relating to any of the following matters:"
+      s17b: "your access to or use of the Service, the Website, or the Content;"
+      s17c: "your violation of any of the provisions of these Terms of Service;"
+      s17d: "any activity related to your Account by you or any other person accessing the Website or Service through your account, including, without limitation, negligent or wrongful conduct; or"
+      s17e: "your violation of any third party right, including ,without limitation, any intellectual property right, publicity, confidentiality, property or privacy right."
+      s17f: "ThriveStreams reserves the right, at our own expense, to assume the exclusive defense and control of any matter otherwise subject to indemnification by you, in which event you will cooperate with us in asserting any available defenses."
+      sectioneighteen: "18. Limitation of Liability."
+      s18a: "IN NO EVENT WILL THRIVESTREAMS OR THRIVESTREAM'S LICENSORS OR AFFILIATES BE LIABLE TO YOU FOR ANY DAMAGES WHATSOEVER, INCLUDING WITHOUT LIMITATION, INDIRECT, INCIDENTAL, SPECIAL, PUNITIVE OR CONSEQUENTIAL DAMAGES, OR LOST PROFITS, ARISING OUT OF OR IN CONNECTION WITH YOUR USE OF THE SERVICE, THE WEBSITE, OR THE CONTENT, WHETHER THE DAMAGES ARE FORESEEABLE AND WHETHER OR NOT THRIVESTREAMS HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES IN ADVANCE. IF YOU ARE DISSATISFIED WITH THE SERVICE, THE WEBSITE OR THE CONTENT, OR THE TERMS, YOUR SOLE AND EXCLUSIVE REMEDY IS TO DISCONTINUE USING THE WEBSITE. NOTHING HEREIN SHALL LIMIT THE POTENTIAL PROFESSIONAL LIABILITY OF OUR TREATMENT PROVIDERS OR OTHER LICENSED HEALTHCARE PROFESSIONALS ARISING FROM OR RELATED TO MEDICAL OR MENTAL HEALTH ADVICE, DIAGNOSIS, OR TREATMENT THEY PROVIDE TO YOU, EXCEPT AS PROVIDED UNDER APPLICABLE STATE LAWS. IN MANY JURISDICTIONS, PROVIDERS ARE REQUIRED TO REPORT CONFIDENTIAL INFORMATION IF THEY HAVE REASON TO BELIEVE THAT A PATIENT IS LIKELY TO HARM OTHERS OR HIMSELF/HERSELF. IN NO EVENT SHALL THRIVESTREAMS BE LIABLE FOR THE DISCLOSURE OF YOUR CONFIDENTIAL INFORMATION BY A PROVIDER FROM WHOM YOU RECEIVE MENTAL HEALTH SERVICE. THRIVESTREAMS IS NOT LIABLE TO ANY PERSON OR USER FOR ANY HARM CAUSED BY THE NEGLIGENCE OR MISCONDUCT OF A TREATMENT PROVIDER PROVIDING MENTAL HEALTH SERVICE. IN NO EVENT WILL THE CUMULATIVE LIABILITY OF THRIVESTREAMS OR THRIVESTREAM'S LICENSORS OR AFFILIATES TO YOU, WHETHER IN CONTRACT, TORT, OR OTHERWISE, EXCEED $1,000. ANY CLAIM OR CAUSE OF ACTION ARISING OUT OF OR RELATING TO YOUR USE OF THE SERVICE, THE WEBSITE OR THE CONTENT OR OUR RELATIONSHIP WITH YOU, REGARDLESS OF THEORY, MUST BE BROUGHT WITHIN ONE (1) YEAR AFTER THE OCCURRENCE OF THE EVENT GIVING RISE TO THE CLAIM OR CAUSE OF ACTION OR BE FOREVER BARRED. SOME JURISDICTIONS DO NOT PERMIT US TO LIMIT OUR LIABILITY IN THESE WAYS, SO IT IS POSSIBLE THAT THESE LIMITATIONS WILL NOT APPLY TO OUR AGREEMENT WITH YOU. IN SUCH EVENT THE LIMITATIONS SHALL APPLY TO THE FULLEST EXTENT PERMITTED UNDER APPLICABLE LAW."
+      sectionnineteen: "19. Errors and Inaccuracies."
+      s19a: "The information on the Website including, without limitation, information regarding pricing, may contain typographical errors or other errors or inaccuracies, and may not be complete or current. ThriveStreams reserves the right to correct any errors, inaccuracies, or omissions and to change or update information at any time without prior notice to you. ThriveStreams will not, however, guarantee that any such errors, inaccuracies, or omissions will be corrected. ThriveStreams reserves the right to refuse to fill any orders or provide Service that are based on inaccurate or erroneous information on the Website, including, without limitation, incorrect or out-of-date information regarding pricing, payment terms, or for any other lawful reason."
+      sectiontwenty: "20. General Terms."
+      s20a: "These Terms of Service constitute the entire agreement between you and us relating to our Service, the Website, and the Content, replacing any prior or contemporaneous agreements, whether written or oral, unless you have signed a separate written agreement with us relating to our Service, the Website, or the Content. If there is any conflict between the Terms and a separate signed written agreement between you and us relating to our Service, the Website, or the Content, the signed written agreement will control. Our licensors may be entitled to enforce this agreement as third-party beneficiaries. There are no other third-party beneficiaries to this agreement. The failure by you or us to enforce any provision of the Terms will not constitute a waiver. If any court of law, having the jurisdiction to decide the matter, rules that any provision of the Terms is invalid or unenforceable, then the invalid or unenforceable provision shall be removed from the Terms or reformed by the court and given effect so as to best accomplish the essential purpose of the invalid or unenforceable provision, and all of the other provisions of the Terms shall continue to be valid and enforceable. Nothing contained in these Terms of Service shall limit the ability of a party to seek an injunction or other equitable relief without posting any bond. The titles of the Sections of the Terms are for convenience only and shall have no legal or contractual effect."
+      sectiontwentyone: "21. Arbitration."
+      s21a: "For any claim (excluding claims for injunctive or other equitable relief) where the total amount of the award sought is less than $10,000.00 USD, the party requesting relief may elect to resolve the dispute in a cost effective manner through binding non-appearance-based arbitration. If a party elects arbitration, that party will initiate such arbitration through JAMS. The parties must comply with the following rules:"
+      s21b: "The arbitrator shall be selected from JAMS and the arbitration shall be conducted in accordance with JAMS' Comprehensive Arbitration Rules and Procedures, except as otherwise specified below;"
+      s21c: "the arbitration shall be conducted by telephone, online and/or be solely based on written submissions, the specific manner shall be chosen by the party initiating the arbitration;"
+      s21d: "the arbitration shall not involve any personal appearance by the parties or witnesses unless otherwise mutually agreed by the parties; and"
+      s21e: "any judgment on the award rendered by the arbitrator may be entered in any court of competent jurisdiction."
+      s21f: "Any dispute, controversy, or disagreement arising out of or relating to these Terms, the breach thereof, or the subject matter thereof, where the total amount of the award sought is $10,000.00 USD or greater, shall be settled exclusively by binding arbitration. The arbitrator shall be selected from JAMS and the arbitration shall be conducted in accordance with JAMS' Comprehensive Arbitration Rules and Procedures. The arbitration shall be held in New York County, New York, unless the parties mutually agree to have such proceeding in some other locale. To the extent of the subject matter of the arbitration, the arbitration shall be binding not only on all parties to these Terms, but on any other entity controlled by, in control of or under common control with the party to the extent that such affiliate joins in the arbitration, and judgment on the award rendered by the arbitrator may be entered in any court having jurisdiction thereof."
+      sectiontwentytwo: "22. Governing Law and Forum for Disputes."
+      s22a: "THESE TERMS OF SERVICE AND OUR RELATIONSHIP WITH YOU SHALL BE GOVERNED BY THE LAWS OF THE STATE OF TEXAS, EXCLUDING ITS CHOICE OF LAWS RULES. YOU AND THRIVESTREAMS EACH IRREVOCABLY AGREES THAT THE EXCLUSIVE VENUE FOR ANY ACTION OR PROCEEDING ARISING OUT OF OR RELATING TO THESE TERMS OF SERVICE OR OUR RELATIONSHIP WITH YOU, REGARDLESS OF THEORY, SHALL BE THE U.S. DISTRICT COURT FOR THE WESTERN DISTRICT OF TEXAS, OR THE STATE COURTS LOCATED IN TRAVIS COUNTY, TEXAS. YOU AND THRIVESTREAMS EACH IRREVOCABLY CONSENTS TO THE PERSONAL JURISDICTION OF THESE COURTS AND WAIVES ANY AND ALL OBJECTIONS TO THE EXERCISE OF JURISDICTION BY THESE COURTS AND TO THIS VENUE. NOTWITHSTANDING THE FOREGOING, HOWEVER, YOU AND THRIVESTREAMS AGREE THAT THRIVESTREAMS MAY COMMENCE AND MAINTAIN AN ACTION OR PROCEEDING SEEKING INJUNCTIVE OR OTHER EQUITABLE RELIEF IN ANY COURT OF COMPETENT JURISDICTION."
+      sectiontwentythree: "23. Changes to These Terms."
+      s23a: "We reserve the right to change our Terms at any time. Any changes that we make will become a part of our agreement with you when they are posted to our Website. Your continued use of our Service or the Website will constitute your agreement to the changes we have made. The last date these Terms were revised is set forth at the end of this document."
+      sectiontwentyfour: "24: Contact Us:"
+      s24a: "hello@thrivestreams.com"
+      exhibitA: "Exhibit A: BUSINESS ASSOCIATE AGREEMENT"
+      prefaceA: 'BUSINESS ASSOCIATE AGREEMENT This Agreement ("Agreement") is made and entered into at the date and time your ThriveSync Provider account is created and is between you ("Covered Entity") and ThriveStreams Inc. ("Business Associate"). WHEREAS, Business Associate is in the business of tele-health, online communication, and online practice management platform ("Offering"); and WHEREAS, Covered Entity wishes to engage, or has engaged, Business Associate in connection with said Offering, NOW, THEREFORE, in consideration of the premises and mutual promises herein contained, it is agreed as follows:'
+      exhibitone: "1. Definitions."
+      e1a: "Terms used, but not otherwise defined in this Agreement, shall have the same meaning as those terms in the Privacy Rule, Security Rule, and HITECH Act."
+      e1b: 'Agent. "Agent" shall have the meaning as determined in accordance with the federal common law of agency.'
+      e1c: 'Breach. "Breach" shall have the same meaning as the term "breach" in 45 CFR "164.402.'
+      e1d: 'Business Associate. "Business Associate" shall mean ThriveStreams Inc.'
+      e1e: 'Covered Entity. "Covered Entity" shall mean active subscriber to ThriveSync.'
+      e1f: 'Data Aggregation. "Data Aggregation" shall have the same meaning as the term "data aggregation" in 45 CFR "164.501.'
+      e1g: 'Designated Record Set. "Designated Record Set" shall have the same meaning as the term "designated record set" in 45 CFR "164.501.'
+      e1h: 'Disclosure. "Disclosure" and "Disclose" shall have the same meaning as the term "Disclosure" in 45 CFR "160.103.'
+      e1i: 'Electronic Health Record. "Electronic Health Record" shall have the same meaning as the term in Section 13400 of the HITECH Act.'
+      e1j: 'Health Care Operations. "Health Care Operations" shall have the same meaning as the term "health care operations" in 45 CFR "164.501.'
+      e1k: 'HIPAA Rules. "HIPAA Rules" shall mean the Privacy, Security, Breach Notification, and Enforcement Rules at 45 CFR Part 160 and Part 164.'
+      e1l: 'HITECH Act. "HITECH Act" shall mean The Health Information Technology for Economic and Clinical Health Act, part of the American Recovery and'
+      e1m: 'Reinvestment Act of 2009 ("ARRA" or "Stimulus Package"), specifically DIVISION A: TITLE XIII Subtitle D"Privacy, and its corresponding regulations as enacted under the authority of the Act.'
+      e1n: 'Individual. "Individual" shall have the same meaning as the term "individual" in 45 CFR "160.103 and shall include a person who qualifies as a personal representative in accordance with 45 CFR "164.502(g).'
+      e1o: 'Minimum Necessary. "Minimum Necessary" shall mean the Privacy Rule Standards found at "164.502(b) and "164.514(d)(1).'
+      e1p: 'Privacy Rule. "Privacy Rule" shall mean the Standards for Privacy of Individually Identifiable Health Information at 45 CFR Part 160 and Part 164, Subparts A and E.'
+      e1q: 'Protected Health Information. "Protected Health Information" shall have the same meaning as the term "protected health information" in 45 CFR "160.103, limited to the information created, received, maintained or transmitted by Business Associate on behalf of Covered Entity.'
+      e1r: 'Required By Law. "Required By Law" shall have the same meaning as the term "required by law" in 45 CFR "164.103.'
+      e1s: 'Secretary. "Secretary" shall mean the Secretary of the Department of Health and Human Services or his or her designee.'
+      e1t: 'Security Incident. "Security Incident" shall have the same meaning as the term "Security Incident" in in 45 CFR "164.304.'
+      e1u: 'Security Rule. "Security Rule" shall mean the Standards for Security of Electronic Protected Health Information at 45 C.F.R. parts "160 and "164, Subparts A and C.'
+      e1v: 'Subcontractor. "Subcontractor" shall mean a person or entity "that creates, receives, maintains, or transmits protected health information on behalf of a business associate" and who is now considered a business associate, as the latter term is defined in in in 45 CFR "160.103.'
+      e1w: 'Subject Matter. "Subject Matter" shall mean compliance with the HIPAA Rules and with the HITECH Act.'
+      e1x: 'Unsecured Protected Health Information. "Unsecured Protected Health Information" shall have the same meaning as the term "unsecured protected health information" in 45 CFR "164.402.'
+      e1y: 'Use. "Use" shall have the same meaning as the term "Use" in 45 CFR "164.103.'
+      exhibittwo: "2. Obligations and Activities of Business Associate."
+      e2a: 'a. Business Associate agrees to not Use or Disclose Protected Health Information other than as permitted or required by this Agreement or as Required by Law. b. Business Associate agrees to use appropriate safeguards to prevent Use or Disclosure of Protected Health Information other than as provided for by this Agreement. Business Associate further agrees to implement administrative, physical and technical safeguards that reasonably and appropriately protect the confidentiality, integrity and availability of any electronic Protected Health Information, as provided for in the Security Rule and as mandated by Section 13401 of the HITECH Act. c. Business Associate agrees to mitigate, to the extent practicable, any harmful effect that is known to Business Associate of a Use or Disclosure of Protected Health Information by Business Associate in violation of the requirements of this Agreement. Business Associate further agrees to report to Covered Entity any Use or Disclosure of Protected Health Information not provided for by this Agreement of which it becomes aware, and in a manner as prescribed herein. d. Business Associate agrees to report to Covered Entity any Security Incident, including all data Breaches or compromises, whether internal or external, related to Protected Health Information, whether the Protected Health Information is secured or unsecured, of which Business Associate becomes aware. e. If the Breach, as discussed in paragraph 2(d), pertains to Unsecured Protected Health Information, then Business Associate agrees to report any such data Breach to Covered Entity within ten (10) business days of discovery of said Breach; all other compromises, or attempted compromises, of Protected Health Information shall be reported to Covered Entity within twenty (20) business days of discovery. Business Associate further agrees, consistent with Section 13402 of the HITECH Act, to provide Covered Entity with information necessary for Covered Entity to meet the requirements of said section, and in a manner and format to be specified by Covered Entity. f. If Business Associate is an Agent of Covered Entity, then Business Associate agrees that any Breach of Unsecured Protected Health Information shall be reported to Covered Entity immediately after the Business Associate becomes aware of said Breach, and under no circumstances later than one (1) business day thereafter. Business Associate further agrees that any compromise, or attempted compromise, of Protected Health Information, other than a Breach of Unsecured Protected Health Information as specified in 2(e) of this Agreement, shall be reported to Covered Entity within ten (10) business days of discovering said compromise, or attempted compromise. g. Business Associate agrees to ensure that any Subcontractor, to whom Business Associate provides Protected Health Information, agrees to the same restrictions and conditions that apply through this Agreement to Business Associate with respect to such information. Business Associate further agrees that restrictions and conditions analogous to those contained herein shall be imposed on said Subcontractors via a written agreement that complies with all the requirements specified in "164.504(e)(2), and that Business Associate shall only provide said Subcontractors Protected Health Information consistent with Section 13405(b) of the HITECH Act. Further, Business Associate agrees to provide copies of said written agreements to Covered Entity within ten (10) business days of a Covered Entity"s request for same. h. Business Associate agrees to provide access, at the request of Covered Entity and during normal business hours, to Protected Health Information in a Designated Record Set to Covered Entity or, as directed by Covered Entity, to an Individual, in order to meet Covered Entity"s requirements under 45 CFR "164.524, provided that Covered Entity delivers to Business Associate a written notice at least five (5) business days in advance of requesting such access. Business Associate further agrees, in the case where Business Associate controls access to Protected Health Information in an Electronic Health Record, or controls access to Protected Health Information stored electronically in any format, to provide similar access in order for Covered Entity to meet its requirements the HIPAA Rules and under Section 13405(c) of the HITECH Act. These provisions do not apply if Business Associate and its employees or Subcontractors have no Protected Health Information in a Designated Record Set of Covered Entity. i. Business Associate agrees to make any amendment(s) to Protected Health Information in a Designated Record Set that Covered Entity directs or agrees to pursuant to 45 CFR "164.526, at the request of Covered Entity or an Individual. This provision does not apply if Business Associate and its employees or Subcontractors have no Protected Health Information from a Designated Record Set of Covered Entity. j. Unless otherwise protected or prohibited from discovery or disclosure by law, Business Associate agrees to make internal practices, books, and records, including policies and procedures (collectively "Compliance Information"), relating to the Use or Disclosure of Protected Health Information and the protection of same, available to the Covered Entity or to the Secretary for purposes of the Secretary determining Covered Entity"s compliance with the HIPAA Rules and the HITECH Act. Business Associate further agrees, at the request of Covered Entity, to provide Covered Entity with demonstrable evidence that its Compliance Information ensures Business Associate"s compliance with this Agreement over time. Business Associate shall have a reasonable time within which to comply with requests for such access and/or demonstrable evidence, consistent with this Agreement. In no case shall access, or demonstrable evidence, be required in less than ten (10) business days after Business Associate"s receipt of such request, unless otherwise designated by the Secretary. k. Business Associate agrees to maintain necessary and sufficient documentation of Disclosures of Protected Health Information as would be required for Covered Entity to respond to a request by an Individual for an accounting of such Disclosures, in accordance with 45 CFR "164.528. l. On request of Covered Entity, Business Associate agrees to provide to Covered Entity documentation made in accordance with this Agreement to permit Covered Entity to respond to a request by an Individual for an accounting of disclosures of Protected Health Information in accordance with 45 C.F.R. "164.528. Business Associate shall provide said documentation in a manner and format to be specified by Covered Entity. Business Associate shall have a reasonable time within which to comply with such a request from Covered Entity and in no case shall Business Associate be required to provide such documentation in less than five (5) business days after Business Associate"s receipt of such request. m. Except as provided for in this Agreement, in the event Business Associate receives an access, amendment, accounting of disclosure, or other similar request directly from an Individual, Business Associate shall redirect the Individual to the Covered Entity. n. To the extent that Business Associate carries out one or more of Covered Entity"s obligations under the HIPAA Rules, the Business Associate must comply with all requirements of the HIPAA Rules that would be applicable to the Covered Entity. o. A Business Associate must honor all restrictions consistent with 45 C.F.R. "164.522 that the Covered Entity or the Individual makes the Business Associate aware of, including the Individual"s right to restrict certain disclosures of protected health information to a health plan where the individual pays out of pocket in full for the healthcare item or service, in accordance with HITECH Act Section 13405(a).'
+      exhibitthree: "3. Permitted Uses and Disclosures by Business Associate."
+      e3a: 'a. Business associate may only use or disclose protected health information as necessary to perform the services set forth in Service Agreement and according to the terms and conditions of the use of Business Associate"s services.] b. Business associate may use or disclose protected health information as required by law. c. Business associate agrees to make uses and disclosures and requests for protected health information consistent with covered entity"s minimum necessary policies and procedures. d. Business associate may not use or disclose protected health information in a manner that would violate Subpart E of 45 CFR Part 164 if done by covered entity e. Business associate may disclose protected health information for the proper management and administration of business associate or to carry out the legal responsibilities of the business associate, provided the disclosures are required by law, or business associate obtains reasonable assurances from the person to whom the information is disclosed that the information will remain confidential and used or further disclosed only as required by law or for the purposes for which it was disclosed to the person, and the person notifies business associate of any instances of which it is aware in which the confidentiality of the information has been breached. f. Except as otherwise limited in this Agreement, Business Associate may use protected health information ("PHI") to provide Data Aggregation services to covered entity as permitted by 45 C.F.R. "164.504(e)(2)(i)(B). Data Aggregation services involve the combining by BA of (a)PHI with (b) Protected Health Information received by BA in its capacity as a business associate of another Covered Entity, to permit data analyses that relate to the health care operations of the respective Covered Entities. g. Business Associate will not receive direct or indirect remuneration in exchange for any PHI unless a HIPAA-compliant authorization is obtained that includes information with regards to future sales. PHI may be sold for the purposes of public health, research or treatment, merger or sale of the entity or service payments. Limited marketing communications may be made by the Business Associate on behalf of the covered entity so long as a HIPAA-complaint authorization is obtained.'
+      exhibitfour: "4. Obligations and Activities of Covered Entity."
+      e4a: 'a. Covered Entity shall notify Business Associate of the provisions and any limitation(s) in its notice of privacy practices of Covered Entity in accordance with 45 CFR "164.520, to the extent that such provisions and limitation(s) may affect Business Associate"s Use or Disclosure of Protected Health Information. b. Covered Entity shall notify Business Associate of any changes in, or revocation of, permission by an Individual to use or disclose Protected Health Information, to the extent that the changes or revocation may affect Business Associate"s use or disclosure of Protected Health Information. c. Covered Entity shall notify Business Associate of any restriction to the use or disclosure of Protected Health Information that Covered Entity has agreed to in accordance with 45 CFR "164.522, and also notify Business Associate regarding restrictions that must be honored under section 13405(a) of the HITECH Act, to the extent that such restrictions may affect Business Associate"s Use or Disclosure of Protected Health Information. d. Covered Entity shall notify Business Associate of any modifications to accounting disclosures of Protected Health Information under 45 CFR "164.528, made applicable under Section 13405(c) of the HITECH Act, to the extent that such restrictions may affect Business Associate"s use or disclosure of Protected Health Information. e. Covered Entity shall provide Business Associate, within thirty (30) business days of Covered Entity executing this Agreement, a description and/or specification regarding the manner and format in which Business Associate shall provide information to Covered Entity, wherein such information is required to be provided to Covered Entity as agreed to by Business Associate in paragraph 2(e) of this Agreement. Covered Entity reserves the right to modify the manner and format in which said information is provided to Covered Entity, as long as the requested modification is reasonably required by Covered Entity to comply with the HIPAA Rules or the HITECH Act, and Business Associate is provided sixty (60) business days notice before the requested modification takes effect. f. Covered Entity shall provide Business Associate, within thirty (30) business days of Covered Entity executing this Agreement, a description and/or specification regarding the manner and format in which Business Associate shall provide information to Covered Entity, wherein such information is required to be provided to Covered Entity as agreed to by Business Associate in paragraph 2(l) of this Agreement. Covered Entity reserves the right to modify the manner and format in which said information is provided to Covered Entity, as long as the requested modification is reasonably required by Covered Entity to comply with the HIPAA Rules or the HITECH Act, and Business Associate is provided sixty (60) business days notice before the requested modification takes effect. g. Covered Entity shall not require Business Associate to Use or Disclose Protected Health Information in any manner that would not be permissible under the HIPAA Rules if done by the Covered Entity.'
+      exhibitfive: "5. Term and Termination."
+      e5a: '(a) Term. The Term of this Agreement shall be effective as of as of the date and time Covered Entity agrees to the Terms of Service for using ThriveSync and creates an account and shall terminate when the covered entity deactivates the ThriveSync account and or on the date covered entity terminates for cause as authorized in paragraph (b) of this Section, whichever is sooner. b. Termination for Cause by Covered Entity. Upon Covered Entity"s knowledge of a material breach of this Agreement by Business Associate, Covered Entity shall give Business Associate written notice of such breach and provide reasonable opportunity for Business Associate to cure the breach or end the violation. Covered Entity may terminate this Agreement, and Business Associate agrees to such termination, if Business Associate has breached a material term of this Agreement and does not cure the breach or cure is not possible. If neither termination nor cure is feasible, Covered Entity shall report the violation to the Secretary. c. Termination for Cause by Business Associate. Upon Business Associate"s knowledge of a material breach of this Agreement by Covered Entity, Business Associate shall give Covered Entity written notice of such breach and provide reasonable opportunity for Covered Entity to cure the breach or end the violation. Business Associate may terminate this Agreement, and Covered Entity agrees to such termination, if Covered Entity has breached a material term of this Agreement and does not cure the breach or cure is not possible. If neither termination nor cure is feasible, Business Associate shall report the violation to the Secretary. d. Obligations of Business Associate Upon Termination. Upon termination of this Agreement for any reason, business associate, with respect to protected health information received from covered entity, or created, maintained, or received by business associate on behalf of covered entity, shall:'
+      e5b: "Retain only that protected health information which is necessary for business associate to continue its proper management and administration or to carry out its legal responsibilities;"
+      e5c: "Return to covered entity the remaining protected health information that the business associate still maintains in any form;"
+      e5d: "Continue to use appropriate safeguards and comply with Subpart C of 45 CFR Part 164 with respect to electronic protected health information to prevent use or disclosure of the protected health information, other than as provided for in this Section, for as long as business associate retains the protected health information;"
+      e5e: 'Not use or disclose the protected health information retained by business associate other than for the purposes for which such protected health information was retained and subject to the same conditions set out at paragraphs (e) and (f) above under "Permitted Uses and Disclosures By Business Associate" which applied prior to termination; and'
+      e5f: "Return to covered entity the protected health information retained by business associate when it is no longer needed by business associate for its proper management and administration or to carry out its legal responsibilities."
+      e5g: "e. Survival. The obligations of business associate under this Section shall survive the termination of this Agreement."
+      exhibitseven: "7. Governing Law."
+      e7a: "a. This Agreement and the rights of the parties shall be governed by and construed in accordance with Federal law as it pertains to the Subject Matter and shall be governed by and construed in accordance with the laws of the State of New York as it pertains to contract formation and interpretation, without giving effect to its conflict of laws. The parties agree that any appropriate state court sitting in New York, County, New York shall have exclusive jurisdiction of any case or controversy arising under or in connection with this Agreement and shall be a proper forum in which to adjudicate such case or controversy. b. Each party irrevocably consents to the jurisdiction of such courts, and irrevocably waives, to the fullest extent permitted by law, the defense of an inconvenient forum to the maintenance of such suit, action, or proceeding in any such court and further waives the right to object, with respect to such suit, action, or proceeding, that such court does not have jurisdiction over such party."
+      exhibiteight: "8. Miscellaneous."
+      e8a: "a. Regulatory References. A reference in this Agreement to a section in the Privacy Rule, Security Rule, or HITECH Act means the section as in effect or as amended. b. Amendment. The Parties agree to take such action as is necessary to amend this Agreement from time to time as is necessary for Covered Entity and Business Associate to comply with the requirements of the Privacy Rule, Security Rule, the Health Insurance Portability and Accountability Act of 1996 (Pub. L. No. 104-191), and the HITECH Act, and its corresponding regulations. c. Survival. The respective rights and obligations of Business Associate under Section 5(d) of this Agreement shall survive the termination of this Agreement. d. Interpretation. Any ambiguity in this Agreement shall be resolved to permit Covered Entity and Business Associate to comply with the Privacy Rule, Security Rule, the Health Insurance Portability and Accountability Act of 1996 (Pub. L. No. 104-191), and the HITECH Act, and its corresponding regulations. e. Severability. If any provision or provisions of this Agreement is/are determined by a court of competent jurisdiction to be unlawful, void, or unenforceable, this Agreement shall not be unlawful, void or unenforceable thereby, but shall continue in effect and be enforced as though such provision or provisions were omitted."
+      exhibitnine: "9. Counterparts."
+      e9a: "This Agreement may be executed in any number of counterparts, each of which shall be deemed an original, but all of which together shall constitute one original Agreement. Facsimile or electronically authenticated signatures shall be accepted and enforceable in lieu of original signatures."
+
+  predefinedcards:
+    form:
+      error: "%{error} prohibited this pre_defined_card from being saved:"
+    edit: "Editing pre_defined_card"
+    index:
+      list: "Listing pre_defined_cards"
+      text: "Text"
+      cat: "Category"
+      new: "New Pre defined card"
+    new: "New pre_defined_card"
+    show:
+      text: "Text:"
+      cat: "Category:"
+
+  pros:
+    index: "Clients List"
+    details: "Show Details"
+    nocon: "No connections available"
+
+  reminders:
+    form:
+      error: "%{error} prohibited this reminder from being saved:"
+    edit: "Edit Reminder"
+    index:
+      remind: "Reminders"
+      message: "Message"
+      alert: "Alert Time"
+    new: "New reminder"
+    show:
+      message: "Message"
+      alert: "Alert Time"
+
+  researchmailer:
+    congrats: "Congratulations on checking in %{count} times since %{time}!"
+    click: "You have officially reached the 30 day mark and you're ready to start Phase II.  Please click on the following link to complete your next survey."
+    link: "ThriveSync Research Survey - Week 4"
+    newfeat: "Also, you will notice that new features have been enabled for peer and provider support."
+    thankyou: "Thank you for participating in this research study!"
+
+  reviews:
+    form:
+      error: "%{error} prohibited this review from being saved:"
+    edit: "Editing review"
+    index:
+      list: "Listing reviews"
+      counter: "Review counter"
+      ldate: "Review last date"
+      tdate: "Review trigger date"
+    new: "New Review"
+    show:      
+      counter: "Review counter:"
+      ldate: "Review last date:"
+      tdate: "Review trigger date:"
+
+  rewards:
+    form:
+      error: "%{error} prohibited this reward from being saved:"
+    edit: "Editing reward"
+    index:
+      header: "Listing rewards"
+      user: "User"
+      firste: "Completed first entry"
+      firsts: "Completed first streak"
+      rewardse: "Rewards enabled"
+    new: "New Reward"
+    show:
+      user: "User:"
+      firste: "Completed first entry:"
+      firsts: "Completed first streak:"
+      rewardse: "Rewards enabled:"
+
+  scorecards:
+    form:
+      error: "%{error} prohibited this scorecard from being saved:"
+    edit: "Editing Scorecard"
+    index:
+      scorecard: "Scorecard"
+      goals: "Goals"
+      cigoal: "Checkin Goal"
+      togo: "Checkins To Go"
+      main: "Main"
+      mood: "Mood"
+      sleep: "Sleep"
+      selfcare: "Self Care"
+      journal: "Journal"
+      total: "Total Score"
+      multiplier: "Multiplier"
+      ccount: "Checkin Count"
+      lastc: "Last Checkin"
+      scount: "Streak Count"
+      srecord: "Streak Record"
+      perfect: "Perfect Checkin"
+      lastp: "Last Perfect Checkin"
+      since: "Days Since Signup"
+      score: "Score"
+    new: "New Scorecard"
+    show:
+      ccount: "Checkin count:"
+      perfect: "Perfect checkin count:"
+      lastc: "Last checkin date:"
+      scount: "Streak count:"
+      srecord: "Streak record:"
+      mscore: "Moods score:"
+      sscore: "Sleeps score:"
+      scscore: "Self cares score:"
+      jscore: "Journals score:"
+
+  selfcare:
+    delete:
+      header: "Delete Self Care Entry"
+      sure: "Are you sure you wish to delete this self care entry?"
+      yes: "Yes, Delete This Self Care Entry"
+      no: "No, Please Don't"
+    details:
+      entries: "Self Cares Entries"
+      counseling: "Counseling:"
+      medication: "Medication:"
+      meditation: "Meditation:"
+      exercise: "Exercise:"
+    edit: "Edit Self Care Entry"
+    form:
+      error: "%{var} prohibited this self care entry from being saved:"
+      timestamp: "Timestamp:"
+    index:
+      add: "Add a new Self Care Entry"
+      change: "Change View Period"
+    new: "New Self Care Entry"
+    
+  shared:
+    chartmood:
+      mood: "Mood"
+      anxiety: "Anxiety"
+      irritability: "Irritability"
+      sevd: "Sev D"
+      modd: "Mod D"
+      mildd: "Mild D"
+      base: "Base"
+      milde: "Mild E"
+      mode: "Mod E"
+      seve: "Sev E"
+      none: "None"
+      mild: "Mild"
+      mod: "Mod"
+      sev: "Sev"
+    chartsc:
+      counseling: "Counseling"
+      medication: "Medication"
+      meditation: "Meditation"
+      exercise: "Exercise"
+    chartsleep:
+      sleeptime: "Sleep Time"
+      sleepquality: "Sleep Quality"
+      quality: "Quality"
+      broken: "Broken"
+      light: "Light"
+      norm: "Norm"
+      deep: "Deep"
+    index:
+      addm: "Add a new Mood Entry"
+      viewm: "View Mood Entries"
+      adds: "Add a new Sleep Entry"
+      views: "View Sleep Entries"
+      addsc: "Add a new Self Care Entry"
+      viewsc: "View Self Care Entries"
+      addj: "Add a new Journal Entry"
+      viewj: "View Journal Entries"
+    navbar:
+      research: "Research Study"
+      pricing: "Pricing"
+      support: "Support"
+      sutools: "Super User Tools"
+      users: "Users"
+      pros: "Professionals"
+      orgs: "Organizations"
+      clients: "Clients"
+      connect: "Connect"
+      atools: "Admin Tools"
+      ptools: "Pro Tools"
+      stools: "Support Tools"
+      ctools: "Client Tools"
+      thrivers: "Thrivers"
+      manage: "Manage Connections"
+      trackers: "Trackers"
+      cards: "Cards"
+      supporters: "Supporters"
+      providers: "Providers"
+      account: "Account"
+      profile: "Profile"
+      scorecard: "Scorecard"
+      reminders: "Reminders"
+      logout: "Logout"
+      loggedin: "Logged in as "
+      getstarted: "Get Started for Free"
+    delorean: "Change View Period"
+    
+  sleeps:
+    delete:
+      header: "Delete Sleep Entry"
+      sure: "Are you sure you wish to delete this sleep entry?"
+      yes: "Yes, Delete This Sleep Entry"
+      no: "No, Please Don't"
+    details:
+      entries: "Sleep Entries"
+      start: "Sleep Start Time:"
+      end: "Sleep Finish Time:"
+      quality: "Sleep Quality:"
+    edit: "Edit Sleep Entry"
+    form:
+      error: "%{var} prohibited this sleep entry from being saved:"
+      start: "Sleep Start Time:"
+      end: "Sleep Finish Time:"
+      quality: "Sleep Quality:"
+    index:
+      add: "Add a new Sleep Entry"
+      change: "Change View Period "
+    new: "New Sleep Entry"
+  
+  superusers:
+    show: "Show Details"
+    edit: "Edit Access"
+  
+  supporters:
+    requests: "Requests for Connection from Peer"
+    sure: "Are you sure you want to reject this connection?"
+    list: "Thrivers List"
+    send: "Send Card"
+    nocon: "No connections available"
+  
+  users:
+    edit: "Edit Access:"
+    show:
+      change: "Change View Period"
+      viewm: "View Mood Entries"
+      views: "View Sleep Entries"
+      viewsc: "View Self Care Entries"
+      viewj: "View Journal Entries"
+  
+  welcome:
+    motto: "Technology for Healthy Minds"
+    purpose: "ThriveSync combines actionable data with collaborative communication to optimize patient outcomes and cost of care for value-based organizations and the patients they serve."
+    getstarted: "Get Started for Free"
+    improve: "Improve Outcomes in Mental Health"
+    provides: "ThriveSync provides the ultimate platform for improved mental health care."
+    individuals: "Individuals can efficiently collect key data to identify behaviors that influence their mental health."
+    providers: "Providers can be granted access to this data for better delivery of the right support at the right time."
+    appstore: "App Store"
+    gplay: "Google Play"
+    want: "Want to get started with ThriveSync?"
+    start: "START 30-DAY FREE TRIAL"
+
+  controller:
+    
+  repeat:
+    resendc: "Resend Confirmation Instructions"
+    hello: "Hello"
+    hi: "Hi"
+    login: "Log in"
+    signup: "Sign Up"
+    forgot: "Forgot your password?"
+    confirm: "Confirm my account"
+    sure: "Are you sure?"
+    token: "Device Token:"
+    denabled: "Device enabled:"
+    changepw: "Change my password"
+    minchar: "(%{var} characters minimum)"
+    update: "Update"
+    unlock: "Unlock my account"
+    cancel: "Cancel my account"
+    accept: "Accept"
+    reject: "Reject"
+    connect: "Connect"
+    send: "Send me reset password instructions"
+    enabled: "Enabled"
+    disabled: "Disabled"
+    devices:
+      apple: "Apple"
+      android: "Android"
+    friendship:
+      surecancel: "Are you sure you want to cancel this request for connection?"
+      surereject: "Are you sure you want to reject this connection?"
+      suredc: "Are you sure you want to disconnect this connection?"
+      nocon: "No connections available"
+      dc: "Disconnect"
+    days:
+      sun: "Sunday"
+      mon: "Monday"
+      tue: "Tuesday"
+      wed: "Wednesday"
+      thur: "Thursday"
+      fri: "Friday"
+      sat: "Saturday"
+    dmy:
+      lasty: "Last Year"
+      lastm: "Last Month"
+      lastw: "Last Week"
+      thisy: "This Year"
+      thism: "This Month"
+      thisw: "This Week"
+    mood:
+      mlevel: "Mood Level:"
+      sdep: "Severely Depressed"
+      moddep: "Moderately Depressed"
+      mildep: "Mildly Depressed"
+      baseline: "Baseline"
+      milel: "Mildly Elevated"
+      model: "Moderately Elevated"
+      sel: "Severely Elevated"
+      alevel: "Anxiety Level:"
+      none: "None"
+      mild: "Mild"
+      mod: "Moderate"
+      sev: "Severe"
+      ilevel: "Irritability Level:"
+    categories:
+      mood: "Mood"
+      sleep: "Sleep"
+      journal: "Journal"
+      selfcare: "Self Care"
+      broken: "Broken"
+      light: "Light"
+      normal: "Normal"
+      deep: "Deep"
+    keep: "Keep Thriving,"
+    signature: "- The ThriveStreams Team"
+    support_email: "support@thrivestreams.com"
+
+
   hello: "Hello world"
   time:
     formats:

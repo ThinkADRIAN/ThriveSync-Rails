@@ -3,7 +3,7 @@
       <% if @mood.errors.any? %>
           <ul class="errors"></ul>
           <div id="error_explanation">
-            <h2><%= pluralize(@mood.errors.count, "error") %> prohibited this mood entry from being saved:</h2>
+            <h2><%= t("moods.form.error", :error => pluralize(@mood.errors.count, "error")) %></h2>
             <ul>
               <% @mood.errors.full_messages.each do |message| %>
                   <li><%= message %></li>
@@ -36,8 +36,8 @@
             });
         </script>
 
-        <%= f.label "Mood Level:" %> <br>
-        <%= f.select_without_bootstrap(:mood_rating, options_for_select([['Severely Depressed', 1], ['Moderately Depressed', 2], ['Mildly Depressed', 3], ['Baseline', 4], ['Mildly Elevated', 5], ['Moderately Elevated', 6], ['Severely Elevated', 7]], selected_mood), hide_label: true) %>
+        <%= f.label t("repeat.mood.mlevel") %> <br>
+        <%= f.select_without_bootstrap(:mood_rating, options_for_select([[t("repeat.mood.sdep"), 1], [t("repeat.mood.moddep"), 2], [t("repeat.mood.mildep"), 3], [t("repeat.mood.baseline"), 4], [t("repeat.mood.milel"), 5], [t("repeat.mood.model"), 6], [t("repeat.mood.sel"), 7]], selected_mood), hide_label: true) %>
       </div>
 
       <div class="form-group">
@@ -64,8 +64,8 @@
             });
         </script>
 
-        <%= f.label "Anxiety Level:" %><br>
-        <%= f.select_without_bootstrap(:anxiety_rating, options_for_select([['None', 1], ['Mild', 2], ['Moderate', 3], ['Severe', 4]], selected_anxiety), hide_label: true) %>
+        <%= f.label t("repeat.mood.alevel") %><br>
+        <%= f.select_without_bootstrap(:anxiety_rating, options_for_select([[t("repeat.mood.none"), 1], [t("repeat.mood.mild"), 2], [t("repeat.mood.mod"), 3], [t("repeat.mood.sev"), 4]], selected_anxiety), hide_label: true) %>
       </div>
 
       <div class="form-group">
@@ -92,14 +92,14 @@
             });
         </script>
 
-        <%= f.label "Irritability Level:" %><br>
-        <%= f.select_without_bootstrap(:irritability_rating, options_for_select([['None', 1], ['Mild', 2], ['Moderate', 3], ['Severe', 4]], selected_irritability), hide_label: true) %>
+        <%= f.label t("repeat.mood.ilevel") %><br>
+        <%= f.select_without_bootstrap(:irritability_rating, options_for_select([[t("repeat.mood.none"), 1], [t("repeat.mood.mild"), 2], [t("repeat.mood.mod"), 3], [t("repeat.mood.sev"), 4]], selected_irritability), hide_label: true) %>
       </div>
     </div>
 
     <% if !current_page?(action: 'new') %>
         <div class="form-group">
-          <%= f.label "Timestamp:" %> <br>
+          <%= f.label t("moods.form.timestamp") %> <br>
           <%= f.datetime_local_field :timestamp, hide_label: true %>
         </div>
     <% end %>
@@ -109,9 +109,9 @@
     <div class="modal-footer">
       <%= f.submit class: "btn btn-primary" %>
       <% if params[:modal_enabled] != 'true' %>
-          <%= link_to 'Cancel', moods_cancel_path, remote: true, class: "btn btn-default" %>
+          <%= link_to t("menu.cancel"), moods_cancel_path, remote: true, class: "btn btn-default" %>
       <% else %>
-          <%= link_to "Cancel", "#", class: "btn btn-default", data: {dismiss: "modal"} %>
+          <%= link_to t("menu.cancel"), "#", class: "btn btn-default", data: {dismiss: "modal"} %>
       <% end %>
     </div>
 <% end %>

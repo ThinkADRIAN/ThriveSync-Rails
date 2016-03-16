@@ -1,8 +1,7 @@
 <%= bootstrap_form_for(@device) do |f| %>
   <% if @device.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@device.errors.count, "error") %> prohibited this device from being saved:</h2>
-
+      <h2><%= t("devices.form.error", :error => pluralize(@device.errors.count, "error")) %></h2>
       <ul>
       <% @device.errors.full_messages.each do |message| %>
         <li><%= message %></li>
@@ -17,12 +16,12 @@
       <% else %>
           <% device_enabled = true %>
       <% end %>
-      <%= f.label "Device Enabled:" %> <br>
-      <%= f.select(:enabled, options_for_select([['Enabled', true], ['Disabled', false]], device_enabled), hide_label: true) %>
+      <%= f.label t("devices.form.enabled") %> <br>
+      <%= f.select(:enabled, options_for_select([[t("repeat.enabled"), true], [t("repeat.disabled"), false]], device_enabled), hide_label: true) %>
     </div>
 
     <div class="form-group">
-      <%= f.label "Device Token:" %> <br>
+      <%= f.label t("repeat.token") %> <br>
       <%= f.text_field :token, hide_label: true%>
     </div>
 
@@ -32,8 +31,8 @@
       <% else %>
           <% device_platform = 'iOS' %>
       <% end %>
-      <%= f.label "Device Type:" %> <br>
-      <%= f.select(:platform, options_for_select([['Apple', "iOS"], ['Android', "Android"]], device_platform), hide_label: true) %>
+      <%= f.label t("devices.form.type") %> <br>
+      <%= f.select(:platform, options_for_select([[t("repeat.devices.apple"), "iOS"], [t("repeat.devices.android"), "Android"]], device_platform), hide_label: true) %>
     </div>
 
   <div class="actions">

@@ -2,7 +2,7 @@
     <div class="modal-body">
       <% if @sleep.errors.any? %>
           <div id="error_explanation">
-            <h2><%= pluralize(@sleep.errors.count, 'error') %> prohibited this sleep entry from being saved:</h2>
+            <h2><%= t("sleeps.form.error", :var => pluralize(@sleep.errors.count, 'error')) %></h2>
             <ul>
               <% @sleep.errors.full_messages.each do |message| %>
                   <li><%= message %></li>
@@ -25,13 +25,13 @@
       %>
 
       <div class="form-group">
-        <%= f.label 'Sleep Start Time:' %> <br>
+        <%= f.label t("sleeps.form.start") %> <br>
         <%= f.datetime_local_field :start_time, hide_label: true, default: dt_minus_8 %>
         <% #f.datetime_select :start_time, ampm: true, hide_label: true, default: dt_minus_8 %>
       </div>
       <br><br>
       <div class="form-group">
-        <%= f.label 'Sleep Finish Time:' %> <br>
+        <%= f.label t("sleeps.form.end") %> <br>
         <%= f.datetime_local_field :finish_time, hide_label: true, default: dt_minus_8 %>
         <% #f.datetime_select :finish_time, ampm: true, hide_label: true, default: dt  %>
       </div>
@@ -42,8 +42,8 @@
         <% else %>
             <% selected_quality = 1 %>
         <% end %>
-        <%= f.label 'Sleep Quality:' %><br>
-        <%= f.select :quality, options_for_select([['Broken', 1], ['Light', 2], ['Normal', 3], ['Deep', 4]], selected_quality), hide_label: true %>
+        <%= f.label t("sleeps.form.quality") %><br>
+        <%= f.select :quality, options_for_select([[t("repeat.categories.broken"), 1], [t("repeat.categories.light"), 2], [t("repeat.categories.normal"), 3], [t("repeat.categories.deep"), 4]], selected_quality), hide_label: true %>
       </div>
     </div>
 
@@ -52,9 +52,9 @@
     <div class="modal-footer">
       <%= f.submit class: "btn btn-primary" %>
       <% if params[:modal_enabled] != 'true' %>
-          <%= link_to 'Cancel', sleeps_cancel_path, remote: true, class: "btn btn-default" %>
+          <%= link_to t("menu.cancel"), sleeps_cancel_path, remote: true, class: "btn btn-default" %>
       <% else %>
-          <%= link_to "Cancel", "#", class: "btn btn-default", data: {dismiss: "modal"} %>
+          <%= link_to t("menu.cancel"), "#", class: "btn btn-default", data: {dismiss: "modal"} %>
       <% end %>
     </div>
 <% end %>

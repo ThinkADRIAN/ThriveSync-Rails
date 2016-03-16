@@ -12,7 +12,7 @@
         <div class="panel panel-warning">
           <div class="panel-heading">
             <% if current_user.is? :supporter %>
-                <h3 class="panel-title">Requests for Connection from Peer</h3>
+                <h3 class="panel-title"><%= t "supporters.requests" %></h3>
             <% end %>
           </div>
           <div class="panel-body">
@@ -25,8 +25,8 @@
                     </div>
                     <div class="col-md-8">
                       <h3></h3>
-                      <%= link_to "Accept", connection_path(user), :method => "put", class: "btn-primary btn-xs" %>
-                      <%= link_to "Reject", connection_path(user), :method => "delete", data: {confirm: "Are you sure you want to reject this connection?"}, class: "btn-danger btn-xs" %>
+                      <%= link_to t("repeat.accept"), connection_path(user), :method => "put", class: "btn-primary btn-xs" %>
+                      <%= link_to t("repeat.reject"), connection_path(user), :method => "delete", data: {confirm: t("supporters.sure")}, class: "btn-danger btn-xs" %>
                     </div>
                     <div class="col-md-12">
                       <hr>
@@ -39,7 +39,7 @@
 
     <div class="panel panel-primary">
       <div class="panel-heading">
-        <h3 class="panel-title">Thrivers List</h3>
+        <h3 class="panel-title"><%= t "supporters.list" %></h3>
       </div>
       <div class="panel-body">
         <% if !@supported_thrivers.blank? %>
@@ -51,7 +51,7 @@
                 </div>
                 <div class="col-md-8">
                   <h3></h3>
-                  <%= link_to 'Send Card', new_message_path(thriver_id: thriver.id), class: "btn-primary btn-xs" %>
+                  <%= link_to t("supporters.send"), new_message_path(thriver_id: thriver.id), class: "btn-primary btn-xs" %>
                 </div>
                 <div class="col-md-12">
                   <hr>
@@ -59,7 +59,7 @@
             <% end %>
         <% else %>
             <div>
-              <h3>No connections available</h3>
+              <h3><%= t "supporters.nocon" %></h3>
             </div>
         <% end %>
       </div>

@@ -3,8 +3,7 @@
       <% if @self_care.errors.any? %>
           <ul class="errors"></ul>
           <div id="error_explanation">
-            <h2><%= pluralize(@self_care.errors.count, "error") %> prohibited this self care entry from being
-              saved:</h2>
+            <h2><%= t("selfcare.form.error", :var => pluralize(@self_care.errors.count, "error")) %></h2>
             <ul>
               <% @self_care.errors.full_messages.each do |message| %>
                   <li><%= message %></li>
@@ -39,7 +38,7 @@
 
       <% if !current_page?(action: 'new') %>
           <div class="form-group">
-            <%= f.label "Timestamp:" %> <br>
+            <%= f.label t("selfcare.form.timestamp") %> <br>
             <%= f.datetime_local_field :timestamp, hide_label: true , inline: true%>
           </div>
       <% end %>
@@ -50,9 +49,9 @@
     <div class="modal-footer">
       <%= f.submit class: "btn btn-primary" %>
       <% if params[:modal_enabled] != 'true' %>
-          <%= link_to 'Cancel', self_cares_cancel_path, remote: true, class: "btn btn-default" %>
+          <%= link_to t("menu.cancel"), self_cares_cancel_path, remote: true, class: "btn btn-default" %>
       <% else %>
-          <%= link_to "Cancel", "#", class: "btn btn-default", data: {dismiss: "modal"} %>
+          <%= link_to t("menu.cancel"), "#", class: "btn btn-default", data: {dismiss: "modal"} %>
       <% end %>
     </div>
 <% end %>

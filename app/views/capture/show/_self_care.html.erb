@@ -19,36 +19,36 @@
             <p>
               <strong>Counseling:</strong>
               <% if self_care.counseling == false %>
-                  <%= "No" %>
+                  <%= <%= t "n" %> %>
               <% elsif self_care.counseling == true %>
-                  <%= "Yes" %>
+                  <%= <%= t "y" %> %>
               <% end %>
             </p>
 
             <p>
               <strong>Medication:</strong>
               <% if self_care.medication == false %>
-                  <%= "No" %>
+                  <%= <%= t "n" %> %>
               <% elsif self_care.medication == true %>
-                  <%= "Yes" %>
+                  <%= <%= t "y" %> %>
               <% end %>
             </p>
 
             <p>
               <strong>Meditation:</strong>
               <% if self_care.meditation == false %>
-                  <%= "No" %>
+                  <%= <%= t "n" %> %>
               <% elsif self_care.meditation == true %>
-                  <%= "Yes" %>
+                  <%= <%= t "y" %> %>
               <% end %>
             </p>
 
             <p class="capture-self-care-bottom">
               <strong>Exercise:</strong>
               <% if self_care.exercise == false %>
-                  <%= "No" %>
+                  <%= <%= t "n" %> %>
               <% elsif self_care.exercise == true %>
-                  <%= "Yes" %>
+                  <%= <%= t "y" %> %>
               <% end %>
             </p>
 
@@ -57,7 +57,7 @@
             <div class="slider-timestamp">
               <center>
                 <%= self_care.timestamp.strftime("%I:%M %p") %><br>
-                <%= link_to 'Edit', edit_self_care_path(id: self_care.id), remote: true, class: "btn btn-sm" %><br>
+                <%= link_to t("menu.edit"), edit_self_care_path(id: self_care.id), remote: true, class: "btn btn-sm" %><br>
               </center>
             </div>
           </div>
@@ -67,7 +67,7 @@
       <div class="capture_button">
         <center>
           <br>
-          <%= link_to 'Add Self Care', new_self_care_path(capture_source: 'self_care'), remote: true, class: "btn btn-primary btn-lg" %><br>
+          <%= link_to t("capture.show.selfcare.add"), new_self_care_path(capture_source: 'self_care'), remote: true, class: "btn btn-primary btn-lg" %><br>
           <br>
         </center>
       </div>

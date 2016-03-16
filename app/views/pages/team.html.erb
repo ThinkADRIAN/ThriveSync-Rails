@@ -1,6 +1,6 @@
 <section class="crew-4">
   <div class="container">
-    <h3>Meet the Team<br></h3>
+    <h3><%= t "pages.team.header" %><br></h3>
 
     <div class="members">
       <div class="member-wrapper">
@@ -14,10 +14,10 @@
             </div>
           </div>
           <div class="info">
-            <div class="name">Adrian Cunanan</div>
-            <b>Founder, CEO</b> who pairs compassionate design with creative technology.
+            <div class="name"><%= t "pages.team.adrian" %></div>
+            <b><%= t "pages.team.atitle" %></b> <%= t "pages.team.adesc" %>
             <div class="contacts">
-              <strong>adrian[at]thrivestreams.com</strong><br>
+              <strong><%= t "pages.team.aemail" %></strong><br>
             </div>
           </div>
         </div>
@@ -32,10 +32,10 @@
             </div>
           </div>
           <div class="info">
-            <div class="name">Ryan Bruce Badilla</div>
-            <b>Founder, CTO</b> who develops the mobile interface and the game engine that drives it.
+            <div class="name"><%= t "pages.team.ryan" %></div>
+            <b><%= t "pages.team.rtitle" %></b> <%= t "pages.team.rdesc" %>
             <div class="contacts">
-              <strong>ryan[at]thrivestreams.com</strong><br>
+              <strong><%= t "pages.team.remail" %></strong><br>
             </div>
           </div>
         </div>
@@ -47,7 +47,7 @@
 
 <footer class="footer-12">
   <div class="container">
-    Built with <span class="fui-heart"> </span> in Brooklyn
+    <%= t "pages.team.built" %> <span class="fui-heart"> </span> <%= t "pages.team.in" %>
   </div>
 </footer>
 

@@ -1,9 +1,9 @@
 <section class="content-6 v-center" id="pricing-header">
   <div>
     <div class="container">
-      <h3>Get Started Today</h3>
+      <h3><%= t "pages.pricing.getstarted" %></h3>
 
-      <p class="lead">Try ThriveSync now with no contracts, no risk.</p>
+      <p class="lead"><%= t "pages.pricing.try" %></p>
 
     </div>
   </div>
@@ -14,74 +14,74 @@
     <div class="plans">
       <div class="plan">
         <div class="title">
-          FREE
-          <div class="price"><span class="currency">$</span>0<span class="period"></span></div>
-          <a class="btn btn-clear btn-small" href=<%= new_user_registration_path %>>START FREE ACCESS</a>
+          <%= t "pages.pricing.free" %>
+          <div class="price"><span class="currency"><%= t "pages.pricing.currency" %></span><%= t "pages.pricing.0" %><span class="period"></span></div>
+          <a class="btn btn-clear btn-small" href=<%= new_user_registration_path %>><%= t "pages.pricing.freeaccess" %></a>
         </div>
         <div class="description">
           <div class="description-box">
-            1 Individual
+            <%= t "pages.pricing.oneind" %>
           </div>
           <div class="description-box">
-            Web & Mobile Apps
+            <%= t "pages.pricing.webapp" %>
           </div>
           <div class="description-box">
-            Unlimited Provider Connections
+            <%= t "pages.pricing.unlimitedpro" %>
           </div>
           <div class="description-box">
-            Unlimited Peer Connections
+            <%= t "pages.pricing.unlimitedpeer" %>
           </div>
           <div class="description-box">
-            Email Support
+            <%= t "pages.pricing.support" %>
           </div>
         </div>
       </div>
       <div class="plan plan-2">
         <div class="title">
-          STANDARD
-          <div class="price"><span class="currency">$</span>39<span class="period">/ MO</span></div>
-          <a class="typeform-share btn btn-clear btn-small" href="https://thrivestreams.typeform.com/to/cbgTTo" data-mode="1" target="_blank">START 30-DAY FREE TRIAL</a>
+          <%= t "pages.pricing.standard" %>
+          <div class="price"><span class="currency"><%= t "pages.pricing.currency" %></span><%= t "pages.pricing.39" %><span class="period"><%= t "pages.pricing.permo" %></span></div>
+          <a class="typeform-share btn btn-clear btn-small" href="https://thrivestreams.typeform.com/to/cbgTTo" data-mode="1" target="_blank"><%= t "pages.pricing.start30" %></a>
         </div>
         <div class="description">
           <div class="description-box">
-            1 Provider
+            <%= t "pages.pricing.oneprov" %>
           </div>
           <div class="description-box">
-            10 Patients/Clients
+            <%= t "pages.pricing.tenpat" %>
           </div>
           <div class="description-box">
-            Provider Web Dashboard
+            <%= t "pages.pricing.dashboard" %>
           </div>
           <div class="description-box">
-            Patient Web & Mobile Apps
+            <%= t "pages.pricing.patientweb" %>
           </div>
           <div class="description-box">
-            Email Support
+            <%= t "pages.pricing.support" %>
           </div>
         </div>
       </div>
       <div class="plan">
         <div class="title">
-          PLUS
-          <div class="price"><span class="currency">$</span>99<span class="period">/ MO</span></div>
-          <a class="typeform-share btn btn-clear btn-small" href="https://thrivestreams.typeform.com/to/cbgTTo" data-mode="1" target="_blank">START 30-DAY FREE TRIAL</a>
+          <%= t "pages.pricing.plus" %>
+          <div class="price"><span class="currency"><%= t "pages.pricing.currency" %></span><%= t "pages.pricing.99" %><span class="period"><%= t "pages.pricing.permo" %></span></div>
+          <a class="typeform-share btn btn-clear btn-small" href="https://thrivestreams.typeform.com/to/cbgTTo" data-mode="1" target="_blank"><%= t "pages.pricing.start30" %></a>
           <!--<div class="ribbon">NEW</div>-->
         </div>
         <div class="description">
           <div class="description-box">
-            1 Provider
+            <%= t "pages.pricing.onepro" %>
           </div>
           <div class="description-box">
-            100 Patients/Clients
+            <%= t "pages.pricing.hunpat" %>
           </div>
           <div class="description-box">
-            Provider Web Dashboard
+            <%= t "pages.pricing.dashboard" %>
           </div>
           <div class="description-box">
-            Patient Web & Mobile Apps
+            <%= t "pages.pricing.patientweb" %>
           </div>
           <div class="description-box">
-            Email and Phone Support
+            <%= t "pages.pricing.support2" %>
           </div>
         </div>
       </div>

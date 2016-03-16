@@ -1,15 +1,15 @@
-<p>Hi <%= @resource.first_name %>,</p>
+<p><%= t "repeat.hi" %> <%= @resource.first_name %>,</p>
 
-<p>Your user account with the e-mail address <%= @resource.email %> has been created.</p>
+<p><%= t("devise.mailer.confirmation.create", :var => @resource.email) %></p>
 
-<p>Please follow the link below to confirm your account.</p>
+<p><%= t "devise.mailer.confirmation.follow" %></p>
 
-<p><%= link_to 'Confirm my account', confirmation_url(@resource, confirmation_token: @token) %></p>
+<p><%= link_to t("repeat.confirm"), confirmation_url(@resource, confirmation_token: @token) %></p>
 
-<p>You will be able to change your settings (password, timezone, etc.) once your account is activated.</p>
+<p><%= t "devise.mailer.confirmation.onceactive" %></p>
 
-<p>A big warm welcome.</p>
+<p><%= t "devise.mailer.confirmation.welcome" %></p>
 
-<p>- The ThriveStreams Team</p>
+<p><%= t "repeat.signature" %></p>
 
-<p>If you have not requested the creation of a ThriveSync account or if you think this is an unauthorized use of your e-mail address, please forward this e-mail to <%= mail_to "support@thrivestreams.com" %>.</p>
+<p><%= t("devise.mailer.confirmation.forward_html", :email => mail_to(t("repeat.support_email"))) %></p>

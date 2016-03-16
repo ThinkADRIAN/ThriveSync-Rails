@@ -7,7 +7,7 @@
 
   <div class="panel panel-primary">
     <div class="panel-heading">
-      <h3 class="panel-title">Clients List</h3>
+      <h3 class="panel-title"><%= t "pros.index" %></h3>
     </div>
     <div class="panel-body">
       <% if !@clients.blank? %>
@@ -20,7 +20,7 @@
                   </div>
                   <div class="col-md-8">
                     <h3></h3>
-                    <%= link_to 'Show Details', client, class: "btn-primary btn-xs" %>
+                    <%= link_to t("pros.details"), client, class: "btn-primary btn-xs" %>
                   </div>
                   <div class="col-md-12">
                     <hr>
@@ -29,7 +29,7 @@
           <% end %>
       <% else %>
           <div>
-            <h3>No connections available</h3>
+            <h3><%= t "pros.nocon" %></h3>
           </div>
       <% end %>
     </div>

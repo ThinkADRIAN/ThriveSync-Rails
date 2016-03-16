@@ -7,7 +7,7 @@
     <% if (@user == nil || @user.id == current_user.id) && todays_self_cares.count < MAX_SELF_CARE_ENTRIES %>
         <h1><%= current_user.first_name.to_s + " " + current_user.last_name.to_s %>
           <h1>
-            <%= link_to 'Add a new Self Care Entry', new_self_care_path(modal_enabled: 'true'), remote: true, class: "btn btn-primary" %>
+            <%= link_to t("selfcare.index.add"), new_self_care_path(modal_enabled: 'true'), remote: true, class: "btn btn-primary" %>
     <% else %>
         <% if @user == nil %>
             <% user = current_user %>
@@ -19,24 +19,23 @@
     <% end %>
 
     <div class="btn-group">
-      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Change View Period <span class="caret"></span>
+      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><%= t "selfcare.index.change" %><span class="caret"></span>
       </button>
       <ul class="dropdown-menu">
         <% if params.has_key?(:user_id) %>
-            <li><%= link_to 'Last Year', user_self_cares_path(@user, self_care_lookback_period: 'last_year') %></li>
-            <li><%= link_to 'Last Month', user_self_cares_path(@user, self_care_lookback_period: 'last_month') %></li>
-            <li><%= link_to 'Last Week', user_self_cares_path(@user, self_care_lookback_period: 'last_week') %></li>
-            <li><%= link_to 'This Week', user_self_cares_path(@user, self_care_lookback_period: 'week') %></li>
-            <li><%= link_to 'This Month', user_self_cares_path(@user, self_care_lookback_period: 'month') %></li>
-            <li><%= link_to 'This Year', user_self_cares_path(@user, self_care_lookback_period: 'year') %></li>
+            <li><%= link_to t("repeat.dmy.lasty"), user_self_cares_path(@user, self_care_lookback_period: 'last_year') %></li>
+            <li><%= link_to t("repeat.dmy.lastm"), user_self_cares_path(@user, self_care_lookback_period: 'last_month') %></li>
+            <li><%= link_to t("repeat.dmy.lastw"), user_self_cares_path(@user, self_care_lookback_period: 'last_week') %></li>
+            <li><%= link_to t("repeat.dmy.thisw"), user_self_cares_path(@user, self_care_lookback_period: 'week') %></li>
+            <li><%= link_to t("repeat.dmy.thism"), user_self_cares_path(@user, self_care_lookback_period: 'month') %></li>
+            <li><%= link_to t("repeat.dmy.thisy"), user_self_cares_path(@user, self_care_lookback_period: 'year') %></li>
         <% else %>
-            <li><%= link_to 'Last Year', self_cares_path(self_care_lookback_period: 'last_year') %></li>
-            <li><%= link_to 'Last Month', self_cares_path(self_care_lookback_period: 'last_month') %></li>
-            <li><%= link_to 'Last Week', self_cares_path(self_care_lookback_period: 'last_week') %></li>
-            <li><%= link_to 'This Week', self_cares_path(self_care_lookback_period: 'week') %></li>
-            <li><%= link_to 'This Month', self_cares_path(self_care_lookback_period: 'month') %></li>
-            <li><%= link_to 'This Year', self_cares_path(self_care_lookback_period: 'year') %></li>
+            <li><%= link_to t("repeat.dmy.lasty"), self_cares_path(self_care_lookback_period: 'last_year') %></li>
+            <li><%= link_to t("repeat.dmy.lastm"), self_cares_path(self_care_lookback_period: 'last_month') %></li>
+            <li><%= link_to t("repeat.dmy.lastw"), self_cares_path(self_care_lookback_period: 'last_week') %></li>
+            <li><%= link_to t("repeat.dmy.thisw"), self_cares_path(self_care_lookback_period: 'week') %></li>
+            <li><%= link_to t("repeat.dmy.thism"), self_cares_path(self_care_lookback_period: 'month') %></li>
+            <li><%= link_to t("repeat.dmy.thisy"), self_cares_path(self_care_lookback_period: 'year') %></li>
         <% end %>
       </ul>
     </div>

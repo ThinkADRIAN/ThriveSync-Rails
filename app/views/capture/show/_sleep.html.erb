@@ -17,31 +17,31 @@
       <% @capture_sleeps.each do |sleep| %>
           <div class="capture_show">
             <p>
-              <strong>Sleep Start Time:</strong>
+              <strong><%= t "capture.show.sleep.start" %></strong>
               <br>
             <center>
               <%= sleep.start_time.strftime("%l:%M %p - %A, %b %d, %Y") %>
             </center>
             </p>
             <p>
-              <strong>Sleep Finish Time:</strong>
+              <strong><%= t "capture.show.sleep.finish" %></strong>
               <br>
             <center>
               <%= sleep.finish_time.strftime("%l:%M %p - %A, %b %d, %Y") %>
             </center>
             </p>
             <p>
-              <strong>Sleep Quality:</strong>
+              <strong><%= t "capture.show.sleep.quality" %></strong>
               <br>
             <center>
               <% if sleep.quality == 1 %>
-                  <%= "Broken" %>
+                  <%= t "repeat.categories.broken" %>
               <% elsif sleep.quality == 2 %>
-                  <%= "Light" %>
+                  <%= t "repeat.categories.light" %>
               <% elsif sleep.quality == 3 %>
-                  <%= "Normal" %>
+                  <%= t "repeat.categories.normal" %>
               <% elsif sleep.quality == 4 %>
-                  <%= "Deep" %>
+                  <%= t "repeat.categories.deep" %>
               <% end %>
             </center>
             </p>
@@ -51,7 +51,7 @@
             <div class="slider-timestamp">
               <center>
                 <%= sleep.created_at.strftime("%I:%M %p") %><br>
-                <%= link_to 'Edit', edit_sleep_path(id: sleep.id), remote: true, class: "btn btn-sm" %><br>
+                <%= link_to t("menu.edit"), edit_sleep_path(id: sleep.id), remote: true, class: "btn btn-sm" %><br>
               </center>
             </div>
           </div>
@@ -61,7 +61,7 @@
       <div class="capture_button">
         <center>
           <br>
-          <%= link_to 'Add Sleep', new_sleep_path, remote: true, class: "btn btn-primary btn-lg" %><br>
+          <%= link_to t("capture.show.sleep.add"), new_sleep_path, remote: true, class: "btn btn-primary btn-lg" %><br>
           <br>
         </center>
       </div>

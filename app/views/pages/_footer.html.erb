@@ -4,8 +4,8 @@
       <div class="col-sm-5">
         <a class="brand" href="/"><img src=/assets/ThriveSync-Logo-Navbar.png></a><br><br>
 
-        <p class="lead">Technology for Healthy Minds</p>
-        We build technology designed to improve the mental wellness and healthcare for every person on the planet.
+        <p class="lead"><%= t "pages.footer.header" %></p>
+        <%= t "pages.footer.motto" %>
         <div class="social-btns">
           <a href="https://www.facebook.com/ThriveStreams" target="_blank" class="social-btn-facebook sharrre" data-text="Startup Design Framework - http://designmodo.com/startup/ Suit Up your Startup!" data-url="http://designmodo.com/startup/">
             <div class="fui-facebook"></div>
@@ -28,13 +28,13 @@
           -->
         </div>
         <div class="col-sm-2">
-          <h6>ABOUT US</h6>
+          <h6><%= t "pages.footer.aboutus" %></h6>
           <ul>
-            <li><a href="http://thrivestreams.com" target="_blank">Company</a></li>
-            <li><%= link_to 'Team', page_path('team') %></li>
-            <li><a href="http://thrivestreams.com/opportunities/" target="_blank">Career</a></li>
-            <li><a href="http://thrivestreams.com/blog/" target="_blank">Blog</a></li>
-            <li><a href="http://thrivestreams.com/contact/" target="_blank">Contact</a></li>
+            <li><a href="http://thrivestreams.com" target="_blank"><%= t "pages.footer.co" %></a></li>
+            <li><%= link_to t("pages.footer.team"), page_path('team') %></li>
+            <li><a href="http://thrivestreams.com/opportunities/" target="_blank"><%= t "pages.footer.career" %></a></li>
+            <li><a href="http://thrivestreams.com/blog/" target="_blank"><%= t "pages.footer.blog" %></a></li>
+            <li><a href="http://thrivestreams.com/contact/" target="_blank"><%= t "pages.footer.contact" %></a></li>
           </ul>
         </div>
         <div class="col-sm-2">
@@ -46,9 +46,9 @@
     </div>
     <div class="row">
       <div class="col-sm-12 additional-links">
-        <%= link_to 'Terms and Conditions', page_path('terms') %>
-        <%= link_to 'Privacy Policy', page_path('privacy') %>
-        <div class="pull-right">Copyright © 2015 ThriveStreams Inc. All Rights Reserved.</div>
+        <%= link_to t("pages.footer.tandc"), page_path('terms') %>
+        <%= link_to t("pages.footer.privacypolicy"), page_path('privacy') %>
+        <div class="pull-right"><%= t "pages.footer.copyright" %></div>
       </div>
     </div>
   </div>

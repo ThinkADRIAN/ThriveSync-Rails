@@ -10,19 +10,19 @@
    if @sleep_lookback_period == 'week'
      sleep_time_chart_data = @sleeps.group_by_day(:finish_time, range: date_range_for('this_week'), format: "%b %d, %Y").sum(:time)
      sleep_quality_chart_data = @sleeps.group_by_day(:finish_time, range: date_range_for('this_week'), format: "%b %d, %Y").average(:quality)
-     y_axis_ticks = [{v: 0, f: 'No'}, {v: 1, f: 'Yes'}]
+     y_axis_ticks = [{v: 0, f: t("n")}, {v: 1, f: t("y")}]
    elsif @sleep_lookback_period == 'last_week'
      sleep_time_chart_data = @sleeps.group_by_day(:finish_time, range: date_range_for('last_week'), format: "%b %d, %Y").sum(:time)
      sleep_quality_chart_data = @sleeps.group_by_day(:finish_time, range: date_range_for('last_week'), format: "%b %d, %Y").average(:quality)
-     y_axis_ticks = [{v: 0, f: 'No'}, {v: 1, f: 'Yes'}]
+     y_axis_ticks = [{v: 0, f: t("n")}, {v: 1, f: t("y")}]
    elsif @sleep_lookback_period == 'month'
      sleep_time_chart_data = @sleeps.group_by_day(:finish_time, range: date_range_for('this_month'), format: "%b %d, %Y").sum(:time)
      sleep_quality_chart_data = @sleeps.group_by_day(:finish_time, range: date_range_for('this_month'), format: "%b %d, %Y").average(:quality)
-     y_axis_ticks = [{v: 0, f: 'No'}, {v: 1, f: 'Yes'}]
+     y_axis_ticks = [{v: 0, f: t("n")}, {v: 1, f: t("y")}]
    elsif @sleep_lookback_period == 'last_month'
      sleep_time_chart_data = @sleeps.group_by_day(:finish_time, range: date_range_for('last_month'), format: "%b %d, %Y").sum(:time)
      sleep_quality_chart_data = @sleeps.group_by_day(:finish_time, range: date_range_for('last_month'), format: "%b %d, %Y").average(:quality)
-     y_axis_ticks = [{v: 0, f: 'No'}, {v: 1, f: 'Yes'}]
+     y_axis_ticks = [{v: 0, f: t("n")}, {v: 1, f: t("y")}]
    elsif @sleep_lookback_period == 'year'
      sleep_time_chart_data = @sleeps.group_by_month(:finish_time, range: date_range_for('this_year'), format: "%b %Y").sum(:time)
      sleep_quality_chart_data = @sleeps.group_by_month(:finish_time, range: date_range_for('this_year'), format: "%b %Y").average(:quality)
@@ -34,10 +34,10 @@
 
 <div class="col-md-12">
   <%= line_chart [
-                         {name: "Sleep Time", data: sleep_time_chart_data}
+                         {name: t("shared.chartsleep.sleeptime"), data: sleep_time_chart_data}
                  ], colors: [SLEEP_PRIMARY_COLOR],
                  library: {
-                         title: "Sleep Quantity",
+                         title: t("shared.chartsleep.sleepquality"),
                          titlePosition: 'out',
                          titleTextStyle: {
                                  color: SLEEP_PRIMARY_COLOR
@@ -79,10 +79,10 @@
 
 <div class="col-md-12">
   <%= line_chart [
-                         {name: "Quality", data: sleep_quality_chart_data}
+                         {name: t("shared.chartsleep.quality"), data: sleep_quality_chart_data}
                  ], colors: [SLEEP_PRIMARY_COLOR],
                  library: {
-                         title: "Sleep Quality",
+                         title: t("shared.chartsleep.sleepquality"),
                          titlePosition: 'out',
                          titleTextStyle: {
                                  color: SLEEP_PRIMARY_COLOR
@@ -112,7 +112,7 @@
                                  position: SLEEP_LEGEND_POSITION
                          },
                          vAxis: {
-                                 ticks: [{v: 1, f: 'Broken'}, {v: 2, f: 'Light'}, {v: 3, f: 'Norm'}, {v: 4, f: 'Deep'}],
+                                 ticks: [{v: 1, f: t("shared.chartsleep.broken")}, {v: 2, f: t("shared.chartsleep.light")}, {v: 3, f: t("shared.chartsleep.norm")}, {v: 4, f: t("shared.chartsleep.deep")}],
                                  textStyle: {
                                          color: SLEEP_PRIMARY_COLOR
                                  },

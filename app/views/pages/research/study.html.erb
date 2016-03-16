@@ -3,12 +3,12 @@
     <div class="container">
       <div class="row">
         <div class="col-sm-8 col-sm-offset-2" id="research-title">
-          <h1>Invitation to Participate in a Research Study About Managing Your Mood</h1>
+          <h1><%= t "research.study.invitation" %></h1>
         </div>
       </div>
       <div class="row">
         <div class="col-sm-8 col-sm-offset-2" id="research-button">
-          <a class="typeform-share btn btn-success" href="https://thrivestreams.typeform.com/to/Po4hl0" data-mode="1" target="_blank">Sign Up</a>
+          <a class="typeform-share btn btn-success" href="https://thrivestreams.typeform.com/to/Po4hl0" data-mode="1" target="_blank"><%= t "repeat.signup" %></a>
           <script>(function () {
               var qs, js, q, s, d = document, gi = d.getElementById, ce = d.createElement, gt = d.getElementsByTagName, id = 'typef_orm', b = 'https://s3-eu-west-1.amazonaws.com/share.typeform.com/';
               if (!gi.call(d, id)) {
@@ -33,67 +33,40 @@
       <div class="row">
         <div class="col-sm-6">
           <p>
-            You are invited to participate in a research study examining the usefulness of a mobile application,
-            <%= link_to "ThriveSync", root_path %>, for mood tracking. We aim to develop a system that gives
-            individuals a reliable and rigorous tool to monitor and explore their mood on their personal devices.
+            <%= t("pages.research.study.invitedp1_html", :link => link_to(t("pages.research.study.thrivesync"), root_path)) %>
           </p>
           <p>
-            Your mood is the temporary state of how you feel, and being aware of how your mood changes can impact
-            your mental wellbeing.
+            <%= t "pages.research.study.invitedp2" %>
           </p>
           <p>
-            The purpose of the study is to assess the use and effect of <%= link_to "ThriveSync", root_path %>
-            for tracking how you feel, as well as any effects on mood stability, and management of mild-to-moderate
-            stress, anxiety, bipolar disorder, and depression.
+            <%= t("pages.research.study.invitedp3_html", :link => link_to(t("pages.research.study.thrivesync"), root_path)) %>
           </p>
         </div>
         <div class="col-sm-5 col-sm-offset-1 hidden-xs">
           <%= image_tag("smiling-girl-with-phone.jpeg") %>
         </div>
-        <div class="col-sm-12" id="research-body-1">
-          <h4>What are the benefits of participating?</h4>
+        <div class="col-sm-12" id=.research.study.body-1">
+          <h4><%= t "pages.research.study.benefits" %></h4>
           <p>
-            Actively monitoring or self-charting your state of mind is found to make it easier for some people to
-            manage their mood—for example, some may experience fewer mood swings. A number of positive outcomes have
-            been related to successfully managing how you feel, such as good interpersonal and conflict-solving skills.
-            ThriveSync is a web platform consisting of a website and an application, aimed at providing a quick,
-            convenient way to monitor mood on your personal electronic devices. This platform allows you to track how
-            you feel, and to share your data with someone else for social support.
+            <%= t "pages.research.study.benefitsp1" %>
           </p>
           <p>
-            Possible benefits of participating in this study include improved ability to manage how you feel, and a
-            more stable mood. It is also possible you will not benefit from tracking your mood with
-            <%= link_to "ThriveSync", root_path %>. It is up to you whether you want to include another person, and
-            how much data you want to share with that person. After the study period, you can keep using ThriveSync
-            freely for an additional period of 12 months if you would like to.
+            <%= t("pages.research.study.benefitsp2_html", :link => link_to(t("pages.research.study.thrivesync"), root_path)) %>
           </p>
-          <h4>What will you be doing as a participant?</h4>
+          <h4><%= t "pages.research.study.doing" %></h4>
           <p>
-            As a participant, you will be given access to the <%= link_to "ThriveSync", root_path %> app, which you
-            can use freely on your computer, phone, or other mobile device. At four points during a study period of
-            12 weeks, you will be asked to complete a survey asking about your experiences using ThriveSync; the
-            surveys will each take a maximum of 15 minutes to complete. Four weeks into the study, you will be given
-            the option of sharing your mood data with someone you know, such as a family member, friend, or mental
-            health provider. This feature is introduced in order to enable social support for mental wellbeing.
+            <%= t("pages.research.study.doingp1_html", :link => link_to(t("pages.research.study.thrivesync"), root_path)) %>
           </p>
-          <h4>What are the requirements for participating?</h4>
+          <h4><%= t "pages.research.study.requirements" %></h4>
           <p>
-            As we are examining a mobile app, you can participate from whatever location you prefer. You must,
-            however, have access to an electronic device where you can use the app, such as a computer or smart-phone,
-            in order to participate (we support both Apple and Android devices). It is further required that
-            participants are 18 years or older. You can participate regardless of what your mental health status is.
+            <%= t "pages.research.study.requirementsp1" %>
           </p>
-          <h4>Who is conducting the study?</h4>
+          <h4><%= t "pages.research.study.who" %></h4>
           <p>
-            <%= link_to "Transcendent Endeavors", "http://www.transcendentendeavors.com", target: '_blank' %> is a
-            company dedicated to improving patient-provider communications and quality of care for underserved
-            populations. Our work has been recognized by multiple innovation research awards from the
-            <%= link_to "National Institutes of Health", "http://www.nih.gov/", target: '_blank' %>.
+            <%= t("pages.research.study.whop1_html", :link1 => link_to(t("pages.research.study.transcendentendeavors"), "http://www.transcendentendeavors.com", target: '_blank'), :link2 => link_to(t("pages.research.study.nationalinstitutes"), "http://www.nih.gov/", target: '_blank'))%>
           </p>
           <p>
-            Please reach out to us if you have any questions at all about the study or about participating. You can
-            contact Anniken Laake, Research Assistant, at
-            <a href="mailto:alaake@t19s.com?Subject=ThriveSync%20Research%20Study" target="_blank">alaake@t19s.com</a>.
+            <%= t("pages.research.study.whop2_html", :email => mail_to(t("pages.research.study.email"), t("pages.research.study.email"), subject: "ThriveSync Research Study")) %>
           </p>
         </div>
       </div>
@@ -101,7 +74,7 @@
     <hr>
     <div class="row">
       <div class="col-sm-8 col-sm-offset-2" id="research-button">
-        <a class="typeform-share btn btn-success" href="https://thrivestreams.typeform.com/to/Po4hl0" data-mode="1" target="_blank">Sign Up</a>
+        <a class="typeform-share btn btn-success" href="https://thrivestreams.typeform.com/to/Po4hl0" data-mode="1" target="_blank"><%= t "repeat.signup" %></a>
         <script>(function () {
             var qs, js, q, s, d = document, gi = d.getElementById, ce = d.createElement, gt = d.getElementsByTagName, id = 'typef_orm', b = 'https://s3-eu-west-1.amazonaws.com/share.typeform.com/';
             if (!gi.call(d, id)) {

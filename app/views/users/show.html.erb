@@ -14,23 +14,22 @@
   <br>
 
   <div class="btn-group">
-    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      Change View Period <span class="caret"></span>
+    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><%= t "users.show.change" %><span class="caret"></span>
     </button>
     <ul class="dropdown-menu">
-      <li><%= link_to 'Last Year', user_path(lookback_period: 'last_year') %></li>
-      <li><%= link_to 'Last Month', user_path(lookback_period: 'last_month') %></li>
-      <li><%= link_to 'Last Week', user_path(lookback_period: 'last_week') %></li>
-      <li><%= link_to 'This Week', user_path(lookback_period: 'week') %></li>
-      <li><%= link_to 'This Month', user_path(lookback_period: 'month') %></li>
-      <li><%= link_to 'This Year', user_path(lookback_period: 'year') %></li>
+      <li><%= link_to t("repeat.dmy.lasty"), user_path(lookback_period: 'last_year') %></li>
+      <li><%= link_to t("repeat.dmy.lastm"), user_path(lookback_period: 'last_month') %></li>
+      <li><%= link_to t("repeat.dmy.lastw"), user_path(lookback_period: 'last_week') %></li>
+      <li><%= link_to t("repeat.dmy.thisw"), user_path(lookback_period: 'week') %></li>
+      <li><%= link_to t("repeat.dmy.thism"), user_path(lookback_period: 'month') %></li>
+      <li><%= link_to t("repeat.dmy.thisy"), user_path(lookback_period: 'year') %></li>
     </ul>
   </div>
 
   <div class="col-md-12">
     <%= render "shared/chart_mood" %>
     <div class="btn-group btn-group-justified">
-      <%= link_to 'View Mood Entries', user_moods_path(user_id: @user.id, mood_lookback_period: @mood_lookback_period), class: "btn btn-default btn-xs btn-block" %>
+      <%= link_to t("users.show.viewm"), user_moods_path(user_id: @user.id, mood_lookback_period: @mood_lookback_period), class: "btn btn-default btn-xs btn-block" %>
     </div>
     <hr>
   </div>
@@ -38,7 +37,7 @@
   <div class="col-md-12">
     <%= render "shared/chart_sleep" %>
     <div class="btn-group btn-group-justified">
-      <%= link_to 'View Sleep Entries', user_sleeps_path(user_id: @user.id, sleep_lookback_period: @sleep_lookback_period), class: "btn btn-default btn-xs btn-block" %>
+      <%= link_to t("users.show.views"), user_sleeps_path(user_id: @user.id, sleep_lookback_period: @sleep_lookback_period), class: "btn btn-default btn-xs btn-block" %>
     </div>
     <hr>
   </div>
@@ -46,7 +45,7 @@
   <div class="col-md-12">
     <%= render "shared/chart_self_care" %>
     <div class="btn-group btn-group-justified">
-      <%= link_to 'View Self Care Entries', user_self_cares_path(user_id: @user.id, self_care_lookback_period: @self_care_lookback_period), class: "btn btn-default btn-xs btn-block" %>
+      <%= link_to t("users.show.viewsc"), user_self_cares_path(user_id: @user.id, self_care_lookback_period: @self_care_lookback_period), class: "btn btn-default btn-xs btn-block" %>
     </div>
     <hr>
   </div>
@@ -54,7 +53,7 @@
   <div class="col-md-12">
     <%= render "shared/chart_journal" %>
     <div class="btn-group btn-group-justified">
-      <%= link_to 'View Journal Entries', user_journals_path(user_id: @user.id, journal_lookback_period: @journal_lookback_period), class: "btn btn-default btn-xs btn-block" %>
+      <%= link_to t("users.show.viewj"), user_journals_path(user_id: @user.id, journal_lookback_period: @journal_lookback_period), class: "btn btn-default btn-xs btn-block" %>
     </div>
     <hr>
   </div>

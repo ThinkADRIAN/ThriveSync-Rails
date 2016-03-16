@@ -7,7 +7,7 @@
     <% if (@user == nil || @user.id == current_user.id) && todays_journals.count < MAX_JOURNAL_ENTRIES %>
         <h1><%= current_user.first_name.to_s + " " + current_user.last_name.to_s %>
           <h1>
-            <%= link_to 'Add a new Journal Entry', new_journal_path(modal_enabled: 'true'), remote: true, class: "btn btn-primary" %>
+            <%= link_to t("journals.index"), new_journal_path(modal_enabled: 'true'), remote: true, class: "btn btn-primary" %>
     <% else %>
         <% if @user == nil %>
             <% user = current_user %>
@@ -20,23 +20,23 @@
 
     <div class="btn-group">
       <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Change View Period <span class="caret"></span>
+        <%= t "journals.index.change" %><span class="caret"></span>
       </button>
       <ul class="dropdown-menu">
         <% if params.has_key?(:user_id) %>
-            <li><%= link_to 'Last Year', user_journals_path(@user, journal_lookback_period: 'last_year') %></li>
-            <li><%= link_to 'Last Month', user_journals_path(@user, journal_lookback_period: 'last_month') %></li>
-            <li><%= link_to 'Last Week', user_journals_path(@user, journal_lookback_period: 'last_week') %></li>
-            <li><%= link_to 'This Week', user_journals_path(@user, journal_lookback_period: 'week') %></li>
-            <li><%= link_to 'This Month', user_journals_path(@user, journal_lookback_period: 'month') %></li>
-            <li><%= link_to 'This Year', user_journals_path(@user, journal_lookback_period: 'year') %></li>
+            <li><%= link_to t("repeat.dmy.lasty"), user_journals_path(@user, journal_lookback_period: 'last_year') %></li>
+            <li><%= link_to t("repeat.dmy.lastm"), user_journals_path(@user, journal_lookback_period: 'last_month') %></li>
+            <li><%= link_to t("repeat.dmy.lastw"), user_journals_path(@user, journal_lookback_period: 'last_week') %></li>
+            <li><%= link_to t("repeat.dmy.thisw"), user_journals_path(@user, journal_lookback_period: 'week') %></li>
+            <li><%= link_to t("repeat.dmy.thism"), user_journals_path(@user, journal_lookback_period: 'month') %></li>
+            <li><%= link_to t("repeat.dmy.thisy"), user_journals_path(@user, journal_lookback_period: 'year') %></li>
         <% else %>
-            <li><%= link_to 'Last Year', journals_path(journal_lookback_period: 'last_year') %></li>
-            <li><%= link_to 'Last Month', journals_path(journal_lookback_period: 'last_month') %></li>
-            <li><%= link_to 'Last Week', journals_path(journal_lookback_period: 'last_week') %></li>
-            <li><%= link_to 'This Week', journals_path(journal_lookback_period: 'week') %></li>
-            <li><%= link_to 'This Month', journals_path(journal_lookback_period: 'month') %></li>
-            <li><%= link_to 'This Year', journals_path(journal_lookback_period: 'year') %></li>
+            <li><%= link_to t("repeat.dmy.lasty"), journals_path(journal_lookback_period: 'last_year') %></li>
+            <li><%= link_to t("repeat.dmy.lastm"), journals_path(journal_lookback_period: 'last_month') %></li>
+            <li><%= link_to t("repeat.dmy.lastw"), journals_path(journal_lookback_period: 'last_week') %></li>
+            <li><%= link_to t("repeat.dmy.thisw"), journals_path(journal_lookback_period: 'week') %></li>
+            <li><%= link_to t("repeat.dmy.thism"), journals_path(journal_lookback_period: 'month') %></li>
+            <li><%= link_to t("repeat.dmy.thisy"), journals_path(journal_lookback_period: 'year') %></li>
         <% end %>
       </ul>
     </div>

@@ -1,7 +1,7 @@
 <%= bootstrap_form_for(@reward) do |f| %>
     <% if @reward.errors.any? %>
         <div id="error_explanation">
-          <h2><%= pluralize(@reward.errors.count, "error") %> prohibited this reward from being saved:</h2>
+          <h2><%= t("rewards.form.error", pluralize(@reward.errors.count, "error")) %></h2>
 
           <ul>
             <% @reward.errors.full_messages.each do |message| %>

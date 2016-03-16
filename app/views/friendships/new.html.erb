@@ -6,22 +6,22 @@
     <div class="panel panel-default">
       <div class="panel-heading">
         <% if current_user.is? :user %>
-            <h3 class="panel-title">Connect with a Mental Health Professional</h3>
+            <h3 class="panel-title"><%= t "friendships.new.conmhp" %></h3>
         <% elsif current_user.is? :pro %>
-            <h3 class="panel-title">Connect with a Patient</h3>
+            <h3 class="panel-title"><%= t "friendships.new.conpat" %></h3>
         <% end %>
       </div>
       <div class="panel-body">
         <% if current_user.is? :user %>
-            <p>To connect to your data, search by your Mental Health Professional's email address:</p>
+            <p><%= t "friendships.new.searchmhp" %></p>
         <% elsif current_user.is? :pro %>
-            <p>To connect to your data, search by your Patient's email address:</p>
+            <p><%= t "friendships.new.searchpat" %></p>
         <% end %>
 
         <%= form_tag new_connection_path, :method => :get do %>
             <p>
               <%= text_field_tag :search, params[:search] %>
-              <%= submit_tag "Search", :name => nil %>
+              <%= submit_tag t("friendships.new.search"), :name => nil %>
         <% end %>
         <% for user in @connections %>
             <% #if current_user.friend_with? user  %>
@@ -38,7 +38,7 @@
                 </div>
                 <div class="col-md-8">
                   <h3></h3>
-                  <%= link_to "Connect", connections_path(:user_id => user), :method => "post", class: "btn-primary btn-xs" %>
+                  <%= link_to t("repeat.connect"), connections_path(:user_id => user), :method => "post", class: "btn-primary btn-xs" %>
                 </div>
                 <div class="col-md-12">
                   <hr>

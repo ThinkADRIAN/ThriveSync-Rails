@@ -1,13 +1,13 @@
 <div class="modal-header">
-  <h3>Delete Sleep Entry</h3>
+  <h3><%= t "sleeps.delete.header" %></h3>
 </div>
 
 <div class="modal-body">
   <ul class="errors"></ul>
-  Are you sure you wish to delete this sleep entry?
+  <%= t "sleeps.delete.sure" %>
 </div>
 
 <div class="modal-footer">
-  <%= link_to "Yes, Delete This Sleep Entry", sleep_path(@sleep), method: :delete, remote: true, class: "btn btn-danger" %>
-  <%= link_to "No, Please Don't", "#", class: "btn btn-default", data: {dismiss: "modal"} %>
+  <%= link_to t("sleeps.delete.yes"), sleep_path(@sleep), method: :delete, remote: true, class: "btn btn-danger" %>
+  <%= link_to t("sleeps.delete.no"), "#", class: "btn btn-default", data: {dismiss: "modal"} %>
 </div>

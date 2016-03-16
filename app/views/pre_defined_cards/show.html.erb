@@ -1,14 +1,14 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>Text:</strong>
+  <strong><%= t "predefinedcards.show.text" %></strong>
   <%= @pre_defined_card.text %>
 </p>
 
 <p>
-  <strong>Category:</strong>
+  <strong><%= t "predefinedcards.show.category" %></strong>
   <%= @pre_defined_card.category %>
 </p>
 
-<%= link_to 'Edit', edit_pre_defined_card_path(@pre_defined_card) %> |
-<%= link_to 'Back', pre_defined_cards_path %>
+<%= link_to t("menu.edit"), edit_pre_defined_card_path(@pre_defined_card) %> |
+<%= link_to t("menu.back"), pre_defined_cards_path %>

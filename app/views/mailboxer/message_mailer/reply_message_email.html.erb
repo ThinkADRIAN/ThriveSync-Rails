@@ -4,10 +4,10 @@
   <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
 </head>
 <body>
-<h1>You have a new reply: <%= @subject %></h1>
+<h1><%= t "mailboxer.mailer.reply.have" %> <%= @subject %></h1>
 
 <p>
-  You have received a new reply:
+  <%= t "mailboxer.mailer.reply.received" %>
 </p>
 <blockquote>
   <p>
@@ -15,7 +15,7 @@
   </p>
 </blockquote>
 <p>
-  Visit <%= link_to root_url, root_url %> and go to your inbox for more info.
+  <%= t("mailboxer.mailer.visit_html", :link => link_to(root_url, root_url)) %>
 </p>
 </body>
 </html>

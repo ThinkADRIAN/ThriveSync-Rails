@@ -10,7 +10,7 @@
     <% if (@user == nil || @user.id == current_user.id) && todays_sleeps.count < MAX_SLEEP_ENTRIES %>
         <h1><%= current_user.first_name.to_s + " " + current_user.last_name.to_s %>
           <h1>
-            <%= link_to 'Add a new Sleep Entry', new_sleep_path(modal_enabled: 'true'), remote: true, class: "btn btn-primary" %>
+            <%= link_to t("shared.index.add"), new_sleep_path(modal_enabled: 'true'), remote: true, class: "btn btn-primary" %>
     <% else %>
         <% if @user == nil %>
             <% user = current_user %>
@@ -22,24 +22,23 @@
     <% end %>
 
     <div class="btn-group">
-      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Change View Period <span class="caret"></span>
+      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><%= t "sleeps.index.change" %><span class="caret"></span>
       </button>
       <ul class="dropdown-menu">
         <% if params.has_key?(:user_id) %>
-            <li><%= link_to 'Last Year', user_sleeps_path(@user, sleep_lookback_period: 'last_year') %></li>
-            <li><%= link_to 'Last Month', user_sleeps_path(@user, sleep_lookback_period: 'last_month') %></li>
-            <li><%= link_to 'Last Week', user_sleeps_path(@user, sleep_lookback_period: 'last_week') %></li>
-            <li><%= link_to 'This Week', user_sleeps_path(@user, sleep_lookback_period: 'week') %></li>
-            <li><%= link_to 'This Month', user_sleeps_path(@user, sleep_lookback_period: 'month') %></li>
-            <li><%= link_to 'This Year', user_sleeps_path(@user, sleep_lookback_period: 'year') %></li>
+            <li><%= link_to t("repeat.dmy.lasty"), user_sleeps_path(@user, sleep_lookback_period: 'last_year') %></li>
+            <li><%= link_to t("repeat.dmy.lastm"), user_sleeps_path(@user, sleep_lookback_period: 'last_month') %></li>
+            <li><%= link_to t("repeat.dmy.lastw"), user_sleeps_path(@user, sleep_lookback_period: 'last_week') %></li>
+            <li><%= link_to t("repeat.dmy.thisw"), user_sleeps_path(@user, sleep_lookback_period: 'week') %></li>
+            <li><%= link_to t("repeat.dmy.thism"), user_sleeps_path(@user, sleep_lookback_period: 'month') %></li>
+            <li><%= link_to t("repeat.dmy.thisy"), user_sleeps_path(@user, sleep_lookback_period: 'year') %></li>
         <% else %>
-            <li><%= link_to 'Last Year', sleeps_path(sleep_lookback_period: 'last_year') %></li>
-            <li><%= link_to 'Last Month', sleeps_path(sleep_lookback_period: 'last_month') %></li>
-            <li><%= link_to 'Last Week', sleeps_path(sleep_lookback_period: 'last_week') %></li>
-            <li><%= link_to 'This Week', sleeps_path(sleep_lookback_period: 'week') %></li>
-            <li><%= link_to 'This Month', sleeps_path(sleep_lookback_period: 'month') %></li>
-            <li><%= link_to 'This Year', sleeps_path(sleep_lookback_period: 'year') %></li>
+            <li><%= link_to t("repeat.dmy.lasty"), sleeps_path(sleep_lookback_period: 'last_year') %></li>
+            <li><%= link_to t("repeat.dmy.lastm"), sleeps_path(sleep_lookback_period: 'last_month') %></li>
+            <li><%= link_to t("repeat.dmy.lastw"), sleeps_path(sleep_lookback_period: 'last_week') %></li>
+            <li><%= link_to t("repeat.dmy.thisw"), sleeps_path(sleep_lookback_period: 'week') %></li>
+            <li><%= link_to t("repeat.dmy.thism"), sleeps_path(sleep_lookback_period: 'month') %></li>
+            <li><%= link_to t("repeat.dmy.thisy"), sleeps_path(sleep_lookback_period: 'year') %></li>
         <% end %>
       </ul>
     </div>

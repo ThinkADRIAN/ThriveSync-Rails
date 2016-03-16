@@ -25,7 +25,7 @@
             <div class="slider-timestamp">
               <center>
                 <%= journal.timestamp.strftime("%I:%M %p") %> <br>
-                <%= link_to 'Edit', edit_journal_path(id: journal.id), remote: true, class: "btn btn-sm" %><br>
+                <%= link_to t("menu.back"), edit_journal_path(id: journal.id), remote: true, class: "btn btn-sm" %><br>
               </center>
             </div>
           </div>
@@ -35,7 +35,7 @@
       <div class="capture_button">
         <center>
           <br>
-          <%= link_to 'Add Journal', new_journal_path(capture_source: 'journal'), remote: true, class: "btn btn-primary btn-lg" %><br>
+          <%= link_to t("capture.show.journal"), new_journal_path(capture_source: 'journal'), remote: true, class: "btn btn-primary btn-lg" %><br>
           <br>
         </center>
       </div>

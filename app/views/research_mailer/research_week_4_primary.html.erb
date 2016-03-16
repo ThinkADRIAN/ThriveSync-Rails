@@ -6,25 +6,26 @@
 <body>
 <p>Hi <%= @recipient.name %>,</p>
 <p>
-  <%= "Congratulations on checking in #{@recipient.scorecard.checkin_count} times since #{@recipient.research_started_at.to_date.strftime("%m/%d/%Y")}!" %>
+  <%= t("researchmailer.congrats", :count => @recipient.scorecard.checkin_count, @recipient.research_started_at.to_date.strftime("%m/%d/%Y")) %>
+  <%# "Congratulations on checking in #{@recipient.scorecard.checkin_count} times since #{@recipient.research_started_at.to_date.strftime("%m/%d/%Y")}!" %>
 </p>
 <p>
-  You have officially reached the 30 day mark and you're ready to start Phase II.  Please click on the following link to complete your next survey.
+  <%= t "researchmailer.click" %>
 </p>
 <p>
-  <%= link_to 'ThriveSync Research Survey - Week 4', 'https://www.thrivesync.com/research/survey/week-4/primary' %>
+  <%= link_to t("researchmailer.link"), 'https://www.thrivesync.com/research/survey/week-4/primary' %>
 </p>
 <p>
-  Also, you will notice that new features have been enabled for peer and provider support.
+  <%= t "researchmailer.newfeat" %>
 </p>
 <p>
-  Thank you for participating in this research study!
+  <%= t "researchmailer.thankyou" %>
 </p>
 <p>
-  Keep thriving,
+  <%= t "repeat.keep" %>
 </p>
 <p>
-  - The ThriveStreams Team
+  <%= t "repeat.signature" %>
 </p>
 </body>
 </html>

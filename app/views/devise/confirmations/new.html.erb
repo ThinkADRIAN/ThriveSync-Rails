@@ -3,7 +3,7 @@
     <div class="container">
       <div class="row">
         <div class="col-sm-12">
-          <h3>Resend Confirmation Instructions</h3>
+          <h3><%= t "repeat.resendc" %></h3>
         </div>
       </div>
       <div class="row">
@@ -13,10 +13,10 @@
                 <%= devise_error_messages! %>
                 <br>
                 <div class="form-group">
-                  <label>Email</label>
+                  <label><%= t "label.email" %></label>
                   <%= f.email_field :email, autofocus: true, class: "form-control" %>
                 </div>
-                <div class="actions"><%= f.submit "Resend Verification Instructions", class: "btn btn-huge btn-success" %></div>
+                <div class="actions"><%= f.submit t("devise.confirmation.resend"), class: "btn btn-huge btn-success" %></div>
                 <%= render "devise/shared/links" %>
             <% end %>
           </div>

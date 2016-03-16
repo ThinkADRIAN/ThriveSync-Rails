@@ -1,8 +1,8 @@
 <div class="container">
   <div>
     <% if (@user == nil || @user.id == current_user.id) || (current_user.is? :superuser) %>
-        <h1><%= current_user.first_name.to_s + " " + current_user.last_name.to_s %> - Device List</h1>
-        <%= link_to 'Add a new Device', new_device_path, class: "btn btn-primary" %>
+        <h1><%= current_user.first_name.to_s + " " + current_user.last_name.to_s %><%= t "devices.index.list" %></h1>
+        <%= link_to t("devices.index.add"), new_device_path, class: "btn btn-primary" %>
     <% else %>
         <% if @user == nil %>
             <% user = current_user %>
@@ -17,40 +17,40 @@
     <% if !@devices.empty? %>
         <div class="panel panel-primary">
           <div class="panel-heading">
-            <h3 class="panel-title">Devices</h3>
+            <h3 class="panel-title"><%= t "devices.index.devices" %></h3>
           </div>
           <div class="panel-body">
             <% @devices.each do |device| %>
                 <% if device.user_id == current_user.id || (current_user.is? :superuser) %>
                     <div class="col-md-4">
-                      <h4>Device ID: <%= device.id %></h4>
+                      <h4><%= t "devices.index.id" %> <%= device.id %></h4>
                     </div>
                     <div class="col-md-4">
                       <p>
-                        <strong>Device Enabled:</strong>
+                        <strong><%= t "devices.form.enabled" %></strong>
                         <% if device.enabled == true %>
-                            <%= "Enabled" %>
+                            <%= t "repeat.enabled" %>
                         <% elsif device.enabled == false %>
-                            <%= "Disabled" %>
+                            <%= t "repeat.disabled" %>
                         <% end %>
                       </p>
                       <p>
-                        <strong>Device Token:</strong>
+                        <strong><%= t "repeat.token:" %></strong>
                         <%= device.token %>
                       </p>
                       <p>
-                        <strong>Device Platform</strong>
+                        <strong><% t "devices.index.platform" %></strong>
                         <% if device.platform == 'iOS' %>
-                            <%= "Apple" %>
+                            <%= t "repeat.devices.apple" %>
                         <% elsif device.platform == 'Android' %>
-                            <%= "Android" %>
+                            <%= t "repeat.devices.android" %>
                         <% end %>
                       </p>
                     </div>
                     <div class="col-md-4">
-                      <td><%= link_to 'Show', device, class: "btn-primary btn-xs" %></td>
-                      <td><%= link_to 'Edit', edit_device_path(device), class: "btn-default btn-xs" %></td>
-                      <td><%= link_to 'Destroy', device, method: :delete, class: "btn-danger btn-xs", data: { confirm: 'Are you sure?' } %></td>
+                      <td><%= link_to t("menu.show"), device, class: "btn-primary btn-xs" %></td>
+                      <td><%= link_to t("menu.remove"), edit_device_path(device), class: "btn-default btn-xs" %></td>
+                      <td><%= link_to t("menu.destroy"), device, method: :delete, class: "btn-danger btn-xs", data: { confirm: t("repeat.sure") } %></td>
                     </div>
                     <div class="col-md-12">
                       <hr>
