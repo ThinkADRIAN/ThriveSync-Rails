@@ -1,0 +1,46 @@
+<div class="container">
+  <p id="notice"><%= notice %></p>
+
+  <p>
+    <strong>Passive data point:</strong>
+    <%= @passive_workout.passive_data_point_id %>
+  </p>
+
+  <p>
+    <strong>Workout type:</strong>
+    <%= @passive_workout.workout_type %>
+  </p>
+
+  <p>
+    <strong>Kcal burned value:</strong>
+    <%= @passive_workout.kcal_burned_value %>
+  </p>
+
+  <p>
+    <strong>Kcal burned unit:</strong>
+    <%= @passive_workout.kcal_burned_unit %>
+  </p>
+
+  <p>
+    <strong>Distance value:</strong>
+    <%= @passive_workout.distance_value %>
+  </p>
+
+  <p>
+    <strong>Distance unit:</strong>
+    <%= @passive_workout.distance_unit %>
+  </p>
+
+  <p>
+    <strong>Duration value:</strong>
+    <%= @passive_workout.duration_value %>
+  </p>
+
+  <p>
+    <strong>Duration unit:</strong>
+    <%= @passive_workout.duration_unit %>
+  </p>
+
+  <%= link_to 'Edit', edit_passive_workout_path(@passive_workout) %> |
+  <%= link_to 'Back', passive_workouts_path %>
+</div>

@@ -209,20 +209,14 @@ class SleepsController < ApplicationController
     days_sleeps = Sleep.where(user_id: current_user.id, finish_time: ((finish_time.to_time.in_time_zone.- 24.hours)..finish_time.to_time.in_time_zone))
 
     respond_to do |format|
-      if days_sleeps.count < MAX_SLEEP_ENTRIES - 1
-        if @sleep.update(sleep_params)
-          @sleep.time = (@sleep.finish_time.to_i - @sleep.start_time.to_i) / 3600
-          @sleep.save
-          track_sleep_updated
+      if @sleep.update(sleep_params)
+        @sleep.time = (@sleep.finish_time.to_i - @sleep.start_time.to_i) / 3600
+        @sleep.save
+        track_sleep_updated
 
-          flash.now[:success] = 'Sleep Entry was successfully updated.'
-          format.js { render status: 200 }
-          format.json { render :json => @sleep, status: :created }
-        else
-          flash.now[:error] = 'Sleep Entry was not updated... Try again???'
-          format.js { render json: @sleep.errors, status: :unprocessable_entity }
-          format.json { render json: @sleep.errors, status: :unprocessable_entity }
-        end
+        flash.now[:success] = 'Sleep Entry was successfully updated.'
+        format.js { render status: 200 }
+        format.json { render :json => @sleep, status: :created }
       else
         flash.now[:error] = 'Sleep Entry was not updated.  Daily Sleep Entry Limit Reached.'
         format.js

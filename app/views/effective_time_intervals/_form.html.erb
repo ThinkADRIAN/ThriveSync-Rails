@@ -1,0 +1,29 @@
+<%= form_for(@effective_time_interval) do |f| %>
+  <% if @effective_time_interval.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@effective_time_interval.errors.count, "error") %> prohibited this effective_time_interval from being saved:</h2>
+
+      <ul>
+      <% @effective_time_interval.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :passive_data_point_id %><br>
+    <%= f.number_field :passive_data_point_id %>
+  </div>
+  <div class="field">
+    <%= f.label :start_date_time %><br>
+    <%= f.datetime_select :start_date_time %>
+  </div>
+  <div class="field">
+    <%= f.label :end_date_time %><br>
+    <%= f.datetime_select :end_date_time %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

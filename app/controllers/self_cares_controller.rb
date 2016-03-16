@@ -229,17 +229,11 @@ class SelfCaresController < ApplicationController
     days_self_cares = SelfCare.where(user_id: current_user.id, timestamp: ((timestamp.in_time_zone- 24.hours)..timestamp.in_time_zone))
 
     respond_to do |format|
-      if days_self_cares.count < MAX_SELF_CARE_ENTRIES - 1
-        if @self_care.update(self_care_params)
-          track_self_care_updated
-          flash.now[:success] = 'Self Care Entry was successfully updated.'
-          format.js { render status: 200 }
-          format.json { render :json => @self_care, status: :created }
-        else
-          flash.now[:error] = 'Self Care Entry was not updated... Try again???'
-          format.js { render json: @self_care.errors, status: :unprocessable_entity }
-          format.json { render json: @self_care.errors, status: :unprocessable_entity }
-        end
+      if @self_care.update(self_care_params)
+        track_self_care_updated
+        flash.now[:success] = 'Self Care Entry was successfully updated.'
+        format.js { render status: 200 }
+        format.json { render :json => @self_care, status: :created }
       else
         flash.now[:error] = 'Self Care Entry was not updated.  Daily Self Care Entry Limit Reached.'
         format.js

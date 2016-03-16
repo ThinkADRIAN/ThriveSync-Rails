@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151122181904) do
+ActiveRecord::Schema.define(version: 20160218222302) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,6 +21,14 @@ ActiveRecord::Schema.define(version: 20151122181904) do
     t.string   "token"
     t.boolean  "enabled"
     t.string   "platform"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "effective_time_intervals", force: true do |t|
+    t.integer  "passive_data_point_id"
+    t.datetime "start_date_time"
+    t.datetime "end_date_time"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -133,6 +141,56 @@ ActiveRecord::Schema.define(version: 20151122181904) do
     t.datetime "updated_at"
     t.integer  "user_id"
     t.string   "parse_object_id"
+  end
+
+  create_table "passive_activities", force: true do |t|
+    t.integer  "passive_data_point_id"
+    t.string   "activity_type"
+    t.float    "value"
+    t.string   "unit"
+    t.float    "kcal_burned_value"
+    t.string   "kcal_burned_unit"
+    t.float    "step_count"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "passive_data_points", force: true do |t|
+    t.integer  "user_id"
+    t.boolean  "was_user_entered"
+    t.string   "timezone"
+    t.string   "source_uuid"
+    t.string   "external_uuid"
+    t.datetime "creation_date_time"
+    t.string   "schema_namespace"
+    t.string   "schema_name"
+    t.string   "schema_version"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.datetime "effective_date_time"
+  end
+
+  create_table "passive_sleeps", force: true do |t|
+    t.integer  "passive_data_point_id"
+    t.string   "category_type"
+    t.string   "category_value"
+    t.float    "value"
+    t.string   "unit"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "passive_workouts", force: true do |t|
+    t.integer  "passive_data_point_id"
+    t.string   "workout_type"
+    t.float    "kcal_burned_value"
+    t.string   "kcal_burned_unit"
+    t.float    "distance_value"
+    t.string   "distance_unit"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.float    "duration_value"
+    t.string   "duration_unit"
   end
 
   create_table "pre_defined_cards", force: true do |t|

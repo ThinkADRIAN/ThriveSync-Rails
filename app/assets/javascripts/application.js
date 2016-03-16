@@ -23,6 +23,7 @@
 //= require slick
 //= require messages
 // require bootstrap-material-design
+//= require cocoon
 //= require analytics
 //= require custom_overrides
 

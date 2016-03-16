@@ -1,0 +1,29 @@
+.nested-fields
+  .field
+    = f.label :workout_type
+    %br
+    = f.text_field :workout_type, hide_label: true
+  .field
+    = f.label :kcal_burned_value
+    %br
+    = f.text_field :kcal_burned_value, hide_label: true
+  .field
+    = f.label :kcal_burned_unit
+    %br
+    = f.text_field :kcal_burned_unit, hide_label: true
+  .field
+    = f.label :distance_value
+    %br
+    = f.text_field :distance_value, hide_label: true
+  .field
+    = f.label :distance_unit
+    %br
+  .field
+    = f.label :duration_value
+    %br
+    = f.text_field :distance_value, hide_label: true
+  .field
+    = f.label :duration_unit
+    %br
+    = f.text_field :distance_unit, hide_label: true
+  = link_to_remove_association "Remove Passive Workout", f

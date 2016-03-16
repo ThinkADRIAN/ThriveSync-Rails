@@ -228,17 +228,11 @@ class JournalsController < ApplicationController
     days_journals = Journal.where(user_id: current_user.id, timestamp: ((timestamp.in_time_zone - 24.hours)..timestamp.in_time_zone))
 
     respond_to do |format|
-      if days_journals.count < MAX_JOURNAL_ENTRIES - 1
-        if @journal.update(journal_params)
-          track_journal_updated
-          flash.now[:success] = 'Journal Entry was successfully updated.'
-          format.js
-          format.json { render json: @journal, status: :created }
-        else
-          flash.now[:error] = 'Journal Entry was not updated... Try again???'
-          format.js { render json: @journal.errors, status: :unprocessable_entity }
-          format.json { render json: @journal.errors, status: :unprocessable_entity }
-        end
+      if @journal.update(journal_params)
+        track_journal_updated
+        flash.now[:success] = 'Journal Entry was successfully updated.'
+        format.js
+        format.json { render json: @journal, status: :created }
       else
         flash.now[:error] = 'Journal Entry was not updated.  Daily Journal Entry Limit Reached.'
         format.js

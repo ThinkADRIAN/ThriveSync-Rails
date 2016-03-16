@@ -226,18 +226,11 @@ class MoodsController < ApplicationController
     days_moods = Mood.where(user_id: current_user.id, timestamp: ((timestamp.in_time_zone - 24.hours)..timestamp.in_time_zone))
 
     respond_to do |format|
-      mood_count = days_moods.count
-      if days_moods.count < MAX_MOOD_ENTRIES - 1
-        if @mood.update(mood_params)
-          track_mood_updated
-          flash.now[:success] = 'Mood Entry was successfully updated.'
-          format.js
-          format.json { render json: @mood, status: 200 }
-        else
-          flash.now[:error] = 'Mood Entry was not updated... Try again???'
-          format.js { render json: @mood.errors, status: :unprocessable_entity }
-          format.json { render json: @mood.errors, status: :unprocessable_entity }
-        end
+      if @mood.update(mood_params)
+        track_mood_updated
+        flash.now[:success] = 'Mood Entry was successfully updated.'
+        format.js
+        format.json { render json: @mood, status: 200 }
       else
         flash.now[:error] = 'Mood Entry was not updated.  Daily Mood Entry Limit Reached.'
         format.js

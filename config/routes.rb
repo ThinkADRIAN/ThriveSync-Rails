@@ -1,6 +1,16 @@
 Rails.application.routes.draw do
   apipie
 
+  resources :passive_workouts
+
+  resources :passive_activities
+
+  resources :passive_sleeps
+
+  resources :effective_time_intervals
+
+  resources :passive_data_points
+
   resources :pre_defined_cards
 
   resources :reviews
