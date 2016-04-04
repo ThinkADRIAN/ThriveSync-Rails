@@ -746,7 +746,7 @@ zh:
       reminders: "提醒項目"
       logout: "登出"
       loggedin: "Logged in as "
-      getstarted: "免費啟用        "
+      #getstarted: "免費啟用"
     delorean: "變更瀏覽期間"
     
   sleeps:
@@ -762,7 +762,7 @@ zh:
       quality: "睡眠品質："
     edit: "編輯睡眠資料"
     form:
-      error: "%{var} 禁止此項睡眠資料被儲存：saved:"
+      error: "%{var} 禁止此項睡眠資料被儲存："
       start: "睡眠時間："
       end: "睡眠結束時間："
       quality: "睡眠品質："
