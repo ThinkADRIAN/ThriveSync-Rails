@@ -19,6 +19,8 @@ class ApplicationController < ActionController::Base
 
   before_filter :configure_devise_params, if: :devise_controller?
 
+  before_action :set_locale
+  
   def configure_devise_params
     devise_parameter_sanitizer.for(:sign_up) do |u|
       u.permit(:first_name, :last_name, :email, :password, :password_confirmation, roles: [])
@@ -145,5 +147,18 @@ class ApplicationController < ActionController::Base
       properties: {
       }
     )
+  end
+  
+  def set_locale
+    #Future plans to change from parameter pass to top level domain pass
+    #I18n.locale = extract_locale_from_tld || I18n.default_locale
+    if( params[:locale] )
+      I18n.locale = params[:locale] || I18n.default_locale
+    end
+  end
+  
+  def extract_locale_from_tld
+    parsed_locale = request.host.split('.').last
+    I18n.available_locales.map(&:to_s).include?(parsed_locale)? parsed_locale : nil
   end
 end
