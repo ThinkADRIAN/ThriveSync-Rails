@@ -87,8 +87,8 @@ es:
       edit:
         header: "Editar %{var}"
         wait: "Actualmente en espera de confirmación para: %{var}"
-        blank: "(leave blank if you don't want to change it)"
-        need: "(we need your current password to confirm your changes)"
+        blank: "(Dejar en blanco si no desea cambiarlo)"
+        need: "(Necesitamos su contraseña actual para confirmar los cambios)"
         unhappy: "¿Insatisfecho?"
     shared:
       confirmation: "¿No recibió las instrucciones de confirmación?"
@@ -123,7 +123,7 @@ es:
 
   devise:
     confirmation:
-      resend: "Resend Verification Instructions"
+      resend: "Reenviar instrucciones de verificación"
     invitations:
       #edit:
         #header: "<I'm in a different file>"
@@ -133,7 +133,7 @@ es:
         #submit_button: "<I'm in a different file>"
     mailer:
       confirmation:
-        created: "Your user account with the e-mail address %{var} has been created."
+        created: "Se ha creado su cuenta de usuario con la dirección de correo electrónico %{var}"
         follow: "Por favor siga el enlace de abajo para confirmar su cuenta."
         onceactive: "Una vez que su cuenta sea activada, podrá cambiar la configuración (contraseña, zona horaria, etc.)"
         welcome: "Una gran y cálida bienvenida."
@@ -158,14 +158,14 @@ es:
         current: "(necesitamos su contraseña actual para confirmar sus cambios)"
     shared:
       links:
-        verification: "Didn't receive verification instructions?"
+        verification: "¿No ha recibido las instrucciones de verificación?"
     unlocks:
       resend: "Volver a enviar instrucciones de desbloqueo"
       
   friendships:
     index:
-      addpro: "Add New Provider Connection"
-      addpat: "Add New Patient Connection"
+      addpro: "Agregar una nueva conexión de Proveedor"
+      addpat: "Agregar una nueva conexión de Paciente"
       pendingc: "A la espera de conexiones del proveedor"
       pendingp: "A la espera de conexiones del paciente"
       requestpro: "Solicitudes de conexión del proveedor"
@@ -213,7 +213,7 @@ es:
       reply:
         have: "Tiene una nueva respuesta:"
         received: "Ha recibido una nueva respuesta:"
-      visit_html: "Visit %{link} and go to your inbox for more info."
+      visit_html: "Visite %{link} y vaya a su bandeja de entrada para obtener más información."
     notification:
       have: "Tiene una nueva notificación:"
       received: "Ha recibido una nueva notificación:"
@@ -229,7 +229,7 @@ es:
   messages:
     new: "Enviar apoyo a"
     send: "Envia"
-    custom: "Custom Message"
+    custom: "Personalizar mensaje"
 
   moods:
     delete:
@@ -238,7 +238,7 @@ es:
       yes: "Sí, borrar esta entrada de humor"
       no: "No, por favor no hacerlo"
     details:
-      header: "Mood Entries"
+      header: "Entradas de estado de ánimo"
     edit: "Editar entrada de humor"
     form:
       error: "%{error} prohibió que se guardara esta entrada de humor:"
@@ -794,7 +794,7 @@ es:
   welcome:
     motto: "Tecnología para mentes saludables"
     purpose: "ThriveSync combina datos accionables con comunicación colaborativa para optimizar los resultados del paciente y los costos de los cuidados para la organización basada en valores y los pacientes que ella sirve."
-    getstarted: "Empiece gratis        "
+    getstarted: "Empiece gratis"
     improve: "Mejora los resultados de salud mental"
     provides: "ThriveSync proporciona la mejor plataforma para mejorar la atención de la salud mental."
     individuals: "Las personas pueden recoger datos eficientemente para identificar las conductas que influyen en su salud mental."
