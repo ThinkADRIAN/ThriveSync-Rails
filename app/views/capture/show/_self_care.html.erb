@@ -17,7 +17,7 @@
       <% @capture_self_cares.each do |self_care| %>
           <div>
             <p>
-              <strong>Counseling:</strong>
+              <strong><%= t "selfcare.details.counseling" %></strong>
               <% if self_care.counseling == false %>
                   <%= <%= t "n" %> %>
               <% elsif self_care.counseling == true %>
@@ -26,7 +26,7 @@
             </p>
 
             <p>
-              <strong>Medication:</strong>
+              <strong><%= t "selfcare.details.medication" %></strong>
               <% if self_care.medication == false %>
                   <%= <%= t "n" %> %>
               <% elsif self_care.medication == true %>
@@ -35,7 +35,7 @@
             </p>
 
             <p>
-              <strong>Meditation:</strong>
+              <strong><%= t "selfcare.details.meditation" %></strong>
               <% if self_care.meditation == false %>
                   <%= <%= t "n" %> %>
               <% elsif self_care.meditation == true %>
@@ -44,7 +44,7 @@
             </p>
 
             <p class="capture-self-care-bottom">
-              <strong>Exercise:</strong>
+              <strong><%= t "selfcare.details.exercise" %></strong>
               <% if self_care.exercise == false %>
                   <%= <%= t "n" %> %>
               <% elsif self_care.exercise == true %>
