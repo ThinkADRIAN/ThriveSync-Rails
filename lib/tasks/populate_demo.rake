@@ -1,7 +1,7 @@
 # lib/tasks/populate.rake
 #
 # Rake task to populate development database with test data
-# Run it with "rake db:populate"
+# Run it with "rake db:populate_demo"
 # See Railscast 126 and the faker website for more information
 #
 # http://www.jacoulter.com/2011/12/21/rails-using-faker-to-populate-a-development-database/
@@ -215,7 +215,7 @@ namespace :db do
     number_of_supporters = 3
     number_of_thrivers = 8
 
-    number_of_entries = 10
+    number_of_entries = 100
 
     random_mood_entries = true
     random_sleep_entries = true
