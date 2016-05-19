@@ -261,7 +261,7 @@ namespace :db do
         create_self_care_entries(user, number_of_entries, random_self_care_entries)
       end
 
-      if number_of_data_entries(user, 'journal') >
+      if number_of_data_entries(user, 'journal') > 0
         days_since_last_journal_entry = days_since_last_entry(user,'journal')
         if days_since_last_journal_entry > 1
           create_journal_entries(user, days_since_last_journal_entry, random_journal_entries)
