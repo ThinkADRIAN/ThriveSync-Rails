@@ -39,6 +39,7 @@ def create_user(user_type, quantity)
       user.save!
 
       user.roles = roles
+      user.research_started_at = 100.days.ago
       user.save!
     end
   end
