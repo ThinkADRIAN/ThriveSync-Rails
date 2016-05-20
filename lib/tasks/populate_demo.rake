@@ -298,8 +298,19 @@ namespace :db do
       i.save!
     end
 
-    # Create Supporter Connections for Thriver-1 & Supporter-1
     first_thriver = User.where(email: "thriver-1@thrivesync.com").first
+
+    # Create Client Relationship for Thiver-1 & Pro-1
+    first_pro = User.where(email: "pro-1@thrivesync.com").first
+
+    if (!first_pro.clients.include? first_thriver.id.to_i)
+      first_pro.friend_request(first_thriver)
+      first_thriver.accept_request(first_pro)
+      first_pro.clients += [first_thriver.id.to_i]
+      first_pro.save!
+    end
+
+    # Create Supporter Connections for Thriver-1 & Supporter-1
     first_supporter = User.where(email: "supporter-1@thrivesync.com").first
 
     if (!first_thriver.supporters.include? first_supporter.id.to_i) && (!first_supporter.thrivers.include? first_thriver.id.to_i)
