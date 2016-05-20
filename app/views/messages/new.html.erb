@@ -14,8 +14,8 @@
                     <div class="form-group">
                       <%= hidden_field_tag 'message[subject]', card.category, class: 'form-control', required: true %>
                     </div>
-                    <div class="form-group">
-                      <center><h3><%= card.text %></h3></center>
+                    <div class="form-group" id="t-max-card-message">
+                      <center><%= card.text %></center>
                       <%= hidden_field_tag 'message[body]', card.text, class: 'form-control', required: true %>
                     </div>
                     <div class="form-group">
