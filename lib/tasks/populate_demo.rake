@@ -1,7 +1,7 @@
 # lib/tasks/populate.rake
 #
 # Rake task to populate development database with test data
-# Run it with "rake db:populate"
+# Run it with "rake db:populate_demo"
 # See Railscast 126 and the faker website for more information
 #
 # http://www.jacoulter.com/2011/12/21/rails-using-faker-to-populate-a-development-database/
@@ -39,6 +39,7 @@ def create_user(user_type, quantity)
       user.save!
 
       user.roles = roles
+      user.research_started_at = 100.days.ago
       user.save!
     end
   end
@@ -215,7 +216,7 @@ namespace :db do
     number_of_supporters = 3
     number_of_thrivers = 8
 
-    number_of_entries = 10
+    number_of_entries = 100
 
     random_mood_entries = true
     random_sleep_entries = true
@@ -295,6 +296,31 @@ namespace :db do
       a.accept_request(i)
       i.clients += [a.id.to_i]
       i.save!
+    end
+
+    first_thriver = User.where(email: "thriver-1@thrivesync.com").first
+
+    # Create Client Relationship for Thiver-1 & Pro-1
+    first_pro = User.where(email: "pro-1@thrivesync.com").first
+
+    if (!first_pro.clients.include? first_thriver.id.to_i)
+      first_pro.friend_request(first_thriver)
+      first_thriver.accept_request(first_pro)
+      first_pro.clients += [first_thriver.id.to_i]
+      first_pro.save!
+    end
+
+    # Create Supporter Connections for Thriver-1 & Supporter-1
+    first_supporter = User.where(email: "supporter-1@thrivesync.com").first
+
+    if (!first_thriver.supporters.include? first_supporter.id.to_i) && (!first_supporter.thrivers.include? first_thriver.id.to_i)
+      first_thriver.supporters += [first_supporter.id.to_i]
+      first_thriver.save!
+      first_thriver.friend_request(first_supporter)
+
+      first_supporter.thrivers += [first_thriver.id.to_i]
+      first_supporter.accept_request(first_thriver)
+      first_supporter.save!
     end
   end
 end
