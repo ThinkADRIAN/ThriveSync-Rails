@@ -22,7 +22,7 @@ def create_user(user_type, quantity)
     elsif user_type == "supporter"
       email = "supporter-#{n+1}@thrivesync.com"
       password = "Password1234"
-      roles = ["supporter"]
+      roles = ["user", "supporter"]
     elsif user_type == "thriver"
       email = "thriver-#{n+1}@thrivesync.com"
       password = "Password1234"
