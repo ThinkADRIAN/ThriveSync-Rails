@@ -30,6 +30,18 @@
      sleep_time_chart_data = @sleeps.group_by_month(:finish_time, range: date_range_for('last_year'), format: "%b %Y").sum(:time)
      sleep_quality_chart_data = @sleeps.group_by_month(:finish_time, range: date_range_for('last_year'), format: "%b %Y").average(:quality)
    end
+
+   sleep_time_chart_data.each do |k, v|
+     if sleep_time_chart_data[k] == 0
+       sleep_time_chart_data[k] = nil
+     end
+   end
+
+   sleep_quality_chart_data.each do |k, v|
+     if sleep_quality_chart_data[k] == 0
+       sleep_quality_chart_data[k] = nil
+     end
+   end
 %>
 
 <div class="col-md-12">
@@ -42,6 +54,7 @@
                          titleTextStyle: {
                                  color: SLEEP_PRIMARY_COLOR
                          },
+                         curveType: "none",
                          backgroundColor: {
                                  fill: SLEEP_BACKGROUND_COLOR,
                                  stroke: SLEEP_PRIMARY_COLOR,
@@ -87,6 +100,7 @@
                          titleTextStyle: {
                                  color: SLEEP_PRIMARY_COLOR
                          },
+                         curveType: "none",
                          backgroundColor: {
                                  fill: SLEEP_BACKGROUND_COLOR,
                                  stroke: SLEEP_PRIMARY_COLOR,
