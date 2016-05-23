@@ -32,18 +32,38 @@
      anxiety_chart_data = @moods.group_by_month(:timestamp, range: date_range_for('last_year')).average(:anxiety_rating)
      irritability_chart_data = @moods.group_by_month(:timestamp, range: date_range_for('last_year')).average(:irritability_rating)
    end
+
+   mood_chart_data.each do |k, v|
+     if mood_chart_data[k] == 0
+       mood_chart_data[k] = nil
+     end
+   end
+
+   anxiety_chart_data.each do |k, v|
+     if anxiety_chart_data[k] == 0
+       anxiety_chart_data[k] = nil
+     end
+   end
+
+   irritability_chart_data.each do |k, v|
+     if irritability_chart_data[k] == 0
+       irritability_chart_data[k] = nil
+     end
+   end
 %>
 
 <div class="col-md-12">
   <%= line_chart [
-                         {name: "Mood", data: mood_chart_data}
+                         {name: "Mood", data: mood_chart_data }
                  ], colors: [MOOD_PRIMARY_COLOR],
                  library: {
                          title: "Mood",
                          titlePosition: 'out',
+                         #interpolateNulls: true,
                          titleTextStyle: {
                                  color: MOOD_PRIMARY_COLOR
                          },
+                         curveType: "none",
                          backgroundColor: {
                                  fill: MOOD_BACKGROUND_COLOR,
                                  stroke: MOOD_PRIMARY_COLOR,
