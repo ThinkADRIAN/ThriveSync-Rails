@@ -218,9 +218,9 @@ namespace :db do
 
     number_of_entries = 100
 
-    random_mood_entries = true
-    random_sleep_entries = true
-    random_self_care_entries = true
+    random_mood_entries = false
+    random_sleep_entries = false
+    random_self_care_entries = false
     random_journal_entries = true
 
     # Create User Accounts
