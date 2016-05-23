@@ -1,3 +1,7 @@
+<center><h2>T-Max Cards</h2></center>
+
+<br>
+
 <div class="container">
   <%= will_paginate %>
   <% @conversations.each_slice(3) do |conversations| %>
@@ -7,9 +11,9 @@
               <div class="card shadow-z-1">
                 <div class="card-height-indicator"></div>
                 <div class="card-content">
-                  <div class="card-body">
+                  <div class="card-body" id="t-max-card-message">
                     <center>
-                      <h3><%= conversation.last_message.body %></h3>
+                      <%= conversation.last_message.body %>
                     </center>
                   </div>
                   <footer class="card-footer">
