@@ -11,26 +11,38 @@
      mood_chart_data = @moods.group_by_day(:timestamp, range: date_range_for('this_week')).average(:mood_rating)
      anxiety_chart_data = @moods.group_by_day(:timestamp, range: date_range_for('this_week')).average(:anxiety_rating)
      irritability_chart_data = @moods.group_by_day(:timestamp, range: date_range_for('this_week')).average(:irritability_rating)
+     ghost_chart_data = @moods.group_by_day(:timestamp, range: date_range_for('this_week')).average(:mood_rating)
    elsif @mood_lookback_period == 'last_week'
      mood_chart_data = @moods.group_by_day(:timestamp, range: date_range_for('last_week')).average(:mood_rating)
      anxiety_chart_data = @moods.group_by_day(:timestamp, range: date_range_for('last_week')).average(:anxiety_rating)
      irritability_chart_data = @moods.group_by_day(:timestamp, range: date_range_for('last_week')).average(:irritability_rating)
+     ghost_chart_data = @moods.group_by_day(:timestamp, range: date_range_for('last_week')).average(:mood_rating)
    elsif @mood_lookback_period == 'month'
      mood_chart_data = @moods.group_by_day(:timestamp, range: date_range_for('this_month')).average(:mood_rating)
      anxiety_chart_data = @moods.group_by_day(:timestamp, range: date_range_for('this_month')).average(:anxiety_rating)
      irritability_chart_data = @moods.group_by_day(:timestamp, range: date_range_for('this_month')).average(:irritability_rating)
+     ghost_chart_data = @moods.group_by_day(:timestamp, range: date_range_for('this_month')).average(:mood_rating)
    elsif @mood_lookback_period == 'last_month'
      mood_chart_data = @moods.group_by_day(:timestamp, range: date_range_for('last_month')).average(:mood_rating)
      anxiety_chart_data = @moods.group_by_day(:timestamp, range: date_range_for('last_month')).average(:anxiety_rating)
      irritability_chart_data = @moods.group_by_day(:timestamp, range: date_range_for('last_month')).average(:irritability_rating)
+     ghost_chart_data = @moods.group_by_day(:timestamp, range: date_range_for('last_month')).average(:mood_rating)
    elsif @mood_lookback_period == 'year'
      mood_chart_data = @moods.group_by_month(:timestamp, range: date_range_for('this_year')).average(:mood_rating)
      anxiety_chart_data = @moods.group_by_month(:timestamp, range: date_range_for('this_year')).average(:anxiety_rating)
      irritability_chart_data = @moods.group_by_month(:timestamp, range: date_range_for('this_year')).average(:irritability_rating)
+     ghost_chart_data = @moods.group_by_month(:timestamp, range: date_range_for('this_year')).average(:mood_rating)
    elsif @mood_lookback_period == 'last_year'
      mood_chart_data = @moods.group_by_month(:timestamp, range: date_range_for('last_year')).average(:mood_rating)
      anxiety_chart_data = @moods.group_by_month(:timestamp, range: date_range_for('last_year')).average(:anxiety_rating)
      irritability_chart_data = @moods.group_by_month(:timestamp, range: date_range_for('last_year')).average(:irritability_rating)
+     ghost_chart_data = @moods.group_by_month(:timestamp, range: date_range_for('last_year')).average(:mood_rating)
+   end
+
+   ghost_chart_data.each do |k, v|
+     if ghost_chart_data[k] != 0
+       ghost_chart_data[k] = 0
+     end
    end
 
    mood_chart_data.each do |k, v|
@@ -54,7 +66,8 @@
 
 <div class="col-md-12">
   <%= line_chart [
-                         {name: "Mood", data: mood_chart_data }
+                         {name: "Mood", data: mood_chart_data },
+                         {name: "", data: ghost_chart_data }
                  ], colors: [MOOD_PRIMARY_COLOR],
                  library: {
                          title: "Mood",
@@ -102,7 +115,8 @@
 
 <div class="col-md-12">
   <%= line_chart [
-                         {name: "Anxiety", data: anxiety_chart_data}
+                         {name: "Anxiety", data: anxiety_chart_data},
+                         {name: "", data: ghost_chart_data }
                  ], colors: [MOOD_PRIMARY_COLOR],
                  library: {
                          title: "Anxiety",
@@ -110,6 +124,7 @@
                          titleTextStyle: {
                                  color: MOOD_PRIMARY_COLOR
                          },
+                         curveType: "none",
                          backgroundColor: {
                                  fill: MOOD_BACKGROUND_COLOR,
                                  stroke: MOOD_PRIMARY_COLOR,
@@ -148,7 +163,8 @@
 
 <div class="col-md-12">
   <%= line_chart [
-                         {name: "Irritability", data: irritability_chart_data}
+                         {name: "Irritability", data: irritability_chart_data},
+                         {name: "", data: ghost_chart_data }
                  ], colors: [MOOD_PRIMARY_COLOR],
                  library: {
                          title: "Irritability",
@@ -156,6 +172,7 @@
                          titleTextStyle: {
                                  color: MOOD_PRIMARY_COLOR
                          },
+                         curveType: "none",
                          backgroundColor: {
                                  fill: MOOD_BACKGROUND_COLOR,
                                  stroke: MOOD_PRIMARY_COLOR,
