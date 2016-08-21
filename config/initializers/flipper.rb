@@ -1,4 +1,3 @@
-begin
 require 'flipper'
 require 'flipper/adapters/activerecord'
 
