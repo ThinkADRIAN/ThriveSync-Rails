@@ -1,3 +1,4 @@
+=begin
 require 'flipper'
 require 'flipper/adapters/activerecord'
 
@@ -17,3 +18,4 @@ provider_support = $flipper[:provider_support]
 # Configure Feature Access
 peer_support.enable($flipper.group(:research_participants))
 provider_support.enable($flipper.group(:research_participants))
+=end
