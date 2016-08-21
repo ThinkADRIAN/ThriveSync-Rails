@@ -1,0 +1,18 @@
+//$(".capture").html("<%= escape_javascript(render 'capture/index' ) %>");
+<% if $current_capture_screen == "Mood" || $current_capture_screen == nil %>
+$(".capture-delorean").html("<%= escape_javascript(render 'capture/delorean') %>");
+$(".capture-nav").html("<%= escape_javascript(render 'capture/nav/mood') %>");
+$(".capture-window").html("<%= escape_javascript(render 'capture/show/mood') %>");
+<% elsif $current_capture_screen == "Sleep" %>
+$(".capture-delorean").html("<%= escape_javascript(render 'capture/delorean') %>");
+$(".capture-nav").html("<%= escape_javascript(render 'capture/nav/sleep') %>");
+$(".capture-window").html("<%= escape_javascript(render 'capture/show/sleep') %>");
+<% elsif $current_capture_screen == "SelfCare" %>
+$(".capture-delorean").html("<%= escape_javascript(render 'capture/delorean') %>");
+$(".capture-nav").html("<%= escape_javascript(render 'capture/nav/self_care') %>");
+$(".capture-window").html("<%= escape_javascript(render 'capture/show/self_care') %>");
+<% elsif $current_capture_screen == "Journal" %>
+$(".capture-delorean").html("<%= escape_javascript(render 'capture/delorean') %>");
+$(".capture-nav").html("<%= escape_javascript(render 'capture/nav/journal') %>");
+$(".capture-window").html("<%= escape_javascript(render 'capture/show/journal') %>");
+<% end %>

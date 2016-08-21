@@ -29,6 +29,3 @@ solr/development
 solr/default/data
 /log/*.log.lck
 solr/pids
-
-# Ignore Database Configuration
-config/database.yml

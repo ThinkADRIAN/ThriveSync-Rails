@@ -11,19 +11,54 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150712053907) do
+ActiveRecord::Schema.define(version: 20160218222302) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "friendships", force: true do |t|
-    t.integer "friendable_id"
-    t.integer "friend_id"
-    t.integer "blocker_id"
-    t.boolean "pending",       default: true
+  create_table "devices", force: true do |t|
+    t.integer  "user_id"
+    t.string   "token"
+    t.boolean  "enabled"
+    t.string   "platform"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
-  add_index "friendships", ["friendable_id", "friend_id"], name: "index_friendships_on_friendable_id_and_friend_id", unique: true, using: :btree
+  create_table "effective_time_intervals", force: true do |t|
+    t.integer  "passive_data_point_id"
+    t.datetime "start_date_time"
+    t.datetime "end_date_time"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "flipper_features", force: true do |t|
+    t.string   "name",       null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "flipper_features", ["name"], name: "index_flipper_features_on_name", unique: true, using: :btree
+
+  create_table "flipper_gates", force: true do |t|
+    t.integer  "flipper_feature_id", null: false
+    t.string   "name",               null: false
+    t.string   "value"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+  end
+
+  add_index "flipper_gates", ["flipper_feature_id", "name", "value"], name: "index_flipper_gates_on_flipper_feature_id_and_name_and_value", unique: true, using: :btree
+
+  create_table "friendships", force: true do |t|
+    t.integer  "friendable_id"
+    t.string   "friendable_type"
+    t.integer  "friend_id"
+    t.string   "status"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "identities", force: true do |t|
     t.integer  "user_id"
@@ -41,7 +76,61 @@ ActiveRecord::Schema.define(version: 20150712053907) do
     t.datetime "updated_at"
     t.integer  "user_id"
     t.datetime "timestamp"
+    t.string   "parse_object_id"
   end
+
+  create_table "mailboxer_conversation_opt_outs", force: true do |t|
+    t.integer "unsubscriber_id"
+    t.string  "unsubscriber_type"
+    t.integer "conversation_id"
+  end
+
+  add_index "mailboxer_conversation_opt_outs", ["conversation_id"], name: "index_mailboxer_conversation_opt_outs_on_conversation_id", using: :btree
+  add_index "mailboxer_conversation_opt_outs", ["unsubscriber_id", "unsubscriber_type"], name: "index_mailboxer_conversation_opt_outs_on_unsubscriber_id_type", using: :btree
+
+  create_table "mailboxer_conversations", force: true do |t|
+    t.string   "subject",    default: ""
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
+
+  create_table "mailboxer_notifications", force: true do |t|
+    t.string   "type"
+    t.text     "body"
+    t.string   "subject",              default: ""
+    t.integer  "sender_id"
+    t.string   "sender_type"
+    t.integer  "conversation_id"
+    t.boolean  "draft",                default: false
+    t.string   "notification_code"
+    t.integer  "notified_object_id"
+    t.string   "notified_object_type"
+    t.string   "attachment"
+    t.datetime "updated_at",                           null: false
+    t.datetime "created_at",                           null: false
+    t.boolean  "global",               default: false
+    t.datetime "expires"
+  end
+
+  add_index "mailboxer_notifications", ["conversation_id"], name: "index_mailboxer_notifications_on_conversation_id", using: :btree
+  add_index "mailboxer_notifications", ["notified_object_id", "notified_object_type"], name: "index_mailboxer_notifications_on_notified_object_id_and_type", using: :btree
+  add_index "mailboxer_notifications", ["sender_id", "sender_type"], name: "index_mailboxer_notifications_on_sender_id_and_sender_type", using: :btree
+  add_index "mailboxer_notifications", ["type"], name: "index_mailboxer_notifications_on_type", using: :btree
+
+  create_table "mailboxer_receipts", force: true do |t|
+    t.integer  "receiver_id"
+    t.string   "receiver_type"
+    t.integer  "notification_id",                            null: false
+    t.boolean  "is_read",                    default: false
+    t.boolean  "trashed",                    default: false
+    t.boolean  "deleted",                    default: false
+    t.string   "mailbox_type",    limit: 25
+    t.datetime "created_at",                                 null: false
+    t.datetime "updated_at",                                 null: false
+  end
+
+  add_index "mailboxer_receipts", ["notification_id"], name: "index_mailboxer_receipts_on_notification_id", using: :btree
+  add_index "mailboxer_receipts", ["receiver_id", "receiver_type"], name: "index_mailboxer_receipts_on_receiver_id_and_receiver_type", using: :btree
 
   create_table "moods", force: true do |t|
     t.integer  "mood_rating"
@@ -51,6 +140,64 @@ ActiveRecord::Schema.define(version: 20150712053907) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "user_id"
+    t.string   "parse_object_id"
+  end
+
+  create_table "passive_activities", force: true do |t|
+    t.integer  "passive_data_point_id"
+    t.string   "activity_type"
+    t.float    "value"
+    t.string   "unit"
+    t.float    "kcal_burned_value"
+    t.string   "kcal_burned_unit"
+    t.float    "step_count"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "passive_data_points", force: true do |t|
+    t.integer  "user_id"
+    t.boolean  "was_user_entered"
+    t.string   "timezone"
+    t.string   "source_uuid"
+    t.string   "external_uuid"
+    t.datetime "creation_date_time"
+    t.string   "schema_namespace"
+    t.string   "schema_name"
+    t.string   "schema_version"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.datetime "effective_date_time"
+  end
+
+  create_table "passive_sleeps", force: true do |t|
+    t.integer  "passive_data_point_id"
+    t.string   "category_type"
+    t.string   "category_value"
+    t.float    "value"
+    t.string   "unit"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "passive_workouts", force: true do |t|
+    t.integer  "passive_data_point_id"
+    t.string   "workout_type"
+    t.float    "kcal_burned_value"
+    t.string   "kcal_burned_unit"
+    t.float    "distance_value"
+    t.string   "distance_unit"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.float    "duration_value"
+    t.string   "duration_unit"
+  end
+
+  create_table "pre_defined_cards", force: true do |t|
+    t.string   "text"
+    t.string   "category"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "relationships", force: true do |t|
@@ -92,6 +239,65 @@ ActiveRecord::Schema.define(version: 20150712053907) do
     t.datetime "updated_at"
   end
 
+  create_table "rpush_apps", force: true do |t|
+    t.string   "name",                                null: false
+    t.string   "environment"
+    t.text     "certificate"
+    t.string   "password"
+    t.integer  "connections",             default: 1, null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "type",                                null: false
+    t.string   "auth_key"
+    t.string   "client_id"
+    t.string   "client_secret"
+    t.string   "access_token"
+    t.datetime "access_token_expiration"
+  end
+
+  create_table "rpush_feedback", force: true do |t|
+    t.string   "device_token", limit: 64, null: false
+    t.datetime "failed_at",               null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "app_id"
+  end
+
+  add_index "rpush_feedback", ["device_token"], name: "index_rpush_feedback_on_device_token", using: :btree
+
+  create_table "rpush_notifications", force: true do |t|
+    t.integer  "badge"
+    t.string   "device_token",      limit: 64
+    t.string   "sound",                        default: "default"
+    t.string   "alert"
+    t.text     "data"
+    t.integer  "expiry",                       default: 86400
+    t.boolean  "delivered",                    default: false,     null: false
+    t.datetime "delivered_at"
+    t.boolean  "failed",                       default: false,     null: false
+    t.datetime "failed_at"
+    t.integer  "error_code"
+    t.text     "error_description"
+    t.datetime "deliver_after"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.boolean  "alert_is_json",                default: false
+    t.string   "type",                                             null: false
+    t.string   "collapse_key"
+    t.boolean  "delay_while_idle",             default: false,     null: false
+    t.text     "registration_ids"
+    t.integer  "app_id",                                           null: false
+    t.integer  "retries",                      default: 0
+    t.string   "uri"
+    t.datetime "fail_after"
+    t.boolean  "processing",                   default: false,     null: false
+    t.integer  "priority"
+    t.text     "url_args"
+    t.string   "category"
+  end
+
+  add_index "rpush_notifications", ["delivered", "failed"], name: "index_rpush_notifications_multi", where: "((NOT delivered) AND (NOT failed))", using: :btree
+
   create_table "scorecards", force: true do |t|
     t.integer  "checkin_count"
     t.integer  "perfect_checkin_count"
@@ -104,29 +310,29 @@ ActiveRecord::Schema.define(version: 20150712053907) do
     t.integer  "journals_score"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "level_multiplier"
+    t.integer  "multiplier"
     t.integer  "days_since_signup"
     t.integer  "user_id"
     t.integer  "mood_checkin_count"
     t.datetime "mood_last_checkin_date"
     t.integer  "mood_streak_count"
     t.integer  "mood_streak_record"
-    t.integer  "mood_level_multiplier"
+    t.integer  "mood_multiplier"
     t.integer  "sleep_checkin_count"
     t.datetime "sleep_last_checkin_date"
     t.integer  "sleep_streak_count"
     t.integer  "sleep_streak_record"
-    t.integer  "sleep_level_multiplier"
+    t.integer  "sleep_multiplier"
     t.integer  "self_care_checkin_count"
     t.datetime "self_care_last_checkin_date"
     t.integer  "self_care_streak_count"
     t.integer  "self_care_streak_record"
-    t.integer  "self_care_level_multiplier"
+    t.integer  "self_care_multiplier"
     t.integer  "journal_checkin_count"
     t.datetime "journal_last_checkin_date"
     t.integer  "journal_streak_count"
     t.integer  "journal_streak_record"
-    t.integer  "journal_level_multiplier"
+    t.integer  "journal_multiplier"
     t.integer  "total_score"
     t.datetime "last_perfect_checkin_date"
     t.integer  "checkin_goal"
@@ -138,6 +344,30 @@ ActiveRecord::Schema.define(version: 20150712053907) do
     t.boolean  "checkin_friday"
     t.boolean  "checkin_saturday"
     t.integer  "checkins_to_reach_goal"
+    t.integer  "player_rank"
+    t.integer  "mood_base_value"
+    t.integer  "mood_base_perk_register"
+    t.integer  "mood_multiplier_perk_register"
+    t.integer  "mood_streak_base_value"
+    t.integer  "mood_streak_perk_register"
+    t.integer  "sleep_base_value"
+    t.integer  "sleep_base_perk_register"
+    t.integer  "sleep_multiplier_perk_register"
+    t.integer  "sleep_streak_base_value"
+    t.integer  "sleep_streak_perk_register"
+    t.integer  "self_care_base_value"
+    t.integer  "self_care_base_perk_register"
+    t.integer  "self_care_multiplier_perk_register"
+    t.integer  "self_care_streak_base_value"
+    t.integer  "self_care_streak_perk_register"
+    t.integer  "journal_base_value"
+    t.integer  "journal_base_perk_register"
+    t.integer  "journal_multiplier_perk_register"
+    t.integer  "journal_streak_base_value"
+    t.integer  "journal_streak_perk_register"
+    t.integer  "player_perk_trigger"
+    t.integer  "player_perks_earned"
+    t.integer  "player_perks_available"
   end
 
   create_table "self_cares", force: true do |t|
@@ -149,6 +379,7 @@ ActiveRecord::Schema.define(version: 20150712053907) do
     t.datetime "updated_at"
     t.integer  "user_id"
     t.datetime "timestamp"
+    t.string   "parse_object_id"
   end
 
   create_table "sleeps", force: true do |t|
@@ -159,11 +390,12 @@ ActiveRecord::Schema.define(version: 20150712053907) do
     t.datetime "updated_at"
     t.integer  "user_id"
     t.integer  "time"
+    t.string   "parse_object_id"
   end
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "",                           null: false
-    t.string   "encrypted_password",     default: "",                           null: false
+    t.string   "encrypted_password",     default: ""
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
@@ -185,10 +417,31 @@ ActiveRecord::Schema.define(version: 20150712053907) do
     t.string   "authentication_token"
     t.datetime "last_active_at"
     t.string   "timezone",               default: "Eastern Time (US & Canada)"
+    t.string   "invitation_token"
+    t.datetime "invitation_created_at"
+    t.datetime "invitation_sent_at"
+    t.datetime "invitation_accepted_at"
+    t.integer  "invitation_limit"
+    t.integer  "invited_by_id"
+    t.string   "invited_by_type"
+    t.integer  "supporters",             default: [],                                        array: true
+    t.datetime "research_started_at"
+    t.integer  "thrivers",               default: [],                                        array: true
+    t.string   "uuid"
+    t.string   "connect_uuid"
   end
 
   add_index "users", ["authentication_token"], name: "index_users_on_authentication_token", using: :btree
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+  add_index "users", ["invitation_token"], name: "index_users_on_invitation_token", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+
+  add_foreign_key "flipper_gates", "flipper_features", name: "flipper_gates_flipper_feature_id_fk"
+
+  add_foreign_key "mailboxer_conversation_opt_outs", "mailboxer_conversations", name: "mb_opt_outs_on_conversations_id", column: "conversation_id"
+
+  add_foreign_key "mailboxer_notifications", "mailboxer_conversations", name: "notifications_on_conversation_id", column: "conversation_id"
+
+  add_foreign_key "mailboxer_receipts", "mailboxer_notifications", name: "receipts_on_notification_id", column: "notification_id"
 
 end

@@ -1,0 +1,73 @@
+= bootstrap_form_for(@passive_data_point) do |f|
+  - if @passive_data_point.errors.any?
+    #error_explanation
+      %h2 = pluralize(@passive_data_point.errors.count, "error") prohibited this passive_data_point from being saved:
+      %ul
+      = @passive_data_point.errors.full_messages.each do |message|
+        %li = message
+  .field
+    = f.label :was_user_entered
+    %br
+    = f.text_field :was_user_entered, hide_label: true
+  .field
+    = f.label :timezone
+    %br
+    = f.text_field :timezone, hide_label: true
+  .field
+    = f.label :source_uuid
+    %br
+    = f.text_field :source_uuid, hide_label: true
+  .field
+    = f.label :external_uuid
+    %br
+    = f.text_field :external_uuid, hide_label: true
+  .field
+    = f.label :creation_date_time
+    %br
+    = f.datetime_select :creation_date_time, hide_label: true
+  .field
+    = f.label :schema_namespace
+    %br
+    = f.text_field :schema_namespace, hide_label: true
+  .field
+    = f.label :schema_name
+    %br
+    = f.text_field :schema_name, hide_label: true
+  .field
+    = f.label :schema_version
+    %br
+    = f.text_field :schema_version, hide_label: true
+  .field
+    = f.label :effective_date_time
+    %br
+    = f.datetime_select :effective_date_time, include_blank: true, hide_label: true
+  %h5 Effective Time Intervals
+  #effective_time_intervals
+    = f.fields_for :effective_time_intervals do |effective_time_interval|
+      = render 'effective_time_intervals_fields', f: effective_time_interval
+    .links
+      = link_to_add_association 'Add Effective Time Interval', f, :effective_time_intervals, :partial => 'effective_time_intervals_fields'
+  %br
+  %h5 Passive Sleep Entries
+  #passive_sleeps
+    = f.fields_for :passive_sleeps do |passive_sleep|
+      = render 'passive_sleeps_fields', f: passive_sleep
+    .links
+      = link_to_add_association 'Add Passive Sleep', f, :passive_sleeps, :partial => 'passive_sleeps_fields'
+  %br
+  %h5 Passive Activity Entries
+  #passive_activities
+    = f.fields_for :passive_activities do |passive_activity|
+      = render 'passive_activities_fields', f: passive_activity
+    .links
+      = link_to_add_association 'Add Passive Activity', f, :passive_activities, :partial => 'passive_activities_fields'
+  %br
+  %h5 Passive Workout Entries
+  #passive_workouts
+    = f.fields_for :passive_workouts do |passive_workout|
+      = render 'passive_workouts_fields', f: passive_workout
+    .links
+      = link_to_add_association 'Add Passive Workout', f, :passive_workouts, :partial => 'passive_workouts_fields'
+  %br
+  .actions
+    = f.submit

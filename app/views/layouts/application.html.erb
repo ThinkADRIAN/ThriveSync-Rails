@@ -1,11 +1,11 @@
 <%= render "shared/header" %>
 
-  <div class="container">
-      
-    <%= render "shared/flash_notices", flash: flash %>
+<div class="container">
+  <%= render "shared/flash_notices", flash: flash %>
+</div>
 
-    <%= yield %>
-
-  </div>
+<div class="page-wrapper">
+  <%= yield %>
+</div>
 
 <%= render "shared/footer" %>

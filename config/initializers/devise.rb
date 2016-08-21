@@ -4,13 +4,13 @@ Devise.setup do |config|
   # The secret key used by Devise. Devise uses this key to generate
   # random tokens. Changing this key will render invalid all existing
   # confirmation, reset password and unlock tokens in the database.
-  # config.secret_key = '1728c44e35d67a3340e35b620cfe0d3405942fea21ff0b59cf41675d2df1b52231188e6028e0dbfa13b0a3b0253fd392f7b8b6ef495f9cd6bbbd34ff9ded7c01'
+  config.secret_key = '6097fd9394c11fea015a016dff93e2bab4c24344741ae0a72a71313c4063e228a8061a4b364ac6d8ce0f56b2bd27232eaa87f4caaa6869092e467977461773fa'
 
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class
   # with default "from" parameter.
-  config.mailer_sender = 'support@thrivestreams.com'
+  config.mailer_sender = 'ThriveSync <thrivesync-mailer@thrivestreams.com>'
 
   # Configure the class responsible to send e-mails.
   # config.mailer = 'Devise::Mailer'
@@ -41,12 +41,12 @@ Devise.setup do |config|
   # Configure which authentication keys should be case-insensitive.
   # These keys will be downcased upon creating or modifying a user and when used
   # to authenticate or find a user. Default is :email.
-  config.case_insensitive_keys = [ :email ]
+  config.case_insensitive_keys = [:email]
 
   # Configure which authentication keys should have whitespace stripped.
   # These keys will have whitespace before and after removed upon creating or
   # modifying a user and when used to authenticate or find a user. Default is :email.
-  config.strip_whitespace_keys = [ :email ]
+  config.strip_whitespace_keys = [:email]
 
   # Tell if authentication through request.params is enabled. True by default.
   # It can be set to an array that will enable params authentication only for the
@@ -98,6 +98,45 @@ Devise.setup do |config|
 
   # Setup a pepper to generate the encrypted password.
   # config.pepper = '60703e992780b740ce931231af5e3524c719b798e2aa2050a95c078d9cc4d7907761da85ebf3f36dfc4e74d33ad63cdf04d834f8b360779c5b7d01c228457e70'
+
+  # ==> Configuration for :invitable
+  # The period the generated invitation token is valid, after
+  # this period, the invited resource won't be able to accept the invitation.
+  # When invite_for is 0 (the default), the invitation won't expire.
+  # config.invite_for = 2.weeks
+
+  # Number of invitations users can send.
+  # - If invitation_limit is nil, there is no limit for invitations, users can
+  # send unlimited invitations, invitation_limit column is not used.
+  # - If invitation_limit is 0, users can't send invitations by default.
+  # - If invitation_limit n > 0, users can send n invitations.
+  # You can change invitation_limit column for some users so they can send more
+  # or less invitations, even with global invitation_limit = 0
+  # Default: nil
+  # config.invitation_limit = 5
+
+  # The key to be used to check existing users when sending an invitation
+  # and the regexp used to test it when validate_on_invite is not set.
+  # config.invite_key = {:email => /\A[^@]+@[^@]+\z/}
+  # config.invite_key = {:email => /\A[^@]+@[^@]+\z/, :username => nil}
+
+  # Flag that force a record to be valid before being actually invited
+  # Default: false
+  # config.validate_on_invite = true
+
+  # Resend invitation if user with invited status is invited again
+  # Default: true
+  # config.resend_invitation = false
+
+  # The class name of the inviting model. If this is nil,
+  # the #invited_by association is declared to be polymorphic.
+  # Default: nil
+  # config.invited_by_class_name = 'User'
+
+  # The column name used for counter_cache column. If this is nil,
+  # the #invited_by association is declared without counter_cache.
+  # Default: nil
+  # config.invited_by_counter_cache = :invitations_count
 
   # ==> Configuration for :confirmable
   # A period that the user is allowed to access the website even without
@@ -257,14 +296,14 @@ Devise.setup do |config|
   # so you need to do it manually. For the users scope, it would be:
   # config.omniauth_path_prefix = '/my_engine/users/auth'
 
-  config.omniauth :facebook, ENV['FB_ID'], ENV['FB_SECRET'], 
-      :client_options => {
-      :site => 'https://graph.facebook.com/v2.0',
-      :authorize_url => "https://www.facebook.com/v2.0/dialog/oauth"
-      }
+  config.omniauth :facebook, ENV['FB_ID'], ENV['FB_SECRET'],
+                  :client_options => {
+                    :site => 'https://graph.facebook.com/v2.0',
+                    :authorize_url => "https://www.facebook.com/v2.0/dialog/oauth"
+                  }
   #config.omniauth :twitter, "KHTNRYmtLJB2XMnXfFctXxxit", "WFAKxj34Fxi4VFiKDUlOxeOMUOVwghGMJ9fkhYTCULTCPKlx4w"
 
   require 'omniauth-google-oauth2'
-  config.omniauth :google_oauth2, ENV['GOOGLE_ID'], ENV['GOOGLE_SECRET'], { access_type: "offline", approval_prompt: "" }
+  config.omniauth :google_oauth2, ENV['GOOGLE_ID'], ENV['GOOGLE_SECRET'], {access_type: "offline", approval_prompt: ""}
 
 end

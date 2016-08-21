@@ -1,0 +1,64 @@
+<div class="container">
+  <div>
+    <% if (@user == nil || @user.id == current_user.id) || (current_user.is? :superuser) %>
+        <h1><%= current_user.first_name.to_s + " " + current_user.last_name.to_s %> - Device List</h1>
+        <%= link_to 'Add a new Device', new_device_path, class: "btn btn-primary" %>
+    <% else %>
+        <% if @user == nil %>
+            <% user = current_user %>
+        <% else %>
+            <% user = @user %>
+        <% end %>
+        <h1><%= user.first_name.to_s + " " + user.last_name.to_s %></h1>
+    <% end %>
+  </div>
+  <br>
+  <div class="col-sm-12">
+    <% if !@devices.empty? %>
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <h3 class="panel-title">Devices</h3>
+          </div>
+          <div class="panel-body">
+            <% @devices.each do |device| %>
+                <% if device.user_id == current_user.id || (current_user.is? :superuser) %>
+                    <div class="col-md-4">
+                      <h4>Device ID: <%= device.id %></h4>
+                    </div>
+                    <div class="col-md-4">
+                      <p>
+                        <strong>Device Enabled:</strong>
+                        <% if device.enabled == true %>
+                            <%= "Enabled" %>
+                        <% elsif device.enabled == false %>
+                            <%= "Disabled" %>
+                        <% end %>
+                      </p>
+                      <p>
+                        <strong>Device Token:</strong>
+                        <%= device.token %>
+                      </p>
+                      <p>
+                        <strong>Device Platform</strong>
+                        <% if device.platform == 'iOS' %>
+                            <%= "Apple" %>
+                        <% elsif device.platform == 'Android' %>
+                            <%= "Android" %>
+                        <% end %>
+                      </p>
+                    </div>
+                    <div class="col-md-4">
+                      <td><%= link_to 'Show', device, class: "btn-primary btn-xs" %></td>
+                      <td><%= link_to 'Edit', edit_device_path(device), class: "btn-default btn-xs" %></td>
+                      <td><%= link_to 'Destroy', device, method: :delete, class: "btn-danger btn-xs", data: { confirm: 'Are you sure?' } %></td>
+                    </div>
+                    <div class="col-md-12">
+                      <hr>
+                    </div>
+                <% end %>
+            <% end %>
+          </div>
+        </div>
+    <% end %>
+  </div>
+</div>

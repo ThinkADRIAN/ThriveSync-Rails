@@ -1,21 +1,21 @@
-<%= form_for(@scorecard) do |f| %>
-  <% if @scorecard.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@scorecard.errors.count, "error") %> prohibited this scorecard from being saved:</h2>
+<%= bootstrap_form_for(@scorecard) do |f| %>
+    <% if @scorecard.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(@scorecard.errors.count, "error") %> prohibited this scorecard from being saved:</h2>
 
-      <ul>
-      <% @scorecard.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
+          <ul>
+            <% @scorecard.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
+
+    <div class="field">
+      <%= f.label "Checkin Goal" %><br>
+      <%= f.select :checkin_goal, (1..7), hide_label: true , inline: true %>
     </div>
-  <% end %>
-
-  <div class="field">
-    <%= f.label "Checkin Goal" %><br>
-    <%= f.select :checkin_goal, (1..7) %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+    <div class="actions">
+      <%= f.submit %>
+    </div>
 <% end %>

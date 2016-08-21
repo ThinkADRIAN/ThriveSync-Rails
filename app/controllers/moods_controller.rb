@@ -24,15 +24,17 @@ class MoodsController < ApplicationController
               }
             ]
           }
-      EOS
+    EOS
     api_base_url ""
     formats ['html', 'json']
   end
 
   def_param_group :moods_data do
-    param :mood_rating, Integer, :desc => "[['Severely Depressed', 1], ['Moderately Depressed', 2], ['Mildly Depressed', 3], ['Baseline',4], ['Mildly Elevated',5], ['Moderately Elevated', 6], ['Severely Elevated',7]]", :required => true
-    param :anxiety_rating, Integer, :desc => "[['None', 1], ['Mild', 2], ['Moderate', 3], ['Severe',4]]", :required => true
-    param :irritability_rating, Integer, :desc => "[['None', 1], ['Mild', 2], ['Moderate', 3], ['Severe',4]]", :required => true
+    param :mood, Hash, :desc => "Mood", :required => false do
+      param :mood_rating, :number, :desc => "[['Severely Depressed', 1], ['Moderately Depressed', 2], ['Mildly Depressed', 3], ['Baseline',4], ['Mildly Elevated',5], ['Moderately Elevated', 6], ['Severely Elevated',7]]", :required => true
+      param :anxiety_rating, :number, :desc => "[['None', 1], ['Mild', 2], ['Moderate', 3], ['Severe',4]]", :required => true
+      param :irritability_rating, :number, :desc => "[['None', 1], ['Mild', 2], ['Moderate', 3], ['Severe',4]]", :required => true
+    end
   end
 
   def_param_group :moods_all do
@@ -40,20 +42,25 @@ class MoodsController < ApplicationController
     param :timestamp, :undef, :desc => "Timestamp for Mood Entry [DateTime(UTC)]", :required => false
   end
 
+  def_param_group :destroy_moods_data do
+    param :id, :number, :desc => "Id of Mood Entry to Delete [Number]", :required => true
+  end
+
   acts_as_token_authentication_handler_for User
 
+  before_action :authenticate_user!
   before_action :set_mood, only: [:show, :edit, :update, :destroy]
   before_action :set_lookback_period, only: [:index]
-  before_action :authenticate_user!
 
-  after_filter :verify_authorized,  except: [:index]
+  after_action :verify_authorized, except: [:index]
   #after_filter :verify_policy_scoped, only: [:index]
 
   respond_to :html, :js, :json
-  
+
   # GET /moods
   # GET /moods.json
   api! "Show Mood Entries"
+
   def index
     @user = User.find_by_id(params[:user_id])
 
@@ -70,12 +77,11 @@ class MoodsController < ApplicationController
     end
 
     #@moods = policy_scope(@moods)
-   
+
     respond_to do |format|
       format.html
       format.js
-      format.json { render :json => @moods, status: 200 }
-      # format.xml { render :xml => @moods, status: 200 }
+      format.json { render json: @moods, status: 200 }
     end
   end
 
@@ -84,17 +90,18 @@ class MoodsController < ApplicationController
   def show
     authorize! :manage, Mood
     authorize! :read, Mood
-    
+
     respond_to do |format|
+      format.html { render nothing: true }
       format.js
-      format.json { render :json =>  @mood, status: 200 }
-      # format.xml { render :xml => @mood, status: 200 }
+      format.json { render json: @mood, status: 200 }
     end
   end
 
   # GET /moods/new
   def new
     @user = User.find_by_id(params[:user_id])
+    $capture_source = params[:capture_source]
 
     if @user == nil
       skip_authorization
@@ -107,11 +114,15 @@ class MoodsController < ApplicationController
     end
 
     @mood= Mood.new
+
+    respond_to do |format|
+      format.html { render :nothing => true }
+      format.js
+      format.json { render :json => @mood, status: 200 }
+    end
   end
 
   # GET /moods/1/edit
-  api! "Edit Mood Entry"
-  param_group :moods_all
   def edit
     @user = User.find_by_id(params[:user_id])
 
@@ -124,12 +135,19 @@ class MoodsController < ApplicationController
         authorize @moods
       end
     end
+
+    respond_to do |format|
+      format.html { render :nothing => true }
+      format.js
+      format.json { render :json => @mood, status: 200 }
+    end
   end
 
   # POST /moods
   # POST /moods.json
   api! "Create Mood Entry"
   param_group :moods_data
+
   def create
     @user = User.find_by_id(params[:user_id])
 
@@ -145,19 +163,42 @@ class MoodsController < ApplicationController
 
     @mood = Mood.new(mood_params)
     @mood.user_id = current_user.id
-    @mood.update_attribute(:timestamp, DateTime.now.in_time_zone)
-    
-    respond_to do |format|
-      if @mood.save
-        track_mood_created
 
-        current_user.scorecard.update_scorecard('moods')
-        flash.now[:success] = "Mood Entry was successfully tracked."
-        format.js 
-        format.json { render :json => @mood, status: :created }
+    if params[:timestamp].nil?
+      if $capture_source == 'mood'
+        d = $capture_date
+        t = Time.now
+        dt = DateTime.new(d.year, d.month, d.day, t.hour, t.min, t.sec, t.zone)
+
+        @mood.timestamp = dt
       else
-        format.js   { render json: @mood.errors, status: :unprocessable_entity }
-        format.json { render json: @mood.errors, status: :unprocessable_entity }
+        @mood.timestamp = DateTime.now.in_time_zone
+      end
+      #days_moods = Mood.where(user_id: current_user.id, timestamp: (Time.zone.now.to_date.in_time_zone.at_beginning_of_day..Time.zone.now.to_date.in_time_zone.end_of_day))
+    else
+      @mood.timestamp = params[:timestamp]
+      #days_moods = Mood.where(user_id: current_user.id, timestamp: (params[:timestamp].to_time.in_time_zone.to_date.at_beginning_of_day..params[:timestamp].to_time.in_time_zone.to_date.in_time_zone.end_of_day))
+    end
+
+    days_moods = Mood.where(user_id: current_user.id, timestamp: ((@mood.timestamp - 24.hours)..@mood.timestamp))
+
+    respond_to do |format|
+      if days_moods.count < MAX_MOOD_ENTRIES
+        if @mood.save
+          track_mood_created
+          current_user.scorecard.update_scorecard('moods', Time.zone.now)
+          flash.now[:success] = 'Mood Entry was successfully tracked.'
+          format.js { render status: :created }
+          format.json { render json: @mood, status: :created }
+        else
+          flash.now[:error] = 'Mood Entry was not tracked... Try again???'
+          format.js { render json: @mood.errors, status: :unprocessable_entity }
+          format.json { render json: @mood.errors, status: :unprocessable_entity }
+        end
+      else
+        flash.now[:warning] = 'Mood Entry was not tracked.  Daily Mood Entry Limit Reached.'
+        format.js
+        format.json { render json: 'Mood Entry was not tracked.  Daily Mood Entry Limit Reached.', status: 400 }
       end
     end
   end
@@ -166,6 +207,7 @@ class MoodsController < ApplicationController
   # PATCH/PUT /moods/1.json
   api! "Update Mood Entry"
   param_group :moods_all
+
   def update
     @user = User.find_by_id(params[:user_id])
 
@@ -178,18 +220,21 @@ class MoodsController < ApplicationController
         authorize @moods
       end
     end
-    
+
+    timestamp = mood_params[:timestamp].to_datetime
+    #days_moods = Mood.where(user_id: current_user.id, timestamp: (timestamp.in_time_zone.at_beginning_of_day..timestamp.in_time_zone.end_of_day))
+    days_moods = Mood.where(user_id: current_user.id, timestamp: ((timestamp.in_time_zone - 24.hours)..timestamp.in_time_zone))
+
     respond_to do |format|
       if @mood.update(mood_params)
         track_mood_updated
-
-        flash.now[:success] = "Mood Entry was successfully updated."
+        flash.now[:success] = 'Mood Entry was successfully updated.'
         format.js
-        format.json { render :json => @mood, status: :created }
+        format.json { render json: @mood, status: 200 }
       else
-        flash.now[:error] = 'Mood Entry was not updated... Try again???'
-        format.js   { render json: @mood.errors, status: :unprocessable_entity }
-        format.json { render json: @mood.errors, status: :unprocessable_entity }
+        flash.now[:error] = 'Mood Entry was not updated.  Daily Mood Entry Limit Reached.'
+        format.js
+        format.json { render json: 'Mood Entry was not updated.  Daily Mood Entry Limit Reached.', status: 400 }
       end
     end
   end
@@ -208,11 +253,17 @@ class MoodsController < ApplicationController
     end
 
     @mood = Mood.find(params[:mood_id])
+
+    respond_to do |format|
+      format.js
+    end
   end
 
   # DELETE /moods/1
   # DELETE /moods/1.json
   api! "Delete Mood Entry"
+  param_group :destroy_moods_data
+
   def destroy
     @user = User.find_by_id(params[:user_id])
 
@@ -225,14 +276,20 @@ class MoodsController < ApplicationController
         authorize @moods
       end
     end
-    
-    @mood.destroy
-    track_mood_deleted
-    
+
     respond_to do |format|
-      flash.now[:success] = "Mood Entry was successfully deleted."
-      format.js 
-      format.json { head :no_content }
+      if @mood.destroy
+        track_mood_deleted
+        flash[:success] = 'Mood Entry was successfully deleted.'
+        format.html { redirect_to moods_path }
+        format.js
+        format.json { head :no_content }
+      else
+        flash[:error] = 'Mood Entry was not deleted... Try again???'
+        format.html { redirect moods_path }
+        format.js
+        format.json { render json: @moods.errors, status: :unprocessable_entity }
+      end
     end
   end
 
@@ -248,68 +305,72 @@ class MoodsController < ApplicationController
         authorize @moods
       end
     end
-    
+
+    $current_capture_screen = 'Mood'
+
     respond_to do |format|
       format.js
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_mood
-      @mood = Mood.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_mood
+    @mood = Mood.find(params[:id])
+  end
 
-    def set_lookback_period
-      if(params.has_key?(:mood_lookback_period))
-        @mood_lookback_period = params[:mood_lookback_period]
-      else
-        @mood_lookback_period = DEFAULT_LOOKBACK_PERIOD
-      end
+  def set_lookback_period
+    if params.has_key? :mood_lookback_period
+      @mood_lookback_period = params[:mood_lookback_period]
+    else
+      @mood_lookback_period = DEFAULT_LOOKBACK_PERIOD
     end
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def mood_params
-      params.fetch(:mood, {}).permit(:mood_rating, :anxiety_rating, :irritability_rating, :timestamp, :mood_lookback_period)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def mood_params
+    params.fetch(:mood, {}).permit(:mood_rating, :anxiety_rating, :irritability_rating, :timestamp, :mood_lookback_period, :capture_source)
+  end
 
-    def track_mood_created
-      # Track Mood Creation for Segment.io Analytics
-      Analytics.track(
-        user_id: @mood.user_id,
-        event: 'Created Mood Entry',
-        properties: {
-          mood_id: @mood.id,
-          mood_rating: @mood.mood_rating,
-          anxiety_rating: @mood.anxiety_rating,
-          irritability_rating: @mood.irritability_rating,
-          timestamp: @mood.timestamp
-        }
-      )
-    end
+  def track_mood_created
+    # Track Mood Creation for Segment.io Analytics
+    Analytics.track(
+      user_id: current_user.id,
+      event: 'Mood Entry Created',
+      properties: {
+        mood_id: @mood.id,
+        mood_rating: @mood.mood_rating,
+        anxiety_rating: @mood.anxiety_rating,
+        irritability_rating: @mood.irritability_rating,
+        timestamp: @mood.timestamp,
+        mood_user_id: @mood.user_id
+      }
+    )
+  end
 
-    def track_mood_updated
-      # Track Mood Update for Segment.io Analytics
-      Analytics.track(
-        user_id: @mood.user_id,
-        event: 'Updated Mood Entry',
-        properties: {
-          mood_id: @mood.id,
-          mood_rating: @mood.mood_rating,
-          anxiety_rating: @mood.anxiety_rating,
-          irritability_rating: @mood.irritability_rating,
-          timestamp: @mood.timestamp
-        }
-      )
-    end
+  def track_mood_updated
+    # Track Mood Update for Segment.io Analytics
+    Analytics.track(
+      user_id: current_user.id,
+      event: 'Mood Entry Updated',
+      properties: {
+        mood_id: @mood.id,
+        mood_rating: @mood.mood_rating,
+        anxiety_rating: @mood.anxiety_rating,
+        irritability_rating: @mood.irritability_rating,
+        timestamp: @mood.timestamp,
+        mood_user_id: @mood.user_id
+      }
+    )
+  end
 
-    def track_mood_deleted
-      # Track Mood Deletion for Segment.io Analytics
-      Analytics.track(
-        user_id: @mood.user_id,
-        event: 'Deleted Mood Entry',
-        properties: {
-        }
-      )
-    end
+  def track_mood_deleted
+    # Track Mood Deletion for Segment.io Analytics
+    Analytics.track(
+      user_id: current_user.id,
+      event: 'Mood Entry Deleted',
+      properties: {
+      }
+    )
+  end
 end

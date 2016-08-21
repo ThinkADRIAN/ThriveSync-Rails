@@ -1,29 +1,29 @@
-<%= form_for(@review) do |f| %>
-  <% if @review.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@review.errors.count, "error") %> prohibited this review from being saved:</h2>
+<%= bootstrap_form_for(@review) do |f| %>
+    <% if @review.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(@review.errors.count, "error") %> prohibited this review from being saved:</h2>
 
-      <ul>
-      <% @review.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
+          <ul>
+            <% @review.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
+
+    <div class="field">
+      <%= f.label :review_counter %><br>
+      <%= f.number_field :review_counter %>
     </div>
-  <% end %>
-  
-  <div class="field">
-    <%= f.label :review_counter %><br>
-    <%= f.number_field :review_counter %>
-  </div>
-  <div class="field">
-    <%= f.label :review_last_date %><br>
-    <%= f.datetime_select :review_last_date %>
-  </div>
-  <div class="field">
-    <%= f.label :review_trigger_date %><br>
-    <%= f.datetime_select :review_trigger_date %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+    <div class="field">
+      <%= f.label :review_last_date %><br>
+      <%= f.datetime_select :review_last_date %>
+    </div>
+    <div class="field">
+      <%= f.label :review_trigger_date %><br>
+      <%= f.datetime_select :review_trigger_date %>
+    </div>
+    <div class="actions">
+      <%= f.submit %>
+    </div>
 <% end %>

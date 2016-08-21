@@ -1,26 +1,58 @@
-<h2>Sign Up</h2>
+<section class="content-20 v-center bg-wet-asphalt">
+  <div>
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-12">
+          <h3>Sign Up for a Free Account</h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="signup-form">
+            <%= render "devise/shared/omniauth_buttons" %>
+            <%= form_for(resource, as: resource_name, url: registration_path(resource_name), :html => {:class => "clearfix"}) do |f| %>
+                <%= devise_error_messages! %>
+                <br>
 
-<%= render "devise/shared/omniauth_buttons" %>
+                <div class="form-group">
+                  <label>First Name</label>
+                  <%= f.text_field :first_name, autofocus: true, class: "form-control" %>
+                </div>
+                <div class="form-group">
+                  <label>Last Name</label>
+                  <%= f.text_field :last_name, autofocus: true, class: "form-control" %>
+                </div>
+                <div class="form-group">
+                  <label>Email</label>
+                  <%= f.email_field :email, autofocus: true, class: "form-control" %>
+                </div>
+                <div class="clearfix">
+                  <div class="form-group pull-left">
+                    <label>Password
+                      <% if @validatable %><i>(<%= @minimum_password_length %> characters minimum)</i>
+                      <% end %></label>
+                    <%= f.password_field :password, autocomplete: "off", class: "form-control" %>
+                  </div>
+                  <div class="form-group pull-right">
+                    <label>Confirmation</label>
+                    <%= f.password_field :password_confirmation, autocomplete: "off", class: "form-control" %>
+                  </div>
+                </div>
+                <div class="actions"><%= f.submit "Sign Up", class: "btn btn-huge btn-success" %></div>
+                <%= render "devise/shared/links" %>
+            <% end %>
+          </div>
+        </div>
+        <div class="col-sm-4 col-sm-offset-1 features">
+          <div class="row">
+            <div class="col-sm-12">
+              By clicking Sign Up, you agree to our <%= link_to 'Terms and Conditions', page_path('terms') %> and that you have read our <%= link_to 'Privacy Policy', page_path('privacy') %>.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= devise_error_messages! %>
-  <br>
-  <div class="form-group"><%= f.label :first_name %><br />
-  <%= f.text_field :first_name, autofocus: true %></div>
-
-  <div class="form-group"><%= f.label :last_name %><br />
-  <%= f.text_field :last_name, autofocus: true %></div>
-
-  <div class="form-group"><%= f.label :email %><br />
-  <%= f.email_field :email, autofocus: true %></div>
-
-  <div class="form-group"><%= f.label :password %> <% if @validatable %><i>(<%= @minimum_password_length %> characters minimum)</i><% end %><br />
-    <%= f.password_field :password, autocomplete: "off" %></div>
-
-  <div class="form-group"><%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "off" %></div>
-
-  <div class="actions"><%= f.submit "Sign up" %></div>
-<% end %>
-
-<%= render "devise/shared/links" %>
+<%= render "pages/footer" %>

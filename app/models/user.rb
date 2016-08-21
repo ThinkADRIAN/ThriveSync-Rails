@@ -1,14 +1,14 @@
 class User < ActiveRecord::Base
-  include Amistad::FriendModel
+  acts_as_messageable
+  include Tokenable
+  include Connectable
 
-  searchable do
-    string :email
-  end
-
-	has_many :moods
+  has_many :moods
   has_many :sleeps
   has_many :self_cares
   has_many :journals
+
+  has_friendship
 
   has_many :reminders
 
@@ -18,15 +18,20 @@ class User < ActiveRecord::Base
 
   has_many :relationships
   has_many :relations, :through => :relationships
-  
+
   has_many :inverse_relationships, :class_name => "Relationship", :foreign_key => "relation_id"
   has_many :inverse_relations, :through => :inverse_relationships, :source => :user
+
+  has_many :invitations, :class_name => self.to_s, :as => :invited_by
+
+  has_many :passive_data_points, dependent: :destroy
 
   before_create :set_default_role
   after_create :create_scorecard
   after_create :create_reward
   after_create :create_reminders
   after_create :create_review
+  after_create :subscribe_user_to_mailing_list
 
   after_create :identify_user_for_analytics
   after_create :track_user_sign_up
@@ -34,7 +39,7 @@ class User < ActiveRecord::Base
   # User is free account, Client is unlocked when coupled with a Pro account,
   # Admin will administer an organizational unit, SuperUser is for internal use
 
-  ROLES = %w[user client pro admin superuser banned]
+  ROLES = %w[user client pro admin superuser supporter]
 
   TEMP_EMAIL_PREFIX = 'change@me'
   TEMP_EMAIL_REGEX = /\Achange@me/
@@ -43,8 +48,8 @@ class User < ActiveRecord::Base
 
   # Include default devise modules. Others available are:
   # :lockable, :timeoutable
-  devise :database_authenticatable, :registerable,
-    :recoverable, :rememberable, :trackable, :validatable, :omniauthable, :confirmable 
+  devise :invitable, :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :trackable, :validatable, :omniauthable, :confirmable
 
   validates_presence_of :first_name, :last_name
 
@@ -81,7 +86,7 @@ class User < ActiveRecord::Base
           first_name: auth.extra.raw_info.first_name,
           last_name: auth.extra.raw_info.last_name,
           email: email ? email : "#{TEMP_EMAIL_PREFIX}-#{auth.uid}-#{auth.provider}.com",
-          password: Devise.friendly_token[0,20]
+          password: Devise.friendly_token[0, 20]
         )
         user.skip_confirmation!
         user.save!
@@ -119,7 +124,7 @@ class User < ActiveRecord::Base
   end
 
   def set_default_role
-    self.roles = [ "user" ]
+    self.roles = ["user"]
   end
 
   def authorize
@@ -189,14 +194,28 @@ class User < ActiveRecord::Base
     @review.save
   end
 
+  #Returning any kind of identification you want for the model
+  def name
+    return self[:first_name]
+  end
+
+  #Returning the email address of the model if an email should be sent for this object (Message or Notification).
+  #If no mail has to be sent, return nil.
+  def mailboxer_email(object)
+    #Check if an email should be sent for that object
+    #if true
+    return self[:email]
+    #if false
+    #return nil
+  end
+
+  alias_method :flipper_id, :id
+
   def identify_user_for_analytics
     # Identify User for Segment.io Analytics
     Analytics.identify(
       user_id: self.id,
       traits: {
-        first_name: self.first_name,
-        last_name: self.last_name,
-        email: self.email,
         created_at: self.created_at
       }
     )
@@ -210,5 +229,14 @@ class User < ActiveRecord::Base
       properties: {
       }
     )
+  end
+
+  private
+
+  def after_password_reset
+  end
+
+  def subscribe_user_to_mailing_list
+    SubscribeJob.new.async.perform(self)
   end
 end

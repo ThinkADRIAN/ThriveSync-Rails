@@ -1,16 +1,18 @@
 source 'https://rubygems.org'
 
-ruby '2.0.0'
+ruby '2.1.8'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.1.6'
+gem 'rails', '4.1.8'
 # Use sqlite3 as the database for Active Record
 #gem 'sqlite3'
 
 group :development, :test do
-	# Use sqlite3 as the database for Active Record
+# Use sqlite3 as the database for Active Record
 #	gem 'sqlite3'
-	gem 'sunspot_solr'
+end
+group :development, :staging do
+  gem 'database_cleaner'
 end
 group :production, :staging do
   gem 'rails_12factor'
@@ -25,7 +27,7 @@ gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .js.coffee assets and views
 gem 'coffee-rails', '~> 4.0.0'
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-gem 'therubyracer',  platforms: :ruby
+gem 'therubyracer', platforms: :ruby
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
@@ -34,7 +36,7 @@ gem 'turbolinks'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
-gem 'sdoc', '~> 0.4.0',          group: :doc
+gem 'sdoc', '~> 0.4.0', group: :doc
 
 # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
 # gem 'spring',        group: :development
@@ -51,47 +53,101 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
- gem 'devise'
- gem 'cancancan', '~> 1.10'
- gem 'pundit'
+# Authentication
+gem 'devise', '>= 2.0.0'
+gem 'devise_invitable', '~> 1.3.4'
+gem 'omniauth'
+gem 'omniauth-twitter'
+gem 'omniauth-facebook'
+gem 'omniauth-linkedin'
+gem 'omniauth-google-oauth2'
+gem 'simple_token_authentication', '~> 1.0'
 
- gem 'omniauth'
- gem 'omniauth-twitter'
- gem 'omniauth-facebook'
- gem 'omniauth-linkedin'
- gem 'omniauth-google-oauth2' 
+# Authorization
+gem 'cancancan', '~> 1.10'
+gem 'pundit'
 
- gem 'chartkick'
- gem 'groupdate'
+# Graphing
+gem 'chartkick'
+gem 'groupdate'
 
- gem 'mandrill-api'
+# Email Services
+gem 'mandrill-api'
 
- gem 'less-rails-bootstrap'
+# Friendships
+# gem 'amistad'
+gem 'has_friendship'
 
- gem 'amistad'
+# Data Generator
+gem 'faker'
 
- gem 'faker'
+# ENV Variable Handling
+gem 'figaro'
 
- gem 'figaro'
+# Styling
+gem 'less-rails'
+gem 'twitter-bootstrap-rails'
+gem 'designmodo-startup_framework-rails', '~> 1.1.3.10'
+gem 'font-awesome-rails'
+gem 'will_paginate'
+gem 'chosen-rails'
+gem 'bootstrap_form'
+gem 'bootstrap-material-design'
+gem 'haml'
 
- gem 'jquery-ui-rails'
+# Interface
+gem 'jquery-ui-rails'
+gem 'jquery-slick-rails'
+gem 'touchpunch-rails'
 
- gem 'less-rails'
+# Nested Forms
+gem 'cocoon'
 
- gem 'designmodo-startup_framework-rails'
+# Messaging
+gem 'mailboxer'
 
- gem "font-awesome-rails"
+# Analytics
+gem 'analytics-ruby', '~> 2.0.0', :require => 'segment/analytics'
 
- gem "jquery-slick-rails"
+# Parse Platform Client
+gem 'parse-ruby-client'
 
- gem 'touchpunch-rails'
- 
- gem 'sunspot_rails'
+# Background Job Processing
+gem 'sucker_punch', '~> 1.0'
 
- gem 'simple_token_authentication', '~> 1.0'
+# Feature Flags
+gem 'flipper'
+gem 'flipper-activerecord3dot2'
+gem 'flipper-ui'
 
- gem 'analytics-ruby', '~> 2.0.0', :require => 'segment/analytics'
+# Testing
+group :development, :test do
+  gem 'rspec-rails'
+  gem 'factory_girl_rails'
+  gem 'capybara'
+  gem 'guard-rspec'
+  gem 'spring-commands-rspec'
+  gem 'vcr'
+end
+group :test do
+  gem 'webmock'
+end
 
- #Api gems
- gem 'active_model_serializers'
- gem 'apipie-rails', github: 'Apipie/apipie-rails', ref: '928bd858fd14ec67eeb9483ba0d43b3be8339608'
+# Static Pages
+gem 'high_voltage', '~> 2.4.0'
+
+# Push Notifications
+gem 'rpush'
+
+# Mailchimp API Integration
+gem 'gibbon'
+
+# Scheduled Cron Jobs
+gem 'whenever', require: false
+
+# Scope Filtering
+gem 'has_scope'
+
+#Api gems
+gem 'active_model_serializers'
+gem 'apipie-rails', github: 'Apipie/apipie-rails', ref: '928bd858fd14ec67eeb9483ba0d43b3be8339608'

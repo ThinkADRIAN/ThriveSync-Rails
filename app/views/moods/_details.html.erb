@@ -1,93 +1,93 @@
 <div class="col-sm-12">
   <% if !@moods.empty? %>
-    <div class="panel panel-primary">
-      <div class="panel-heading">
-        <h3 class="panel-title">Mood Entries</h3>
-      </div>
-      <div class="panel-body">
-        <%
-          if @mood_lookback_period == 'week' 
-            lookback_range = DATE_RANGE_THIS_WEEK
-          elsif @mood_lookback_period == 'last_week'
-            lookback_range = DATE_RANGE_LAST_WEEK
-          elsif @mood_lookback_period == 'month'
-            lookback_range = DATE_RANGE_THIS_MONTH
-          elsif @mood_lookback_period == 'last_month'
-            lookback_range = DATE_RANGE_LAST_MONTH
-          elsif @mood_lookback_period == 'year'
-            lookback_range = DATE_RANGE_THIS_YEAR
-          elsif @mood_lookback_period == 'last_year'
-            lookback_range = DATE_RANGE_LAST_YEAR
-          end
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <h3 class="panel-title">Mood Entries</h3>
+        </div>
+        <div class="panel-body">
+          <%
+             if @mood_lookback_period == 'week'
+               lookback_range = date_range_for('this_week')
+             elsif @mood_lookback_period == 'last_week'
+               lookback_range = date_range_for('last_week')
+             elsif @mood_lookback_period == 'month'
+               lookback_range = date_range_for('this_month')
+             elsif @mood_lookback_period == 'last_month'
+               lookback_range = date_range_for('last_month')
+             elsif @mood_lookback_period == 'year'
+               lookback_range = date_range_for('this_year')
+             elsif @mood_lookback_period == 'last_year'
+               lookback_range = date_range_for('last_year')
+             end
 
-          moods_for_lookback_period = @moods.where(timestamp: lookback_range)
-          moods_for_lookback_period = moods_for_lookback_period.order('timestamp DESC')
-          
-          moods_for_lookback_period.each do |mood| %>
+             moods_for_lookback_period = @moods.where(timestamp: lookback_range)
+             moods_for_lookback_period = moods_for_lookback_period.order('timestamp DESC')
 
-          <% if mood.user_id == current_user.id || (current_user.is? :superuser) || (current_user.is? :pro) && (current_user.clients.include? mood.user_id)  %>
-            <div class="col-md-4">
-                <h4><%= I18n.l mood.timestamp, format: :long_am_pm %></h4>
-            </div>
-            <div class="col-md-4">
-                <p>
-                <strong>Mood Level:</strong>
-                <% if mood.mood_rating == 1 %>
-                  <%= "Severely Depressed" %>
-                <% elsif mood.mood_rating == 2 %>
-                  <%= "Moderately Depressed" %>
-                <% elsif mood.mood_rating == 3 %>
-                  <%= "Mildly Depressed" %>
-                <% elsif mood.mood_rating == 4 %>
-                  <%= "Baseline" %>
-                <% elsif mood.mood_rating == 5 %>
-                  <%= "Mildly Elevated" %> 
-                <% elsif mood.mood_rating == 6 %>
-                  <%= "Moderately Elevated" %>
-                <% elsif mood.mood_rating == 7 %>
-                  <%= "Severely Elevated" %> 
-                <% end %>
-                (<%= mood.mood_rating %>)
-              </p> 
+             moods_for_lookback_period.each do |mood| %>
 
-              <p>
-                <strong>Anxiety Level:</strong>
-                <% if mood.anxiety_rating == 1 %>
-                  <%= "None" %>
-                <% elsif mood.anxiety_rating == 2 %>
-                  <%= "Mild" %>
-                <% elsif mood.anxiety_rating == 3 %>
-                  <%= "Moderate" %>
-                <% elsif mood.anxiety_rating == 4 %>
-                  <%= "Severe" %>
-                <% end %>
-                (<%= mood.anxiety_rating %>)
-              </p>
+              <% if mood.user_id == current_user.id || (current_user.is? :superuser) || (current_user.is? :pro) && (current_user.clients.include? mood.user_id) %>
+                  <div class="col-md-4">
+                    <h4><%= I18n.l mood.timestamp, format: :long_am_pm %></h4>
+                  </div>
+                  <div class="col-md-4">
+                    <p>
+                      <strong>Mood Level:</strong>
+                      <% if mood.mood_rating == 1 %>
+                          <%= "Severely Depressed" %>
+                      <% elsif mood.mood_rating == 2 %>
+                          <%= "Moderately Depressed" %>
+                      <% elsif mood.mood_rating == 3 %>
+                          <%= "Mildly Depressed" %>
+                      <% elsif mood.mood_rating == 4 %>
+                          <%= "Baseline" %>
+                      <% elsif mood.mood_rating == 5 %>
+                          <%= "Mildly Elevated" %>
+                      <% elsif mood.mood_rating == 6 %>
+                          <%= "Moderately Elevated" %>
+                      <% elsif mood.mood_rating == 7 %>
+                          <%= "Severely Elevated" %>
+                      <% end %>
+                      (<%= mood.mood_rating %>)
+                    </p>
 
-              <p>
-                <strong>Irritability Level:</strong>
-                <% if mood.irritability_rating == 1 %>
-                  <%= "None" %>
-                <% elsif mood.irritability_rating == 2 %>
-                  <%= "Mild" %>
-                <% elsif mood.irritability_rating == 3 %>
-                  <%= "Moderate" %>
-                <% elsif mood.irritability_rating == 4 %>
-                  <%= "Severe" %>
-                <% end %>
-                (<%= mood.irritability_rating %>)
-              </p>
-            </div>
-            <div class="col-md-4">
-              <%= link_to 'Edit', edit_mood_path(mood, modal_enabled: 'true'), remote: true,  class: "btn-default btn-xs" %>
-              <%= link_to 'Remove', mood_delete_path(mood, modal_enabled: 'true'),  class: "btn-danger btn-xs", remote: true, mood: mood %>
-            </div>
-            <div class="col-md-12">
-              <hr>
-            </div>
+                    <p>
+                      <strong>Anxiety Level:</strong>
+                      <% if mood.anxiety_rating == 1 %>
+                          <%= "None" %>
+                      <% elsif mood.anxiety_rating == 2 %>
+                          <%= "Mild" %>
+                      <% elsif mood.anxiety_rating == 3 %>
+                          <%= "Moderate" %>
+                      <% elsif mood.anxiety_rating == 4 %>
+                          <%= "Severe" %>
+                      <% end %>
+                      (<%= mood.anxiety_rating %>)
+                    </p>
+
+                    <p>
+                      <strong>Irritability Level:</strong>
+                      <% if mood.irritability_rating == 1 %>
+                          <%= "None" %>
+                      <% elsif mood.irritability_rating == 2 %>
+                          <%= "Mild" %>
+                      <% elsif mood.irritability_rating == 3 %>
+                          <%= "Moderate" %>
+                      <% elsif mood.irritability_rating == 4 %>
+                          <%= "Severe" %>
+                      <% end %>
+                      (<%= mood.irritability_rating %>)
+                    </p>
+                  </div>
+                  <div class="col-md-4">
+                    <%= link_to 'Edit', edit_mood_path(mood, modal_enabled: 'true'), remote: true, class: "btn-default btn-xs" %>
+                    <%= link_to 'Remove', mood_delete_path(mood, modal_enabled: 'true'), class: "btn-danger btn-xs", remote: true, mood: mood %>
+                  </div>
+                  <div class="col-md-12">
+                    <hr>
+                  </div>
+              <% end %>
           <% end %>
-        <% end %>
+        </div>
       </div>
-    </div>
   <% end %>
 </div>

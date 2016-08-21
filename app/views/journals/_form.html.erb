@@ -1,38 +1,38 @@
-<%= form_for @journal, remote: true do |f| %>
-  <div class="modal-body">
-    <% if @journal.errors.any? %>
-      <ul class="errors"></ul>
-      <div id="error_explanation">
-        <h2><%= pluralize(@journal.errors.count, "error") %> prohibited this journal entry from being saved:</h2>
-        <ul>
-        <% @journal.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-        </ul>
-      </div>
-    <% end %>
+<%= bootstrap_form_for @journal, remote: true do |f| %>
+    <div class="modal-body">
+      <% if @journal.errors.any? %>
+          <ul class="errors"></ul>
+          <div id="error_explanation">
+            <h2><%= pluralize(@journal.errors.count, "error") %> prohibited this journal entry from being saved:</h2>
+            <ul>
+              <% @journal.errors.full_messages.each do |message| %>
+                  <li><%= message %></li>
+              <% end %>
+            </ul>
+          </div>
+      <% end %>
 
-    <div class="form-group">
-      <%= f.label "Journal Entry:" %> <br>
-      <%= f.text_area :journal_entry %>
+      <div class="form-group">
+        <%= f.label "Journal Entry:" %> <br>
+        <%= f.text_area :journal_entry, hide_label: true, size: 150, rows: 10 %>
+      </div>
+
+      <% if !current_page?(action: 'new') %>
+          <div class="form-group">
+            <%= f.label "Timestamp:" %> <br>
+            <%= f.datetime_local_field :timestamp, hide_label: true %>
+          </div>
+      <% end %>
     </div>
 
-    <% if !current_page?(action: 'new')%>
-      <div class="form-group">
-        <%= f.label "Timestamp:" %> <br>
-        <%= f.datetime_local_field :timestamp %>
-      </div>
-    <% end %>
-  </div>
-    
-  <br>
+    <br>
 
-  <div class="modal-footer">
-    <%= f.submit class: "btn btn-primary" %>
-    <% if params[:modal_enabled] != 'true' %>
-      <%= link_to 'Cancel', journals_cancel_path, remote: true, class: "btn btn-default" %>
-    <% else %>
-      <%= link_to "Cancel", "#", class: "btn btn-default", data: {dismiss: "modal"} %>
-    <% end %>
-  </div>
+    <div class="modal-footer">
+      <%= f.submit class: "btn btn-primary" %>
+      <% if params[:modal_enabled] != 'true' %>
+          <%= link_to 'Cancel', journals_cancel_path, remote: true, class: "btn btn-default" %>
+      <% else %>
+          <%= link_to "Cancel", "#", class: "btn btn-default", data: {dismiss: "modal"} %>
+      <% end %>
+    </div>
 <% end %>

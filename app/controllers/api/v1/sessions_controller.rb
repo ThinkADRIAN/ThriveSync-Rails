@@ -13,17 +13,19 @@ class Api::V1::SessionsController < Devise::SessionsController
               "password": "Thrive1234"
             }
           }
-      EOS
+    EOS
     api_base_url "/api"
     # api_version "v1"
     formats ['html', 'json']
   end
 
+  include ParseHelper
+
   acts_as_token_authentication_handler_for User, fallback_to_devise: false
 
   before_filter :configure_sign_in_params, only: [:create, :destroy]
   skip_before_filter :verify_signed_out_user
-  skip_before_filter  :verify_authenticity_token, only:[:destroy]
+  skip_before_filter :verify_authenticity_token, only: [:destroy]
 
   # GET /resource/sign_in
   def new
@@ -32,17 +34,51 @@ class Api::V1::SessionsController < Devise::SessionsController
 
   # POST /resource/sign_in
   api :POST, "/registrations", "Login User"
-  param :user, Hash , :desc => "User", :required => true do
+  param :user, Hash, :desc => "User", :required => true do
     param :email, String, :desc => "Email", :required => true
     param :password, String, :desc => "Password", :required => true
   end
-  def create
-    self.resource = warden.authenticate!(auth_options)
-    set_flash_message(:notice, :signed_in) if is_flashing_format?
-    sign_in(resource_name, resource)
 
-    yield resource if block_given?
-    respond_with resource, location: after_sign_in_path_for(resource)
+  def create
+    user_email = params[:user][:email]
+    user_password = params[:user][:password]
+
+    # Check if Parse User exists
+    if parse_user_exists?(user_email)
+      # Migration has been run in the past
+      if get_last_migration_date(user_email) != nil
+        rails_authenticate
+        # Migration has not been run yet
+      else
+        login_to_parse(user_email, user_password)
+
+        # Check If Parse Login Successful
+        if @parse_user != nil
+          if rails_user_exists?(user_email)
+            rails_authenticate
+          else
+            user_first_name = @parse_user["firstName"]
+            user_last_name = @parse_user["lastName"]
+
+            create_new_rails_user(user_first_name, user_last_name, user_email, user_password)
+
+            ParseMigrater.new.async.perform(@new_rails_user.id, user_email, user_password)
+
+            # Sign In with New Rails User
+            # Code originally from rails_authenticate method edited for this use case.
+            sign_in(resource_name, @new_rails_user)
+
+            yield @new_rails_user if block_given?
+            respond_with @new_rails_user, location: after_sign_in_path_for(@new_rails_user)
+          end
+        else
+          render :status => 401, :json => {:message => "Parse::ParseProtocolError: 101: invalid login parameters"}
+        end
+      end
+      # Parse User does not exists
+    else
+      rails_authenticate
+    end
   end
 
 
@@ -50,6 +86,7 @@ class Api::V1::SessionsController < Devise::SessionsController
   api :DELETE, "/registrations", "Logout User"
   param :user_email, String, :desc => "Email", :required => true
   param :user_token, String, :desc => "Authentication Token", :required => true
+
   def destroy
     token_was_removed = remove_current_users_token_if_json_request
 
@@ -61,9 +98,9 @@ class Api::V1::SessionsController < Devise::SessionsController
       format.html { redirect_to root_path }
       format.json {
         if token_was_removed
-          render :status=>200, :json=>{:message => "Logout successful." }
+          render :status => 200, :json => {:message => "Logout successful."}
         else
-          render :status=>401, :json=>{:message => "Logout failed. Invalid token or some internal server error while saving." }
+          render :status => 401, :json => {:message => "Logout failed. Invalid token or some internal server error while saving."}
         end
       }
     end
@@ -109,5 +146,22 @@ class Api::V1::SessionsController < Devise::SessionsController
     else
       return false
     end
+  end
+
+  # Code for Devise Create Action aka Rails Authenticate
+  def rails_authenticate
+    self.resource = warden.authenticate!(auth_options)
+    set_flash_message(:notice, :signed_in) if is_flashing_format?
+    sign_in(resource_name, resource)
+
+    yield resource if block_given?
+    respond_with resource, location: after_sign_in_path_for(resource)
+  end
+
+  # Create New Rails User
+  def create_new_rails_user(new_user_first_name, new_user_last_name, new_user_email, new_user_password)
+    @new_rails_user = User.new(:first_name => new_user_first_name, :last_name => new_user_last_name, :email => new_user_email, :password => new_user_password, :password_confirmation => new_user_password)
+    @new_rails_user.skip_confirmation!
+    @new_rails_user.save!
   end
 end

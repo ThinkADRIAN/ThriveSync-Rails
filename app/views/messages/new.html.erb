@@ -1,0 +1,72 @@
+<center><h2>Send Support to a <%= @thriver.first_name %> <%= @thriver.last_name %></h2></center>
+
+<br>
+
+<div class="container">
+  <div class="row">
+    <% @random_cards.shuffle.each do |card| %>
+        <%= form_tag messages_path, method: :post do %>
+            <div class="col-md-4">
+              <div class="card shadow-z-1">
+                <div class="card-height-indicator"></div>
+                <div class="card-content">
+                  <div class="card-body">
+                    <div class="form-group">
+                      <%= hidden_field_tag 'message[subject]', card.category, class: 'form-control', required: true %>
+                    </div>
+                    <div class="form-group" id="t-max-card-message">
+                      <center><%= card.text %></center>
+                      <%= hidden_field_tag 'message[body]', card.text, class: 'form-control', required: true %>
+                    </div>
+                    <div class="form-group">
+                      <%= hidden_field_tag 'recipients', @thriver.id, class: 'form-control', required: true %>
+                    </div>
+                    <div class="form-group">
+                      <%= hidden_field_tag 'thriver_id', @thriver.id, class: 'form-control', required: true %>
+                    </div>
+                  </div>
+                  <footer class="card-footer">
+                    <center><%= submit_tag 'Send', class: 'btn btn-flat btn-primary' %></center>
+                  </footer>
+                </div>
+              </div>
+            </div>
+        <% end %>
+    <% end %>
+  </div>
+  <br>
+
+  <div class="row">
+    <%= form_tag messages_path, method: :post do %>
+        <div class="col-md-4">
+          <div class="card shadow-z-1">
+            <div class="card-height-indicator"></div>
+            <div class="card-content">
+              <div class="card-body">
+                <div class="form-group">
+                  <%#= label_tag 'message[subject]', 'Subject' %>
+                  <%#= text_field_tag 'message[subject]', nil, class: 'form-control', required: true %>
+                  <%= hidden_field_tag 'message[subject]', "Custom", class: 'form-control', required: true %>
+                </div>
+                <div class="form-group">
+                  <%#= label_tag 'message[body]', 'Message' %>
+                  <center><h3>Custom Message</h3></center>
+                  <center><%= text_area_tag 'message[body]', nil, cols: 3, class: 'form-control', required: true %></center>
+                </div>
+                <div class="form-group">
+                  <%= hidden_field_tag 'recipients', @thriver.id, class: 'form-control', required: true %>
+                </div>
+                <div class="form-group">
+                  <%= hidden_field_tag 'thriver_id', @thriver.id, class: 'form-control', required: true %>
+                </div>
+              </div>
+              <footer class="card-footer">
+                <center><%= submit_tag 'Send', class: 'btn btn-flat btn-primary' %></center>
+              </footer>
+            </div>
+          </div>
+        </div>
+        </div>
+    <% end %>
+    </div>
+</div>

@@ -1,27 +1,40 @@
-<div class="col-sm-12">
-  <% @users = User.where(:email == !nil).sort_by { |r| r.last_name.downcase }
-  if !@users.empty? %>
+<div class="container">
+  <br>
+  <div class="col-sm-12">
+    <%
+       if @clients != nil
+         @clients.sort_by { |r| r.last_name.downcase }
+       end
+    %>
+
     <div class="panel panel-primary">
       <div class="panel-heading">
         <h3 class="panel-title">Clients List</h3>
       </div>
       <div class="panel-body">
-        <% @users.each do |user| %>
-          <% if current_user.clients.include? user.id %>
-            <div class="col-md-4">
-                <h3><%= user.first_name + " " + user.last_name %></h3>
-                <p><%= user.email %></p>
+        <% if !@clients.blank? %>
+            <% @clients.each do |client| %>
+                <% if current_user.clients.include? client.id %>
+                    <div class="col-md-4">
+                      <h3><%= client.first_name + " " + client.last_name %></h3>
+
+                      <p><%= client.email %></p>
+                    </div>
+                    <div class="col-md-8">
+                      <h3></h3>
+                      <%= link_to 'Show Details', client, class: "btn-primary btn-xs" %>
+                    </div>
+                    <div class="col-md-12">
+                      <hr>
+                    </div>
+                <% end %>
+            <% end %>
+        <% else %>
+            <div>
+              <h3>No connections available</h3>
             </div>
-            <div class="col-md-8">
-              <h3></h3>
-              <%= link_to 'Show Details', user, class: "btn-primary btn-xs" %>
-            </div>
-            <div class="col-md-12">
-              <hr>
-            </div>
-           <% end %> 
         <% end %>
       </div>
     </div>
-  <% end %>
+  </div>
 </div>

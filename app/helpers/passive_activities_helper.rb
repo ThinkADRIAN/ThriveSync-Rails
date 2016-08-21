@@ -1,0 +1,2 @@
+module PassiveActivitiesHelper
+end

@@ -1,0 +1,45 @@
+<%= form_for(@passive_activity) do |f| %>
+  <% if @passive_activity.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@passive_activity.errors.count, "error") %> prohibited this passive_activity from being saved:</h2>
+
+      <ul>
+      <% @passive_activity.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :passive_data_point_id %><br>
+    <%= f.number_field :passive_data_point_id %>
+  </div>
+  <div class="field">
+    <%= f.label :activity_type %><br>
+    <%= f.text_field :activity_type %>
+  </div>
+  <div class="field">
+    <%= f.label :value %><br>
+    <%= f.text_field :value %>
+  </div>
+  <div class="field">
+    <%= f.label :unit %><br>
+    <%= f.text_field :unit %>
+  </div>
+  <div class="field">
+    <%= f.label :kcal_burned_value %><br>
+    <%= f.text_field :kcal_burned_value %>
+  </div>
+  <div class="field">
+    <%= f.label :kcal_burned_unit %><br>
+    <%= f.text_field :kcal_burned_unit %>
+  </div>
+  <div class="field">
+    <%= f.label :step_count %><br>
+    <%= f.text_field :step_count %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

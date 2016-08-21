@@ -10,7 +10,7 @@ Rails.application.configure do
   config.eager_load = false
 
   # Show full error reports and disable caching.
-  config.consider_all_requests_local       = true
+  config.consider_all_requests_local = true
   config.action_controller.perform_caching = false
 
   # Don't care if the mailer can't send.
@@ -38,15 +38,12 @@ Rails.application.configure do
   # ActionMailer Config
   config.action_mailer.default_url_options = {:host => "localhost:3000"}
   config.action_mailer.delivery_method = :smtp
-
   config.action_mailer.smtp_settings = {
-      :enable_starttls_auto => true,
-      :address => "smtp.gmail.com",
-      :port => 587,
-      :domain => "thrivestreams.com",
-      :authentication => "plain",
-      :user_name => ENV['EMAIL_USERNAME'],
-      :password => ENV['EMAIL_PASSWORD']
+    :authentication => :plain,
+    :address => "smtp.mailgun.org",
+    :port => 587,
+    :user_name => ENV['MAILGUN_USERNAME'],
+    :password => ENV['MAILGUN_PASSWORD']
   }
 
   config.serve_static_assets = true
