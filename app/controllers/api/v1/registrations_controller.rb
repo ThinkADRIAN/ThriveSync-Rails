@@ -48,6 +48,7 @@ class Api::V1::RegistrationsController < Devise::RegistrationsController
   end
 
   def create
+=begin
     user_first_name = params[:user][:first_name]
     user_last_name = params[:user][:last_name]
     user_email = params[:user][:email]
@@ -65,6 +66,15 @@ class Api::V1::RegistrationsController < Devise::RegistrationsController
     else
       devise_create_new_rails_user
     end
+=end
+
+    flash[:info] = 'Registrations are currently closed, but please check back soon'
+    redirect_to root_path
+  end
+
+  def new
+    flash[:info] = 'Registrations are currently closed, but please check back soon'
+    redirect_to root_path
   end
 
   api :PUT, "/registrations", "Update User"
