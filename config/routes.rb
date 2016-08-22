@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   apipie
 
+  get '/.well-known/acme-challenge/:id' => 'pages#letsencrypt'
+
   resources :passive_workouts
 
   resources :passive_activities
