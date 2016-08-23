@@ -1,4 +1,7 @@
 class ApplicationController < ActionController::Base
+  require 'csv'
+  require 'rails/all'
+
   respond_to :html, :json
 
   include Pundit

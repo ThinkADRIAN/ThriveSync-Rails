@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
   apipie
 
+  resource :superusers do
+    get 'export_research_csv'
+  end
+
   resources :passive_workouts
 
   resources :passive_activities

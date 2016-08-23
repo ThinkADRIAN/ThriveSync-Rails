@@ -1,3 +1,13 @@
+<h1>Export Research Data</h1>
+
+<p>
+  Downloads:
+  <%= link_to "Mood", export_research_csv_superusers_path(format: "csv", type: 'moods') %> |
+  <%= link_to "Sleep", export_research_csv_superusers_path(format: "csv", type: 'sleeps') %> |
+  <%= link_to "Self Care", export_research_csv_superusers_path(format: "csv", type: 'self_cares') %> |
+  <%= link_to "Journal", export_research_csv_superusers_path(format: "csv", type: 'journal') %>
+</p>
+
 <div class="container">
   <br>
   <div class="col-sm-12">
