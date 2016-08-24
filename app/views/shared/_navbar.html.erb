@@ -13,10 +13,10 @@
                   <!--
                   <li><%= link_to 'Individuals', page_path('individuals') %></li>
                   <li><%= link_to 'Providers', page_path('providers') %></li>
-                -->
                   <li><%= link_to 'Research Study', page_path('research/study') %></li>
                   <li><%= link_to 'Pricing', page_path('pricing') %></li>
                   <li><%= link_to 'Support', "https://thrivestreams.freshdesk.com", target: '_blank' %></li>
+                  -->
                 </ul>
             <% end %>
             <% if user_signed_in? && (current_user.is? :superuser) %>
@@ -125,9 +125,11 @@
           </ul>
           <% if !user_signed_in? %>
               <form class="navbar-form pull-left">
-                <a class="btn btn-success" href=<%= start_path %>>Get
+                <!--<a class="btn btn-success" href=<%= start_path %>>Get
                   Started for Free</a>
-                <a class="btn btn-info" href="<%= new_user_session_path %>">Login</a>
+                  -->
+                <a class="typeform-share btn btn-success" id="autoClick" href="https://thrivestreams.typeform.com/to/ZSbwnu" data-mode="1" target="_blank">Request Your Data</a>
+                <!--<a class="btn btn-info" href="<%= new_user_session_path %>">Login</a>-->
               </form>
           <% end %>
         </div>
