@@ -8,7 +8,7 @@ class SuperusersController < ApplicationController
     @moods = Mood.where(user_id: @user.id)
 
     respond_to do |format|
-      if user.is? :superuser
+      if current_user.is? :superuser
         format.csv { send_data @moods.to_csv }
       end
     end
@@ -21,7 +21,7 @@ class SuperusersController < ApplicationController
     @sleeps = Sleep.where(user_id: @user.id)
 
     respond_to do |format|
-      if user.is? :superuser
+      if current_user.is? :superuser
         format.csv { send_data @sleeps.to_csv }
       end
     end
@@ -34,7 +34,7 @@ class SuperusersController < ApplicationController
     @self_cares = SelfCare.where(user_id: @user.id)
 
     respond_to do |format|
-      if user.is? :superuser
+      if current_user.is? :superuser
         format.csv { send_data @self_cares.to_csv }
       end
     end
@@ -47,7 +47,7 @@ class SuperusersController < ApplicationController
     @journals = Journal.where(user_id: @user.id)
 
     respond_to do |format|
-      if user.is? :superuser
+      if current_user.is? :superuser
         format.csv { send_data @journals.to_csv }
       end
     end
