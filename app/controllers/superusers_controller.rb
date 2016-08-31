@@ -9,7 +9,7 @@ class SuperusersController < ApplicationController
 
     respond_to do |format|
       if current_user.is? :superuser
-        format.csv { send_data @moods.to_csv }
+        format.csv { send_data @moods.to_csv, filename: "#{@user.email} - Mood Data.csv" }
       end
     end
   end
@@ -22,7 +22,7 @@ class SuperusersController < ApplicationController
 
     respond_to do |format|
       if current_user.is? :superuser
-        format.csv { send_data @sleeps.to_csv }
+        format.csv { send_data @sleeps.to_csv, filename: "#{@user.email} - Sleep Data.csv" }
       end
     end
   end
@@ -35,7 +35,7 @@ class SuperusersController < ApplicationController
 
     respond_to do |format|
       if current_user.is? :superuser
-        format.csv { send_data @self_cares.to_csv }
+        format.csv { send_data @self_cares.to_csv, filename: "#{@user.email} - Self Care Data.csv" }
       end
     end
   end
@@ -48,7 +48,7 @@ class SuperusersController < ApplicationController
 
     respond_to do |format|
       if current_user.is? :superuser
-        format.csv { send_data @journals.to_csv }
+        format.csv { send_data @journals.to_csv, filename: "#{@user.email} - Journal Data.csv" }
       end
     end
   end
