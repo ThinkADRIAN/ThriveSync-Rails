@@ -1,8 +1,8 @@
 class SuperusersController < ApplicationController
   before_action :authenticate_user!
 
-  # http://localhost:3000/superusers/1/export_moods_csv.csv?email=thriver-5@thrivesync.com
-  def export_moods_csv
+  # http://localhost:3000/superusers/1/export_moods.csv?email=thriver-5@thrivesync.com
+  def export_moods
     user_email = params[:email]
     @user = User.where(email: user_email).first
     @moods = Mood.where(user_id: @user.id)
@@ -14,8 +14,8 @@ class SuperusersController < ApplicationController
     end
   end
 
-  # http://localhost:3000/superusers/1/export_sleeps_csv.csv?email=thriver-5@thrivesync.com
-  def export_sleeps_csv
+  # http://localhost:3000/superusers/1/export_sleeps.csv?email=thriver-5@thrivesync.com
+  def export_sleeps
     user_email = params[:email]
     @user = User.where(email: user_email).first
     @sleeps = Sleep.where(user_id: @user.id)
@@ -27,8 +27,8 @@ class SuperusersController < ApplicationController
     end
   end
 
-  # http://localhost:3000/superusers/1/export_self_cares_csv.csv?email=thriver-5@thrivesync.com
-  def export_self_cares_csv
+  # http://localhost:3000/superusers/1/export_self_cares.csv?email=thriver-5@thrivesync.com
+  def export_self_cares
     user_email = params[:email]
     @user = User.where(email: user_email).first
     @self_cares = SelfCare.where(user_id: @user.id)
@@ -40,8 +40,8 @@ class SuperusersController < ApplicationController
     end
   end
 
-  # http://localhost:3000/superusers/1/export_journals_csv.csv?email=thriver-5@thrivesync.com
-  def export_journals_csv
+  # http://localhost:3000/superusers/1/export_journals.csv?email=thriver-5@thrivesync.com
+  def export_journals
     user_email = params[:email]
     @user = User.where(email: user_email).first
     @journals = Journal.where(user_id: @user.id)
