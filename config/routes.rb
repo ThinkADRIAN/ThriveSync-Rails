@@ -41,10 +41,10 @@ Rails.application.routes.draw do
   get 'superusers/index'
 
   resources :superusers do
-    get 'export_moods_csv'
-    get 'export_sleeps_csv'
-    get 'export_self_cares_csv'
-    get 'export_journals_csv'
+    get 'export_moods'
+    get 'export_sleeps'
+    get 'export_self_cares'
+    get 'export_journals'
   end
 
   resources :pros, only: [:index]
